@@ -1,5 +1,6 @@
 package it.unisalento.idalab.osgi.user.api;
 
+
 public class User {
 	private String _id;
 	private String username;
