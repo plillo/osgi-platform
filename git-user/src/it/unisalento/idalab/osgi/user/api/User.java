@@ -3,6 +3,7 @@ package it.unisalento.idalab.osgi.user.api;
 import net.vz.mongodb.jackson.ObjectId;
 
 public class User {
+
 	@ObjectId
 	private String _id;
 	private String username;
