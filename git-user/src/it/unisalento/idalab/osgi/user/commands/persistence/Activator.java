@@ -1,6 +1,6 @@
 package it.unisalento.idalab.osgi.user.commands.persistence;
 
-import it.unisalento.idalab.osgi.user.api.UserServicePersistence;
+import it.unisalento.idalab.osgi.user.persistence.api.UserServicePersistence;
 
 import java.util.Properties;
 

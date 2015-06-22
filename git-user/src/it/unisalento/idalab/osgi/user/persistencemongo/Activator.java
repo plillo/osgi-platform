@@ -2,8 +2,9 @@ package it.unisalento.idalab.osgi.user.persistencemongo;
 
 
 
-import it.unisalento.idalab.osgi.user.api.UserServicePersistence;
+
 import it.unisalento.idalab.osgi.user.password.Password;
+import it.unisalento.idalab.osgi.user.persistence.api.UserServicePersistence;
 
 import java.util.Properties;
 

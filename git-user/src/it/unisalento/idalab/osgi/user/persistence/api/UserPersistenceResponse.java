@@ -1,4 +1,4 @@
-package it.unisalento.idalab.osgi.user.api;
+package it.unisalento.idalab.osgi.user.persistence.api;
 
 
 

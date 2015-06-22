@@ -1,4 +1,6 @@
-package it.unisalento.idalab.osgi.user.api;
+package it.unisalento.idalab.osgi.user.persistence.api;
+
+import it.unisalento.idalab.osgi.user.api.User;
 
 import java.util.HashMap;
 import java.util.List;

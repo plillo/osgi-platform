@@ -1,0 +1,2 @@
+Export-Package:  \
+	it.unisalento.idalab.osgi.user.persistence.api

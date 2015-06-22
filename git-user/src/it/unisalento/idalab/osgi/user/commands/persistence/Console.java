@@ -3,7 +3,7 @@ package it.unisalento.idalab.osgi.user.commands.persistence;
 import java.util.HashMap;
 
 import it.unisalento.idalab.osgi.user.api.User;
-import it.unisalento.idalab.osgi.user.api.UserServicePersistence;
+import it.unisalento.idalab.osgi.user.persistence.api.UserServicePersistence;
 
 
 

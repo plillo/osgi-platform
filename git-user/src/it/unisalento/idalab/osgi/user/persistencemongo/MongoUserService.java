@@ -1,8 +1,8 @@
 package it.unisalento.idalab.osgi.user.persistencemongo;
 
 import it.unisalento.idalab.osgi.user.api.User;
-import it.unisalento.idalab.osgi.user.api.UserPersistenceResponse;
-import it.unisalento.idalab.osgi.user.api.UserServicePersistence;
+import it.unisalento.idalab.osgi.user.persistence.api.UserPersistenceResponse;
+import it.unisalento.idalab.osgi.user.persistence.api.UserServicePersistence;
 import it.unisalento.idalab.osgi.user.password.Password;
 
 import java.util.ArrayList;
@@ -182,7 +182,7 @@ public class MongoUserService implements UserServicePersistence{
 		usr = users.findOneById(response.getIdUser());
 		try {
 			if(passwordService.check(password, usr.getPassword())){
-				System.out.println("cucù");
+				System.out.println("cucï¿½");
 				logService.log(LogService.LOG_INFO, "LOG IN!!!");
 				return usr;
 			}
