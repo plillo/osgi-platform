@@ -18,7 +18,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.mongodb.mongo-java-driver,\
 	jackson-core-asl,\
 	jackson-mapper-asl,\
-	org.amdatu.web.rest.doc;version=1.2
+	org.amdatu.web.rest.doc;version=1.2,\
+	org.apache.felix.log
 -runrequires:  \
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.runtime)',\

@@ -1,5 +1,7 @@
 package it.unisalento.idalab.osgi.user.commands.persistence;
 
+import java.util.HashMap;
+
 import it.unisalento.idalab.osgi.user.api.User;
 import it.unisalento.idalab.osgi.user.api.UserServicePersistence;
 
@@ -41,6 +43,15 @@ public class Console {
 		user.setMobile(mobile);
 		user.setEmail(email);
 		userservice.login(user);
+	}
+	
+	public void login(String username, String password) {
+		HashMap<String,Object> hm = new HashMap<String,Object> ();
+		
+		hm.put("username", username);
+		hm.put("password", password);
+		
+		userservice.login(hm);
 	}
 
 	public void updateuser(String username,String password ,String email, String mobile) {
