@@ -1,4 +1,4 @@
-package it.unisalento.idalab.osgi.user.commands.persistence;
+package it.unisalento.idalab.osgi.user.persistence.commands;
 
 import java.util.HashMap;
 

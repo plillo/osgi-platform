@@ -1,4 +1,4 @@
-package it.unisalento.idalab.osgi.user.persistencemongo;
+package it.unisalento.idalab.osgi.user.persistence.mongo;
 
 import it.unisalento.idalab.osgi.user.api.User;
 import it.unisalento.idalab.osgi.user.persistence.api.UserPersistenceResponse;

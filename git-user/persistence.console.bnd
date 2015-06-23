@@ -1,3 +1,3 @@
 Private-Package:  \
-	it.unisalento.idalab.osgi.user.commands.persistence
-Bundle-Activator: it.unisalento.idalab.osgi.user.commands.persistence.Activator
+	it.unisalento.idalab.osgi.user.persistence.commands
+Bundle-Activator: it.unisalento.idalab.osgi.user.persistence.commands.Activator
