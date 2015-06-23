@@ -1,0 +1,59 @@
+<div class="span6 hero-unit">
+		<h3>New User Registration</h3>
+		<form name="form" class="form-horizontal" novalidate>
+		  <div class="control-group">
+		    <label class="control-label" for="inputUsername">Username</label>
+		    <div class="controls">
+		      <input type="text" name="inputUsername" id="inputUsername" placeholder="Username" ng-model="newUser.username" required unique-username ng-model-options="{ updateOn: 'blur' }">
+		      <p ng-show="form.inputUsername.$error.required && !form.inputUsername.$pristine" class="help-block">Username is required.</p>
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <label class="control-label" for="inputFirstname">Firstname</label>
+		    <div class="controls">
+		      <input type="text" id="inputFirstname" placeholder="Firstname" ng-model="newUser.firstname" ng-model-options="{ updateOn: 'blur' }">
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <label class="control-label" for="inputLastname">Lastname</label>
+		    <div class="controls">
+		      <input type="text" id="inputLastname" placeholder="Lastname" ng-model="newUser.lastname">
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <label class="control-label" for="inputEmail">Email</label>
+		    <div class="controls">
+		      <input type="email" id="inputEmail" placeholder="Email" ng-model="newUser.email" required="">
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <label class="control-label" for="inputMobile">Mobile</label>
+		    <div class="controls">
+		      <input type="text" id="inputMobile" placeholder="Mobile" ng-model="newUser.mobile">
+		    </div>
+		  </div>		  
+		  <div class="control-group">
+		    <label class="control-label" for="inputPassword">Password</label>
+		    <div class="controls">
+		      <input type="password" id="inputPassword" placeholder="Password" ng-model="newUser.password" required>
+		    </div>
+		  </div>
+		   <div class="control-group">
+		    <label class="control-label" for="inputRepeatPassword">Repeat password</label>
+		    <div class="controls">
+		      <input type="password" id="inputRepeatPassword" placeholder="Password" ng-model="repeatPassword" required>
+		    </div>
+		  </div>		  
+		  <div class="control-group">
+		    <div class="controls">
+		      <div class="btn btn-primary" ng-click="createUser()" ng-disabled="validate() == false">Create account</div>
+		    </div>
+		    		    <div class="controls">
+		      <div class="btn btn-primary pull-right" ng-click="reset()" ng-disabled="validate() == false">Clear</div>
+		    </div>
+		    <div class="controls">
+		    	<div class="error">{{righterrormessage}}</div>
+		    </div>
+		  </div>
+		</form>
+	</div>
