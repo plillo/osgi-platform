@@ -1,5 +1,5 @@
-angular.module("userUI").controller('RegisterController', ['$scope', '$http', 
-  function($scope, $http) {
+angular.module("userUI").controller('RegisterController', ['$scope', '$http', '$window',
+  function($scope, $http, $window) {
     //$scope.text="Hello World!!!!";
     
     $scope.newUser = {};
@@ -29,9 +29,8 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http',
     
     $scope.googleRegistration = function() {
     	//alert("Google Redirect");
-    	$http.get('https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/Google/Oauth2callback&response_type=code&client_id=553003668237-olh0snp5lfpl6k6h4rophl6on5u7fodd.apps.googleusercontent.com&approval_prompt=force')
-    	.success(function(){alert('ok')})
-    	.error(function(){alert('ko')});
+    	$window.location.href='https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/Google/Oauth2callback&response_type=code&client_id=553003668237-olh0snp5lfpl6k6h4rophl6on5u7fodd.apps.googleusercontent.com&approval_prompt=force';
+    	
     }
 
 	$scope.validate = function() {
