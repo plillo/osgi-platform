@@ -1,6 +1,6 @@
 angular.module("userUI").controller('RegisterController', ['$scope', '$http', 
   function($scope, $http) {
-    $scope.text="Hello World!!!!";
+    //$scope.text="Hello World!!!!";
     
     $scope.newUser = {};
     
@@ -16,17 +16,23 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http',
 	isValidMobile	/users/#UserId/mobile/	GET		*/
     
     $scope.createUser = function() {
-		
 		if($scope.validate() == true) {
 			alert("post");
 			$http.post('/users', $scope.newUser).success(function(data) {
-				alert(data);
-				$scope.righterrormessage = data;
+				//alert(data);
+				$scope.okmessage = "New user created";
 			}).error(function() {
 				$scope.righterrormessage = "Failed to create user";
 			});
 		}
 	}
+    
+    $scope.googleRegistration = function() {
+    	//alert("Google Redirect");
+    	$http.get('https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/Google/Oauth2callback&response_type=code&client_id=553003668237-olh0snp5lfpl6k6h4rophl6on5u7fodd.apps.googleusercontent.com&approval_prompt=force')
+    	.success(function(){alert('ok')})
+    	.error(function(){alert('ko')});
+    }
 
 	$scope.validate = function() {
 		if($scope.newUser.password != $scope.repeatPassword) {
@@ -47,6 +53,7 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http',
 	        form.$setUntouched();
 	      }
 		$scope.newUser={};
+		$scope.repeatPassword="";
 	}
   }]);
 
