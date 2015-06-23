@@ -25,7 +25,7 @@ public class Activator extends DependencyActivatorBase {
             .setImplementation(MongoUserService.class)
             .add(createServiceDependency()
                     .setService(LogService.class)
-                    .setRequired(true))
+                    .setRequired(false))
             .add(createServiceDependency()
                     .setService(Password.class)
                     .setRequired(true))
