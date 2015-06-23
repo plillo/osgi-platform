@@ -18,8 +18,10 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http',
     $scope.createUser = function() {
 		
 		if($scope.validate() == true) {
-			$http.post('/users', $scope.newUser).success(function() {
-				
+			alert("post");
+			$http.post('/users', $scope.newUser).success(function(data) {
+				alert(data);
+				$scope.righterrormessage = data;
 			}).error(function() {
 				$scope.righterrormessage = "Failed to create user";
 			});

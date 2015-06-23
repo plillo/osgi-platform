@@ -27,8 +27,8 @@ angular.module("userUI").directive('uniqueUsername',['$http', function($http){
 				}*/
 				if (!ngModel.$pristine){
 					alert(value);
-					return $http.post('/auth/validateuser', value).success(function(){alert("response"); return true;});
-					//return true;
+					//return $http.post('/auth/validateuser', value).success(function(){alert("response"); return true;});
+					return true;
 				} else {
 					return false;
 			}
