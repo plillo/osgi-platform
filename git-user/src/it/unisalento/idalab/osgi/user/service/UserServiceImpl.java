@@ -17,6 +17,8 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 
 import it.unisalento.idalab.osgi.user.password.Password;
+import it.unisalento.idalab.osgi.user.persistence.api.UserPersistenceResponse;
+import it.unisalento.idalab.osgi.user.persistence.api.UserServicePersistence;
 import it.unisalento.idalab.osgi.user.api.User;
 import it.unisalento.idalab.osgi.user.api.UserService;
 
@@ -24,6 +26,7 @@ public class UserServiceImpl implements UserService{
 	private volatile EventAdmin _eventAdmin;
 	private volatile MongoDBService _mongoDBService;
 	private volatile Password _passwordService;
+	private volatile UserServicePersistence _userService;
 	
 	void start(){
 		System.out.println("started service: "+this.getClass().getName());
@@ -78,6 +81,9 @@ public class UserServiceImpl implements UserService{
 		timing.put("start", System.nanoTime());
 		context.put("id-code", "AN-031");
 
+		UserPersistenceResponse upr = _userService.saveUser(user);
+		
+		/*
 		DBCollection coll = _mongoDBService.getDB().getCollection("user");
 		JacksonDBCollection<User, Object> users = JacksonDBCollection.wrap(coll, User.class);
 		
@@ -88,10 +94,11 @@ public class UserServiceImpl implements UserService{
 			user.setPassword("#"+password);
 		}
 		users.save(user);
+		*/
 
 		timing.put("end", System.nanoTime());
 		context.put("error-code", 0);
-		context.put("status", 200);
+		context.put("status", upr.isCheck()?200:400);
 		context.put("timing", timing);
 		ret.put("_context", context);
 		ret.put("datetime", new Date().getTime());
@@ -101,6 +108,9 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public List<User> listUsers() {
+		return _userService.listUsers();
+		
+		/*
 		ArrayList<User> list = new ArrayList<User>();
 		DBCollection coll = _mongoDBService.getDB().getCollection("user");
 		JacksonDBCollection<User, Object> users = JacksonDBCollection.wrap(coll, User.class);
@@ -111,6 +121,7 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		return list;
+		*/
 	}
 
 }

@@ -1,4 +1,4 @@
-package it.unisalento.idalab.osgi.user.persistencemongo;
+package it.unisalento.idalab.osgi.user.persistence.mongo;
 
 
 
