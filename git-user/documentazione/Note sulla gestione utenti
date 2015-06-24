@@ -1,0 +1,17 @@
+Gestione degli utenti del sistema
+
+La gestione utenti prevede:
+- un bundle che definisce l'interface del service
+- un bundle che implementa il service esponendo funzionalità di base come:
+     > user login
+     > user CRUD
+     > ...
+     utilizzando servizi esposti da altri bundles come:
+        > persistenza
+        > ...
+- un bundle che implementa un set di comandi di shell per la supervisione della gestione utenti
+- un bundle (demo) che implementa un EXTENDER per la registrazione automatica di utenti (memorizzati in un file testuale);
+  potrà in futuro essere esteso per permettere a un generico bundle di esporre politiche da utilizzare nella gestione delle autorizzazioni (ruoli, permessi,...)
+- un bundle (demo) che usa "Event Admin" per implementare un modello "intra-bundle" di tipo
+  event publisher/subscriber che permette la notifica di particolari eventi relativi alla gestione utenti potenzialmente significativi
+  per altri bundles nel sistema (p.es. la cancellazione di un utente, ...)
