@@ -1,6 +1,5 @@
 package it.unisalento.idalab.osgi.user.service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
