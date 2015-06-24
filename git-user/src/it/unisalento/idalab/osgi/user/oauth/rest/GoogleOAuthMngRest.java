@@ -1,6 +1,6 @@
-package it.unisalento.idalab.osgi.user.oauth.google.rest;
+package it.unisalento.idalab.osgi.user.oauth.rest;
 
-import it.unisalento.idalab.osgi.user.oauth.google.service.GoogleOAuthMng;
+import it.unisalento.idalab.osgi.user.oauth.service.GoogleOAuthMng;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.amdatu.web.rest.doc.Description;
 
-@Path("Google")
+@Path("Oauth")
 public class GoogleOAuthMngRest {
 
 private volatile GoogleOAuthMng getUserService;
@@ -18,10 +18,10 @@ private volatile GoogleOAuthMng getUserService;
 	@GET
 	@Path("Oauth2callback")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Description("google oauth callback")
-	public String getUser(@QueryParam("code") String code) {
+	@Description("oauth callback")
+	public String getUser(@QueryParam("code") String code, @QueryParam("state") String source) {
 		
-		return getUserService.getUserInfo(getUserService.getToken(code));
+		return getUserService.getUserInfo(getUserService.getToken(code, source), source);
 		
 	}
 	

@@ -1,6 +1,6 @@
-package it.unisalento.idalab.osgi.user.oauth.google.rest;
+package it.unisalento.idalab.osgi.user.oauth.service;
 
-import it.unisalento.idalab.osgi.user.oauth.google.service.GoogleOAuthMng;
+import it.unisalento.idalab.osgi.user.api.UserService;
 
 import org.apache.felix.dm.DependencyActivatorBase;
 import org.apache.felix.dm.DependencyManager;
@@ -19,10 +19,9 @@ public class Activator extends DependencyActivatorBase{
 	public void init(BundleContext arg0, DependencyManager arg1)
 			throws Exception {
 		// TODO Auto-generated method stub
-		arg1.add(createComponent() 
-				.setInterface(Object.class.getName(), null) 
-				.setImplementation(GoogleOAuthMngRest.class)
-				.add(createServiceDependency().setService(GoogleOAuthMng.class).setRequired(true)));
+		arg1.add(createComponent().setInterface(GoogleOAuthMng.class.getName(), null)
+				.setImplementation(GoogleOAuthMngService.class)
+				.add(createServiceDependency().setService(UserService.class).setRequired(true)));
 	}
 
 }
