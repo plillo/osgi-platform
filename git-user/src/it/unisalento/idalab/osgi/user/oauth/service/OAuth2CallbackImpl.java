@@ -15,24 +15,23 @@ import java.net.URLConnection;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
-public class GoogleOAuthMngService implements GoogleOAuthMng{
+public class OAuth2CallbackImpl implements OAuth2Callback{
 	
 	private volatile UserService userService;
 
 	@Override
-	public String getToken(String code, String source) {
-		// TODO Auto-generated method stub
+	public String getToken(String code, OAuth2Authenticator source) {
 		String access_token = null;
 		System.out.println("GetToken "+source);
-		try
-		{			
+		
+		try {			
 	        
 	        //post parameters
 			URL url = null;
 			String urlParameters = null;
 			
-			if (source.equalsIgnoreCase("google"))
-			{
+			switch(source){
+			case GOOGLE:
 				urlParameters = "code="
 		                + code
 		                + "&client_id=553003668237-olh0snp5lfpl6k6h4rophl6on5u7fodd.apps.googleusercontent.com"
@@ -41,9 +40,8 @@ public class GoogleOAuthMngService implements GoogleOAuthMng{
 		                + "&grant_type=authorization_code";
 				
 				url = new URL("https://accounts.google.com/o/oauth2/token");
-			}
-			else if (source.equalsIgnoreCase("facebook"))
-			{
+				break;
+			case FACEBOOK:
 				urlParameters = "code="
 		                + code
 		                + "&client_id=492601017561308"
@@ -52,6 +50,9 @@ public class GoogleOAuthMngService implements GoogleOAuthMng{
 		                + "&grant_type=authorization_code";
 				
 				url = new URL("https://graph.facebook.com/oauth/access_token");
+				break;
+				
+			default:break;
 			}
 			
 	        URLConnection urlConn = url.openConnection();
@@ -61,7 +62,7 @@ public class GoogleOAuthMngService implements GoogleOAuthMng{
 	        writer.write(urlParameters);
 	        writer.flush();
 	        
-	        //get output in outputString 
+	        // get output in outputString 
 	        String line, outputString = "";
 	        BufferedReader reader = new BufferedReader(new InputStreamReader(
 	                urlConn.getInputStream()));
@@ -70,18 +71,20 @@ public class GoogleOAuthMngService implements GoogleOAuthMng{
 	        }
 	        System.out.println(outputString);
 	        
-	        //get Access Token 
-	        if (source.equalsIgnoreCase("google"))
-	        {
+	        // get Access Token 
+			switch(source){
+			case GOOGLE:
 		        ObjectMapper mapper = new ObjectMapper();
 		        JsonNode jsn = mapper.readTree(outputString);
 		        access_token = jsn.path("access_token").getTextValue();
-	        }
-	        else if (source.equalsIgnoreCase("facebook"))
-	        {
+	            break;
+			case FACEBOOK:
 	        	String[] pairs = outputString.split("&");
 	        	String[] tmp = pairs[0].split("=");
 	        	access_token = tmp[1];
+	        	break;
+	        default:
+	        	break;
 	        }
 	        
 	        writer.close();
@@ -98,7 +101,7 @@ public class GoogleOAuthMngService implements GoogleOAuthMng{
 	}
 
 	@Override
-	public String getUserInfo(String token, String source) {
+	public String getUserInfo(String token, OAuth2Authenticator source) {
 		//TODO Auto-generated method stub
 		String outputString = null;
 		System.out.println("GetUserInfo "+source);
@@ -106,14 +109,19 @@ public class GoogleOAuthMngService implements GoogleOAuthMng{
 		{
 			//get User Info 
 			URL url = null;
-			if (source.equalsIgnoreCase("google"))
+			switch(source){
+			case GOOGLE:
 				url = new URL(
 	                "https://www.googleapis.com/oauth2/v1/userinfo?access_token="
 	                        + token);
-			else if (source.equalsIgnoreCase("facebook"))
+				break;
+			case FACEBOOK:
 				url = new URL("https://graph.facebook.com/me?access_token="
 	                        + token);
-			
+	        	break;
+	        default:
+	        	break;
+	        }	
 			URLConnection urlConn = url.openConnection();
 	        String line; 
 	        outputString = "";
@@ -125,7 +133,7 @@ public class GoogleOAuthMngService implements GoogleOAuthMng{
 	        System.out.println(outputString);
 	        reader.close();
 	        
-	       
+	        // Create user
 	        User user = new User();
 	        
 	        ObjectMapper mapper = new ObjectMapper();
@@ -134,16 +142,18 @@ public class GoogleOAuthMngService implements GoogleOAuthMng{
 	        user.setPassword("1234");
 	        user.setUsername(jsn.path("email").getTextValue());
 	        
-	        if (source.equalsIgnoreCase("google"))
-	        {
+			switch(source){
+			case GOOGLE:
 		        user.setFirstName(jsn.path("given_name").getTextValue());
 		        user.setLastName(jsn.path("family_name").getTextValue());
-	        }
-	        else if (source.equalsIgnoreCase("facebook"))
-	        {
+				break;
+			case FACEBOOK:
 	        	user.setFirstName(jsn.path("first_name").getTextValue());
 		        user.setLastName(jsn.path("last_name").getTextValue());
-	        }
+	        	break;
+	        default:
+	        	break;
+	        }	
 	        userService.createUser(user);
 	        
 		} catch (MalformedURLException e) {

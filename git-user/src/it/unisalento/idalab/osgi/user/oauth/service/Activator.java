@@ -19,8 +19,8 @@ public class Activator extends DependencyActivatorBase{
 	public void init(BundleContext arg0, DependencyManager arg1)
 			throws Exception {
 		// TODO Auto-generated method stub
-		arg1.add(createComponent().setInterface(GoogleOAuthMng.class.getName(), null)
-				.setImplementation(GoogleOAuthMngService.class)
+		arg1.add(createComponent().setInterface(OAuth2Callback.class.getName(), null)
+				.setImplementation(OAuth2CallbackImpl.class)
 				.add(createServiceDependency().setService(UserService.class).setRequired(true)));
 	}
 
