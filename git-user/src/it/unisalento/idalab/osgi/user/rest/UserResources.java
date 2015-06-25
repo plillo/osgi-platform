@@ -77,63 +77,52 @@ public class UserResources {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("{userId}/validateUsername")
-	public Map<String, Object> validateUsername(@PathParam("userId") String userId, @QueryParam("username") String username)
+	@Path("validateUsername")
+	public Map<String, Object> validateUsername(@QueryParam("username") String username)
 			throws Exception {
 		
-		Map<String, Object> map = new TreeMap<String, Object>();
 		Map<String, Object> validation = new TreeMap<String, Object>();
 		
 		validation.put("validatingItem", username);
 		validation.put("isValid", true);
 		validation.put("message", "\""+username+"\" is a valid username");
 		validation.put("status", 400);
-		
-		map.put("userId", userId);
-		map.put("username", validation);
 
-		return map;
+		return validation;
 	}
 	
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	@Path("{userId}/validateEMail")
-	public Map<String, Object> validateEMail(@PathParam("userId") String userId, @QueryParam("email") String email)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("validateEMail")
+	public Map<String, Object> validateEMail(@QueryParam("email") String email)
 			throws Exception {
 		
-		Map<String, Object> map = new TreeMap<String, Object>();
 		Map<String, Object> validation = new TreeMap<String, Object>();
 		
 		validation.put("validatingItem", email);
 		validation.put("isValid", true);
 		validation.put("message", "\""+email+"\" is a valid e-Mail address");
 		validation.put("status", 400);
-		
-		map.put("userId", userId);
-		map.put("username", validation);
 
-		return map;
+		return validation;
 	}
 	
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	@Path("{userId}/validateMobile")
-	public Map<String, Object> validateMobile(@PathParam("userId") String userId, @QueryParam("mobile") String mobile)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("validateMobile")
+	public Map<String, Object> validateMobile(@QueryParam("mobile") String mobile)
 			throws Exception {
 		
-		Map<String, Object> map = new TreeMap<String, Object>();
 		Map<String, Object> validation = new TreeMap<String, Object>();
 		
 		validation.put("validatingItem", mobile);
 		validation.put("isValid", true);
 		validation.put("message", "\""+mobile+"\" is a valid mobile number");
 		validation.put("status", 400);
-		
-		map.put("userId", userId);
-		map.put("username", validation);
 
-		return map;
+		return validation;
 	}
+
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("{userId}/changePassword")
