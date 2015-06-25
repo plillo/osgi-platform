@@ -8,6 +8,8 @@ import it.unisalento.idalab.osgi.user.password.Password;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import net.vz.mongodb.jackson.DBCursor;
 import net.vz.mongodb.jackson.JacksonDBCollection;
@@ -235,6 +237,45 @@ public class MongoUserService implements UserServicePersistence{
 		}
 		
 		return response;
+	}
+
+	@Override
+	public Map<String, Object> validateUsername(String userId, String username) {
+		// TODO ...
+		// il metodo verifica la validità in termini di unicità dello username;
+		// se userId NON è null lo username da validare è accettabile ANCHE se coincide con l'attuale username dell'utente userId.
+		// Se invece userId è null allora username è accettabile solo se NON già associato a un utente.
+		Map<String, Object> map = new TreeMap<String, Object>();
+		map.put("isValid", true /*false*/);
+		map.put("errorCode", 0); // da settare con valori >0 in presenza di situazioni di errore (problemi di accesso DB,...)
+		
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> validateEMail(String userId, String email) {
+		// TODO ...
+		// il metodo verifica la validità in termini di unicità dello username;
+		// se userId NON è null l'email da validare è accettabile ANCHE se coincide con l'attuale email dell'utente userId.
+		// Se invece userId è null allora username è accettabile solo se NON già associato a un utente.
+		Map<String, Object> map = new TreeMap<String, Object>();
+		map.put("isValid", true /*false*/);
+		map.put("errorCode", 0); // da settare con valori >0 in presenza di situazioni di errore (problemi di accesso DB,...)
+		
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> validateMobile(String userId, String mobile) {
+		// TODO ...
+		// il metodo verifica la validità in termini di unicità dello username;
+		// se userId NON è null il mobile da validare è accettabile ANCHE se coincide con l'attuale mobile dell'utente userId.
+		// Se invece userId è null allora username è accettabile solo se NON già associato a un utente.
+		Map<String, Object> map = new TreeMap<String, Object>();
+		map.put("isValid", true /*false*/);
+		map.put("errorCode", 0); // da settare con valori >0 in presenza di situazioni di errore (problemi di accesso DB,...)
+		
+		return map;
 	}
 
 }

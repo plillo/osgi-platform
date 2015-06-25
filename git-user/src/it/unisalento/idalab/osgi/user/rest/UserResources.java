@@ -82,10 +82,20 @@ public class UserResources {
 			throws Exception {
 		
 		Map<String, Object> validation = new TreeMap<String, Object>();
-		
 		validation.put("validatingItem", username);
-		validation.put("isValid", true);
-		validation.put("message", "\""+username+"\" is a valid username");
+		
+		Map<String, Object> response = _userService.validateUsername(null, username);
+		
+		if((Integer)response.get("errorCode")>0){
+			validation.put("isValid", false);
+			validation.put("status", 200);
+			validation.put("message", "Persistence error");
+			
+			return validation;
+		}
+		boolean isValid = (Boolean)response.get("isValid");
+		validation.put("isValid", isValid);
+		validation.put("message", "\""+username+"\" is "+(isValid?"":"not ")+"a valid username");
 		validation.put("status", 400);
 
 		return validation;
@@ -94,14 +104,22 @@ public class UserResources {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("validateEMail")
-	public Map<String, Object> validateEMail(@QueryParam("email") String email)
-			throws Exception {
-		
+	public Map<String, Object> validateEMail(@QueryParam("email") String email) {
 		Map<String, Object> validation = new TreeMap<String, Object>();
-		
 		validation.put("validatingItem", email);
-		validation.put("isValid", true);
-		validation.put("message", "\""+email+"\" is a valid e-Mail address");
+		
+		Map<String, Object> response = _userService.validateEMail(null, email);
+		
+		if((Integer)response.get("errorCode")>0){
+			validation.put("isValid", false);
+			validation.put("status", 200);
+			validation.put("message", "Persistence error");
+			
+			return validation;
+		}
+		boolean isValid = (Boolean)response.get("isValid");
+		validation.put("isValid", isValid);
+		validation.put("message", "\""+email+"\" is "+(isValid?"":"not ")+"a valid e-mail");
 		validation.put("status", 400);
 
 		return validation;
@@ -110,14 +128,23 @@ public class UserResources {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("validateMobile")
-	public Map<String, Object> validateMobile(@QueryParam("mobile") String mobile)
-			throws Exception {
+	public Map<String, Object> validateMobile(@QueryParam("mobile") String mobile) {
 		
 		Map<String, Object> validation = new TreeMap<String, Object>();
-		
 		validation.put("validatingItem", mobile);
-		validation.put("isValid", true);
-		validation.put("message", "\""+mobile+"\" is a valid mobile number");
+		
+		Map<String, Object> response = _userService.validateMobile(null, mobile);
+		
+		if((Integer)response.get("errorCode")>0){
+			validation.put("isValid", false);
+			validation.put("status", 200);
+			validation.put("message", "Persistence error");
+			
+			return validation;
+		}
+		boolean isValid = (Boolean)response.get("isValid");
+		validation.put("isValid", isValid);
+		validation.put("message", "\""+mobile+"\" is "+(isValid?"":"not ")+"a valid mobile number");
 		validation.put("status", 400);
 
 		return validation;
