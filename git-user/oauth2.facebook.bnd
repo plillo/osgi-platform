@@ -1,3 +1,4 @@
 Bundle-Version: 1.0.0
 Export-Package:  \
 	it.unisalento.idalab.osgi.user.oauth2.facebook
+Bundle-Activator: it.unisalento.idalab.osgi.user.oauth2.facebook.Activator
