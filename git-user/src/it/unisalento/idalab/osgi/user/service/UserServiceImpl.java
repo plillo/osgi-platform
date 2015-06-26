@@ -80,11 +80,12 @@ public class UserServiceImpl implements UserService{
 		timing.put("start", System.nanoTime());
 		context.put("id-code", "AN-031");
 
-		UserPersistenceResponse upr = _userPersistenceService.saveUser(user);
+		Map<String,Object> upr = _userPersistenceService.saveUser(user);
 		
 		timing.put("end", System.nanoTime());
 		context.put("error-code", 0);
-		context.put("status", upr.isCheck()?200:400);
+		//da rivedere
+		//context.put("status", upr.isCheck()?200:400);
 		context.put("timing", timing);
 		ret.put("_context", context);
 		ret.put("datetime", new Date().getTime());
