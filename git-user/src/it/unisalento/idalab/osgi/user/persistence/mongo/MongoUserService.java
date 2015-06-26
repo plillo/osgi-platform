@@ -58,6 +58,10 @@ public class MongoUserService implements UserServicePersistence{
 	public UserPersistenceResponse findUser(User user){
 		return findUser(user, false);
 	}
+	
+	public UserPersistenceResponse findUserM(User user){
+		return findUserM(user, false);
+	}
 
 	@Override
 	public List<User> listUsers() {
@@ -195,6 +199,44 @@ public class MongoUserService implements UserServicePersistence{
 		
 		return null;
 	}
+	
+	@Override
+	public HashMap<String, Object> login1(HashMap<String, Object> user) {
+		
+		HashMap<String,Object> response = new HashMap<String,Object> ();
+        String username = (String) user.get("username");
+        String email = (String) user.get("email");
+        String mobile = (String) user.get("mobile");
+        String password = (String) user.get("password");
+        
+		User usr = new User();
+		if(username!=null)
+		usr.setUsername(username);
+		if(email!=null)
+		usr.setEmail(email);
+		if(mobile!=null)
+		usr.setMobile(mobile);
+		
+		JacksonDBCollection<User, String> users = JacksonDBCollection
+				.wrap(userCollection, User.class, String.class);
+		
+		UserPersistenceResponse responsea = findUser(usr, false);
+		usr = users.findOneById(responsea.getIdUser());
+		try {
+			if(passwordService.check(password, usr.getPassword())){
+				System.out.println("LOG IN!!!");
+				logService.log(LogService.LOG_INFO, "LOG IN!!!");
+				return response;
+			}
+				
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 
 	private UserPersistenceResponse findUser(User user, boolean constrained) {
 		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
@@ -210,6 +252,47 @@ public class MongoUserService implements UserServicePersistence{
 				if(usermail != null) {
 					System.out.println("Mail exists");
 					response.setEmailFound(true);
+					response.setIdUser(usermail.get_id());
+					response.setCheck(true);
+				}
+				if(usermobile != null){
+					System.out.println("Mobile exists");
+					response.setMobileFound(true);
+					response.setIdUser(usermobile.get_id());
+					response.setCheck(true);
+				}
+				if(username != null){
+					System.out.println("Username exists");
+					response.setUsernameFound(true);
+					response.setIdUser(username.get_id());
+					response.setCheck(true);
+				}
+				if((username == null)&&(usermobile == null)&&(usermail == null)){
+					response.setCheck(false);
+				}
+			}else{
+				response.setIdUser(user.get_id());
+				response.setCheck(true);
+			}
+		}
+		
+		return response;
+	}
+	
+	private HashMap<String,Object> findUserM(User user, boolean constrained) {
+		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
+		HashMap<String,Object> response = new HashMap<String,Object>();
+		
+		if(constrained){
+		}
+		else {
+			if(user.get_id() == null) {
+				User usermail= users.findOne(new BasicDBObject("email", user.getEmail()));
+				User usermobile= users.findOne(new BasicDBObject("mobile", user.getMobile()));
+				User username= users.findOne(new BasicDBObject("username", user.getUsername()));	
+				if(usermail != null) {
+					System.out.println("Mail exists");
+					response.put("", value)
 					response.setIdUser(usermail.get_id());
 					response.setCheck(true);
 				}

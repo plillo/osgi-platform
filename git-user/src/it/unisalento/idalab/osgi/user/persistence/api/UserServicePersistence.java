@@ -14,8 +14,10 @@ public interface UserServicePersistence {
 	User getUserByUsername(String username);
 	void removeUser(User user);
 	UserPersistenceResponse saveUser(User user);
+	HashMap<String,Object> saveUserM(User user);
 	void updateUser(User user);
 	User login(User user);
 	User login(HashMap<String, Object> user);
+	HashMap<String, Object> login1(HashMap<String, Object> user);
 
 }
