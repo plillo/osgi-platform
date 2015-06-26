@@ -19,8 +19,8 @@ public class Activator extends DependencyActivatorBase{
 			throws Exception {
 
 		manager.add(createComponent() 
-				.setInterface(Object.class.getName(), null) 
-				.setImplementation(Manager.class)
+				.setInterface(Manager.class.getName(), null) 
+				.setImplementation(ManagerImpl.class)
 				// Authenticators whiteboard
 				.add(createServiceDependency()
 						.setService(Authenticator.class)

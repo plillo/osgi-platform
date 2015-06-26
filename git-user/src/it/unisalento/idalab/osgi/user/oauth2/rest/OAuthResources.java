@@ -2,7 +2,7 @@ package it.unisalento.idalab.osgi.user.oauth2.rest;
 
 import java.util.Map;
 
-import it.unisalento.idalab.osgi.user.oauth2.manager.Manager;
+import it.unisalento.idalab.osgi.user.oauth2.manager.ManagerImpl;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -15,7 +15,7 @@ import org.amdatu.web.rest.doc.Description;
 @Path("OAuth2")
 @Description("API for OAuth management version 1.0")
 public class OAuthResources {
-	private volatile Manager _OAuthManager;
+	private volatile ManagerImpl _OAuthManager;
 	
 	@GET
 	@Path("callback")
