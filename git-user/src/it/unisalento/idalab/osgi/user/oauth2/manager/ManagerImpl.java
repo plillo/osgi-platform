@@ -23,7 +23,6 @@ public class ManagerImpl implements Manager {
 		authenticators.remove(auth);
 	}
 	
-	@SuppressWarnings("unused")
 	public Map<String, Object> authenticate(String code, String name){
 		Map<String, Object> mapInfo = new TreeMap<String, Object>();
 		Authenticator auth = authenticators.get(name);
