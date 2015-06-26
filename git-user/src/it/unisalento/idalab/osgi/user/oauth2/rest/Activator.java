@@ -1,6 +1,7 @@
 package it.unisalento.idalab.osgi.user.oauth2.rest;
 
-import it.unisalento.idalab.osgi.user.oauth2.manager.ManagerImpl;
+import it.unisalento.idalab.osgi.user.api.UserService;
+import it.unisalento.idalab.osgi.user.oauth2.manager.Manager;
 
 import org.apache.felix.dm.DependencyActivatorBase;
 import org.apache.felix.dm.DependencyManager;
@@ -20,7 +21,8 @@ public class Activator extends DependencyActivatorBase{
 		manager.add(createComponent()
 				.setInterface(Object.class.getName(), null) 
 				.setImplementation(OAuthResources.class)
-				.add(createServiceDependency().setService(ManagerImpl.class).setRequired(true)));
+				.add(createServiceDependency().setService(Manager.class).setRequired(true))
+				.add(createServiceDependency().setService(UserService.class).setRequired(true)));
 		
 		System.out.println("OAuth2 REST resources actived");
 	}

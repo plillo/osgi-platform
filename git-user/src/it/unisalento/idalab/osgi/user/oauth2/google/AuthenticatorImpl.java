@@ -31,7 +31,7 @@ public class AuthenticatorImpl implements Authenticator {
 	                + code
 	                + "&client_id=553003668237-olh0snp5lfpl6k6h4rophl6on5u7fodd.apps.googleusercontent.com"
 	                + "&client_secret=ta8XLK_XUvipxp_ynyhYkmbv"
-	                + "&redirect_uri=http://localhost:8080/Oauth/Oauth2callback"
+	                + "&redirect_uri=http://localhost:8080/OAuth2/callback"
 	                + "&grant_type=authorization_code";
 			url = new URL("https://accounts.google.com/o/oauth2/token");
 			

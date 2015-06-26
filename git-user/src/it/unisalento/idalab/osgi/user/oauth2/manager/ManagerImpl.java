@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ManagerImpl {
+public class ManagerImpl implements Manager {
 	@SuppressWarnings("unused")
 	private volatile UserService _userService;
 
@@ -25,16 +25,17 @@ public class ManagerImpl {
 	
 	@SuppressWarnings("unused")
 	public Map<String, Object> authenticate(String code, String name){
+		Map<String, Object> mapInfo = new TreeMap<String, Object>();
 		Authenticator auth = authenticators.get(name);
 		if(auth!=null){
 			System.out.println("Authenticating from: "+name);
 
 			String token = auth.getToken(code);
-			Map<String, Object>mapInfo = auth.getUserInfo(token);
+			mapInfo = auth.getUserInfo(token);
 
 			// TODO: inserire qui la logica di login/creazione dell'utente usando _userService
 		}
 
-		return new TreeMap<String, Object>();
+		return mapInfo;
 	}
 }
