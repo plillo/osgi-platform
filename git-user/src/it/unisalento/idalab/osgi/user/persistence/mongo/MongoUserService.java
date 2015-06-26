@@ -1,7 +1,6 @@
 package it.unisalento.idalab.osgi.user.persistence.mongo;
 
 import it.unisalento.idalab.osgi.user.api.User;
-import it.unisalento.idalab.osgi.user.persistence.api.UserPersistenceResponse;
 import it.unisalento.idalab.osgi.user.persistence.api.UserServicePersistence;
 import it.unisalento.idalab.osgi.user.password.Password;
 

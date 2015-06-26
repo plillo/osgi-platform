@@ -16,7 +16,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 
 import it.unisalento.idalab.osgi.user.password.Password;
-import it.unisalento.idalab.osgi.user.persistence.api.UserPersistenceResponse;
 import it.unisalento.idalab.osgi.user.persistence.api.UserServicePersistence;
 import it.unisalento.idalab.osgi.user.api.User;
 import it.unisalento.idalab.osgi.user.api.UserService;
@@ -80,6 +79,7 @@ public class UserServiceImpl implements UserService{
 		timing.put("start", System.nanoTime());
 		context.put("id-code", "AN-031");
 
+		@SuppressWarnings("unused")
 		Map<String,Object> upr = _userPersistenceService.saveUser(user);
 		
 		timing.put("end", System.nanoTime());
