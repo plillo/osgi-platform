@@ -12,6 +12,8 @@ import javax.ws.rs.core.MediaType;
 
 import org.amdatu.web.rest.doc.Description;
 
+@Path("OAuth2")
+@Description("API for OAuth management version 1.0")
 public class OAuthResources {
 	private volatile Manager _OAuthManager;
 	
