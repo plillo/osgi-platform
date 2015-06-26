@@ -13,10 +13,12 @@ public class Manager {
 	Map<String, Authenticator> authenticators = new HashMap<String, Authenticator>();
 	
 	public void add(Authenticator auth){
+		System.out.println("Registering in whiteboard: "+auth.getName());
 		authenticators.put(auth.getName(), auth);
 	}
 	
 	public void remove(Authenticator auth){
+		System.out.println("Deleting from whiteboard: "+auth.getName());
 		authenticators.remove(auth);
 	}
 	
@@ -24,6 +26,8 @@ public class Manager {
 	public Map<String, Object> authenticate(String code, String name){
 		Authenticator auth = authenticators.get(name);
 		if(auth!=null){
+			System.out.println("Authenticating from: "+name);
+
 			String token = auth.getToken(code);
 			Map<String, Object>mapInfo = auth.getUserInfo(token);
 

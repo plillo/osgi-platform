@@ -17,12 +17,12 @@ public class Activator extends DependencyActivatorBase{
 	public void init(BundleContext context, DependencyManager manager)
 			throws Exception {
 
-		manager.add(createComponent() 
+		manager.add(createComponent()
 				.setInterface(Object.class.getName(), null) 
-				.setImplementation(Manager.class)
-				.add(createServiceDependency()
-						.setService(Manager.class)
-						.setRequired(true)));
+				.setImplementation(OAuthResources.class)
+				.add(createServiceDependency().setService(Manager.class).setRequired(true)));
+		
+		System.out.println("OAuth2 REST resources actived");
 	}
 
 }

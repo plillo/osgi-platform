@@ -21,9 +21,11 @@ public class Activator extends DependencyActivatorBase{
 		manager.add(createComponent() 
 				.setInterface(Object.class.getName(), null) 
 				.setImplementation(Manager.class)
+				// Authenticators whiteboard
 				.add(createServiceDependency()
 						.setService(Authenticator.class)
 						.setCallbacks("add", "remove"))
+				// UserService injection
 				.add(createServiceDependency()
 						.setService(UserService.class)
 						.setRequired(true)));

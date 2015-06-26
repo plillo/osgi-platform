@@ -9,14 +9,14 @@ import org.osgi.framework.BundleContext;
 public class Activator extends DependencyActivatorBase{
 
 	@Override
-	public void destroy(BundleContext arg0, DependencyManager arg1)
+	public void destroy(BundleContext context, DependencyManager manager)
 			throws Exception {
 	}
 
 	@Override
-	public void init(BundleContext arg0, DependencyManager arg1)
+	public void init(BundleContext context, DependencyManager manager)
 			throws Exception {
-		arg1.add(createComponent() 
+		manager.add(createComponent() 
 				.setInterface(Authenticator.class.getName(), null) 
 				.setImplementation(AuthenticatorImpl.class));
 	}
