@@ -23,6 +23,11 @@ public class Console {
 		user.setMobile(mobile);
 		userservice.saveUser(user);
 	}
+	
+	public void validateU(String userId,String username) {
+		
+		userservice.validateUsername(userId, username);
+	}
 
 	public void getusermail(String email) {
 		userservice.getUserByEmail(email);
@@ -37,22 +42,17 @@ public class Console {
 	}
 	
 	public void login(String username,String password, String email, String mobile) {
-		User user = new User();
-		user.setUsername(username);
-		user.setPassword(password);
-		user.setMobile(mobile);
-		user.setEmail(email);
-		userservice.login(user);
-	}
-	
-	public void login(String username, String password) {
+		
 		HashMap<String,Object> hm = new HashMap<String,Object> ();
 		
 		hm.put("username", username);
 		hm.put("password", password);
+		hm.put("mobile", mobile);
+		hm.put("email", email);
 		
 		userservice.login(hm);
 	}
+	
 
 	public void updateuser(String username,String password ,String email, String mobile) {
 		User user = new User();

@@ -34,35 +34,8 @@ public class MongoUserService implements UserServicePersistence{
 		userCollection = m_mongoDBService.getDB().getCollection(COLLECTION);
 	}
 
-	@Override
-	public UserPersistenceResponse saveUser(User user) {
-		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
-		UserPersistenceResponse response = findUser(user);
-		
-		if(response.isCheck())
-			logService.log(LogService.LOG_INFO, "User already registred!");
-		else {
-			// codifica della password
-			try {
-				user.setPassword(passwordService.getSaltedHash(user.getPassword()));
-				String savedId = users.save(user).getSavedId();
-				user.set_id(savedId);
-				response.setIdUser(user.get_id());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		System.out.println("ID: "+response.getIdUser()+" Email: "+response.isEmailFound()+" Username: "+response.isUsernameFound()+" Mobile: "+response.isMobileFound());
-		return response;
-	}
-
-	public UserPersistenceResponse findUser(User user){
+	public Map<String,Object> findUser(User user){
 		return findUser(user, false);
-	}
-	
-	public UserPersistenceResponse findUserM(User user){
-		return findUserM(user, false);
 	}
 
 	@Override
@@ -113,8 +86,9 @@ public class MongoUserService implements UserServicePersistence{
 	@Override
 	public void updateUser(User user) {
 		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
-		UserPersistenceResponse response = findUser(user);
-		User findOne = users.findOneById(response.getIdUser());
+		Map<String,Object> response = findUser(user);
+		User userFound= (User) response.get("user");
+		User findOne = users.findOneById(userFound.get_id());
 		//User findOne = users.findOne(new BasicDBObject("_id", response.getIduser()));
 		findOne.setEmail(user.getEmail());
 		findOne.setPassword(user.getPassword());
@@ -128,15 +102,16 @@ public class MongoUserService implements UserServicePersistence{
 		JacksonDBCollection<User, String> users = JacksonDBCollection
 				.wrap(userCollection, User.class, String.class);
 		//User findOne = users.findOne(new BasicDBObject("email", email));
-		UserPersistenceResponse response = findUser(user);
-		User findOne = users.findOneById(response.getIdUser());
+		Map<String,Object> response = findUser(user);
+		User userFound= (User) response.get("user");
+		User findOne = users.findOneById(userFound.get_id());
 		if(findOne == null) {
 			System.out.println("User was not found");
 		}
 		users.removeById(findOne.get_id());
 	}
 	
-	//Da rivedere il discorso password
+	/*//Da rivedere il discorso password
 	@Override
 	public User login(User user) {
 		User findOne = new User();
@@ -170,10 +145,10 @@ public class MongoUserService implements UserServicePersistence{
 		}
 		// TODO Auto-generated method stub
 		return findOne;
-	}
+	}*/
 
-	@Override
-	public User login(HashMap<String, Object> user) {
+	/*@Override
+	public User login(Map<String, Object> user) {
 
         String username = (String) user.get("username");
         String password = (String) user.get("password");
@@ -200,49 +175,65 @@ public class MongoUserService implements UserServicePersistence{
 		}
 		
 		return null;
-	}
+	}*/
 	
 	@Override
-	public HashMap<String, Object> login1(HashMap<String, Object> user) {
+	public Map<String, Object> login(Map<String, Object> user) {
 		
-		HashMap<String,Object> response = new HashMap<String,Object> ();
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> response = new HashMap<String,Object>();
         String username = (String) user.get("username");
         String email = (String) user.get("email");
         String mobile = (String) user.get("mobile");
         String password = (String) user.get("password");
         
 		User usr = new User();
-		if(username!=null)
+		User userFound = new User();
+		if(username!=null){
 		usr.setUsername(username);
-		if(email!=null)
+		}
+		else
+			response.put("code", 101);
+		if(email!=null){
 		usr.setEmail(email);
-		if(mobile!=null)
+		}
+		else
+			response.put("code", 102);
+		if(mobile!=null){
 		usr.setMobile(mobile);
-		
-		JacksonDBCollection<User, String> users = JacksonDBCollection
-				.wrap(userCollection, User.class, String.class);
-		
-		UserPersistenceResponse responsea = findUser(usr, false);
-		usr = users.findOneById(responsea.getIdUser());
+		}
+		else
+			response.put("code", 103);
+		map = findUser(usr);
+		userFound = (User) map.get("user");
+		if(userFound!=null){
 		try {
-			if(passwordService.check(password, usr.getPassword())){
+			//controllo con meccanismo password da aggiungere dopo
+			if(passwordService.check(password, userFound.getPassword())){
 				System.out.println("LOG IN!!!");
 				logService.log(LogService.LOG_INFO, "LOG IN!!!");
-				return response;
-			}
-				
+				response.put("user", usr);
+				response.put("code", 100);
+			}else
+				response.put("code", 104);	
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		}
+		else{
+			response.put("code", 105);
+		}
+		System.out.println("Login response CODE:"+ response.get("code"));
+		return response;
 		
-		return null;
 	}
 
-	private UserPersistenceResponse findUser(User user, boolean constrained) {
+	
+	private Map<String,Object> findUser(User user, boolean constrained) {
 		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
-		UserPersistenceResponse response = new UserPersistenceResponse();
+		Map<String,Object> response = new HashMap<String,Object>();
 		
 		if(constrained){
 		}
@@ -252,113 +243,188 @@ public class MongoUserService implements UserServicePersistence{
 				User usermobile= users.findOne(new BasicDBObject("mobile", user.getMobile()));
 				User username= users.findOne(new BasicDBObject("username", user.getUsername()));	
 				if(usermail != null) {
+					if(usermail.getEmail()!=null){
 					System.out.println("Mail exists");
-					response.setEmailFound(true);
-					response.setIdUser(usermail.get_id());
-					response.setCheck(true);
-				}
+					response.put("user", user);
+					response.put("info", 101);
+					response.put("mail-exist", true);
+					response.put("check", true);
+					}
+				}else
+					response.put("mail-exist", false);
 				if(usermobile != null){
+					if(usermobile.getMobile()!=null){
 					System.out.println("Mobile exists");
-					response.setMobileFound(true);
-					response.setIdUser(usermobile.get_id());
-					response.setCheck(true);
-				}
+					response.put("user", user);
+					response.put("info", 102);
+					response.put("mobile-exist", true);
+					response.put("check", true);
+					}
+				}else
+					response.put("mobile-exist", false);
 				if(username != null){
+					if(username.getUsername()!=null){
 					System.out.println("Username exists");
-					response.setUsernameFound(true);
-					response.setIdUser(username.get_id());
-					response.setCheck(true);
-				}
+					response.put("user", user);
+					response.put("info", 103);
+					response.put("username-exist", true);
+					response.put("check", true);
+					}
+				}else
+					response.put("username-exist", false);
 				if((username == null)&&(usermobile == null)&&(usermail == null)){
-					response.setCheck(false);
+					response.put("check", false);
 				}
+				if((username != null)&&(usermobile != null)&&(usermail != null)){
+					response.put("info", 104);
+				}else if((username != null)&&(usermobile != null))
+					response.put("info", 104);
+				else if((username != null)&&(usermail != null))
+					response.put("info", 104);
+				else if((usermobile != null)&&(usermail != null))
+					response.put("info", 104);
 			}else{
-				response.setIdUser(user.get_id());
-				response.setCheck(true);
+				response.put("user", user);
+				response.put("check", true);
 			}
 		}
 		
 		return response;
 	}
 	
-	private HashMap<String,Object> findUserM(User user, boolean constrained) {
+	@Override
+	public Map<String, Object> saveUser(User user) {
 		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
-		HashMap<String,Object> response = new HashMap<String,Object>();
+		Map<String, Object> response = findUser(user);
 		
-		if(constrained){
+		if((boolean) response.get("check")){
+			logService.log(LogService.LOG_INFO, "User already registred!");
+			response.put("code", 500);
 		}
 		else {
-			if(user.get_id() == null) {
-				User usermail= users.findOne(new BasicDBObject("email", user.getEmail()));
-				User usermobile= users.findOne(new BasicDBObject("mobile", user.getMobile()));
-				User username= users.findOne(new BasicDBObject("username", user.getUsername()));	
-				if(usermail != null) {
-					System.out.println("Mail exists");
-					response.put("", value)
-					response.setIdUser(usermail.get_id());
-					response.setCheck(true);
-				}
-				if(usermobile != null){
-					System.out.println("Mobile exists");
-					response.setMobileFound(true);
-					response.setIdUser(usermobile.get_id());
-					response.setCheck(true);
-				}
-				if(username != null){
-					System.out.println("Username exists");
-					response.setUsernameFound(true);
-					response.setIdUser(username.get_id());
-					response.setCheck(true);
-				}
-				if((username == null)&&(usermobile == null)&&(usermail == null)){
-					response.setCheck(false);
-				}
-			}else{
-				response.setIdUser(user.get_id());
-				response.setCheck(true);
+			// codifica della password
+			try {
+				//user.setPassword(passwordService.getSaltedHash(user.getPassword()));
+				String savedId = users.save(user).getSavedId();
+				User userfound= users.findOneById(savedId);
+				response.put("user", userfound);
+				response.put("code", 100);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
-		
+	System.out.println("USER: "+response.get("user")+" CODE: "+response.get("code") +" CHECK: "+response.get("check")+" INFO: "+response.get("info") 
+			+" Mail exist: "+response.get("mail-exist")+" Mobile exist: "+response.get("mobile-exist")+" Username exist: "+response.get("username-exist"));
 		return response;
 	}
 
 	@Override
 	public Map<String, Object> validateUsername(String userId, String username) {
 		// TODO ...
-		// il metodo verifica la validità in termini di unicità dello username;
-		// se userId NON è null lo username da validare è accettabile ANCHE se coincide con l'attuale username dell'utente userId.
-		// Se invece userId è null allora username è accettabile solo se NON già associato a un utente.
+		// il metodo verifica la validitï¿½ in termini di unicitï¿½ dello username;
+		// se userId NON ï¿½ null lo username da validare ï¿½ accettabile ANCHE se coincide con l'attuale username dell'utente userId.
+		// Se invece userId ï¿½ null allora username ï¿½ accettabile solo se NON giï¿½ associato a un utente.
+		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
 		Map<String, Object> map = new TreeMap<String, Object>();
-		map.put("isValid", true /*false*/);
-		map.put("errorCode", 0); // da settare con valori >0 in presenza di situazioni di errore (problemi di accesso DB,...)
-		
+		if(userId==null){
+			User user= users.findOne(new BasicDBObject("username", username));
+			if(user != null) {
+				if(user.getUsername()!=null){
+				System.out.println("Username exists");
+				map.put("errorCode",1);
+				map.put("isValid", false);
+				}
+			}else{
+				map.put("username-exist", false);
+				map.put("isValid", true);
+				map.put("errorCode", 0);
+				System.out.println("Username valid");
+			}
+		}else{
+			User userFound= users.findOneById(userId);
+			if(userFound.getUsername().matches(username)){
+				map.put("isValid", true);
+				map.put("errorCode", 0);
+				System.out.println("Username match");
+			}else{
+				map.put("isValid", false);
+				map.put("errorCode", 2);
+				System.out.println("Username no match");
+			}
+		}
+		//map.put("isValid", true /*false*/);
+		//map.put("errorCode", 0); // da settare con valori >0 in presenza di situazioni di errore (problemi di accesso DB,...)
 		return map;
 	}
 
 	@Override
 	public Map<String, Object> validateEMail(String userId, String email) {
-		// TODO ...
-		// il metodo verifica la validità in termini di unicità dello username;
-		// se userId NON è null l'email da validare è accettabile ANCHE se coincide con l'attuale email dell'utente userId.
-		// Se invece userId è null allora username è accettabile solo se NON già associato a un utente.
+
+		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
 		Map<String, Object> map = new TreeMap<String, Object>();
-		map.put("isValid", true /*false*/);
-		map.put("errorCode", 0); // da settare con valori >0 in presenza di situazioni di errore (problemi di accesso DB,...)
+		if(userId==null){
+			User user= users.findOne(new BasicDBObject("email", email));
+			if(user != null) {
+				if(user.getEmail()!=null){
+				System.out.println("email exists");
+				map.put("errorCode",1);
+				map.put("isValid", false);
+				}
+			}else{
+				map.put("isValid", true);
+				map.put("errorCode", 0);
+				System.out.println("email valid");
+			}
+		}else{
+			User userFound= users.findOneById(userId);
+			if(userFound.getEmail().matches(email)){
+				map.put("isValid", true);
+				map.put("errorCode", 0);
+				System.out.println("email match");
+			}else{
+				map.put("isValid", false);
+				map.put("errorCode", 2);
+				System.out.println("email no match");
+			}
+		}
 		
 		return map;
+
 	}
 
 	@Override
 	public Map<String, Object> validateMobile(String userId, String mobile) {
-		// TODO ...
-		// il metodo verifica la validità in termini di unicità dello username;
-		// se userId NON è null il mobile da validare è accettabile ANCHE se coincide con l'attuale mobile dell'utente userId.
-		// Se invece userId è null allora username è accettabile solo se NON già associato a un utente.
+		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
 		Map<String, Object> map = new TreeMap<String, Object>();
-		map.put("isValid", true /*false*/);
-		map.put("errorCode", 0); // da settare con valori >0 in presenza di situazioni di errore (problemi di accesso DB,...)
+		if(userId==null){
+			User user= users.findOne(new BasicDBObject("mobile", mobile));
+			if(user != null) {
+				if(user.getMobile()!=null){
+				System.out.println("mobile exists");
+				map.put("errorCode",1);
+				map.put("isValid", false);
+				}
+			}else{
+				map.put("isValid", true);
+				map.put("errorCode", 0);
+				System.out.println("mobile valid");
+			}
+		}else{
+			User userFound= users.findOneById(userId);
+			if(userFound.getMobile().matches(mobile)){
+				map.put("isValid", true);
+				map.put("errorCode", 0);
+				System.out.println("mobile match");
+			}else{
+				map.put("isValid", false);
+				map.put("errorCode", 2);
+				System.out.println("mobile no match");
+			}
+		}
 		
 		return map;
+	
 	}
 
 }
