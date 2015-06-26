@@ -12,7 +12,7 @@ public class Activator extends DependencyActivatorBase {
 			throws Exception {
 		dm.add(createComponent()
 		.setInterface(Object.class.getName(), null)
-		.setImplementation(RestResources.class));
+		.setImplementation(TestRestResources.class));
 		
 		dm.add(createComponent()
 		.setInterface(Object.class.getName(), null)

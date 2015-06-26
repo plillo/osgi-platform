@@ -1,0 +1,37 @@
+=====================
+26-05-2015 - Vincenzo
+=====================
+
+Buongiorno a tutti, 
+approfitto dell'attesa in ospedale per riepilogare quanto ho fatto al momento sulla macchina dedicata a osgi. 
+Per quanto riguarda la fase di sviluppo del codice, ho installato un server git e vi ho abilitati (tranne paolo) per le operazioni di export, import, commit, update, ecc. 
+Per quanto riguarda la fase di deploy, oltre ad installare e ad impostare per l'auto avvio un'istanza di mongo (poi installo anche mysql), ho installato un'istanza di Felix. Per il deploy dei bundle da web, ho utilizzato apache ace. In particolare, sulla macchina Ubuntu è in esecuzione un server ace contattabile ad un URL pubblico, mentre su Felix è installato un Agent Ace in grado di rilevare il server e sottoscriversi automaticamente ad esso. In questo modo, caricando un bundle sul server, questo viene immediatamente inviato all'agent (o agli agent) sottoscritto. Al di là del deploy via web, ho ipotizzato che fosse comunque indispensabile avere un'interfaccia gogo per controllare lo stato di Felix. Tuttavia, se Felix viene avviato in background all'avvio della macchina, non è più possibile accedere a gogo nel modo classico. Per ovviare a questo problema, ho installato su Felix il bundle 'remote shell", che consente, tramite telnet, di accedere alla Shell di gogo di un'istanza di Felix già in esecuzione. Visto che questa "remote shell" non prevede alcun meccanismo di sicurezza, per renderla accessibile da remoto, l'ho resa accessibile solo da localhost previa connessione remota ssh. 
+In definitiva, per il deploy di un bundle è sufficiente collegarsi al server Ace dal browser e caricare i jar sugli Agent Ace collegati al server. Mentre, per accedere alla Shell di gogo, è necessario connettersi in ssh alla macchina Ubuntu e poi accedere alla remote Shell grazie a telnet. 
+Rimangono 3 problemi da risolvere:
+1. L'avvio contemporaneo e automatico dei jar relativi al server Ace e all'istanza di Felix allo startup della macchina mi sta dando dei problemi 
+2. Ogni tanto, il server git continua a chiedermi la password per le operazioni di push e pull, anche se non dovrebbe (funziona ugualmente, ma vedrò cmq di risolvere) 
+3. La macchina Ubuntu si blocca durante le operazioni di shutdown e reboot, probabilmente perché non riesce a terminare i jar che eseguo all'avvio. Dovrei risolvere prevedendo degli script che facciano il Kill dei jar prima del riavvio del sistema. 
+
+Penso che sia tutto. Oggi devo interrompere perché devo dedicarmi alla preparazione della lezione di domani. 
+
+
+=====================
+18-05-2015 - Vincenzo
+=====================
+
+Ciao a tutti,
+
+ho installato e configurato il server git su una macchina nuova con ip pubblico 193.204.76.238.
+Per essere abilitati ad accedere al repository, dovreste generare una coppia di chiavi (pubblica/privata) e mandarmi la pubblica, così la aggiungo agli utenti autorizzati. Su Mac OS X, la coppia di chiavi dovreste averla nella cartella nascosta “.ssh” all’interno della home. Nel caso non siano mai state generate, basta digitare il comando "ssh-keygen -t rsa”. Per utenti windows, non ricordo.
+
+Una volta abilitati ad accedere al repository, per fare il clone di un progetto, basterà fare l’Import  da git usando i seguenti parametri:
+
+Host: 193.204.76.238
+Path: /home/git/repositories/NOME_DEL_PROGETTO.git
+Protocollo: ssh
+User: git
+
+Per fare il push del progetto, dovrete prima configurare il repository locale: tasto dx sul progetto —> Team —> Share Project —> git ecc. ecc….e dopo, nuovamente tasto dx sul progetto —> Team —> Remote —> Push. Come parametri per il push, usate quelli di prima.
+
+Ho provato a fare il Push e poi il Clone di una semplice Java application e funziona. Con un progetto Osgi, ci potrebbero essere un po’ di problemi nel capire cosa comprendere nel push iniziale (e nei successivi commit).
+Domani installo Mongo.

@@ -46,13 +46,27 @@
 		  </div>		  
 		  <div class="control-group">
 		    <div class="controls">
-		      <div class="btn btn-primary" ng-click="createUser()" ng-disabled="validate() == false">Create account</div>
+		      <div class="btn btn-primary" ng-click="createUser()" ng-disabled="validate() == false">Create user</div>
+		      <div class="btn btn-primary" ng-click="reset()" ng-disabled="validate() == false">Clear form</div>
 		    </div>
-		    		    <div class="controls">
-		      <div class="btn btn-primary pull-right" ng-click="reset()" ng-disabled="validate() == false">Clear</div>
-		    </div>
+<!-- 		   	<div class="controls">
+		      <div class="btn btn-primary pull-right" ng-click="reset()" ng-disabled="validate() == false">Clear form</div>
+		    </div> -->
 		    <div class="controls">
 		    	<div class="error">{{righterrormessage}}</div>
+		    </div>
+		    <div class="controls">
+		    	<div class="error">{{okmessage}}</div>
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <div class="controls">
+		      <div class="btn btn-primary" ng-click="googleRegistration()">Register with Google</div>
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <div class="controls">
+		      <div class="btn btn-primary" ng-click="facebookRegistration()">Register with Facebook</div>
 		    </div>
 		  </div>
 		</form>

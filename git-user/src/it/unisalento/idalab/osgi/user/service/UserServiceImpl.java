@@ -1,6 +1,5 @@
 package it.unisalento.idalab.osgi.user.service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +25,7 @@ public class UserServiceImpl implements UserService{
 	private volatile EventAdmin _eventAdmin;
 	private volatile MongoDBService _mongoDBService;
 	private volatile Password _passwordService;
-	private volatile UserServicePersistence _userService;
+	private volatile UserServicePersistence _userPersistenceService;
 	
 	void start(){
 		System.out.println("started service: "+this.getClass().getName());
@@ -81,21 +80,8 @@ public class UserServiceImpl implements UserService{
 		timing.put("start", System.nanoTime());
 		context.put("id-code", "AN-031");
 
-		UserPersistenceResponse upr = _userService.saveUser(user);
+		UserPersistenceResponse upr = _userPersistenceService.saveUser(user);
 		
-		/*
-		DBCollection coll = _mongoDBService.getDB().getCollection("user");
-		JacksonDBCollection<User, Object> users = JacksonDBCollection.wrap(coll, User.class);
-		
-		String password = user.getPassword();
-		try {
-			user.setPassword(_passwordService.getSaltedHash(password));
-		} catch (Exception e) {
-			user.setPassword("#"+password);
-		}
-		users.save(user);
-		*/
-
 		timing.put("end", System.nanoTime());
 		context.put("error-code", 0);
 		context.put("status", upr.isCheck()?200:400);
@@ -108,20 +94,31 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public List<User> listUsers() {
-		return _userService.listUsers();
+		return _userPersistenceService.listUsers();
+	}
+	
+	@Override
+	public Map<String, Object> validateUsername(String userId, String username) {
+
+		Map<String, Object> map = _userPersistenceService.validateUsername(userId, username);
 		
-		/*
-		ArrayList<User> list = new ArrayList<User>();
-		DBCollection coll = _mongoDBService.getDB().getCollection("user");
-		JacksonDBCollection<User, Object> users = JacksonDBCollection.wrap(coll, User.class);
+		return map;
+	}
+	
+	@Override
+	public Map<String, Object> validateEMail(String userId, String email) {
+
+		Map<String, Object> map = _userPersistenceService.validateEMail(userId, email);
 		
-		DBCursor<User> cursor = users.find();
-		while(cursor.hasNext()) {
-			list.add(cursor.next());
-		}
+		return map;
+	}
+	
+	@Override
+	public Map<String, Object> validateMobile(String userId, String mobile) {
+
+		Map<String, Object> map = _userPersistenceService.validateMobile(userId, mobile);
 		
-		return list;
-		*/
+		return map;
 	}
 
 }

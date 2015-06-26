@@ -12,7 +12,7 @@ import org.amdatu.web.rest.doc.ResponseMessage;
 import org.amdatu.web.rest.doc.ResponseMessages;
 
 @Path("hellorest")
-public class RestResources {
+public class TestRestResources {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Description("Returns a friendly hellorest message")
