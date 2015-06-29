@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService{
 		context.put("id-code", "AN-031");
 
 		@SuppressWarnings("unused")
-		Map<String,Object> upr = _userPersistenceService.saveUser(user);
+		Map<String,Object> upr = _userPersistenceService.createUser(user);
 		
 		timing.put("end", System.nanoTime());
 		context.put("error-code", 0);
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public List<User> listUsers() {
-		return _userPersistenceService.listUsers();
+		return _userPersistenceService.getUsers();
 	}
 	
 	@Override

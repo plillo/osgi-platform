@@ -12,7 +12,7 @@ public class Console {
 	private volatile UserServicePersistence userservice;
 
 	public void listuser() {
-		userservice.listUsers();	
+		userservice.getUsers();	
 	}
 
 	public void adduser(String username, String password, String email, String mobile) {
@@ -21,7 +21,7 @@ public class Console {
 		user.setPassword(password);
 		user.setEmail(email);
 		user.setMobile(mobile);
-		userservice.saveUser(user);
+		userservice.createUser(user);
 	}
 	
 	public void validateU(String userId,String username) {
@@ -38,7 +38,7 @@ public class Console {
 		user.setUsername(username);
 		user.setMobile(mobile);;
 		user.setEmail(email);
-		userservice.removeUser(user);
+		userservice.deleteUser(user);
 	}
 	
 	public void login(String username,String password, String email, String mobile) {
