@@ -1,5 +1,7 @@
 package it.unisalento.idalab.osgi.user.oauth2.facebook;
 
+import it.unisalento.idalab.osgi.user.oauth2.authenticator.Authenticator;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,15 +10,22 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Dictionary;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.osgi.service.cm.ConfigurationException;
+import org.osgi.service.cm.ManagedService;
 
-import it.unisalento.idalab.osgi.user.oauth2.authenticator.Authenticator;
-
-public class AuthenticatorImpl implements Authenticator {
+public class AuthenticatorImpl implements Authenticator, ManagedService {
+	
+	// configurable variables
+	String fixParameters = null;
+	String tokenURL = null;
+	String userInfoURL = null;
+	String authName = null;
 
 	@Override
 	public String getToken(String code) {
@@ -29,12 +38,9 @@ public class AuthenticatorImpl implements Authenticator {
 			// TODO: usare la configurazione per inizializzare le stringhe
 			urlParameters = "code="
 	                + code
-	                + "&client_id=492601017561308"
-	                + "&client_secret=953b9c7c351c57efd421d2c900802e48"
-	                + "&redirect_uri=http://localhost:8080/Oauth/Oauth2callback"
-	                + "&grant_type=authorization_code";
+	                + fixParameters;
 			
-			url = new URL("https://graph.facebook.com/oauth/access_token");
+			url = new URL(tokenURL);
 			
 			// write to connection
 	        URLConnection urlConn = url.openConnection();
@@ -73,7 +79,7 @@ public class AuthenticatorImpl implements Authenticator {
 		Map<String, Object> mapInfo = new TreeMap<String, Object>();
 		String outputString = null;
 		try {
-			URL url = new URL("https://graph.facebook.com/me?access_token=" + token);
+			URL url = new URL(userInfoURL+token);
 			URLConnection urlConn = url.openConnection();
 	        String line; 
 	        outputString = "";
@@ -104,7 +110,21 @@ public class AuthenticatorImpl implements Authenticator {
 
 	@Override
 	public String getName() {
-		return "facebook";
+		return authName;
+	}
+
+	@Override
+	public void updated(Dictionary properties) throws ConfigurationException {
+		// TODO: service che fornisce parametri passando PID e chiave?
+		if (fixParameters == null)
+			fixParameters = (String) properties.get("fixParameters");
+		if (tokenURL == null)
+			tokenURL = (String) properties.get("tokenURL");
+		if (userInfoURL == null)
+			userInfoURL = (String) properties.get("userInfoURL");
+		if (authName == null)
+			authName = (String) properties.get("authName");
+		
 	}
 
 }
