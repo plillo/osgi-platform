@@ -26,8 +26,9 @@ angular.module("userUI").directive('uniqueUsername',['$http', '$q', function($ht
 					 success(function(data, status, headers, config) {
 					    alert(data.message);
 						 //alert(data.isValid);
-					    //return data.isValid
-					    return false;
+					    //ngModel.setValidity(ngModel.$asyncValidators.$error.uniqueUsernameValidator,data.isValid);
+					    return data.isValid;
+					    //return false;
 					  }).
 					  error(function(data, status, headers, config) {
 						  alert(data.message);
@@ -46,6 +47,52 @@ angular.module("userUI").directive('uniqueUsername',['$http', '$q', function($ht
 				//} 
 				
 
+			}
+			
+		}
+	}
+}])
+.directive('uniqueEmail',['$http', '$q', function($http, $q){
+	return{
+		restrict: 'A',
+		require: 'ngModel',
+		link: function (scope, element, attrs, ngModel) {
+			ngModel.$asyncValidators.uniqueEmailValidator = function(value) {
+				if (!ngModel.$pristine){
+					return $http.get('/users/1.0/validateEMail?email=' + value).
+					 success(function(data, status, headers, config) {
+					    alert(data.message);
+						 //alert(data.isValid);
+					    //return data.isValid
+					    return false;
+					  }).
+					  error(function(data, status, headers, config) {
+						  alert(data.message);
+						  return false;
+					  });
+			}
+			}
+			
+		}
+	}
+}])
+.directive('uniqueMobile',['$http', '$q', function($http, $q){
+	return{
+		restrict: 'A',
+		require: 'ngModel',
+		link: function (scope, element, attrs, ngModel) {
+			ngModel.$asyncValidators.uniqueMobileValidator = function(value) {
+					return $http.get('/users/1.0/validateMobile?mobile=' + value).
+					 success(function(data, status, headers, config) {
+					    alert(data.message);
+						 //alert(data.isValid);
+					    //return data.isValid
+					    return false;
+					  }).
+					  error(function(data, status, headers, config) {
+						  alert(data.message);
+						  return false;
+					  });
 			}
 			
 		}

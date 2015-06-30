@@ -5,7 +5,9 @@
 		    <label class="control-label" for="inputUsername">Username</label>
 		    <div class="controls">
 		      <input type="text" name="inputUsername" id="inputUsername" placeholder="Username" ng-model="newUser.username" required unique-username ng-model-options="{ updateOn: 'blur' }">
+		      <!-- <p ng-show="form.inputUsername.$error.required && !form.inputUsername.$pristine" class="help-block">Username is required.</p> -->
 		      <p ng-show="form.inputUsername.$error.required && !form.inputUsername.$pristine" class="help-block">Username is required.</p>
+		      <p ng-show="form.inputUsername.$error.uniqueUsernameValidator && !form.inputUsername.$pristine" class="help-block">Username already exists.</p>
 		    </div>
 		  </div>
 		  <div class="control-group">
@@ -23,13 +25,13 @@
 		  <div class="control-group">
 		    <label class="control-label" for="inputEmail">Email</label>
 		    <div class="controls">
-		      <input type="email" id="inputEmail" placeholder="Email" ng-model="newUser.email" required="">
+		      <input type="email" name="email" id="inputEmail" placeholder="Email" ng-model="newUser.email" required="" unique-email ng-model-options="{ updateOn: 'blur' }">
 		    </div>
 		  </div>
 		  <div class="control-group">
 		    <label class="control-label" for="inputMobile">Mobile</label>
 		    <div class="controls">
-		      <input type="text" id="inputMobile" placeholder="Mobile" ng-model="newUser.mobile">
+		      <input type="text" name="mobile" id="inputMobile" placeholder="Mobile" ng-model="newUser.mobile" unique-mobile ng-model-options="{ updateOn: 'blur' }">
 		    </div>
 		  </div>		  
 		  <div class="control-group">
