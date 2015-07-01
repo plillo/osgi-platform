@@ -1,5 +1,7 @@
 package it.unisalento.idalab.osgi.user.oauth2.google;
 
+import it.unisalento.idalab.osgi.user.oauth2.authenticator.Authenticator;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,24 +10,17 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.osgi.service.cm.ConfigurationException;
-import org.osgi.service.cm.ManagedService;
 
-import it.unisalento.idalab.osgi.user.oauth2.authenticator.Authenticator;
-
-public class AuthenticatorImpl implements Authenticator, ManagedService {
+public class AuthenticatorImpl implements Authenticator {
 	
 	// configurable variables
-	String fixParameters = null;
-	String tokenURL = null;
-	String userInfoURL = null;
-	String authName = null;
+	Map<String, String> parameters = new HashMap<String, String>();
 
 	@Override
 	public String getToken(String code) {
@@ -37,9 +32,9 @@ public class AuthenticatorImpl implements Authenticator, ManagedService {
 			
 			urlParameters = "code="
 	                + code
-	                + fixParameters;
+	                + (String) parameters.get("fixParameters_google");
 			
-			url = new URL(tokenURL);
+			url = new URL((String) parameters.get("tokenURL_google"));
 			
 			// write to connection
 	        URLConnection urlConn = url.openConnection();
@@ -78,7 +73,7 @@ public class AuthenticatorImpl implements Authenticator, ManagedService {
 		Map<String, Object> mapInfo = new TreeMap<String, Object>();
 		String outputString = null;
 		try {
-			URL url = new URL(userInfoURL+token);
+			URL url = new URL((String) parameters.get("userInfoURL_google")+token);
 			URLConnection urlConn = url.openConnection();
 	        String line; 
 	        outputString = "";
@@ -109,19 +104,12 @@ public class AuthenticatorImpl implements Authenticator, ManagedService {
 	
 	@Override
 	public String getName() {
-		return authName;
+		return "google";
 	}
 
 	@Override
-	public void updated(Dictionary properties) throws ConfigurationException {
-		// TODO: service che fornisce parametri passando PID e chiave?
-		if (fixParameters == null)
-			fixParameters = (String) properties.get("fixParameters");
-		if (tokenURL == null)
-			tokenURL = (String) properties.get("tokenURL");
-		if (userInfoURL == null)
-			userInfoURL = (String) properties.get("userInfoURL");
-		if (authName == null)
-			authName = (String) properties.get("authName");
+	public void setParameters(Map<String, String> parameters) {
+		// TODO Auto-generated method stub
+		this.parameters = parameters;
 	}
 }
