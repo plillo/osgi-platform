@@ -11,6 +11,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -19,13 +20,10 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
 
-public class AuthenticatorImpl implements Authenticator, ManagedService {
+public class AuthenticatorImpl implements Authenticator {
 	
 	// configurable variables
-	String fixParameters = null;
-	String tokenURL = null;
-	String userInfoURL = null;
-	String authName = null;
+	Map<String, String> parameters = new HashMap<String, String>();
 
 	@Override
 	public String getToken(String code) {
@@ -35,12 +33,11 @@ public class AuthenticatorImpl implements Authenticator, ManagedService {
 			URL url = null;
 			String urlParameters = null;
 			
-			// TODO: usare la configurazione per inizializzare le stringhe
 			urlParameters = "code="
 	                + code
-	                + fixParameters;
+	                + (String) parameters.get("fixParameters_facebook");
 			
-			url = new URL(tokenURL);
+			url = new URL((String) parameters.get("tokenURL_facebook"));
 			
 			// write to connection
 	        URLConnection urlConn = url.openConnection();
@@ -79,7 +76,7 @@ public class AuthenticatorImpl implements Authenticator, ManagedService {
 		Map<String, Object> mapInfo = new TreeMap<String, Object>();
 		String outputString = null;
 		try {
-			URL url = new URL(userInfoURL+token);
+			URL url = new URL((String) parameters.get("userInfoURL_facebook")+token);
 			URLConnection urlConn = url.openConnection();
 	        String line; 
 	        outputString = "";
@@ -110,21 +107,12 @@ public class AuthenticatorImpl implements Authenticator, ManagedService {
 
 	@Override
 	public String getName() {
-		return authName;
+		return "facebook";
 	}
 
 	@Override
-	public void updated(Dictionary properties) throws ConfigurationException {
-		// TODO: service che fornisce parametri passando PID e chiave?
-		if (fixParameters == null)
-			fixParameters = (String) properties.get("fixParameters");
-		if (tokenURL == null)
-			tokenURL = (String) properties.get("tokenURL");
-		if (userInfoURL == null)
-			userInfoURL = (String) properties.get("userInfoURL");
-		if (authName == null)
-			authName = (String) properties.get("authName");
-		
+	public void setParameters(Map<String, String> parameters) {
+		// TODO Auto-generated method stub
+		this.parameters = parameters;
 	}
-
 }

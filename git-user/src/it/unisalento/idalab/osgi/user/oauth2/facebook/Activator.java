@@ -1,14 +1,10 @@
 package it.unisalento.idalab.osgi.user.oauth2.facebook;
 
-import java.util.Properties;
-
 import it.unisalento.idalab.osgi.user.oauth2.authenticator.Authenticator;
 
 import org.apache.felix.dm.DependencyActivatorBase;
 import org.apache.felix.dm.DependencyManager;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.Constants;
-import org.osgi.service.cm.ManagedService;
 
 public class Activator extends DependencyActivatorBase{
 
@@ -20,12 +16,9 @@ public class Activator extends DependencyActivatorBase{
 	@Override
 	public void init(BundleContext context, DependencyManager manager)
 			throws Exception {
-		Properties properties = new Properties();
-		properties.put(Constants.SERVICE_PID, "it.unisalento.idalab.osgi.user.oauth2.facebook");
 		
-		String[] classes = new String[] { Authenticator.class.getName(), ManagedService.class.getName() };
 		manager.add(createComponent() 
-				.setInterface(classes, properties) 
+				.setInterface(Authenticator.class.getName(), null) 
 				.setImplementation(AuthenticatorImpl.class));
 	}
 
