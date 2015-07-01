@@ -92,7 +92,6 @@ public class MongoUserService implements UserServicePersistence {
 			
 			// Set response: number of matched users
 			response.put("matched", ids.size());
-			
 			// Set response details
 			switch(ids.size()){
 			case 0:
@@ -102,26 +101,42 @@ public class MongoUserService implements UserServicePersistence {
 				response.put("keys", matchs.keySet());
 				break;
 			default:
+				//PER COME SALVIAMO L'UTENTE ENTRIAMO MAI IN QUESTO CASO?
 				response.put("keys", matchs.keySet());
 			}
 		}
 		
 		return response;
 	}
-	
+	//PROBLEMA CONTROLLAVA SEMPRE L'ID
+//	public Map<String, Object> getUser(User user) {
+//		Map<String, Object> map = new TreeMap<String, Object>();
+//		if(user.get_id()!=null && !"".equals(user))
+//			map.put("userId", user.get_id());
+//		if(user.get_id()!=null && !"".equals(user))
+//			map.put("username", user.getUsername());
+//		if(user.get_id()!=null && !"".equals(user))
+//			map.put("email", user.getEmail());		
+//		if(user.get_id()!=null && !"".equals(user))
+//			map.put("mobile", user.getMobile());		
+//
+//		return getUser(map);
+//	}
+//	
 	public Map<String, Object> getUser(User user) {
 		Map<String, Object> map = new TreeMap<String, Object>();
 		if(user.get_id()!=null && !"".equals(user))
 			map.put("userId", user.get_id());
-		if(user.get_id()!=null && !"".equals(user))
+		if(user.getUsername()!=null && !"".equals(user))
 			map.put("username", user.getUsername());
-		if(user.get_id()!=null && !"".equals(user))
+		if(user.getEmail()!=null && !"".equals(user))
 			map.put("email", user.getEmail());		
-		if(user.get_id()!=null && !"".equals(user))
+		if(user.getMobile()!=null && !"".equals(user))
 			map.put("mobile", user.getMobile());		
 
 		return getUser(map);
 	}
+
 
 	@Override
 	public List<User> getUsers() {
@@ -169,11 +184,11 @@ public class MongoUserService implements UserServicePersistence {
 		Map<String, Object> response = new TreeMap<String, Object>();
 		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
 		Map<String, Object> result = getUser(user);
-		
+
 		if((int)result.get("matched")==0) {
 			String password = user.getPassword();
 			// Controllo di presenza di una password: in assenza impostazione di una password predefinita
-			// N.B. :in realtà il controllo sulla password va fatto a monte dal chiamante del metodo createUser
+			// N.B. :in realtï¿½ il controllo sulla password va fatto a monte dal chiamante del metodo createUser
 			if(user.getPassword()==null || "".equals(user.getPassword()))
 				password = "0123456789";  
 				
@@ -190,9 +205,21 @@ public class MongoUserService implements UserServicePersistence {
 				if(created_user!=null)
 					response.put("user", created_user);
 			}
+		}else if((int)result.get("matched")==1){
+			//EVENTUALMENTE QUI VA INSERITO L'AGGIORNAMENTO DELL'UTENTE
+			//POTREMMO RICHIAMARE UPDATE USER PASSANDO  existing_user.get_id() E user
+			//ESEMPIO:   users.updateById(existing_user.get_id(), user);
+			System.out.println("Utente esistente");
+			User existing_user = (User) result.get("user");
+			if(existing_user!=null)
+				response.put("user", existing_user);
+		}
+		else{
+			//PER COME SALVIAMO L'UTENTE ENTRIAMO MAI IN QUESTO CASO?
+			System.out.println("Esistono piÃ¹ utenti");
 		}
 		
-		// TODO: Gestire bene la composizione della risposta (deve essere più informativa possibile)
+		// TODO: Gestire bene la composizione della risposta (deve essere piï¿½ informativa possibile)
 
 		return response;
 	}
@@ -205,7 +232,7 @@ public class MongoUserService implements UserServicePersistence {
 		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
 		Map<String,Object> result = getUser(user);
 		
-		// TODO: il metodo va ampiamente rivisto per evitare incoerenze nella modifica dell'utente (username, email, mobile già esistenti...)
+		// TODO: il metodo va ampiamente rivisto per evitare incoerenze nella modifica dell'utente (username, email, mobile giï¿½ esistenti...)
 		if(result.containsKey("user")) {
 			if(user.getPassword()!=null && !"".equals(user.getPassword()))
 				try {
@@ -217,7 +244,7 @@ public class MongoUserService implements UserServicePersistence {
 			users.updateById(((User)result.get("user")).get_id(), user);
 		}
 		
-		// TODO: Gestire bene la composizione della risposta (deve essere più informativa possibile)
+		// TODO: Gestire bene la composizione della risposta (deve essere piï¿½ informativa possibile)
 		
 		return response;
 	}
@@ -234,7 +261,7 @@ public class MongoUserService implements UserServicePersistence {
 			users.removeById(((User)response.get("user")).get_id());
 		}
 		
-		// TODO: Gestire bene la composizione della risposta (deve essere più informativa possibile)
+		// TODO: Gestire bene la composizione della risposta (deve essere piï¿½ informativa possibile)
 		
 		return response;
 	}
@@ -302,9 +329,9 @@ public class MongoUserService implements UserServicePersistence {
 	@Override
 	public Map<String, Object> validateUsername(String userId, String username) {
 		// TODO ...
-		// il metodo verifica la validità in termini di unicitï¿½ dello username;
-		// se userId NON è null lo username da validare ï¿½ accettabile ANCHE se coincide con l'attuale username dell'utente userId.
-		// Se invece userId è null allora username ï¿½ accettabile solo se NON giï¿½ associato a un utente.
+		// il metodo verifica la validitï¿½ in termini di unicitï¿½ dello username;
+		// se userId NON ï¿½ null lo username da validare ï¿½ accettabile ANCHE se coincide con l'attuale username dell'utente userId.
+		// Se invece userId ï¿½ null allora username ï¿½ accettabile solo se NON giï¿½ associato a un utente.
 		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
 		Map<String, Object> map = new TreeMap<String, Object>();
 		if(userId==null){
