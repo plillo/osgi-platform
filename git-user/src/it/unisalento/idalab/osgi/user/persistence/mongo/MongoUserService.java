@@ -315,7 +315,7 @@ public class MongoUserService implements UserServicePersistence {
 	@Override
 	public Map<String, Object> validateUsername(String userId, String username) {
 		// TODO ...
-		// il metodo verifica la validità in termini di unicit� dello username;
+		// il metodo verifica la validità in termini di unicità dello username; 
 		// se userId NON � null lo username da validare � accettabile ANCHE se coincide con l'attuale username dell'utente userId.
 		// Se invece userId � null allora username � accettabile solo se NON gi� associato a un utente.
 		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
