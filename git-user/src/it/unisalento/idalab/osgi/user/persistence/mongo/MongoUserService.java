@@ -101,7 +101,6 @@ public class MongoUserService implements UserServicePersistence {
 				response.put("keys", matchs.keySet());
 				break;
 			default:
-				//PER COME SALVIAMO L'UTENTE ENTRIAMO MAI IN QUESTO CASO?
 				response.put("keys", matchs.keySet());
 			}
 		}
@@ -192,9 +191,6 @@ public class MongoUserService implements UserServicePersistence {
 					response.put("user", created_user);
 			}
 		}else if((int)result.get("matched")==1){
-			//EVENTUALMENTE QUI VA INSERITO L'AGGIORNAMENTO DELL'UTENTE
-			//POTREMMO RICHIAMARE UPDATE USER PASSANDO  existing_user.get_id() E user
-			//ESEMPIO:   users.updateById(existing_user.get_id(), user);
 			System.out.println("Utente esistente");
 			User existing_user = (User) result.get("user");
 			if(existing_user!=null)
@@ -244,9 +240,15 @@ public class MongoUserService implements UserServicePersistence {
 		Map<String,Object> result = getUser(user);
 		
 		if(result.containsKey("user")) {
-			users.removeById(((User)response.get("user")).get_id());
+			users.removeById(((User)result.get("user")).get_id());
+			response.put("isRemoved", true);
+			//da valutare e concordare
+			response.put("errorCode","");
+		}else{
+			response.put("isRemoved", false);
+			//da valutare e concordare
+			response.put("errorCode","");
 		}
-		
 		// TODO: Gestire bene la composizione della risposta (deve essere pi� informativa possibile)
 		
 		return response;
@@ -324,26 +326,21 @@ public class MongoUserService implements UserServicePersistence {
 			User user= users.findOne(new BasicDBObject("username", username));
 			if(user != null) {
 				if(user.getUsername()!=null){
-				System.out.println("Username exists");
-				map.put("errorCode",1);
+				map.put("errorCode",0);
 				map.put("isValid", false);
 				}
 			}else{
-				map.put("username-exist", false);
 				map.put("isValid", true);
 				map.put("errorCode", 0);
-				System.out.println("Username valid");
 			}
 		}else{
 			User userFound= users.findOneById(userId);
 			if(userFound.getUsername().matches(username)){
 				map.put("isValid", true);
 				map.put("errorCode", 0);
-				System.out.println("Username match");
 			}else{
 				map.put("isValid", false);
-				map.put("errorCode", 2);
-				System.out.println("Username no match");
+				map.put("errorCode", 0);
 			}
 		}
 		//map.put("isValid", true /*false*/);
@@ -360,25 +357,21 @@ public class MongoUserService implements UserServicePersistence {
 			User user= users.findOne(new BasicDBObject("email", email));
 			if(user != null) {
 				if(user.getEmail()!=null){
-				System.out.println("email exists");
-				map.put("errorCode",1);
+				map.put("errorCode",0);
 				map.put("isValid", false);
 				}
 			}else{
 				map.put("isValid", true);
 				map.put("errorCode", 0);
-				System.out.println("email valid");
 			}
 		}else{
 			User userFound= users.findOneById(userId);
 			if(userFound.getEmail().matches(email)){
 				map.put("isValid", true);
 				map.put("errorCode", 0);
-				System.out.println("email match");
 			}else{
 				map.put("isValid", false);
-				map.put("errorCode", 2);
-				System.out.println("email no match");
+				map.put("errorCode", 0);
 			}
 		}
 		
@@ -394,25 +387,21 @@ public class MongoUserService implements UserServicePersistence {
 			User user= users.findOne(new BasicDBObject("mobile", mobile));
 			if(user != null) {
 				if(user.getMobile()!=null){
-				System.out.println("mobile exists");
-				map.put("errorCode",1);
+				map.put("errorCode",0);
 				map.put("isValid", false);
 				}
 			}else{
 				map.put("isValid", true);
 				map.put("errorCode", 0);
-				System.out.println("mobile valid");
 			}
 		}else{
 			User userFound= users.findOneById(userId);
 			if(userFound.getMobile().matches(mobile)){
 				map.put("isValid", true);
 				map.put("errorCode", 0);
-				System.out.println("mobile match");
 			}else{
 				map.put("isValid", false);
-				map.put("errorCode", 2);
-				System.out.println("mobile no match");
+				map.put("errorCode", 0);
 			}
 		}
 		
@@ -422,7 +411,50 @@ public class MongoUserService implements UserServicePersistence {
 
 	@Override
 	public Map<String, Object> loginByOAuth2(Map<String, Object> user) {
-		// TODO Auto-generated method stub
+		// PARTIRE DA QUESTA LOGICA 
+		
+		
+//		Map<String, Object> response = new TreeMap<String, Object>();
+//		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
+//		Map<String, Object> result = getUser(user);
+//
+//		if((int)result.get("matched")==0) {
+//			String password = user.getPassword();
+//			// Controllo di presenza di una password: in assenza impostazione di una password predefinita
+//			// N.B. :in realt� il controllo sulla password va fatto a monte dal chiamante del metodo createUser
+//			if(user.getPassword()==null || "".equals(user.getPassword()))
+//				password = "0123456789";  
+//				
+//			try {
+//				user.setPassword(passwordService.getSaltedHash(password));
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			
+//			String savedId = users.save(user).getSavedId();
+//			if(savedId!=null) {
+//				User created_user = users.findOneById(savedId);
+//				if(created_user!=null)
+//					response.put("user", created_user);
+//			}
+//		}else if((int)result.get("matched")==1){
+//			//EVENTUALMENTE QUI VA INSERITO L'AGGIORNAMENTO DELL'UTENTE
+//			//POTREMMO RICHIAMARE UPDATE USER PASSANDO  existing_user.get_id() E user
+//			//ESEMPIO:   users.updateById(existing_user.get_id(), user);
+//			System.out.println("Utente esistente");
+//			User existing_user = (User) result.get("user");
+//			if(existing_user!=null)
+//				response.put("user", existing_user);
+//		}
+//		else{
+//			//una mappa con più utenti trovati
+//			System.out.println("Esistono più utenti");
+//		}
+//		
+//		// TODO: Gestire bene la composizione della risposta (deve essere pi� informativa possibile)
+//
+//		return response;
 		return null;
 	}
 
