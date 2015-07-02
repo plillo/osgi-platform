@@ -108,21 +108,7 @@ public class MongoUserService implements UserServicePersistence {
 		
 		return response;
 	}
-	//PROBLEMA CONTROLLAVA SEMPRE L'ID
-//	public Map<String, Object> getUser(User user) {
-//		Map<String, Object> map = new TreeMap<String, Object>();
-//		if(user.get_id()!=null && !"".equals(user))
-//			map.put("userId", user.get_id());
-//		if(user.get_id()!=null && !"".equals(user))
-//			map.put("username", user.getUsername());
-//		if(user.get_id()!=null && !"".equals(user))
-//			map.put("email", user.getEmail());		
-//		if(user.get_id()!=null && !"".equals(user))
-//			map.put("mobile", user.getMobile());		
-//
-//		return getUser(map);
-//	}
-//	
+	
 	public Map<String, Object> getUser(User user) {
 		Map<String, Object> map = new TreeMap<String, Object>();
 		if(user.get_id()!=null && !"".equals(user))
@@ -215,7 +201,7 @@ public class MongoUserService implements UserServicePersistence {
 				response.put("user", existing_user);
 		}
 		else{
-			//PER COME SALVIAMO L'UTENTE ENTRIAMO MAI IN QUESTO CASO?
+			//una mappa con più utenti trovati
 			System.out.println("Esistono più utenti");
 		}
 		
@@ -329,7 +315,7 @@ public class MongoUserService implements UserServicePersistence {
 	@Override
 	public Map<String, Object> validateUsername(String userId, String username) {
 		// TODO ...
-		// il metodo verifica la validit� in termini di unicit� dello username;
+		// il metodo verifica la validità in termini di unicit� dello username;
 		// se userId NON � null lo username da validare � accettabile ANCHE se coincide con l'attuale username dell'utente userId.
 		// Se invece userId � null allora username � accettabile solo se NON gi� associato a un utente.
 		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
@@ -432,6 +418,12 @@ public class MongoUserService implements UserServicePersistence {
 		
 		return map;
 	
+	}
+
+	@Override
+	public Map<String, Object> loginByOAuth2(Map<String, Object> user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

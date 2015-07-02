@@ -25,7 +25,8 @@ public interface UserServicePersistence {
 	
 	// LOGIN
 	Map<String, Object> login(Map<String, Object> user);
-
+	Map<String, Object> loginByOAuth2(Map<String, Object> user);
+	
 	// VALIDATE
 	Map<String, Object> validateUsername(String userId, String username);
 	Map<String, Object> validateEMail(String userId, String email);
