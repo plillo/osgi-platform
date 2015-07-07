@@ -5,11 +5,12 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http', '$
     
     
     $scope.createUser = function() {
-		if($scope.validate() == true) {
+    	alert($scope.form.$valid);
+		if(($scope.validate() == true) && ($scope.form.$valid == true)) {
 			alert("post");
 			$http.post('/users/1.0', $scope.newUser).success(function(data) {
-				alert(data);
-				$scope.okmessage = "New user created";
+				alert(data._context.timing.start);
+				if (data.isValid) $scope.okmessage = "New user created";
 			}).error(function() {
 				$scope.righterrormessage = "Failed to create user";
 			});
@@ -33,6 +34,10 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http', '$
     }
 
     
+    $scope.linkedinRegistration = function() {
+    	$window.location.href='https://www.linkedin.com/uas/oauth2/authorization?scope=r_emailaddress&redirect_uri=http://localhost:8080/OAuth2/callback&response_type=code&client_id=77degzl9awx3h8&approval_prompt=force&state={ "authenticator" : "linkedin" }';
+    }
+    
 	$scope.validate = function() {
 		if($scope.newUser.password != $scope.repeatPassword) {
 			return false;
@@ -46,10 +51,11 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http', '$
 	}
     
 	
-	$scope.reset = function(form) {
+	$scope.reset = function(form) { 
+		alert("Clear Form");
 	    if (form) {
 	        form.$setPristine();
-	        //form.$setUntouched();
+	        form.$setUntouched();
 	      }
 		$scope.newUser={};
 		$scope.repeatPassword="";

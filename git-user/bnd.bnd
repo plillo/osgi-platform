@@ -20,7 +20,7 @@ Bundle-Version: 0.0.0.${tstamp}
 	jackson-mapper-asl,\
 	org.amdatu.web.rest.doc;version=1.2,\
 	org.apache.felix.log,\
-	org.osgi.impl.service.cm
+	org.osgi.impl.service.cm;version=2.1
 -runrequires:  \
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.runtime)',\
@@ -45,7 +45,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=org.mongodb.mongo-java-driver)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.commons.codec)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.log)',\
-	osgi.identity;filter:='(osgi.identity=org.osgi.impl.service.cm)'
+	osgi.identity;filter:='(osgi.identity=org.osgi.impl.service.cm)',\
+	osgi.identity;filter:='(&(osgi.identity=org.osgi.impl.service.cm)(version>=2.1.1.v200805021845))'
 -runbundles:  \
 	de.undercouch.bson4jackson;version='[1.3.0,1.3.1)',\
 	jackson-core-asl;version='[1.9.8,1.9.9)',\

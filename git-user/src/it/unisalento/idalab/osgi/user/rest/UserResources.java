@@ -78,7 +78,7 @@ public class UserResources {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("validateUsername")
-	public Map<String, Object> validateUsername(@QueryParam("username") String username)
+	public Map<String, Object> validateUsername(@QueryParam("value") String username)
 			throws Exception {
 		
 		Map<String, Object> validation = new TreeMap<String, Object>();
@@ -104,7 +104,7 @@ public class UserResources {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("validateEMail")
-	public Map<String, Object> validateEMail(@QueryParam("email") String email) {
+	public Map<String, Object> validateEMail(@QueryParam("value") String email) {
 		Map<String, Object> validation = new TreeMap<String, Object>();
 		validation.put("validatingItem", email);
 		
@@ -128,7 +128,7 @@ public class UserResources {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("validateMobile")
-	public Map<String, Object> validateMobile(@QueryParam("mobile") String mobile) {
+	public Map<String, Object> validateMobile(@QueryParam("value") String mobile) {
 		
 		Map<String, Object> validation = new TreeMap<String, Object>();
 		validation.put("validatingItem", mobile);
