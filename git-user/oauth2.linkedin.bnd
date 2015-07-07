@@ -1,0 +1,6 @@
+Private-Package:  \
+	it.unisalento.idalab.osgi.user.oauth2.linkedin
+Bundle-Version: 1.0.0
+Bundle-Activator: it.unisalento.idalab.osgi.user.oauth2.linkedin.Activator
+Export-Package:  \
+	it.unisalento.idalab.osgi.user.oauth2.linkedin
