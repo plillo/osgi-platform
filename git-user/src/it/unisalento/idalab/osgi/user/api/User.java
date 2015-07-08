@@ -34,7 +34,6 @@ public class User {
 		this._id = id;
 	}
 
-
 	public String getUsername() {
 		return username;
 	}
