@@ -29,7 +29,7 @@ public class OAuthResources {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Description("OAuth callback")
 	public Map<String, Object> callback(@QueryParam("code") String code, @QueryParam("state") String state) {
-		
+
 		try {
 			// Get authentication source
 			ObjectMapper mapper = new ObjectMapper();

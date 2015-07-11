@@ -1,4 +1,4 @@
-angular.module("userUI", ['ngRoute'])
+angular.module("userUI", ['ngRoute','remoteValidation'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.
   when('/', {templateUrl: 'partials/register.html', controller: 'RegisterController'}).

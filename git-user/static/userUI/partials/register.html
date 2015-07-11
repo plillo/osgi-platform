@@ -1,11 +1,256 @@
-<div class="span6 hero-unit">
+<div class="span6">
+		<h3>New User Registration</h3>
+		<form name="form" class="form-horizontal" novalidate>
+		<!-- https://github.com/webadvanced/ng-remote-validate direttiva per la validazione remota-->
+		  <div class="control-group">
+		    <label class="control-label" for="inputUsername">Username</label>
+		    <div class="controls">
+		      <input type="text" 
+		      		name="inputUsername" 
+		      		id="inputUsername" 
+		      		placeholder="Username" 
+		      		ng-model="newUser.username" 
+		      		required
+		      		ng-remote-validate="/users/1.0/validateUsername" 
+           			ng-remote-method="GET"
+           			ng-remote-throttle="0"
+           			ng-model-options="{ updateOn: 'blur' }">
+		      
+		      <p ng-show="form.inputUsername.$error.required && form.inputUsername.$dirty" class="help-block">Username is required.</p>
+		      <p ng-show="form.inputUsername.$error.ngRemoteValidate && !form.inputUsername.$pristine" class="help-block">Username already exists.</p>
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <label class="control-label" for="inputFirstname">Firstname</label>
+		    <div class="controls">
+		      <input type="text" id="inputFirstname" placeholder="Firstname" ng-model="newUser.firstName">
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <label class="control-label" for="inputLastname">Lastname</label>
+		    <div class="controls">
+		      <input type="text" id="inputLastname" placeholder="Lastname" ng-model="newUser.lastName">
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <label class="control-label" for="inputEmail">Email</label>
+		    <div class="controls">
+		      <input type="email" 
+           			name="email" 
+           			id="inputEmail"
+           			placeholder="Email" 
+           			ng-model="newUser.email" 
+           			required
+           			ng-remote-validate="/users/1.0/validateEMail" 
+           			ng-remote-method="GET"
+           			ng-remote-throttle="0"
+           			ng-model-options="{ updateOn: 'blur' }">
+           	  <p ng-show="form.email.$error.required && form.email.$dirty" class="help-block">Email is required.</p>
+		      <p ng-show="form.email.$error.ngRemoteValidate && !form.email.$pristine" class="help-block">Email already exists.</p>
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <label class="control-label" for="inputMobile">Mobile</label>
+		    <div class="controls">
+		      <input type="text" 
+		      		name="mobile" 
+		      		id="inputMobile" 
+		      		placeholder="Mobile" 
+		      		ng-model="newUser.mobile" 
+		      		ng-remote-validate="/users/1.0/validateMobile" 
+           			ng-remote-method="GET"
+           			ng-remote-throttle="0"
+					ng-model-options="{ updateOn: 'blur' }">
+					<p ng-show="form.mobile.$error.ngRemoteValidate && !form.mobile.$pristine" class="help-block">Mobile already exists.</p>
+		    </div>
+		  </div>		  
+		  <div class="control-group">
+		    <label class="control-label" for="inputPassword">Password</label>
+		    <div class="controls">
+		      <input type="password" id="inputPassword" placeholder="Password" ng-model="newUser.password" required>
+		    </div>
+		  </div>
+		   <div class="control-group">
+		    <label class="control-label" for="inputRepeatPassword">Repeat password</label>
+		    <div class="controls">
+		      <input type="password" id="inputRepeatPassword" placeholder="Password" ng-model="repeatPassword" required>
+		    </div>
+		  </div>		  
+		  <div class="control-group">
+		    <div class="controls">
+		      <div class="btn btn-primary" ng-click="createUser()" ng-disabled="validate() == false">Create user</div>
+		      <div class="btn btn-primary" ng-click="reset(form)" ng-disabled="validate() == false">Clear form</div>
+		    </div>
+		    <div class="controls">
+		    	<div class="error">{{righterrormessage}}</div>
+		    </div>
+		    <div class="controls">
+		    	<div class="error">{{okmessage}}</div>
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <div class="controls">
+		      <div class="btn btn-primary" ng-click="googleRegistration()">Register with Google</div>
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <div class="controls">
+		      <div class="btn btn-primary" ng-click="facebookRegistration()">Register with Facebook</div>
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <div class="controls">
+		      <div class="btn btn-primary" ng-click="linkedinRegistration()">Register with LinkedIn</div>
+		    </div>
+		  </div>
+		</form>
+	</div>
+
+
+
+
+<!-- 
+<h3>Check Email</h3>
+<form name="emailForm">
+    <label for="email">Email</label>
+    <input type="email" 
+           name="email" 
+           placeholder="Email" 
+           ng-model="newUser.email" 
+           required
+           ng-remote-validate="/users/1.0/validateEMail" 
+           ng-remote-method="GET"
+           ng-model-options="{ updateOn: 'blur' }"
+           >
+    <span ng-show="emailForm.email.$error.required && emailForm.email.$dirty">
+        Required
+    </span>
+    <span ng-show="emailForm.email.$error.ngRemoteValidate">
+        Email already exists.
+    </span>
+    <div>
+    
+    <label for="username">Username</label>
+    <input type="text" 
+           name="username" 
+           placeholder="Username" 
+           ng-model="newUser.username" 
+           required
+           ng-remote-validate="/users/1.0/validateUsername" 
+           ng-remote-method="GET"
+           ng-model-options="{ updateOn: 'blur' }"
+           >
+    <span ng-show="emailForm.username.$error.required && emailForm.username.$dirty">
+        Required
+    </span>
+    <span ng-show="emailForm.username.$error.ngRemoteValidate">
+        Username already exists.
+    </span>
+    <div>
+    
+    
+        <button type="submit" 
+                ng-disabled="emailForm.$invalid || emailForm.$pending" 
+                ng-click="createUser()">
+            Save
+        </button>
+    </div>
+</form>
+ -->
+
+
+<!-- 
+
+<div>
+		<h3>New User Registration</h3>
+		<form name="form" novalidate>
+		  <div>
+		    <label for="inputUsername">Username</label>
+		    <div>
+		      <input type="text" name="inputUsername" id="inputUsername" placeholder="Username" ng-model="newUser.username" required unique-username ng-model-options="{ updateOn: 'blur' }">
+		      <p ng-show="form.inputUsername.$error.required && !form.inputUsername.$pristine" class="help-block">Username is required.</p>
+		      <p ng-show="form.inputUsername.$error.required && !form.inputUsername.$pristine">Username is required.</p>
+		      <p ng-show="form.inputUsername.$error.uniqueUsernameValidator && !form.inputUsername.$pristine">Username already exists.</p>
+		    </div>
+		  </div>
+		  <div>
+		    <label for="inputFirstname">Firstname</label>
+		    <div>
+		      <input type="text" name="inputFirstname" id="inputFirstname" placeholder="Firstname" ng-model="newUser.firstName" ng-model-options="{ updateOn: 'blur' }">
+		    </div>
+		  </div>
+		  <div>
+		    <label for="inputLastname">Lastname</label>
+		    <div>
+		      <input type="text" name="inputLastname" id="inputLastname" placeholder="Lastname" ng-model="newUser.lastName">
+		    </div>
+		  </div>
+		  <div>
+		    <label for="inputEmail">Email</label>
+		    <div>
+		      <input type="email" name="inputEmail" id="inputEmail" placeholder="Email" ng-model="newUser.email" required unique-email ng-model-options="{ updateOn: 'blur' }">
+		    </div>
+		  </div>
+		  <div>
+		    <label for="inputMobile">Mobile</label>
+		    <div>
+		      <input type="text" name="inputMobile" id="inputMobile" placeholder="Mobile" ng-model="newUser.mobile" unique-mobile ng-model-options="{ updateOn: 'blur' }">
+		    </div>
+		  </div>		  
+		  <div>
+		    <label for="inputPassword">Password</label>
+		    <div>
+		      <input type="password" name="inputPassword" id="inputPassword" placeholder="Password" ng-model="newUser.password" required>
+		    </div>
+		  </div>
+		   <div>
+		    <label for="inputRepeatPassword">Repeat password</label>
+		    <div>
+		      <input type="password" name="inputRepeatPassword" id="inputRepeatPassword" placeholder="Password" ng-model="repeatPassword" required>
+		    </div>
+		  </div>		  
+		  <div>
+		    <div>
+		      <div ng-click="createUser()" ng-disabled="validate() == false">Create user</div>
+		      <div ng-click="reset()" ng-disabled="validate() == false">Clear form</div>
+		    </div>
+		   	<div class="controls">
+		      <div class="btn btn-primary pull-right" ng-click="reset()" ng-disabled="validate() == false">Clear form</div>
+		    </div>
+		    <div>
+		    	<div>{{righterrormessage}}</div>
+		    </div>
+		    <div>
+		    	<div>{{okmessage}}</div>
+		    </div>
+		  </div>
+		  <div>
+		    <div>
+		      <div ng-click="googleRegistration()">Register with Google</div>
+		    </div>
+		  </div>
+		  <div>
+		    <div>
+		      <div ng-click="facebookRegistration()">Register with Facebook</div>
+		    </div>
+		  </div>
+		</form>
+	</div>
+
+    <pre>
+{{ form | json }}
+    </pre>
+
+ -->
+
+<!-- <div class="span6 hero-unit">
 		<h3>New User Registration</h3>
 		<form name="form" class="form-horizontal" novalidate>
 		  <div class="control-group">
 		    <label class="control-label" for="inputUsername">Username</label>
 		    <div class="controls">
 		      <input type="text" name="inputUsername" id="inputUsername" placeholder="Username" ng-model="newUser.username" required unique-username ng-model-options="{ updateOn: 'blur' }">
-		      <!-- <p ng-show="form.inputUsername.$error.required && !form.inputUsername.$pristine" class="help-block">Username is required.</p> -->
+		      <p ng-show="form.inputUsername.$error.required && !form.inputUsername.$pristine" class="help-block">Username is required.</p>
 		      <p ng-show="form.inputUsername.$error.required && !form.inputUsername.$pristine" class="help-block">Username is required.</p>
 		      <p ng-show="form.inputUsername.$error.uniqueUsernameValidator && !form.inputUsername.$pristine" class="help-block">Username already exists.</p>
 		    </div>
@@ -51,9 +296,9 @@
 		      <div class="btn btn-primary" ng-click="createUser()" ng-disabled="validate() == false">Create user</div>
 		      <div class="btn btn-primary" ng-click="reset()" ng-disabled="validate() == false">Clear form</div>
 		    </div>
-<!-- 		   	<div class="controls">
+		   	<div class="controls">
 		      <div class="btn btn-primary pull-right" ng-click="reset()" ng-disabled="validate() == false">Clear form</div>
-		    </div> -->
+		    </div>
 		    <div class="controls">
 		    	<div class="error">{{righterrormessage}}</div>
 		    </div>
@@ -72,4 +317,4 @@
 		    </div>
 		  </div>
 		</form>
-	</div>
+	</div> -->

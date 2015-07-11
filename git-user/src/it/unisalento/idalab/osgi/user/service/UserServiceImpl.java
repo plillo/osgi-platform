@@ -1,6 +1,7 @@
 package it.unisalento.idalab.osgi.user.service;
 
 import java.util.Date;
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,8 @@ import net.vz.mongodb.jackson.DBCursor;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 
 import org.amdatu.mongo.MongoDBService;
+import org.osgi.service.cm.ConfigurationException;
+import org.osgi.service.cm.ManagedService;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 
@@ -20,11 +23,15 @@ import it.unisalento.idalab.osgi.user.persistence.api.UserServicePersistence;
 import it.unisalento.idalab.osgi.user.api.User;
 import it.unisalento.idalab.osgi.user.api.UserService;
 
-public class UserServiceImpl implements UserService{
+@SuppressWarnings("rawtypes")
+public class UserServiceImpl implements UserService, ManagedService {
+	Dictionary properties;
+	
 	private volatile EventAdmin _eventAdmin;
 	private volatile MongoDBService _mongoDBService;
 	private volatile Password _passwordService;
 	private volatile UserServicePersistence _userPersistenceService;
+	private Validator validator = new Validator();
 	
 	void start(){
 		System.out.println("started service: "+this.getClass().getName());
@@ -121,5 +128,13 @@ public class UserServiceImpl implements UserService{
 		
 		return map;
 	}
+	
+	@Override
+	public void updated(Dictionary properties) throws ConfigurationException {
+		this.properties = properties;
+		
+		validator.setProperties(properties);
+	}
+
 
 }

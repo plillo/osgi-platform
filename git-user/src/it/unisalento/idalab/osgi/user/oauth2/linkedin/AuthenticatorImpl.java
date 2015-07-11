@@ -1,4 +1,4 @@
-package it.unisalento.idalab.osgi.user.oauth2.facebook;
+package it.unisalento.idalab.osgi.user.oauth2.linkedin;
 
 import it.unisalento.idalab.osgi.user.oauth2.authenticator.Authenticator;
 
@@ -30,11 +30,12 @@ public class AuthenticatorImpl implements Authenticator {
 			URL url = null;
 			String urlParameters = null;
 			
+			// TODO: parametrizzare maggiormente questi parametri URL
 			urlParameters = "code="
 	                + code
-	                + (String) parameters.get("fixParameters_facebook");
+	                + (String) parameters.get("fixParameters_linkedin");
 			
-			url = new URL((String) parameters.get("tokenURL_facebook"));
+			url = new URL((String) parameters.get("tokenURL_linkedin"));
 			
 			// write to connection
 	        URLConnection urlConn = url.openConnection();
@@ -51,9 +52,9 @@ public class AuthenticatorImpl implements Authenticator {
 	        }
 	        
 	        // get token from response
-        	String[] pairs = outputString.split("&");
-        	String[] tmp = pairs[0].split("=");
-        	access_token = tmp[1];
+	        ObjectMapper mapper = new ObjectMapper();
+	        JsonNode jsn = mapper.readTree(outputString);
+	        access_token = jsn.path("access_token").getTextValue();
             
 	        writer.close();
 	        reader.close();
@@ -73,7 +74,8 @@ public class AuthenticatorImpl implements Authenticator {
 		Map<String, Object> mapInfo = new TreeMap<String, Object>();
 		String outputString = null;
 		try {
-			URL url = new URL((String) parameters.get("userInfoURL_facebook")+token);
+			// TODO: parametrizzare meglio questo URL in funzione dell'autenticatore
+			URL url = new URL((String) parameters.get("userInfoURL_linkedin")+token);
 			URLConnection urlConn = url.openConnection();
 	        String line; 
 	        outputString = "";
@@ -88,8 +90,8 @@ public class AuthenticatorImpl implements Authenticator {
 	        JsonNode jsn = mapper.readTree(outputString);
 	        
 	        mapInfo.put("email", jsn.path("email").getTextValue());
-	        mapInfo.put("firstName",jsn.path("first_name").getTextValue());
-	        mapInfo.put("lastName",jsn.path("last_name").getTextValue());
+	        mapInfo.put("firstName",jsn.path("firstName").getTextValue());
+	        mapInfo.put("lastName",jsn.path("lastName").getTextValue());
 	        
 		} catch (MalformedURLException e) {
 	        System.out.println( e);
@@ -101,10 +103,10 @@ public class AuthenticatorImpl implements Authenticator {
         
 		return mapInfo;
 	}
-
+	
 	@Override
 	public String getName() {
-		return "facebook";
+		return "linkedin";
 	}
 
 	@Override

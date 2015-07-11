@@ -58,19 +58,37 @@ angular.module("userUI").directive('uniqueUsername',['$http', '$q', function($ht
 		require: 'ngModel',
 		link: function (scope, element, attrs, ngModel) {
 			ngModel.$asyncValidators.uniqueEmailValidator = function(value) {
+				//return false;
 				if (!ngModel.$pristine){
-					return $http.get('/users/1.0/validateEMail?email=' + value).
+					var defer = $q.defer();
+					
+				      return $http.get('/users/1.0/validateEMail?email=' + value)
+				         .then(function(response) {
+				           //username exists, this means validation success
+				        	 alert(response.data.isValid==true);
+				        	// alert('OK');
+				           //return $q.reject('selected username does not exists');
+				        	 return (response.data.isValid==true);
+				         }, function() {
+				           //username does not exist, therefore this validation fails
+				           return $q.reject('selected username does not exists');
+				         });
+					
+/*					return $http.get('/users/1.0/validateEMail?email=' + value).
 					 success(function(data, status, headers, config) {
 					    alert(data.message);
-						 //alert(data.isValid);
+						 //alert(attrs.toString());
+					    defer.reject();
 					    //return data.isValid
-					    return false;
+					    //ngModel.$setValidity('uniqueEmailValidator', false);
+					    //return false;
 					  }).
 					  error(function(data, status, headers, config) {
 						  alert(data.message);
 						  return false;
-					  });
+					  });*/
 			}
+				return defer.promise();
 			}
 			
 		}
@@ -82,6 +100,7 @@ angular.module("userUI").directive('uniqueUsername',['$http', '$q', function($ht
 		require: 'ngModel',
 		link: function (scope, element, attrs, ngModel) {
 			ngModel.$asyncValidators.uniqueMobileValidator = function(value) {
+				if (!ngModel.$pristine){
 					return $http.get('/users/1.0/validateMobile?mobile=' + value).
 					 success(function(data, status, headers, config) {
 					    alert(data.message);
@@ -94,7 +113,7 @@ angular.module("userUI").directive('uniqueUsername',['$http', '$q', function($ht
 						  return false;
 					  });
 			}
-			
+			}
 		}
 	}
 }])
