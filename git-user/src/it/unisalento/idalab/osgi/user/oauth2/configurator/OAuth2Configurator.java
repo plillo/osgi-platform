@@ -2,7 +2,6 @@ package it.unisalento.idalab.osgi.user.oauth2.configurator;
 
 import it.unisalento.idalab.osgi.user.oauth2.authenticator.Authenticator;
 
-import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +9,7 @@ import java.util.Map;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
 
+@SuppressWarnings("rawtypes")
 public class OAuth2Configurator implements ManagedService{
 	
 //	ArrayList<Authenticator> authenticators = new ArrayList<Authenticator>();
