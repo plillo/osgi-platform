@@ -1,5 +1,8 @@
 package it.unisalento.idalab.osgi.user.rest;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -7,6 +10,7 @@ import java.util.TreeMap;
 import it.unisalento.idalab.osgi.user.api.User;
 import it.unisalento.idalab.osgi.user.api.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -14,12 +18,17 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.amdatu.web.rest.doc.Description;
 import org.amdatu.web.rest.doc.Notes;
 import org.amdatu.web.rest.doc.ResponseMessage;
 import org.amdatu.web.rest.doc.ResponseMessages;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 @Path("users/1.0")
 @Description("API for Users management version 1.0")
@@ -41,7 +50,53 @@ public class UserResources {
 	public Map<String, Object> create(User user) {
 		return _userService.createUser(user);
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	@POST
+	@Path("createx")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Description("Create users")
+	public Map<String, Object> createx(@Context HttpServletRequest request) {
+		boolean simulation = false;
+		BufferedReader reader = null;
+
+        System.out.println("createx");
+		Map<String, Object> response = new TreeMap<String, Object>();
+		ServletFileUpload uploader = new ServletFileUpload(new DiskFileItemFactory());
+	    try {
+	        List<FileItem> parseRequest = uploader.parseRequest(request);
+	        for (FileItem fileItem : parseRequest) {
+	            if (fileItem.isFormField()) {
+	                System.out.println(fileItem.getFieldName() + ": " + fileItem.getString());
+	                if("simulation".equals(fileItem.getFieldName()))
+	                	simulation = Boolean.parseBoolean(fileItem.getString());
+	            }
+	            else {
+	            	try {
+						reader = new BufferedReader(new InputStreamReader(fileItem.getInputStream()));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+           	
+	                System.out.println(fileItem.getName());
+	            }
+	        }
+	        
+			if(reader!=null)
+				try {
+					_userService.createUsersByCSV(reader, simulation, false);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    } catch (FileUploadException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return response;
+	}
 	
 	@GET
 	@Path("login")
@@ -49,22 +104,37 @@ public class UserResources {
 	@Notes("Login resourse API")
 	@Produces(MediaType.APPLICATION_JSON)
 	@ResponseMessages({ @ResponseMessage(code = 200, message = "In case of success") })
-	public Map<String, Object> login(@QueryParam("username") String username, @QueryParam("email") String email, @QueryParam("mobile") String mobile, @QueryParam("password") String password) {
-		Map<String, Object> map = new TreeMap<String, Object>();
+	public Map<String, Object> login(@QueryParam("identificator") String identificator, @QueryParam("password") String password) {
+		Map<String, Object> response = new TreeMap<String, Object>();
 		
+		// Return ERROR if missing password
 		if (password == null || "".equals(password)) {
-			map.put("isLogged", false);
-			map.put("message", "Missing password");
-			map.put("status", 401);
+			response.put("isLogged", false);
+			response.put("message", "Missing password");
+			response.put("status", 401);
 
-			return map;
+			return response;
 		}
 		
-		map.put("isLogged", true);
-		map.put("message", "");
-		map.put("status", 400);
+		// Check and identify the type of identificator (username/email/mobile)
+		Map<String, Object> validate = _userService.validateIdentificator(identificator);
+		
+		if((Boolean)validate.get("isValid")) {
+			Map<String, Object> map = new TreeMap<String, Object>();
+			map.put("password", password);
+			
+			String identificator_type = (String)validate.get("identificatorType");
+			if("username".equals(identificator_type))
+				map.put("username", identificator);
+			else if("email".equals(identificator_type))
+				map.put("email", identificator);
+			else if("mobile".equals(identificator_type))
+				map.put("mobile", identificator);
+			
+			return _userService.login(map);
+		}
 
-		return map;
+		return response;
 	}
 	
 	@GET
@@ -73,6 +143,24 @@ public class UserResources {
 	public String getByUserId(@PathParam("userId") String userId)
 			throws Exception {
 		return "Load UID: "+userId;
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("validateIdentificator")
+	public Map<String, Object> validateIdentificator(@QueryParam("value") String identificator) {
+		Map<String, Object> validation = new TreeMap<String, Object>();
+		validation.put("validatingItem", identificator);
+		
+		Map<String, Object> response = _userService.validateIdentificator(identificator);
+		
+		boolean isValid = (Boolean)response.get("isValid");
+		validation.put("isValid", isValid);
+		validation.put("identificatorType", response.get("identificatorType"));
+		validation.put("message", "\""+identificator+"\" is "+(isValid?"":"not ")+"a valid identificator");
+		validation.put("status", 400);
+
+		return validation;
 	}
 	
 	@GET

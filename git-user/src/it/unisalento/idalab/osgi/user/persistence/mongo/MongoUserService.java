@@ -27,6 +27,7 @@ public class MongoUserService implements UserServicePersistence {
 	private static final String COLLECTION = "users";
 	// Injected services
 	private volatile MongoDBService m_mongoDBService;
+	@SuppressWarnings("unused")
 	private volatile LogService logService;
 	private volatile Password passwordService;
 	
@@ -61,28 +62,28 @@ public class MongoUserService implements UserServicePersistence {
 			// TODO get User with constraining conditions
 		}
 		else {
-			if(user.containsKey("userId")) {
+			if(user.containsKey("userId") && user.get("userId")!=null) {
 				found_user = users.findOne(new BasicDBObject("_id", user.get("userId")));
 				if(found_user!=null){
 					ids.add(found_user.get_id());
 					matchs.put("userId", found_user);
 				}
 			}
-			if(user.containsKey("username")) {
+			if(user.containsKey("username") && user.get("username")!=null) {
 				found_user = users.findOne(new BasicDBObject("username", user.get("username")));
 				if(found_user!=null){
 					ids.add(found_user.get_id());
 					matchs.put("username", found_user);
 				}
 			}
-			if(user.containsKey("email")) {
+			if(user.containsKey("email") && user.get("email")!=null) {
 				found_user = users.findOne(new BasicDBObject("email", user.get("email")));
 				if(found_user!=null){
 					ids.add(found_user.get_id());
 					matchs.put("email", found_user);
 				}
 			}
-			if(user.containsKey("mobile")) {
+			if(user.containsKey("mobile") && user.get("mobile")!=null) {
 				found_user = users.findOne(new BasicDBObject("mobile", user.get("mobile")));
 				if(found_user!=null){
 					ids.add(found_user.get_id());
@@ -108,6 +109,7 @@ public class MongoUserService implements UserServicePersistence {
 		return response;
 	}
 	
+	@Override
 	public Map<String, Object> getUser(User user) {
 		Map<String, Object> map = new TreeMap<String, Object>();
 		if(user.get_id()!=null && !"".equals(user))
@@ -168,12 +170,15 @@ public class MongoUserService implements UserServicePersistence {
 	public Map<String, Object> createUser(User user) {
 		Map<String, Object> response = new TreeMap<String, Object>();
 		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
+		
+		// Match user
 		Map<String, Object> result = getUser(user);
 
+		// If new user
 		if((int)result.get("matched")==0) {
 			String password = user.getPassword();
 			// Controllo di presenza di una password: in assenza impostazione di una password predefinita
-			// N.B. :in realt� il controllo sulla password va fatto a monte dal chiamante del metodo createUser
+			// N.B. :in realtà il controllo sulla password va fatto a monte dal chiamante del metodo createUser
 			if(user.getPassword()==null || "".equals(user.getPassword()))
 				password = "0123456789";  
 				
@@ -187,21 +192,28 @@ public class MongoUserService implements UserServicePersistence {
 			String savedId = users.save(user).getSavedId();
 			if(savedId!=null) {
 				User created_user = users.findOneById(savedId);
-				if(created_user!=null)
+				if(created_user!=null) {
 					response.put("user", created_user);
+					response.put("created", true);
+				}
 			}
-		}else if((int)result.get("matched")==1){
-			System.out.println("Utente esistente");
-			User existing_user = (User) result.get("user");
-			if(existing_user!=null)
-				response.put("user", existing_user);
 		}
+		// If existing user
+		else if((int)result.get("matched")==1){
+			User existing_user = (User) result.get("user");
+			if(existing_user!=null) {
+				response.put("user", existing_user);
+				response.put("created", false);
+			}
+		}
+		// If existing many users
 		else{
 			//una mappa con più utenti trovati
 			System.out.println("Esistono più utenti");
+			response.put("created", false);
 		}
 		
-		// TODO: Gestire bene la composizione della risposta (deve essere pi� informativa possibile)
+		// TODO: Gestire bene la composizione della risposta (deve essere più informativa possibile)
 
 		return response;
 	}
@@ -258,58 +270,45 @@ public class MongoUserService implements UserServicePersistence {
 	// =====
 	@Override
 	public Map<String, Object> login(Map<String, Object> user) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		String password = (String) user.get("password");
 		
-		Map<String,Object> map = new HashMap<String,Object>();
-		Map<String,Object> response = new HashMap<String,Object>();
-        String username = (String) user.get("username");
-        String email = (String) user.get("email");
-        String mobile = (String) user.get("mobile");
-        String password = (String) user.get("password");
-        
-		User usr = new User();
-		User userFound = new User();
-		if(username!=null){
-		usr.setUsername(username);
-		}
-		else
-			response.put("code", 101);
-		if(email!=null){
-		usr.setEmail(email);
-		}
-		else
-			response.put("code", 102);
-		if(mobile!=null){
-		usr.setMobile(mobile);
-		}
-		else
-			response.put("code", 103);
-		map = getUser(usr);
-		userFound = (User) map.get("user");
-		
-		
-		
-		
-		if(userFound!=null){
-		try {
-			if(passwordService.check(password, userFound.getPassword())){
-				System.out.println("LOG IN!!!");
-				logService.log(LogService.LOG_INFO, "LOG IN!!!");
-				response.put("user", usr);
-				response.put("code", 100);
-			}else
-				response.put("code", 104);	
+		// Return ERROR if missing password
+		if (password == null || "".equals(password)) {
+			response.put("status", 101); // 101: missing password
 
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return response;
 		}
-		}
-		else{
-			response.put("code", 105);
-		}
-		System.out.println("Login response CODE:"+ response.get("code"));
-		return response;
 		
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(user.containsKey("username"))
+			map.put("username", user.get("username"));
+		if(user.containsKey("email"))
+			map.put("email", user.get("email"));
+		if(user.containsKey("mobile"))
+			map.put("mobile", user.get("mobile"));
+
+		// Search and get user
+		map = getUser(map);
+		
+		// Get reference to user (if found)
+		User userFound = (User) map.get("user");
+		if (userFound != null) {
+			try {
+				if (passwordService.check(password, userFound.getPassword())) {
+					response.put("user", userFound);
+					response.put("returnCode", 100);
+				} else
+					response.put("returnCode", 102); // 102: mismatched password
+
+			} catch (Exception e) {
+				response.put("returnCode", 103); // 103: exception
+			}
+		} else {
+			response.put("returnCode", 110); // 110: no user matching username/email/mobile
+		}
+		
+		return response;
 	}
 
 	// VALIDATE methods
@@ -317,7 +316,7 @@ public class MongoUserService implements UserServicePersistence {
 	@Override
 	public Map<String, Object> validateUsername(String userId, String username) {
 		// TODO ...
-		// il metodo verifica la validità in termini di unicità dello username; 
+		// il metodo verifica la validit� in termini di unicit� dello username; 
 		// se userId NON � null lo username da validare � accettabile ANCHE se coincide con l'attuale username dell'utente userId.
 		// Se invece userId � null allora username � accettabile solo se NON gi� associato a un utente.
 		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);

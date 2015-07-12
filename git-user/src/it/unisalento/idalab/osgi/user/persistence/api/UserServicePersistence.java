@@ -10,6 +10,7 @@ public interface UserServicePersistence {
 	Map<String, Object> createUser(User user);
 	
 	// READ
+	Map<String, Object> getUser(User user);
 	Map<String,Object> getUser(Map<String, Object> user);
 	Map<String,Object> getConstrainedUser(Map<String, Object> user);
 	List<User> getUsers();

@@ -56,7 +56,7 @@ public class Validator {
 		return mobileRule;
 	}
 	
-	public boolean isValidEMail(String input){
+	public boolean isValidEmail(String input){
 		if(input==null || "".equals(input)) return false;
 
 		return emailPattern.matcher(input.trim().toLowerCase()).find();
@@ -71,7 +71,7 @@ public class Validator {
 	public boolean isValidUsername(String input){
 		if(input==null || "".equals(input)) return false;
 
-		return usernamePattern.matcher(input).find() ? true : isValidEMail(input);
+		return usernamePattern.matcher(input).find() ? true : isValidEmail(input);
 	}
 
 	public boolean isValidPassword(String input){
@@ -85,8 +85,14 @@ public class Validator {
 		Enumeration e = properties.keys();
 		while(e.hasMoreElements()) {
 			String key = (String)e.nextElement();
-			System.out.println(key);
+			if("username-rule".equals(key))
+				setUsernameRule((String)properties.get(key));
+			if("password-rule".equals(key))
+				setPasswordRule((String)properties.get(key));
+			if("email-rule".equals(key))
+				setEmailRule((String)properties.get(key));
+			if("mobile-rule".equals(key))
+				setMobileRule((String)properties.get(key));
 		}
-		
 	}
 }

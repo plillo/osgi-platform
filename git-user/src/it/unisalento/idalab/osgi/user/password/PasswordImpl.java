@@ -9,13 +9,14 @@ import javax.crypto.spec.PBEKeySpec;
 import org.apache.commons.codec.binary.Base64;
 
 public class PasswordImpl implements Password {
-    private static final int iterations = 20*1000;
+    private static final int iterations = 20*10/*00*/;
     private static final int saltLen = 32;
     private static final int desiredKeyLen = 256;
     
     public String getSaltedHash(String password) throws Exception {
         byte[] salt = SecureRandom.getInstance("SHA1PRNG").generateSeed(saltLen);
-        // store the salt with the password
+        
+        // store the salt with the hashed password
         return Base64.encodeBase64String(salt) + "$" + hash(password, salt);
     }
     
