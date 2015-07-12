@@ -2,7 +2,6 @@ package it.unisalento.idalab.osgi.user.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -16,7 +15,6 @@ import net.vz.mongodb.jackson.DBCursor;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 
 import org.amdatu.mongo.MongoDBService;
-import org.apache.commons.fileupload.FileItem;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
 import org.osgi.service.event.Event;
@@ -48,6 +46,7 @@ public class UserServiceImpl implements UserService, ManagedService {
 
 	@Override
 	public Map<String, Object> login(Map<String, Object> pars) {
+		@SuppressWarnings("unused")
 		Map<String, Object> response = new HashMap<String, Object>();
 		
 		Map<String, Object> login = _userPersistenceService.login(pars);
@@ -185,6 +184,7 @@ public class UserServiceImpl implements UserService, ManagedService {
 		return String.format("%0"+length+".0f",Math.random()*Math.pow(10, length));
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void createUsersByCSV(BufferedReader reader, boolean simulation, boolean activation) throws IOException {
 		StringBuffer log = new StringBuffer();
