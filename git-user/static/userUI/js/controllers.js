@@ -1,5 +1,5 @@
-angular.module("userUI").controller('RegisterController', ['$scope', '$http', '$window',
-  function($scope, $http, $window) {
+angular.module("userUI").controller('RegisterController', ['$scope', '$http', '$window', '$rootScope', '$location',
+  function($scope, $http, $window, $rootScope, $location) {
     
     $scope.newUser = {};
     
@@ -8,8 +8,13 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http', '$
     	//alert($scope.form.$valid);
 		if($scope.validate() == true) {
 			$http.post('/users/1.0', $scope.newUser).success(function(data) {
-				alert("data.isValid="+data.isValid);
-				if (data.isValid) $scope.okmessage = "New user created";
+				//alert("data.isValid="+data.isValid);
+				if (data.created) {
+					$scope.okmessage = "New user created";
+					$rootScope.user = data.user.email;
+					//alert($rootScope.user);
+					$location.path("/user");
+				}
 			}).error(function() {
 				$scope.righterrormessage = "Failed to create user";
 			});
@@ -62,6 +67,8 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http', '$
 	      }
 		$scope.newUser={};
 		$scope.repeatPassword="";
+		$scope.okmessage="";
+		$scope.righterrormessage="";
 	}
   }])
   .controller('LoginController', ['$scope', '$location', '$sce', '$http',
@@ -98,13 +105,14 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http', '$
 		  return $scope.loginForm.$valid;
 	  }
   }])
-  .controller('UserController', ['$scope', '$location', '$sce', '$http',
-                                 function($scope, $location, $sce, $http) {
+  .controller('UserController', ['$scope', '$location', '$sce', '$http', '$rootScope',
+                                 function($scope, $location, $sce, $http, $rootScope) {
 
 	  $scope.logout = function() {
 
 		  $http.get('/users/1.0/logout')
 		  .success(function(data, status, headers, config) {
+			  $rootScope.user="";
 			  $location.path("/");
 		  }).error(function() {
 			  $location.path("/");
