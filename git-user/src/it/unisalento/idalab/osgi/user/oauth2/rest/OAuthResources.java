@@ -2,8 +2,8 @@ package it.unisalento.idalab.osgi.user.oauth2.rest;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.TreeMap;
 
-import it.unisalento.idalab.osgi.user.api.User;
 import it.unisalento.idalab.osgi.user.api.UserService;
 import it.unisalento.idalab.osgi.user.oauth2.manager.Manager;
 
@@ -40,12 +40,12 @@ public class OAuthResources {
 			Map<String, Object> authenticated_user_map = _OAuthManager.authenticate(code, authenticator);
 			
 	        // Create user
-	        User user = new User();
-	        user.setEmail((String)authenticated_user_map.get("email"));
-	        user.setFirstName((String)authenticated_user_map.get("firstName"));
-	        user.setLastName((String)authenticated_user_map.get("lastName"));
+	        Map<String, Object> user = new TreeMap<String, Object>();
+	        user.put("email", ((String)authenticated_user_map.get("email")));
+	        user.put("firstName", ((String)authenticated_user_map.get("firstName")));
+	        user.put("lastName", ((String)authenticated_user_map.get("lastName")));
 	        
-	        return _userService.createUser(user);
+	        return _userService.loginByOAuth2(user);
 	        
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block

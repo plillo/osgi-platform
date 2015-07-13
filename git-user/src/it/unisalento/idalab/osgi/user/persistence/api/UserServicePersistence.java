@@ -8,6 +8,7 @@ import java.util.Map;
 public interface UserServicePersistence {
 	// CREATE
 	Map<String, Object> createUser(User user);
+	Map<String, Object> createUser(Map<String, Object> user);
 	
 	// READ
 	Map<String, Object> getUser(User user);

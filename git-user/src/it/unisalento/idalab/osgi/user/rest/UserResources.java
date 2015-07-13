@@ -48,7 +48,7 @@ public class UserResources {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Description("Create a user")
 	public Map<String, Object> create(User user) {
-		return _userService.createUser(user);
+		return _userService.create(user);
 	}
 
 	@SuppressWarnings("unchecked")

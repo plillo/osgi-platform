@@ -2,7 +2,7 @@ package it.unisalento.idalab.osgi.user.api;
 
 import net.vz.mongodb.jackson.ObjectId;
 
-public class User {
+public class User implements Comparable<User>{
 
 	@ObjectId
 	private String _id;
@@ -184,6 +184,11 @@ public class User {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	@Override
+	public int compareTo(User obj) {
+       return this._id.compareTo(obj.get_id());
 	}
 	
 	
