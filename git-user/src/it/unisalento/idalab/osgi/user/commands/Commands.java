@@ -24,7 +24,7 @@ public class Commands {
 		user.setLastName(lastname);
 		user.setPassword(password);
 		
-		Map<String, Object> ret = _userService.createUser(user);
+		Map<String, Object> ret = _userService.create(user);
 		String status = (String) ret.get("status");
 		System.out.println("called shell command 'createUser' - execution status: "+status);
 	}

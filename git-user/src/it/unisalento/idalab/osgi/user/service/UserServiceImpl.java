@@ -98,15 +98,17 @@ public class UserServiceImpl implements UserService, ManagedService {
 	}
 
 	@Override
-	public Map<String, Object> createUser(User user) {
+	public Map<String, Object> loginByOAuth2(Map<String, Object> user) {
 		Map<String, Object> ret = new HashMap<>();
 		Map<String, Object> context = new HashMap<>();
 		Map<String, Object> timing = new HashMap<>();
 		timing.put("start", System.nanoTime());
 		context.put("id-code", "AN-031");
 
+		user.put("password", _getRandomPassword(10));
+
 		@SuppressWarnings("unused")
-		Map<String,Object> upr = _userPersistenceService.createUser(user);
+		Map<String,Object> upr = _userPersistenceService.loginByOAuth2(user);
 		
 		timing.put("end", System.nanoTime());
 		context.put("error-code", 0);
@@ -312,6 +314,18 @@ public class UserServiceImpl implements UserService, ManagedService {
 		}
 
 		System.out.println(log.toString());
+	}
+
+
+	@Override
+	public Map<String, Object> create(User user) {
+		return _userPersistenceService.createUser(user);
+	}
+
+
+	@Override
+	public String generatePassword() {
+		return _getRandomPassword(10);
 	}
 
 

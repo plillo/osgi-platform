@@ -154,7 +154,7 @@ public class OAuth2CallbackImpl implements OAuth2Callback{
 	        default:
 	        	break;
 	        }	
-	        userService.createUser(user);
+	        userService.create(user);
 	        
 		} catch (MalformedURLException e) {
 	        System.out.println( e);
