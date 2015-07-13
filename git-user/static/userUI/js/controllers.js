@@ -100,8 +100,6 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http', '$
   }])
   .controller('UserController', ['$scope', '$location', '$sce', '$http',
                                  function($scope, $location, $sce, $http) {
-	  $scope.passwordTooltip = $sce.trustAsHtml('Insert password used during registration');
-	  $scope.userTooltip = $sce.trustAsHtml('Insert username, email or mobile used during registration');
 
 	  $scope.logout = function() {
 
