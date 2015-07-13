@@ -1,0 +1,36 @@
+ <div class="control-group">
+   <div class="controls">
+     <div class="btn btn-success pull-right" ng-click="go('/register')">Go to Register</div>
+   </div>
+ </div>
+<div class="span6">
+<h3>Login</h3>
+<form name="loginForm" class="form-horizontal" novalidate>
+  <div class="control-group">
+    <label class="control-label" for="inputUser">User</label>
+    <div class="controls">
+      <input type="text" id="inputUser" placeholder="Username/Email/Mobile" ng-model="logindetails.user" required>
+      <a href="" tooltip-html="userTooltip">?</a>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">Password</label>
+    <div class="controls">
+      <input type="password" id="inputPassword" placeholder="Password" ng-model="logindetails.password" required>
+      <a href="" tooltip-html="passwordTooltip">?</a>
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <div class="btn btn-primary" ng-click="login()" ng-disabled="!validate()">Login</div>
+    </div>
+    <div class="controls">
+    	<div class="error">{{errormessage}}</div>
+    </div>
+  </div>
+</form>
+
+<!-- <p>{{ loginForm | json }}</p> -->
+
+
+</div>
