@@ -5,11 +5,10 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http', '$
     
     
     $scope.createUser = function() {
-    	alert($scope.form.$valid);
-		if(($scope.validate() == true) && ($scope.form.$valid == true)) {
-			alert("post");
+    	//alert($scope.form.$valid);
+		if($scope.validate() == true) {
 			$http.post('/users/1.0', $scope.newUser).success(function(data) {
-				alert(data._context.timing.start);
+				alert("data.isValid="+data.isValid);
 				if (data.isValid) $scope.okmessage = "New user created";
 			}).error(function() {
 				$scope.righterrormessage = "Failed to create user";
@@ -39,11 +38,15 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http', '$
     }
     
 	$scope.validate = function() {
-		if($scope.newUser.password != $scope.repeatPassword) {
+		if ($scope.form.$valid && ($scope.newUser.password != $scope.repeatPassword)) {
 			return false;
 		}
 
-		if($scope.newUser.email == undefined || $scope.newUser.email.lenght == 0) {
+		if ($scope.form.$valid && ($scope.newUser.email == undefined || $scope.newUser.email.lenght == 0)) {
+			return false;
+		}
+		
+		if (!$scope.form.$valid) {
 			return false;
 		}
 
@@ -52,7 +55,7 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http', '$
     
 	
 	$scope.reset = function(form) { 
-		alert("Clear Form");
+		//alert("Clear Form");
 	    if (form) {
 	        form.$setPristine();
 	        form.$setUntouched();
@@ -60,4 +63,53 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http', '$
 		$scope.newUser={};
 		$scope.repeatPassword="";
 	}
+  }])
+  .controller('LoginController', ['$scope', '$location', '$sce', '$http',
+                                  function($scope, $location, $sce, $http) {
+
+	  $scope.logindetails = {};
+
+	  $scope.go = function (path) {
+		  $location.path(path);
+	  };
+
+	  $scope.passwordTooltip = $sce.trustAsHtml('Insert password used during registration');
+	  $scope.userTooltip = $sce.trustAsHtml('Insert username, email or mobile used during registration');
+
+	  $scope.login = function() {
+
+		  if ($scope.validate()){
+			  $http.get('/users/1.0/login?identificator='+$scope.logindetails.user+'&password='+$scope.logindetails.password)
+			  .success(function(data, status, headers, config) {
+				  
+				  if (data.returnCode == 110){
+					  $scope.errormessage = "Invalid credentials!";
+				  }else{
+					  $location.path("/user");
+				  }
+				  
+			  }).error(function() {
+				  $scope.errormessage = data.message;
+			  });
+		  }
+	  };
+
+	  $scope.validate = function(){
+		  return $scope.loginForm.$valid;
+	  }
+  }])
+  .controller('UserController', ['$scope', '$location', '$sce', '$http',
+                                 function($scope, $location, $sce, $http) {
+	  $scope.passwordTooltip = $sce.trustAsHtml('Insert password used during registration');
+	  $scope.userTooltip = $sce.trustAsHtml('Insert username, email or mobile used during registration');
+
+	  $scope.logout = function() {
+
+		  $http.get('/users/1.0/logout')
+		  .success(function(data, status, headers, config) {
+			  $location.path("/");
+		  }).error(function() {
+			  $location.path("/");
+		  });
+	  };
   }]);

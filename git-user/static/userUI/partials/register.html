@@ -79,7 +79,9 @@
 		  <div class="control-group">
 		    <div class="controls">
 		      <div class="btn btn-primary" ng-click="createUser()" ng-disabled="validate() == false">Create user</div>
-		      <div class="btn btn-primary" ng-click="reset(form)" ng-disabled="validate() == false">Clear form</div>
+<!-- 		      <div class="btn btn-primary" ng-click="reset(form)" ng-disabled="validate() == false">Clear form</div> -->
+<!-- 		      <div class="btn btn-primary" ng-click="reset(form)" ng-disabled="form.$pristine">Clear form</div> -->
+		      <button type="button" class="btn btn-primary" ng-click="reset(form)" ng-disabled="form.$pristine">Reset</button>
 		    </div>
 		    <div class="controls">
 		    	<div class="error">{{righterrormessage}}</div>
@@ -105,7 +107,6 @@
 		  </div>
 		</form>
 	</div>
-
 
 
 
