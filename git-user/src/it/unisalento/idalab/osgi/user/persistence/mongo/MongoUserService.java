@@ -349,10 +349,14 @@ public class MongoUserService implements UserServicePersistence {
 			response.put("created", false);
 			response.put("user", result.get("user"));
 			response.put("returnCode", 100); // 100: existing user
-			if(updateResult.containsKey("updated"))
-			response.put("updated", updateResult.get("updated") );
+			if(updateResult.containsKey("updatedFields"))
+				response.put("updatedFields", updateResult.get("updatedFields") );
+			if(updateResult.containsKey("addedFields"))
+				response.put("addedFields", updateResult.get("addedFields") );
+			
 		}
 		else if((int)result.get("matched")==0){
+			// il metodo createUser produce le chiavi "created" (boolean) e "user" (User)
 			response = createUser(user);
 			response.put("returnCode", 101); // 101: created user
 		}
@@ -370,28 +374,33 @@ public class MongoUserService implements UserServicePersistence {
 		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
 		Map<String,Object> result = getUser(user);
 		Map<String, Object> response = new HashMap<String, Object>();
+		List<String> addedFields = new ArrayList<String>(); 
 		
 		User user_obj = new User();
 		if (result.containsKey("username") && result.get("username") == null){
 			user_obj.setUsername((String) user.get("username"));
-			response.put("added", "username");
+			addedFields.add("username");
 		}
 		if (result.containsKey("email") && result.get("email") == null){
 			user_obj.setEmail((String) user.get("email"));
-			response.put("added", "email");
+			addedFields.add("email");
 		}
 		if (result.containsKey("mobile") && result.get("mobile") == null){
 			user_obj.setMobile((String) user.get("mobile"));
-			response.put("added", "mobile");
+			addedFields.add("mobile");
 		}
 		if (result.containsKey("firstName") && result.get("firstName") == null){
 			user_obj.setFirstName((String) user.get("firstName"));
-			response.put("added", "firstName");
+			addedFields.add("firstName");
 		}
 		if (result.containsKey("lastName") && result.get("lastName") == null){
 			user_obj.setLastName((String) user.get("lastName"));
-			response.put("added", "lastName");
+			addedFields.add("lastName");
 		}
+		
+		if(addedFields.size()>0)
+			response.put("addedFields", addedFields);
+
 		// ...
 		//se decidiamo di aggiornare alcuni campi usermemo la chiave updated
 		

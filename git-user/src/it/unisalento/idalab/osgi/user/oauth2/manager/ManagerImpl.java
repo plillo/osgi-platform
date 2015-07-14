@@ -30,9 +30,8 @@ public class ManagerImpl implements Manager {
 			System.out.println("Authenticating from: "+name);
 
 			String token = auth.getToken(code);
+			// TODO: gestire caso token = null
 			mapInfo = auth.getUserInfo(token);
-
-			// TODO: inserire qui la logica di login/creazione dell'utente usando _userService
 		}
 
 		return mapInfo;

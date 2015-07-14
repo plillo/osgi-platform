@@ -107,9 +107,19 @@ public class UserServiceImpl implements UserService, ManagedService {
 
 		user.put("password", _getRandomPassword(10));
 
-		@SuppressWarnings("unused")
-		Map<String,Object> upr = _userPersistenceService.loginByOAuth2(user);
+		Map<String,Object> loginResult = _userPersistenceService.loginByOAuth2(user);
 		
+		ret.put("created", loginResult.get("created"));
+		ret.put("return-code", loginResult.get("returnCode"));
+		if(loginResult.containsKey("user"))
+			ret.put("user", loginResult.get("user"));
+		
+		if(loginResult.containsKey("updatedFields"))
+			ret.put("updated-fields", loginResult.get("updatedFields"));
+		
+		if(loginResult.containsKey("addedFields"))
+			ret.put("added-fields", loginResult.get("addedFields"));
+
 		timing.put("end", System.nanoTime());
 		context.put("error-code", 0);
 		//da rivedere
