@@ -334,6 +334,73 @@ public class MongoUserService implements UserServicePersistence {
 		
 		return response;
 	}
+	
+	// LOGIN BY OAuth2
+		// =====
+	@Override
+	public Map<String, Object> loginByOAuth2(Map<String, Object> user) {
+		Map<String, Object> response = new TreeMap<String, Object>();
+		
+		Map<String, Object> result = getUser(user);
+		if((int)result.get("matched")==1){
+			
+			// TODO: UPDATE PROFILO: inserimento info mancanti
+			Map<String, Object> updateResult = updateUserbyOAuth2(user);
+			response.put("created", false);
+			response.put("user", result.get("user"));
+			response.put("returnCode", 100); // 100: existing user
+			if(updateResult.containsKey("updated"))
+			response.put("updated", updateResult.get("updated") );
+		}
+		else if((int)result.get("matched")==0){
+			response = createUser(user);
+			response.put("returnCode", 101); // 101: created user
+		}
+		else if((int)result.get("matched")>1){
+			response.put("created", false);
+			response.put("returnCode", 102); // 102: matched more than 1 user
+		}
+
+		return response;
+	}
+	
+	
+	
+	private Map<String, Object> updateUserbyOAuth2(Map<String, Object> user) {
+		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
+		Map<String,Object> result = getUser(user);
+		Map<String, Object> response = new HashMap<String, Object>();
+		
+		User user_obj = new User();
+		if (result.containsKey("username") && result.get("username") == null){
+			user_obj.setUsername((String) user.get("username"));
+			response.put("added", "username");
+		}
+		if (result.containsKey("email") && result.get("email") == null){
+			user_obj.setEmail((String) user.get("email"));
+			response.put("added", "email");
+		}
+		if (result.containsKey("mobile") && result.get("mobile") == null){
+			user_obj.setMobile((String) user.get("mobile"));
+			response.put("added", "mobile");
+		}
+		if (result.containsKey("firstName") && result.get("firstName") == null){
+			user_obj.setFirstName((String) user.get("firstName"));
+			response.put("added", "firstName");
+		}
+		if (result.containsKey("lastName") && result.get("lastName") == null){
+			user_obj.setLastName((String) user.get("lastName"));
+			response.put("added", "lastName");
+		}
+		// ...
+		//se decidiamo di aggiornare alcuni campi usermemo la chiave updated
+		
+		users.updateById(((User)result.get("user")).get_id(), user_obj);
+		
+		
+		return response;
+	}
+
 
 	// VALIDATE methods
 	// ================
@@ -432,30 +499,8 @@ public class MongoUserService implements UserServicePersistence {
 	
 	}
 
-	@Override
-	public Map<String, Object> loginByOAuth2(Map<String, Object> user) {
-		Map<String, Object> response = new TreeMap<String, Object>();
-		
-		Map<String, Object> result = getUser(user);
-		if((int)result.get("matched")==1){
-			
-			// TODO: UPDATE PROFILO: inserimento info mancanti
-			
-			response.put("created", false);
-			response.put("user", result.get("user"));
-			response.put("returnCode", 100); // 100: existing user
-		}
-		else if((int)result.get("matched")==0){
-			response = createUser(user);
-			response.put("returnCode", 101); // 101: created user
-		}
-		else if((int)result.get("matched")>1){
-			response.put("created", false);
-			response.put("returnCode", 102); // 102: matched more than 1 user
-		}
-
-		return response;
-	}
+	
+	
 
 
 }
