@@ -307,7 +307,7 @@ public class MongoUserService implements UserServicePersistence {
 		
 		// Return ERROR if missing password
 		if (password == null || "".equals(password)) {
-			response.put("status", 101); // 101: missing password
+			response.put("returnCode", 101); // 101: missing password
 
 			return response;
 		}

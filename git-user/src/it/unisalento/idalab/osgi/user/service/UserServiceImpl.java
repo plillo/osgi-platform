@@ -8,13 +8,19 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
+
+import javax.ws.rs.core.NewCookie;
+import javax.ws.rs.core.Response;
 
 import net.vz.mongodb.jackson.DBCursor;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 
 import org.amdatu.mongo.MongoDBService;
+import org.amdatu.security.tokenprovider.TokenProvider;
+import org.amdatu.security.tokenprovider.TokenProviderException;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
 import org.osgi.service.event.Event;
@@ -35,6 +41,7 @@ public class UserServiceImpl implements UserService, ManagedService {
 	
 	private volatile EventAdmin _eventAdmin;
 	private volatile MongoDBService _mongoDBService;
+	private volatile TokenProvider _tokenProvider;
 	private volatile Password _passwordService;
 	private volatile UserServicePersistence _userPersistenceService;
 	private Validator validator = new Validator();
@@ -45,15 +52,33 @@ public class UserServiceImpl implements UserService, ManagedService {
 	
 
 	@Override
-	public Map<String, Object> login(Map<String, Object> pars) {
+	public Response login(Map<String, Object> pars) {
 		@SuppressWarnings("unused")
 		Map<String, Object> response = new HashMap<String, Object>();
 		
 		Map<String, Object> login = _userPersistenceService.login(pars);
+		int returnCode = (int)login.get("returnCode");
 		
-		// TODO compiling response
+		switch(returnCode){
+		case 100:
+			User user = (User)login.get("user");
+			SortedMap<String, String> userMap = new TreeMap<>();
+			userMap.put(TokenProvider.USERNAME, user.get_id());
+			
+			String token;
+			try {
+				token = _tokenProvider.generateToken(userMap);
+			} catch (TokenProviderException e) {
+				return Response.serverError().entity("Error while logging in").build();
+			}
+			
+			return Response.ok().entity(user).cookie(new NewCookie(TokenProvider.TOKEN_COOKIE_NAME, token)).build();
+			
+		case 110:
+			return Response.status(403).build();
+		}
 
-		return login;
+		return Response.status(403).build();
 	}
 	
 	@Override

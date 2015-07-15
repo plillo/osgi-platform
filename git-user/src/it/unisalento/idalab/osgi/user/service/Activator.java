@@ -7,6 +7,7 @@ import it.unisalento.idalab.osgi.user.persistence.api.UserServicePersistence;
 import it.unisalento.idalab.osgi.user.api.UserService;
 
 import org.amdatu.mongo.MongoDBService;
+import org.amdatu.security.tokenprovider.TokenProvider;
 import org.apache.felix.dm.DependencyActivatorBase;
 import org.apache.felix.dm.DependencyManager;
 import org.osgi.framework.BundleContext;
@@ -25,6 +26,7 @@ public class Activator extends DependencyActivatorBase {
 			.setImplementation(UserServiceImpl.class)
 			.add(createServiceDependency().setService(UserServicePersistence.class).setRequired(false))
 			.add(createServiceDependency().setService(MongoDBService.class).setRequired(true))
+			.add(createServiceDependency().setService(TokenProvider.class).setRequired(true))
 			.add(createServiceDependency().setService(EventAdmin.class).setRequired(true))
 		    .add(createServiceDependency().setService(Password.class).setRequired(true)));
 	}

@@ -20,6 +20,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.amdatu.web.rest.doc.Description;
 import org.amdatu.web.rest.doc.Notes;
@@ -102,9 +104,9 @@ public class UserResources {
 	@Path("login")
 	@Description("Log-in")
 	@Notes("Login resourse API")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON) // va tolto, cambiato???
 	@ResponseMessages({ @ResponseMessage(code = 200, message = "In case of success") })
-	public Map<String, Object> login(@QueryParam("identificator") String identificator, @QueryParam("password") String password) {
+	public Response login(@QueryParam("identificator") String identificator, @QueryParam("password") String password) {
 		Map<String, Object> response = new TreeMap<String, Object>();
 		
 		// Return ERROR if missing password
@@ -113,7 +115,8 @@ public class UserResources {
 			response.put("message", "Missing password");
 			response.put("status", 401);
 
-			return response;
+			// TODO: gestione dello stato ???
+			return Response.status(Status.BAD_REQUEST).entity(response).status(403).build();
 		}
 		
 		// Check and identify the type of identificator (username/email/mobile)
@@ -134,7 +137,7 @@ public class UserResources {
 			return _userService.login(map);
 		}
 
-		return response;
+		return Response.status(Status.BAD_REQUEST).entity(response).status(403).build();
 	}
 	
 	@GET
