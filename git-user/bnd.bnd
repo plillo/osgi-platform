@@ -24,7 +24,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.apache.commons.fileupload,\
 	org.amdatu.security.tokenprovider.api,\
 	org.amdatu.security.tokenprovider.impl,\
-	org.amdatu.security.tokenstorage.mongo
+	org.amdatu.security.tokenstorage.mongo,\
+	com.sun.mail.javax.mail
 -runrequires:  \
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.runtime)',\
