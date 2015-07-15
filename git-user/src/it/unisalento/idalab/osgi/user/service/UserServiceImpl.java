@@ -29,11 +29,11 @@ import org.osgi.service.event.EventAdmin;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 
+import static it.unisalento.idalab.osgi.tools.StringTools.*;
 import it.unisalento.idalab.osgi.user.password.Password;
 import it.unisalento.idalab.osgi.user.persistence.api.UserServicePersistence;
 import it.unisalento.idalab.osgi.user.api.User;
 import it.unisalento.idalab.osgi.user.api.UserService;
-import static it.unisalento.idalab.osgi.user.service.StringTools.*;
 
 @SuppressWarnings("rawtypes")
 public class UserServiceImpl implements UserService, ManagedService {
