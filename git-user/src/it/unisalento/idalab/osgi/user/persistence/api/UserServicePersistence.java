@@ -21,6 +21,7 @@ public interface UserServicePersistence {
 	
 	// UPDATE
 	Map<String, Object> updateUser(User user);
+	Map<String, Object> updateUser(Map<String, Object> user);
 	
 	// DELETE
 	Map<String, Object> deleteUser(User user);
