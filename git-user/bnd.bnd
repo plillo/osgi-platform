@@ -54,11 +54,13 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=org.apache.commons.fileupload)',\
 	osgi.identity;filter:='(osgi.identity=org.amdatu.security.tokenprovider.api)',\
 	osgi.identity;filter:='(osgi.identity=org.amdatu.security.tokenprovider.impl)',\
-	osgi.identity;filter:='(osgi.identity=org.amdatu.security.tokenstorage.mongo)'
+	osgi.identity;filter:='(osgi.identity=org.amdatu.security.tokenstorage.mongo)',\
+	osgi.identity;filter:='(osgi.identity=com.sun.mail.javax.mail)'
 -runbundles:  \
 	com.fasterxml.jackson.core.jackson-annotations;version='[2.3.0,2.3.1)',\
 	com.fasterxml.jackson.core.jackson-core;version='[2.3.1,2.3.2)',\
 	com.fasterxml.jackson.core.jackson-databind;version='[2.3.1,2.3.2)',\
+	com.sun.mail.javax.mail;version='[1.5.2,1.5.3)',\
 	de.undercouch.bson4jackson;version='[1.3.0,1.3.1)',\
 	de.undercouch.bson4jackson;version='[2.3.1,2.3.2)',\
 	jackson-core-asl;version='[1.9.8,1.9.9)',\

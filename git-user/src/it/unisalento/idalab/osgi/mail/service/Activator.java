@@ -1,7 +1,6 @@
 package it.unisalento.idalab.osgi.mail.service;
 
-import it.unisalento.idalab.osgi.user.api.UserService;
-import it.unisalento.idalab.osgi.user.service.UserServiceImpl;
+import it.unisalento.idalab.osgi.mail.api.SmtpSender;
 
 import java.util.Properties;
 
@@ -19,8 +18,8 @@ public class Activator extends DependencyActivatorBase {
 		properties.put(Constants.SERVICE_PID, "it.unisalento.idalab.osgi.mail.service");
 		
 		manager.add(createComponent()
-			.setInterface(new String[]{UserService.class.getName(), ManagedService.class.getName()}, properties)
-			.setImplementation(UserServiceImpl.class)
+			.setInterface(new String[]{SmtpSender.class.getName(), ManagedService.class.getName()}, properties)
+			.setImplementation(SmtpSenderImpl.class)
 			.add(createServiceDependency().setService(LogService.class).setRequired(false)));
 	}
  

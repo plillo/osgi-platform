@@ -1,0 +1,4 @@
+Bundle-Version: 1.0.0
+Bundle-Activator: it.unisalento.idalab.osgi.mail.commands.Activator
+Export-Package:  \
+	it.unisalento.idalab.osgi.mail.commands

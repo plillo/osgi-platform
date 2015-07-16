@@ -5,6 +5,6 @@ import java.util.TreeMap;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
-public interface SMTPSender {
+public interface SmtpSender {
 	void send(TreeMap<String, Object> pars) throws AddressException, MessagingException;
 }
