@@ -22,7 +22,7 @@ public class StringTools {
 	
 	// SHORT version
 	public static boolean isEON(String s) {
-		return isNotEmptyOrNull(s);
+		return isEmptyOrNull(s);
 	}
 
 	public static boolean isNotEmptyOrNull(String s) {

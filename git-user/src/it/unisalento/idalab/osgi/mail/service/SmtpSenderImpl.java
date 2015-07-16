@@ -27,6 +27,7 @@ import org.osgi.service.log.LogService;
 import com.sun.mail.util.MailSSLSocketFactory;
 
 import it.unisalento.idalab.osgi.mail.api.SmtpSender;
+import static it.unisalento.idalab.osgi.tools.Parser.*;
 import static it.unisalento.idalab.osgi.tools.StringTools.*;
 
 @SuppressWarnings("rawtypes")
@@ -59,10 +60,10 @@ public class SmtpSenderImpl implements SmtpSender, ManagedService {
 		// Checks, if recipient is not the supervisor
 		if(!recipient.equals((String)properties.get("supervisorEMail"))) {
 			// Send enabled check
-			if(!(boolean)properties.get("isSendMailEnabled")) return;
+			if(!parseBoolean((String)properties.get("isSendMailEnabled"), false)) return;
 	
 			// Redirection check
-			if((boolean)properties.get("isSendMailRedirected")) {
+			if(parseBoolean((String)properties.get("isSendMailRedirected"),false)) {
 				// TRACE
 				if(trace) {
 					logService.log(LogService.LOG_INFO, "Setting redirection: ");
@@ -117,7 +118,7 @@ public class SmtpSenderImpl implements SmtpSender, ManagedService {
 			}
 
 			// If setted: TRUST ALL HOSTS
-			if((boolean)properties.get("isTrustAllHosts")) {
+			if(parseBoolean((String)properties.get("isTrustAllHosts"), false)) {
 				MailSSLSocketFactory sf = new MailSSLSocketFactory();
 				sf.setTrustAllHosts(true);
 				props.put("mail.smtp.ssl.socketFactory", sf);

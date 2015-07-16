@@ -1,7 +1,6 @@
 package it.unisalento.idalab.osgi.mail.commands;
 
 import it.unisalento.idalab.osgi.mail.api.SmtpSender;
-import it.unisalento.idalab.osgi.user.commands.Commands;
 
 import java.util.Properties;
 
@@ -16,7 +15,7 @@ public class Activator extends DependencyActivatorBase {
 	public void init(BundleContext context, DependencyManager manager) throws Exception {
 		Properties props = new Properties();
 		props.put(CommandProcessor.COMMAND_SCOPE, "mail");
-		props.put(CommandProcessor.COMMAND_FUNCTION, "send");
+		props.put(CommandProcessor.COMMAND_FUNCTION, new String[]{"send","test"});
 		
 		manager.add(createComponent()
 				.setInterface(Object.class.getName(), props)

@@ -9,6 +9,10 @@ import it.unisalento.idalab.osgi.mail.api.SmtpSender;
 public class Commands {
 	private volatile SmtpSender _mailService;
 
+	void start(){
+		System.out.println("started service: "+this.getClass().getName());
+	}
+	
 	public void send(String recipient, String subject, String body) {
 		System.out.println("sending to: "+recipient);
 		
@@ -27,5 +31,8 @@ public class Commands {
 		
 	}
 
+	public void test() {
+		System.out.println("test");
+	}
 
 }
