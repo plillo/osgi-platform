@@ -11,7 +11,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,8 +58,8 @@ public class EmailContentBuilder {
 	public Multipart build(
 			String messageText, 
 			String messageHtml,
-			List<URL> messageHtmlInline, 
-			List<URL> attachments
+			URL[] messageHtmlInline, 
+			URL[] attachments
 			) 
 			throws MessagingException {
 		final Multipart mpMixed = new MimeMultipart("mixed");
@@ -102,7 +101,7 @@ public class EmailContentBuilder {
 	private void addHtmlVersion(
 			Multipart parent,
 			String messageHtml,
-			List<URL> embedded
+			URL[] messageHtmlInline
 			)
 			throws MessagingException {
 		final Multipart mpRelated = newChild(parent, "related");
@@ -115,13 +114,13 @@ public class EmailContentBuilder {
 		mpRelated.addBodyPart(htmlPart);
 
 		// Inline images
-		addImagesInline(mpRelated, embedded, cids);
+		addImagesInline(mpRelated, messageHtmlInline, cids);
 	}
 
-	private void addImagesInline(Multipart parent, List<URL> embedded, HashMap<String, String> cids)
+	private void addImagesInline(Multipart parent, URL[] messageHtmlInline, HashMap<String, String> cids)
 			throws MessagingException {
-		if (embedded != null) {
-			for (URL img : embedded) {
+		if (messageHtmlInline != null) {
+			for (URL img : messageHtmlInline) {
 				final MimeBodyPart htmlPartImg = new MimeBodyPart();
 				DataSource htmlPartImgDs = new URLDataSource(img);
 				htmlPartImg.setDataHandler(new DataHandler(htmlPartImgDs));
@@ -139,7 +138,7 @@ public class EmailContentBuilder {
 		}
 	}
 
-	private void addAttachments(Multipart parent, List<URL> attachments)
+	private void addAttachments(Multipart parent, URL[] attachments)
 			throws MessagingException {
 		if (attachments != null) {
 			for (URL attachment : attachments) {

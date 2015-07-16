@@ -3,7 +3,7 @@ package it.unisalento.idalab.osgi.mail.service;
 import java.net.URL;
 import java.util.Date;
 import java.util.Dictionary;
-import java.util.List;
+import java.util.Enumeration;
 import java.util.Properties;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
@@ -49,8 +49,8 @@ public class SmtpSenderImpl implements SMTPSender, ManagedService {
 		String subject = (String)pars.get("subject"); 
 		String messageText = (String)pars.get("messageText"); 
 		String messageHtml = (String)pars.get("messageHtml"); 
-		List<URL> messageHtmlInline = (List)pars.get("messageHtmlInline"); 
-		List<URL> attachments = (List)pars.get("attachments");
+		URL[] messageHtmlInline = (URL[])pars.get("messageHtmlInline"); 
+		URL[] attachments = (URL[])pars.get("attachments");
 		
 		// Checks, if recipient is not the supervisor
 		if(!recipient.equals((String)properties.get("supervisorEMail"))) {
@@ -105,15 +105,12 @@ public class SmtpSenderImpl implements SMTPSender, ManagedService {
 			props.put("mail.mime.charset", "utf-8");
 	
 			// SET other configuration mail props
-			// TODO
-			/*
-			Properties cnfg_mail_props = envi.getMailProperties();
-			for(Enumeration e = cnfg_mail_props.keys(); e.hasMoreElements();) {
+			for(Enumeration e = properties.keys(); e.hasMoreElements();) {
 				String key = (String)e.nextElement();
-				String value = cnfg_mail_props.getProperty(key);
-				props.put(key, value);
+				if(!key.startsWith("mail."))
+					continue;
+				props.put(key, (String)properties.get(key));
 			}
-			*/
 
 			// If setted: TRUST ALL HOSTS
 			if((boolean)properties.get("isTrustAllHosts")) {
