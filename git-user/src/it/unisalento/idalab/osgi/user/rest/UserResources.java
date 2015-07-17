@@ -55,7 +55,7 @@ public class UserResources {
 
 	@SuppressWarnings("unchecked")
 	@POST
-	@Path("create")
+	@Path("createx")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Description("Create users")
