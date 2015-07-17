@@ -41,8 +41,8 @@ public class UserResources {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Description("Returns a list of users")
 	@Notes("TODO: the list must be filtered by means of parameters")
-	public List<User> list() {
-		return _userService.listUsers();
+	public Response list() {
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_userService.listUsers()).build();
 	}
 	
 	@POST
@@ -55,7 +55,7 @@ public class UserResources {
 
 	@SuppressWarnings("unchecked")
 	@POST
-	@Path("createx")
+	@Path("create")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Description("Create users")
@@ -63,7 +63,6 @@ public class UserResources {
 		boolean simulation = false;
 		BufferedReader reader = null;
 
-        System.out.println("createx");
 		Map<String, Object> response = new TreeMap<String, Object>();
 		ServletFileUpload uploader = new ServletFileUpload(new DiskFileItemFactory());
 	    try {
@@ -169,7 +168,7 @@ public class UserResources {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("validateUsername")
-	public Map<String, Object> validateUsername(@QueryParam("value") String username)
+	public Response validateUsername(@QueryParam("value") String username)
 			throws Exception {
 		
 		Map<String, Object> validation = new TreeMap<String, Object>();
@@ -182,14 +181,14 @@ public class UserResources {
 			validation.put("status", 200);
 			validation.put("message", "Persistence error");
 			
-			return validation;
+			return Response.ok().header("Access-Control-Allow-Origin", "*").status(Status.INTERNAL_SERVER_ERROR).entity(validation).build();
 		}
 		boolean isValid = (Boolean)response.get("isValid");
 		validation.put("isValid", isValid);
 		validation.put("message", "\""+username+"\" is "+(isValid?"":"not ")+"a valid username");
 		validation.put("status", 400);
 
-		return validation;
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(validation).build();
 	}
 	
 	@GET
