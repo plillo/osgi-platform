@@ -191,24 +191,43 @@ public class SmtpSenderImpl implements SmtpSender, ManagedService {
 			// -- Set MIXED content
 			EmailContentBuilder mailContentBuilder = new EmailContentBuilder();
 
-			// TRACE
-			if(trace) {
-				logService.log(LogService.LOG_INFO, "Message, building MIXED content");
+			
+			
+			
+
+			ClassLoader oldCl = Thread.currentThread().getContextClassLoader();
+			Thread.currentThread().setContextClassLoader(javax.mail.Session.class.getClassLoader());
+			try {
+				// TRACE
+				if(trace) {
+					logService.log(LogService.LOG_INFO, "Message, building MIXED content");
+				}
+				
+				final Multipart mpMixed = mailContentBuilder.build(
+						messageText,
+						messageHtml,
+						messageHtmlInline,
+						attachments);
+				msg.setContent(mpMixed);
+				msg.setSentDate(new Date());
+				
+				// TRACE
+				if(trace) {
+					logService.log(LogService.LOG_INFO, "Message, SENDING E-mail");
+				}
+
+				// SEND message
+				Transport.send(msg); 
 			}
-			final Multipart mpMixed = mailContentBuilder.build(
-					messageText,
-					messageHtml,
-					messageHtmlInline,
-					attachments);
-			msg.setContent(mpMixed);
-			msg.setSentDate(new Date());
-	
-			// TRACE
-			if(trace) {
-				logService.log(LogService.LOG_INFO, "Message, SENDING E-mail");
+			finally {
+			  Thread.currentThread().setContextClassLoader(oldCl);
 			}
-			// SEND message
-			Transport.send(msg); 
+
+			
+			
+			
+			
+
 	
 			// TRACE
 			if(trace) {
