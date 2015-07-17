@@ -53,14 +53,36 @@ public class Console {
 		userservice.login(hm);
 	}
 	
+	
+	public void loginOA(String email,String password, String firstName, String lastName) {
+		
+		HashMap<String,Object> hm = new HashMap<String,Object> ();
+		
+		hm.put("firstName", firstName);
+		hm.put("password", password);
+		hm.put("lastName", lastName);
+		hm.put("email", email);
+		
+		userservice.loginByOAuth2(hm);
+	}
+	
 
 	public void updateuser(String username,String password ,String email, String mobile) {
 		User user = new User();
 		user.setUsername(username);
 		user.setPassword(password);
-		user.setMobile(mobile);;
+		user.setMobile(mobile);
 		user.setEmail(email);
 		userservice.updateUser(user);
+	}
+	
+	public void getuser(String username,String password ,String email, String mobile) {
+		User user = new User();
+		user.setUsername(username);
+		user.setPassword(password);
+		user.setMobile(mobile);;
+		user.setEmail(email);
+		userservice.getUser(user);
 	}
 
 }

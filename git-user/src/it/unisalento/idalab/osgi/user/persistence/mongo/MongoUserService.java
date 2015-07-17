@@ -113,16 +113,20 @@ public class MongoUserService implements UserServicePersistence {
 			// Set response details
 			switch(matchs.size()){
 			case 0:
+				response.put("found", false);
 				break;
 			case 1:
-				response.put("user", found_user);
-				response.put("keys", matchs.get(found_user));
+				User key = (User) matchs.keySet().toArray()[0];
+				response.put("user", key);
+				response.put("keys", matchs.get(key));
+				response.put("found", true);
 				break;
 			default:
 				response.put("users", matchs);
+				response.put("returnCode", 110);
 			}
 		}
-
+				
 		return response;
 	}
 	
@@ -212,8 +216,7 @@ public class MongoUserService implements UserServicePersistence {
 			// Controllo di presenza di una password: in assenza impostazione di una password predefinita
 			// N.B. :in realtà il controllo sulla password va fatto a monte dal chiamante del metodo createUser
 			if(user.getPassword()==null || "".equals(user.getPassword()))
-				password = "0123456789";  
-				
+				password = "0123456789";	
 			try {
 				user.setPassword(passwordService.getSaltedHash(password));
 			} catch (Exception e) {
@@ -227,6 +230,7 @@ public class MongoUserService implements UserServicePersistence {
 				if(created_user!=null) {
 					response.put("user", created_user);
 					response.put("created", true);
+					response.put("returnCode", 100);
 				}
 			}
 		}
@@ -236,13 +240,15 @@ public class MongoUserService implements UserServicePersistence {
 			if(existing_user!=null) {
 				response.put("user", existing_user);
 				response.put("created", false);
+				response.put("returnCode", 105);
+				response.put("keys", result.get("keys"));
 			}
 		}
 		// If existing many users
 		else{
-			//una mappa con più utenti trovati
-			System.out.println("Esistono più utenti");
 			response.put("created", false);
+			response.put("returnCode", 110);
+			response.put("users", result.get("users"));
 		}
 		
 		// TODO: Gestire bene la composizione della risposta (deve essere più informativa possibile)
@@ -252,24 +258,53 @@ public class MongoUserService implements UserServicePersistence {
 
 	// UPDATE
 	// ======
+	
+	@Override
+	public Map<String, Object> updateUser(Map<String, Object> user) {
+
+		User user_obj = new User();
+		user_obj.setUsername((String)user.get("username"));
+		user_obj.setEmail((String)user.get("email"));
+		user_obj.setMobile((String)user.get("mobile"));
+		user_obj.setFirstName((String)user.get("firstName"));
+		user_obj.setLastName((String)user.get("lastName"));
+		// ...
+		
+		return createUser(user_obj);
+	}
+	
 	@Override
 	public Map<String, Object> updateUser(User user) {
 		Map<String, Object> response = new TreeMap<String, Object>();
 		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
-		Map<String,Object> result = getUser(user);
-		
-		// TODO: il metodo va ampiamente rivisto per evitare incoerenze nella modifica dell'utente (username, email, mobile gi� esistenti...)
-		if(result.containsKey("user")) {
-			if(user.getPassword()!=null && !"".equals(user.getPassword()))
+		User found_user=null;
+		// Match user
+		Map<String, Object> result = getUser(user);
+
+		if (result.containsKey("user")) {
+			if (user.getPassword() != null && !"".equals(user.getPassword()))
 				try {
-					user.setPassword(passwordService.getSaltedHash(user.getPassword()));
+					user.setPassword(passwordService.getSaltedHash(user
+							.getPassword()));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			users.updateById(((User)result.get("user")).get_id(), user);
-		}
-		
+			String userId =((User) result.get("user")).get_id();
+			users.updateById(userId, user);
+			found_user = users.findOne(new BasicDBObject("_id", userId));
+			response.put("user", found_user);
+			response.put("updated", true);
+			response.put("keys", result.get("keys"));
+			response.put("returnCode", 100);
+		} else if (result.containsKey("users")) {
+			response.put("updated", false);
+			response.put("returnCode", 110); 
+			response.put("users", result.get("users"));
+		} else if ((int) result.get("matched") == 0) {
+			response.put("updated", false);
+			response.put("errorCode", 115); 
+		}	
 		// TODO: Gestire bene la composizione della risposta (deve essere più informativa possibile)
 		
 		return response;
@@ -284,14 +319,18 @@ public class MongoUserService implements UserServicePersistence {
 		Map<String,Object> result = getUser(user);
 		
 		if(result.containsKey("user")) {
+			response.put("user", user);
 			users.removeById(((User)result.get("user")).get_id());
-			response.put("isRemoved", true);
-			//da valutare e concordare
-			response.put("errorCode","");
-		}else{
-			response.put("isRemoved", false);
-			//da valutare e concordare
-			response.put("errorCode","");
+			response.put("removed", true);
+			response.put("returnCode",100);
+		}else if(result.containsKey("users")){
+			response.put("removed", false);
+			response.put("returnCode",110);
+			response.put("users",result.get("users"));	
+		}
+		else if((int) result.get("matched") == 0){
+			response.put("removed", false);
+			response.put("returnCode",115);
 		}
 		// TODO: Gestire bene la composizione della risposta (deve essere pi� informativa possibile)
 		
@@ -308,28 +347,34 @@ public class MongoUserService implements UserServicePersistence {
 		// Return ERROR if missing password
 		if (password == null || "".equals(password)) {
 			response.put("returnCode", 101); // 101: missing password
-
 			return response;
 		}
 		
 		// Search and get user
-		Map<String, Object> map = getUser(user);
+		Map<String, Object> result = getUser(user);
 		
 		// Get reference to user (if found)
-		User userFound = (User) map.get("user");
+		User userFound = (User) result.get("user");
 		if (userFound != null) {
 			try {
 				if (passwordService.check(password, userFound.getPassword())) {
 					response.put("user", userFound);
 					response.put("returnCode", 100);
+					response.put("logged", true);
 				} else
 					response.put("returnCode", 102); // 102: mismatched password
 
 			} catch (Exception e) {
 				response.put("returnCode", 103); // 103: exception
+				response.put("logged", false);
 			}
-		} else {
-			response.put("returnCode", 110); // 110: no user matching username/email/mobile
+		} else if (result.containsKey("users")){
+			response.put("returnCode", 110); 
+			response.put("logged", false);
+			response.put("users",result.get("users"));
+		} else if((int) result.get("matched") == 0){
+			response.put("logged", false);
+			response.put("returnCode",115);
 		}
 		
 		return response;
@@ -343,12 +388,11 @@ public class MongoUserService implements UserServicePersistence {
 		
 		Map<String, Object> result = getUser(user);
 		if((int)result.get("matched")==1){
-			
-			// TODO: UPDATE PROFILO: inserimento info mancanti
-			Map<String, Object> updateResult = updateUserbyOAuth2(user);
+			Map<String, Object> updateResult = updateUserbyOAuth2((User)result.get("user"), user);
 			response.put("created", false);
 			response.put("user", result.get("user"));
-			response.put("returnCode", 100); // 100: existing user
+			response.put("returnCode", 106);
+			response.put("logged", true);
 			if(updateResult.containsKey("updatedFields"))
 				response.put("updatedFields", updateResult.get("updatedFields") );
 			if(updateResult.containsKey("addedFields"))
@@ -358,11 +402,14 @@ public class MongoUserService implements UserServicePersistence {
 		else if((int)result.get("matched")==0){
 			// il metodo createUser produce le chiavi "created" (boolean) e "user" (User)
 			response = createUser(user);
-			response.put("returnCode", 101); // 101: created user
+			response.put("returnCode", 107);
+			response.put("logged", true);
 		}
-		else if((int)result.get("matched")>1){
+		else if(result.containsKey("users")){
 			response.put("created", false);
-			response.put("returnCode", 102); // 102: matched more than 1 user
+			response.put("users",result.get("users"));
+			response.put("returnCode", 110);
+			response.put("logged", false);
 		}
 
 		return response;
@@ -370,31 +417,30 @@ public class MongoUserService implements UserServicePersistence {
 	
 	
 	
-	private Map<String, Object> updateUserbyOAuth2(Map<String, Object> user) {
+	private Map<String, Object> updateUserbyOAuth2(User user, Map<String, Object> loggingData) {
 		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
-		Map<String,Object> result = getUser(user);
+		
 		Map<String, Object> response = new HashMap<String, Object>();
 		List<String> addedFields = new ArrayList<String>(); 
 		
-		User user_obj = new User();
-		if (result.containsKey("username") && result.get("username") == null){
-			user_obj.setUsername((String) user.get("username"));
+		if (loggingData.containsKey("username") && user.getUsername() == null){
+			user.setUsername((String) loggingData.get("username"));
 			addedFields.add("username");
 		}
-		if (result.containsKey("email") && result.get("email") == null){
-			user_obj.setEmail((String) user.get("email"));
+		if (loggingData.containsKey("email") && user.getEmail() == null){
+			user.setEmail((String) loggingData.get("email"));
 			addedFields.add("email");
 		}
-		if (result.containsKey("mobile") && result.get("mobile") == null){
-			user_obj.setMobile((String) user.get("mobile"));
+		if (loggingData.containsKey("mobile") && user.getMobile() == null){
+			user.setMobile((String) loggingData.get("mobile"));
 			addedFields.add("mobile");
 		}
-		if (result.containsKey("firstName") && result.get("firstName") == null){
-			user_obj.setFirstName((String) user.get("firstName"));
+		if (loggingData.containsKey("firstName") && user.getFirstName() == null){
+			user.setFirstName((String) loggingData.get("firstName"));
 			addedFields.add("firstName");
 		}
-		if (result.containsKey("lastName") && result.get("lastName") == null){
-			user_obj.setLastName((String) user.get("lastName"));
+		if (loggingData.containsKey("lastName") && user.getLastName() == null){
+			user.setLastName((String) loggingData.get("lastName"));
 			addedFields.add("lastName");
 		}
 		
@@ -403,8 +449,7 @@ public class MongoUserService implements UserServicePersistence {
 
 		// ...
 		//se decidiamo di aggiornare alcuni campi usermemo la chiave updated
-		
-		users.updateById(((User)result.get("user")).get_id(), user_obj);
+		users.updateById(user.get_id(), user);
 		
 		
 		return response;
@@ -507,9 +552,5 @@ public class MongoUserService implements UserServicePersistence {
 		return map;
 	
 	}
-
-	
-	
-
 
 }
