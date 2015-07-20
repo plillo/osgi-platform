@@ -1,0 +1,81 @@
+package it.unisalento.idalab.osgi.qrcode.rest;
+
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Hashtable;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+
+import org.amdatu.web.rest.doc.Description;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+
+@Path("qrcode/1.0")
+@Description("API for Captcha management version 1.0")
+public class QRCodeResources {
+
+	@GET
+	@Description("Returns a QRCode image")
+	@Produces("image/png")
+	public Response getQRCode(@Context HttpServletRequest request) {
+		String myCodeText = "http://idalab.unisalento.it/";
+		int size = 1000;
+		try {
+			Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();
+			hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+			QRCodeWriter qrCodeWriter = new QRCodeWriter();
+			BitMatrix byteMatrix = qrCodeWriter.encode(myCodeText, BarcodeFormat.QR_CODE, size, size, hintMap);
+			int CrunchifyWidth = byteMatrix.getWidth();
+			BufferedImage bufferedImage = new BufferedImage(CrunchifyWidth, CrunchifyWidth, BufferedImage.TYPE_INT_RGB);
+			bufferedImage.createGraphics();
+
+			Graphics2D graphics = (Graphics2D) bufferedImage.getGraphics();
+			graphics.setColor(Color.WHITE);
+			graphics.fillRect(0, 0, CrunchifyWidth, CrunchifyWidth);
+			graphics.setColor(Color.BLACK);
+
+			for (int i = 0; i < CrunchifyWidth; i++) {
+				for (int j = 0; j < CrunchifyWidth; j++) {
+					if (byteMatrix.get(i, j)) {
+						graphics.fillRect(i, j, 1, 1);
+					}
+				}
+			}
+
+			// RESPONSE
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			try {
+				ImageIO.write(bufferedImage, "png", baos);
+			} catch (IOException e) {
+				return Response.serverError().build();
+			}
+			byte[] imageData = baos.toByteArray();
+
+			// uncomment line below to send non-streamed
+			// return Response.ok(imageData).build();
+
+			// return streamed data
+			return Response.ok(new ByteArrayInputStream(imageData)).build();
+			
+		} catch (WriterException e) {
+			e.printStackTrace();
+		}
+		
+		return Response.serverError().build();
+	}
+}

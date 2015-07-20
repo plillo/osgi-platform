@@ -1,0 +1,6 @@
+Private-Package:  \
+	it.unisalento.idalab.osgi.qrcode.rest
+Bundle-Version: 1.0.0
+Bundle-Activator: it.unisalento.idalab.osgi.qrcode.rest.Activator
+Export-Package:  \
+	it.unisalento.idalab.osgi.qrcode.rest
