@@ -7,4 +7,7 @@ angular.module("userUI", ['ngRoute','remoteValidation','ui.bootstrap'])
 /*  when('/a', {templateUrl: 'partials/a.html', controller: 'AController'}).
   when('/b', {templateUrl: 'partials/b.html', controller: 'BController'}).*/
   otherwise({redirectTo: '/'}); 
-}]);
+}])
+.run(function($rootScope){
+	  $rootScope.user="unknown";	
+});
