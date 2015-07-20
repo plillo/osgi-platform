@@ -49,8 +49,9 @@ public class UserResources {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Description("Create a user")
-	public Map<String, Object> create(User user) {
-		return _userService.create(user);
+	public Response create(User user) {
+		//return _userService.create(user);
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_userService.create(user)).build();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -115,7 +116,8 @@ public class UserResources {
 			response.put("status", 401);
 
 			// TODO: gestione dello stato ???
-			return Response.status(Status.BAD_REQUEST).entity(response).status(403).build();
+			return Response.status(Status.BAD_REQUEST).header("Access-Control-Allow-Origin", "*").entity(response).status(403).build();
+			//return Response.status(Status.BAD_REQUEST).entity(response).status(403).build();
 		}
 		
 		// Check and identify the type of identificator (username/email/mobile)
@@ -134,9 +136,11 @@ public class UserResources {
 				map.put("mobile", identificator);
 			
 			return _userService.login(map);
+			//return Response.ok().header("Access-Control-Allow-Origin", "*").entity(map).build();
 		}
 
-		return Response.status(Status.BAD_REQUEST).entity(response).status(403).build();
+		return Response.status(Status.BAD_REQUEST).header("Access-Control-Allow-Origin", "*").entity(response).status(403).build();
+		//return Response.status(Status.BAD_REQUEST).entity(response).status(403).build();
 	}
 	
 	@GET
@@ -150,7 +154,7 @@ public class UserResources {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("validateIdentificator")
-	public Map<String, Object> validateIdentificator(@QueryParam("value") String identificator) {
+	public Response validateIdentificator(@QueryParam("value") String identificator) {
 		Map<String, Object> validation = new TreeMap<String, Object>();
 		validation.put("validatingItem", identificator);
 		
@@ -162,7 +166,7 @@ public class UserResources {
 		validation.put("message", "\""+identificator+"\" is "+(isValid?"":"not ")+"a valid identificator");
 		validation.put("status", 400);
 
-		return validation;
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(validation).build();
 	}
 	
 	@GET
@@ -194,7 +198,7 @@ public class UserResources {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("validateEMail")
-	public Map<String, Object> validateEMail(@QueryParam("value") String email) {
+	public Response validateEMail(@QueryParam("value") String email) {
 		Map<String, Object> validation = new TreeMap<String, Object>();
 		validation.put("validatingItem", email);
 		
@@ -205,20 +209,20 @@ public class UserResources {
 			validation.put("status", 200);
 			validation.put("message", "Persistence error");
 			
-			return validation;
+			return Response.ok().header("Access-Control-Allow-Origin", "*").status(Status.INTERNAL_SERVER_ERROR).entity(validation).build();
 		}
 		boolean isValid = (Boolean)response.get("isValid");
 		validation.put("isValid", isValid);
 		validation.put("message", "\""+email+"\" is "+(isValid?"":"not ")+"a valid e-mail");
 		validation.put("status", 400);
 
-		return validation;
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(validation).build();
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("validateMobile")
-	public Map<String, Object> validateMobile(@QueryParam("value") String mobile) {
+	public Response validateMobile(@QueryParam("value") String mobile) {
 		
 		Map<String, Object> validation = new TreeMap<String, Object>();
 		validation.put("validatingItem", mobile);
@@ -230,14 +234,14 @@ public class UserResources {
 			validation.put("status", 200);
 			validation.put("message", "Persistence error");
 			
-			return validation;
+			return Response.ok().header("Access-Control-Allow-Origin", "*").status(Status.INTERNAL_SERVER_ERROR).entity(validation).build();
 		}
 		boolean isValid = (Boolean)response.get("isValid");
 		validation.put("isValid", isValid);
 		validation.put("message", "\""+mobile+"\" is "+(isValid?"":"not ")+"a valid mobile number");
 		validation.put("status", 400);
 
-		return validation;
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(validation).build();
 	}
 
 	@GET

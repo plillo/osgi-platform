@@ -69,16 +69,16 @@ public class UserServiceImpl implements UserService, ManagedService {
 			try {
 				token = _tokenProvider.generateToken(userMap);
 			} catch (TokenProviderException e) {
-				return Response.serverError().entity("Error while logging in").build();
+				return Response.serverError().entity("Error while logging in").header("Access-Control-Allow-Origin", "*").build();
 			}
 			
-			return Response.ok().entity(user).cookie(new NewCookie(TokenProvider.TOKEN_COOKIE_NAME, token)).build();
+			return Response.ok().header("Access-Control-Allow-Origin", "*").entity(user).cookie(new NewCookie(TokenProvider.TOKEN_COOKIE_NAME, token)).build();
 			
 		case 110:
-			return Response.status(403).build();
+			return Response.status(403).header("Access-Control-Allow-Origin", "*").build();
 		}
 
-		return Response.status(403).build();
+		return Response.status(403).header("Access-Control-Allow-Origin", "*").build();
 	}
 	
 	@Override
