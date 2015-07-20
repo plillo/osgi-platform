@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService, ManagedService {
 	void start(){
 		System.out.println("started service: "+this.getClass().getName());
 	}
-	
+
 
 	@Override
 	public Response login(Map<String, Object> pars) {

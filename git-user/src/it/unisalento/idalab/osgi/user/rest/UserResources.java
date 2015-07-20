@@ -134,7 +134,7 @@ public class UserResources {
 				map.put("email", identificator);
 			else if("mobile".equals(identificator_type))
 				map.put("mobile", identificator);
-			
+			 
 			return _userService.login(map);
 			//return Response.ok().header("Access-Control-Allow-Origin", "*").entity(map).build();
 		}
