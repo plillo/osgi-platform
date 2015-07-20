@@ -1,0 +1,5 @@
+Private-Package:  \
+	it.unisalento.idalab.osgi.user.oauth2.metatypeEx
+Bundle-Version: 1.0.0
+Bundle-Activator: it.unisalento.idalab.osgi.user.oauth2.metatypeEx.Activator
+Include-Resource: OSGI-INF/metatype=OSGI-INF/metatype
