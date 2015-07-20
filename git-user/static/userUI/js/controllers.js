@@ -71,8 +71,8 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http', '$
 		$scope.righterrormessage="";
 	}
   }])
-  .controller('LoginController', ['$scope', '$location', '$sce', '$http',
-                                  function($scope, $location, $sce, $http) {
+  .controller('LoginController', ['$scope', '$location', '$sce', '$http', '$rootScope', '$window',
+                                  function($scope, $location, $sce, $http, $rootScope, $window) {
 
 	  $scope.logindetails = {};
 
@@ -88,15 +88,22 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http', '$
 		  if ($scope.validate()){
 			  $http.get('/users/1.0/login?identificator='+$scope.logindetails.user+'&password='+$scope.logindetails.password)
 			  .success(function(data, status, headers, config) {
-				  
-				  if (data.returnCode == 110){
+				  $location.path("/user");
+				  //$rootScope.user=data.username;
+				  //$window.location.href='/dealerUI/index.html';
+				  //alert(data.firstName);
+				  $rootScope.user=data.firstName;
+/*				  if (data.returnCode == 110){
 					  $scope.errormessage = "Invalid credentials!";
 				  }else{
 					  $location.path("/user");
-				  }
+				  }*/
 				  
-			  }).error(function() {
-				  $scope.errormessage = data.message;
+			  }).error(function(data, status, headers, config) {
+				  if (status=="403"){
+					  $scope.errormessage = "Invalid credentials!";  
+				  }
+				  //$scope.errormessage = "Invalid credentials!";
 			  });
 		  }
 	  };
@@ -112,7 +119,7 @@ angular.module("userUI").controller('RegisterController', ['$scope', '$http', '$
 
 		  $http.get('/users/1.0/logout')
 		  .success(function(data, status, headers, config) {
-			  $rootScope.user="";
+			  $rootScope.user="unknown";
 			  $location.path("/");
 		  }).error(function() {
 			  $location.path("/");
