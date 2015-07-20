@@ -44,8 +44,10 @@
            			ng-remote-validate="/users/1.0/validateEMail" 
            			ng-remote-method="GET"
            			ng-remote-throttle="0"
+					ng-pattern="/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$/"
            			ng-model-options="{ updateOn: 'blur' }">
            	  <p ng-show="form.email.$error.required && form.email.$dirty" class="help-block">Email is required.</p>
+           	  <p ng-show="form.email.$error.pattern && form.email.$dirty" class="help-block">Not a valid email address.</p>
 		      <p ng-show="form.email.$error.ngRemoteValidate && !form.email.$pristine" class="help-block">Email already exists.</p>
 		    </div>
 		  </div>
