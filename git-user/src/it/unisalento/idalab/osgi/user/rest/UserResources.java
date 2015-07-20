@@ -165,7 +165,7 @@ public class UserResources {
 		validation.put("identificatorType", response.get("identificatorType"));
 		validation.put("message", "\""+identificator+"\" is "+(isValid?"":"not ")+"a valid identificator");
 		validation.put("status", 400);
-
+ 
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(validation).build();
 	}
 	
