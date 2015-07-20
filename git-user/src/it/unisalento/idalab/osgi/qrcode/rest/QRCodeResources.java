@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
@@ -34,6 +35,25 @@ public class QRCodeResources {
 	@Produces("image/png")
 	public Response getQRCode(@Context HttpServletRequest request) {
 		String myCodeText = "http://idalab.unisalento.it/";
+
+		@SuppressWarnings("unchecked")
+		Enumeration<String> parNames = request.getParameterNames();
+		
+		// PARAMETERS
+		while (parNames.hasMoreElements()) {
+			String name = (String) parNames.nextElement();
+			String value = request.getParameter(name);
+
+			// Set text
+			if (name.equals("text")) {
+				try {
+					myCodeText = value;
+				} catch (NumberFormatException e) {
+				}
+				continue;
+			}
+		}
+
 		int size = 1000;
 		try {
 			Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();
