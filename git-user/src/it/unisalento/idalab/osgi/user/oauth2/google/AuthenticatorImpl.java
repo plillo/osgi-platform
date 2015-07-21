@@ -90,6 +90,7 @@ public class AuthenticatorImpl implements Authenticator {
 	        mapInfo.put("email", jsn.path("email").getTextValue());
 	        mapInfo.put("firstName",jsn.path("given_name").getTextValue());
 	        mapInfo.put("lastName",jsn.path("family_name").getTextValue());
+	        mapInfo.put("trusted_email",jsn.path("verified_email").getTextValue());	        
 	        
 		} catch (MalformedURLException e) {
 	        System.out.println( e);

@@ -1,6 +1,5 @@
 package it.unisalento.idalab.osgi.user.oauth2.manager;
 
-import it.unisalento.idalab.osgi.user.api.UserService;
 import it.unisalento.idalab.osgi.user.oauth2.authenticator.Authenticator;
 
 import java.util.HashMap;
@@ -8,8 +7,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class ManagerImpl implements Manager {
-	@SuppressWarnings("unused")
-	private volatile UserService _userService;
+//	@SuppressWarnings("unused")
+//	private volatile UserService _userService;
 
 	Map<String, Authenticator> authenticators = new HashMap<String, Authenticator>();
 	
@@ -30,7 +29,6 @@ public class ManagerImpl implements Manager {
 			System.out.println("Authenticating from: "+name);
 
 			String token = auth.getToken(code);
-			// TODO: gestire caso token = null
 			mapInfo = auth.getUserInfo(token);
 		}
 

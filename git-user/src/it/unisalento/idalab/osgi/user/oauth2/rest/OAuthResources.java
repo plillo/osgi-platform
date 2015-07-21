@@ -31,6 +31,8 @@ public class OAuthResources {
 	public Map<String, Object> callback(@QueryParam("code") String code, @QueryParam("state") String state) {
 
 		try {
+			
+			if (code == null) throw new Oauth2AuthenticatorException();
 			// Get authentication source
 			ObjectMapper mapper = new ObjectMapper();
 	        JsonNode jsn;	
@@ -40,17 +42,21 @@ public class OAuthResources {
 			Map<String, Object> authenticated_user_map = _OAuthManager.authenticate(code, authenticator);
 			
 	        // Create user
-	        Map<String, Object> user = new TreeMap<String, Object>();
-	        user.put("email", ((String)authenticated_user_map.get("email")));
-	        user.put("firstName", ((String)authenticated_user_map.get("firstName")));
-	        user.put("lastName", ((String)authenticated_user_map.get("lastName")));
+//	        Map<String, Object> user = new TreeMap<String, Object>();
+//	        user.put("email", ((String)authenticated_user_map.get("email")));
+//	        user.put("firstName", ((String)authenticated_user_map.get("firstName")));
+//	        user.put("lastName", ((String)authenticated_user_map.get("lastName")));
 	        
-	        return _userService.loginByOAuth2(user);
+//	        return _userService.loginByOAuth2(user);
+			return _userService.loginByOAuth2(authenticated_user_map);
 	        
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Oauth2AuthenticatorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
