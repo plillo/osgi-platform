@@ -27,7 +27,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 @Path("qrcode/1.0")
-@Description("API for Captcha management version 1.0")
+@Description("API for QR-code management version 1.0")
 public class QRCodeResources {
 
 	@GET
