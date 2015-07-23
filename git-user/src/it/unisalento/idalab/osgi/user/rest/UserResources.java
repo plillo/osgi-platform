@@ -3,6 +3,7 @@ package it.unisalento.idalab.osgi.user.rest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -12,8 +13,10 @@ import it.unisalento.idalab.osgi.user.api.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -251,4 +254,105 @@ public class UserResources {
 			throws Exception {
 		return "Changing password to: "+userId;
 	}
+	
+	
+	
+	
+	
+	@DELETE
+	@Description("Delete user")
+	@Notes("Delete resourse API")
+	@Produces(MediaType.APPLICATION_JSON)
+	@ResponseMessages({ @ResponseMessage(code = 200, message = "In case of success") })
+	@Path("{identificator}")
+	public Map<String, Object> deleteUser(
+			@PathParam("identificator") String identificator) throws Exception {
+
+		// Check and identify the type of identificator (username/email/mobile)
+
+		Map<String, Object> validate = _userService
+				.validateIdentificator(identificator);
+
+		Map<String, Object> response = new TreeMap<String, Object>();
+
+		if ((Boolean) validate.get("isValid")) {
+
+			Map<String, Object> map = new TreeMap<String, Object>();
+
+			String identificator_type = (String) validate
+					.get("identificatorType");
+
+			if ("username".equals(identificator_type))
+				map.put("username", identificator);
+
+			else if ("email".equals(identificator_type))
+				map.put("email", identificator);
+
+			else if ("mobile".equals(identificator_type))
+				map.put("mobile", identificator);
+
+			response = _userService.deleteUser(map);
+		}
+
+		return response;
+
+	}
+	
+	
+	@GET
+	@Description("Get user")
+	@Notes("Get resourse API")
+	@Produces(MediaType.APPLICATION_JSON)
+	@ResponseMessages({ @ResponseMessage(code = 200, message = "In case of success") })
+	@Path("{key}")
+	public List<User> getUser(@PathParam("key") String key)
+			throws Exception {
+		
+		// Check and identify the type of identificator (username/email/mobile)
+		
+		Map<String, Object> validate = _userService.validateIdentificator(key);
+		List<User> user = new ArrayList<User>();
+
+		
+		if((Boolean)validate.get("isValid")) {
+			
+			Map<String, Object> map = new TreeMap<String, Object>();
+			
+			String key_type = (String)validate.get("keyType");
+			if("username".equals(key_type))
+				map.put("username", key);
+			
+			else if("email".equals(key_type))
+				map.put("email", key);
+			
+			else if("mobile".equals(key_type))
+				map.put("mobile", key);
+						
+			user = _userService.getUser(map);
+		}
+		
+		return user;
+		
+		
+	}
+	
+
+	@GET
+	@Description("Get filtered user")
+	@Notes("Get resourses API")
+	@Produces(MediaType.APPLICATION_JSON)
+	@ResponseMessages({ @ResponseMessage(code = 200, message = "In case of success") })
+	@Path("/search/{parameter}/")
+	public List<User> searchUsers(@PathParam("parameter") String parameter)
+			throws Exception {
+		
+		// Check and find the users by parameter
+		
+			
+		return _userService.searchUsers(parameter);
+		
+		
+	}
+	
+
 }

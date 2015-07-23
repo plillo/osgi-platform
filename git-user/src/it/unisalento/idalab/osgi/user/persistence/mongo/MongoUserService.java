@@ -106,6 +106,28 @@ public class MongoUserService implements UserServicePersistence {
 					matchs.put(found_user, list);
 				}
 			}
+			if(user.containsKey("firstName") && user.get("firstName")!=null) {
+				found_user = users.findOne(new BasicDBObject("firstName", user.get("firstName")));
+				if(found_user!=null){
+					TreeSet<String> list = matchs.get(found_user);
+					if(list==null)
+						list = new TreeSet<String>();
+					    
+					list.add("firstName");
+					matchs.put(found_user, list);
+				}
+			}
+			if(user.containsKey("lastName") && user.get("lastName")!=null) {
+				found_user = users.findOne(new BasicDBObject("lastName", user.get("lastName")));
+				if(found_user!=null){
+					TreeSet<String> list = matchs.get(found_user);
+					if(list==null)
+						list = new TreeSet<String>();
+					    
+					list.add("lastName");
+					matchs.put(found_user, list);
+				}
+			}
 			
 			// Set response: number of matched users
 			response.put("matched", matchs.size());
@@ -182,6 +204,21 @@ public class MongoUserService implements UserServicePersistence {
 	@Override
 	public User getUserByMobile(String mobile) {
 		return getUserByKey("mobile", mobile);
+	}
+	
+	@Override
+	public User getUserByFirstName(String firstName) {
+		return getUserByKey("firstName", firstName);
+	}
+
+	@Override
+	public User getUserByLastName(String lastName) {
+		return getUserByKey("lastName", lastName);
+	}
+
+	@Override
+	public User getUserById(String userId) {
+		return getUserByKey("userId", userId);
 	}
 	
 	// CREATE
@@ -551,6 +588,22 @@ public class MongoUserService implements UserServicePersistence {
 		
 		return map;
 	
+	}
+
+
+
+	@Override
+	public List<User> getUserDetails(User user) {
+		
+		JacksonDBCollection<User, Object> users = JacksonDBCollection.wrap(userCollection, User.class);
+		DBCursor<User> cursor = users.find(user);
+		
+		List<User> list = new ArrayList<>();
+		while(cursor.hasNext()) {
+			list.add(cursor.next());
+		}
+
+		return list;
 	}
 
 }

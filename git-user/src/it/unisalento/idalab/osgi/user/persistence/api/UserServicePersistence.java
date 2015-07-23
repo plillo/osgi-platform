@@ -18,6 +18,10 @@ public interface UserServicePersistence {
 	User getUserByEmail(String email);
 	User getUserByMobile(String mobile);
 	User getUserByUsername(String username);
+	User getUserByFirstName(String firstName);
+	User getUserByLastName(String lastName);
+	User getUserById(String userId);
+	List<User> getUserDetails(User user);
 	
 	// UPDATE
 	Map<String, Object> updateUser(User user);
