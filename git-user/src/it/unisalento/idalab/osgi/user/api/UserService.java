@@ -20,4 +20,8 @@ public interface UserService {
 	String generatePassword();
 	Map<String, Object> create(User user);
 	void createUsersByCSV(BufferedReader reader, boolean simulation, boolean activation) throws IOException;
+	Map<String, Object> deleteUser(Map<String, Object> pars);
+	Map<String, Object> updateUser(Map<String, Object> pars);
+	List<User> getUser(Map<String, Object> pars);
+	List<User> searchUsers(String parameter);
 }

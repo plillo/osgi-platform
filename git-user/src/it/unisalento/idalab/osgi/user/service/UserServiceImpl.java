@@ -2,6 +2,7 @@ package it.unisalento.idalab.osgi.user.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -361,6 +362,63 @@ public class UserServiceImpl implements UserService, ManagedService {
 	@Override
 	public String generatePassword() {
 		return _getRandomPassword(10);
+	}
+
+
+	@Override
+	public Map<String, Object> deleteUser(Map<String, Object> pars) {
+		
+		User user = new User();
+
+		if (pars.containsKey("username"))
+			user.setUsername((String) pars.get("username"));
+
+		else if (pars.containsKey("email"))
+			user.setEmail((String) pars.get("email"));
+
+		else if (pars.containsKey("mobile"))
+			user.setMobile((String) pars.get("mobile"));
+
+		return _userPersistenceService.deleteUser(user);
+	}
+
+
+	@Override
+	public Map<String, Object> updateUser(Map<String, Object> pars) {
+		
+		//completare
+		return null;
+	}
+
+
+	@Override
+	public List<User> getUser(Map<String, Object> pars) {
+		User user = new User();
+
+		if (pars.containsKey("username"))
+			user.setUsername((String) pars.get("username"));
+
+		else if (pars.containsKey("email"))
+			user.setEmail((String) pars.get("email"));
+
+		else if (pars.containsKey("mobile"))
+			System.out.println("UserService - Mobile");
+
+		return _userPersistenceService.getUserDetails(user);
+	}
+
+
+	@Override
+	public List<User> searchUsers(String parameter) {
+		List<User> users = new ArrayList<User>();
+		
+		
+		users.add(_userPersistenceService.getUserByFirstName(parameter));
+		users.add(_userPersistenceService.getUserByLastName(parameter));
+		users.add(_userPersistenceService.getUserByUsername(parameter));
+		users.add(_userPersistenceService.getUserByEmail(parameter));
+
+		return users;
 	}
 
 
