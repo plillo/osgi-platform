@@ -1,36 +1,73 @@
 package it.unisalento.idalab.osgi.content.service;
 
+import it.unisalento.idalab.osgi.content.api.Content;
+import it.unisalento.idalab.osgi.content.api.ContentService;
+
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.vz.mongodb.jackson.JacksonDBCollection;
+
 import org.amdatu.mongo.MongoDBService;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
-
-import net.vz.mongodb.jackson.JacksonDBCollection;
-import it.unisalento.idalab.osgi.content.api.Content;
-import it.unisalento.idalab.osgi.content.api.ContentService;
 
 public class ContentServiceImpl implements ContentService {
 	private static final String COLLECTION = "contents";
 	private volatile MongoDBService m_mongoDBService;
 
 	// Mongo User collection
-	private DBCollection userCollection;
+	private DBCollection contentCollection;
 	
 	public void start() {
 		// Initialize user collection
-		userCollection = m_mongoDBService.getDB().getCollection(COLLECTION);
+		contentCollection = m_mongoDBService.getDB().getCollection(COLLECTION);
+	}
+	
+	@Override
+	public Map<String, Object> getContent(String name, String lang, String type) {
+		Map<String, Object> searchContent =  new HashMap<String, Object>();
+		
+		name = name.replaceAll("/", ".");
+		
+		searchContent.put("name", name);
+		
+		return getContent(searchContent);
 	}
 
-	@Override
-	public Map<String, ?> getContent(String name, String lang, String type) {
-		// TODO Auto-generated method stub
-		return null;
+
+	public Map<String, Object> getContent(Map<String, Object> searchContent) {
+		JacksonDBCollection<Content, String> contents = JacksonDBCollection.wrap(contentCollection, Content.class, String.class);
+		Map<String, Object> response = new HashMap<String, Object>();
+		Content found_content = null;
+		
+		if(searchContent.containsKey("name") && searchContent.get("name")!=null) {
+			found_content = contents.findOne(new BasicDBObject("name", searchContent.get("name")));
+			if(found_content!=null){
+				response.put("matched", 1);
+				response.put("content", found_content);
+			}
+			else{
+				response.put("matched", 0);
+			}
+		}
+			
+		return response;
+	}
+	
+	public Map<String, Object> getContent(Content content) {
+		Map<String, Object> map = new TreeMap<String, Object>();
+		if(content.getName()!=null && !"".equals(content.getName()))
+			map.put("name", content.getName());
+
+		return getContent(map);
 	}
 
+
 	@Override
-	public Map<String, ?> setContent(String name, String lang, String type, String content) {
+	public Map<String, Object> setContent(String name, String lang, String type, String content) {
 		
 		Content cnt = new Content();
 		cnt.setName(name);
@@ -46,10 +83,10 @@ public class ContentServiceImpl implements ContentService {
 	// ======
 	public Map<String, Object> setContent(Content content) {
 		Map<String, Object> response = new TreeMap<String, Object>();
-		JacksonDBCollection<Content, String> contents = JacksonDBCollection.wrap(userCollection, Content.class, String.class);
+		JacksonDBCollection<Content, String> contents = JacksonDBCollection.wrap(contentCollection, Content.class, String.class);
 		
 		// Match content
-		Map<String, Object> result = getContent(content);
+		Map<String, ?> result = getContent(content);
 
 		// If new content
 		if((int)result.get("matched")==0) {
@@ -82,18 +119,11 @@ public class ContentServiceImpl implements ContentService {
 		}
 		// If existing many contents
 		else{
-			response.put("created", false);
+			response.put("created", new Boolean(false));
 			response.put("returnCode", 110);
 			response.put("contents", result.get("contents"));
 		}
 
-		return response;
-	}
-
-	private Map<String, Object> getContent(Content content) {
-		Map<String, Object> response= new TreeMap<String, Object>();
-		response.put("matched", 0);
-		
 		return response;
 	}
 

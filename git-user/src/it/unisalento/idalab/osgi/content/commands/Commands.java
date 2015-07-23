@@ -11,8 +11,8 @@ public class Commands {
 		
 		Map<String, ?> ret = _contentService.setContent(name, lang, type, content);
 		
-		String status = (String) ret.get("returnCode");
-		System.out.println("called shell command 'createContent' - return-code: "+status);
+		int status = (Integer) ret.get("returnCode");
+		System.out.println("called shell command 'createContent': "+content+" - return-code: "+status);
 	}
 
 }

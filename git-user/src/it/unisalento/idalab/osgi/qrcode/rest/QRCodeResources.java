@@ -26,7 +26,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
-@Path("qrcode/1.0")
+@Path("qrcode/v1.0")
 @Description("API for QR-code management version 1.0")
 public class QRCodeResources {
 
