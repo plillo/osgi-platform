@@ -9,7 +9,7 @@ public class Content {
 	private String name;
 	private String lang;
 	private String type;
-	private String content;
+	private byte[] content;
 	
 	
 	public String get_id() {
@@ -24,10 +24,10 @@ public class Content {
 	public void setLang(String lang) {
 		this.lang = lang;
 	}
-	public String getContent() {
+	public byte[] getContent() {
 		return content;
 	}
-	public void setContent(String content) {
+	public void setContent(byte[] content) {
 		this.content = content;
 	}
 	public String getName() {
