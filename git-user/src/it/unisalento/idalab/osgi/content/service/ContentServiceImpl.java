@@ -2,6 +2,7 @@ package it.unisalento.idalab.osgi.content.service;
 
 import it.unisalento.idalab.osgi.content.api.Content;
 import it.unisalento.idalab.osgi.content.api.ContentService;
+import static it.unisalento.idalab.osgi.tools.StringTools.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,11 +33,27 @@ public class ContentServiceImpl implements ContentService {
 		
 		name = name.replaceAll("/", ".");
 		
-		searchContent.put("name", name);
+		if(isNotEON(name))
+			searchContent.put("name", name);
+		if(isNotEON(lang))
+			searchContent.put("lang", lang);
+		if(isNotEON(type))
+			searchContent.put("type", type);
 		
 		return getContent(searchContent);
 	}
 
+	@Override
+	public Map<String, Object> getContent(String name, String lang) {
+
+		return getContent(name, lang, null);
+	}
+
+	@Override
+	public Map<String, Object> getContent(String name) {
+
+		return getContent(name, "IT/IT", null);
+	}
 
 	public Map<String, Object> getContent(Map<String, Object> searchContent) {
 		JacksonDBCollection<Content, String> contents = JacksonDBCollection.wrap(contentCollection, Content.class, String.class);
@@ -67,7 +84,7 @@ public class ContentServiceImpl implements ContentService {
 
 
 	@Override
-	public Map<String, Object> setContent(String name, String lang, String type, String content) {
+	public Map<String, Object> setContent(String name, String lang, String type, byte[] content) {
 		
 		Content cnt = new Content();
 		cnt.setName(name);
@@ -86,7 +103,7 @@ public class ContentServiceImpl implements ContentService {
 		JacksonDBCollection<Content, String> contents = JacksonDBCollection.wrap(contentCollection, Content.class, String.class);
 		
 		// Match content
-		Map<String, ?> result = getContent(content);
+		Map<String, Object> result = getContent(content);
 
 		// If new content
 		if((int)result.get("matched")==0) {
@@ -126,5 +143,6 @@ public class ContentServiceImpl implements ContentService {
 
 		return response;
 	}
+
 
 }
