@@ -1,3 +1,3 @@
 Bundle-Version: 1.0.0
 Export-Package:  \
-	it.unisalento.idalab.osgi.tools
+	it.unisalento.idalab.osgi.util
