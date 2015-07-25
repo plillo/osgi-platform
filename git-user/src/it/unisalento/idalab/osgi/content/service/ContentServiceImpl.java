@@ -2,7 +2,7 @@ package it.unisalento.idalab.osgi.content.service;
 
 import it.unisalento.idalab.osgi.content.api.Content;
 import it.unisalento.idalab.osgi.content.api.ContentService;
-import static it.unisalento.idalab.osgi.tools.StringTools.*;
+import static it.unisalento.idalab.osgi.util.StringUtils.*;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package it.unisalento.idalab.osgi.tools;
+package it.unisalento.idalab.osgi.util;
 
 public class Random {
 	public static String getRandomKey(int len){

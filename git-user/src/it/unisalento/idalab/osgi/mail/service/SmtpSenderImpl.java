@@ -27,8 +27,8 @@ import org.osgi.service.log.LogService;
 import com.sun.mail.util.MailSSLSocketFactory;
 
 import it.unisalento.idalab.osgi.mail.api.SmtpSender;
-import static it.unisalento.idalab.osgi.tools.Parser.*;
-import static it.unisalento.idalab.osgi.tools.StringTools.*;
+import static it.unisalento.idalab.osgi.util.Parser.*;
+import static it.unisalento.idalab.osgi.util.StringUtils.*;
 
 @SuppressWarnings("rawtypes")
 public class SmtpSenderImpl implements SmtpSender, ManagedService {

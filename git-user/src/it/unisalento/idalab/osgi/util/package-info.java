@@ -5,4 +5,4 @@
  * @author Paolo Lillo
  *
  */
-package it.unisalento.idalab.osgi.tools;
+package it.unisalento.idalab.osgi.util;

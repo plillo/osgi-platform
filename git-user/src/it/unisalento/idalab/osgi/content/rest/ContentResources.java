@@ -2,7 +2,7 @@ package it.unisalento.idalab.osgi.content.rest;
 
 import it.unisalento.idalab.osgi.content.api.Content;
 import it.unisalento.idalab.osgi.content.api.ContentService;
-import static it.unisalento.idalab.osgi.tools.StringTools.*;
+import static it.unisalento.idalab.osgi.util.StringUtils.*;
 
 import java.io.ByteArrayInputStream;
 import java.net.HttpURLConnection;

@@ -1,6 +1,6 @@
 package it.unisalento.idalab.osgi.captcha.rest;
 
-import it.unisalento.idalab.osgi.tools.Random;
+import it.unisalento.idalab.osgi.util.Random;
 
 import java.awt.Color;
 import java.awt.Font;

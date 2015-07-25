@@ -1,4 +1,4 @@
-package it.unisalento.idalab.osgi.tools;
+package it.unisalento.idalab.osgi.util;
 
 public class Parser {
 	public static int parseInt(String value) {
@@ -6,7 +6,7 @@ public class Parser {
 	}
 
 	public static int parseInt(String value, int default_value) {
-		if(StringTools.isEON(value))
+		if(StringUtils.isEON(value))
 			return default_value;
 		try{
 			return Integer.parseInt(value);
@@ -20,7 +20,7 @@ public class Parser {
 	}
 
 	public static long parseLong(String value, long default_value) {
-		if(StringTools.isEON(value))
+		if(StringUtils.isEON(value))
 			return default_value;
 		try{
 			return Long.parseLong(value);
@@ -34,7 +34,7 @@ public class Parser {
 	}
 
 	public static double parseDouble(String value, double default_value) {
-		if(StringTools.isEON(value))
+		if(StringUtils.isEON(value))
 			return default_value;
 		try{
 			return Double.parseDouble(value);
@@ -48,7 +48,7 @@ public class Parser {
 	}
 
 	public static boolean parseBoolean(String value, boolean default_value) {
-		if(StringTools.isEON(value))
+		if(StringUtils.isEON(value))
 			return default_value;
 		try{
 			return Boolean.parseBoolean(value);

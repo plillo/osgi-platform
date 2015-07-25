@@ -1,9 +1,9 @@
-package it.unisalento.idalab.osgi.tools;
+package it.unisalento.idalab.osgi.util;
 
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-public class StringTools {
+public class StringUtils {
 	
 	public static boolean isEmpty(String s) {
 		if(s==null)
