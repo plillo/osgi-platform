@@ -1,11 +1,10 @@
 package it.unisalento.idalab.osgi.user.oauth2.rest;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.TreeMap;
-
 import it.unisalento.idalab.osgi.user.api.UserService;
 import it.unisalento.idalab.osgi.user.oauth2.manager.Manager;
+
+import java.io.IOException;
+import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
