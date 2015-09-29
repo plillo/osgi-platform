@@ -11,3 +11,5 @@ angular.module("userUI", ['ngRoute','remoteValidation','ui.bootstrap'])
 .run(function($rootScope){
 	  $rootScope.user="unknown";	
 });
+
+
