@@ -12,15 +12,18 @@ public class ManagerImpl implements Manager {
 
 	Map<String, Authenticator> authenticators = new HashMap<String, Authenticator>();
 	
+	
 	public void add(Authenticator auth){
 		System.out.println("Registering in whiteboard: "+auth.getName());
 		authenticators.put(auth.getName(), auth);
+		
 	}
 	
 	public void remove(Authenticator auth){
 		System.out.println("Deleting from whiteboard: "+auth.getName());
 		authenticators.remove(auth);
 	}
+
 	
 	public Map<String, Object> authenticate(String code, String name){
 		Map<String, Object> mapInfo = new TreeMap<String, Object>();
@@ -33,5 +36,12 @@ public class ManagerImpl implements Manager {
 		}
 
 		return mapInfo;
+	}
+
+	@Override
+	public Map<String, Authenticator> authenticators() {
+		// TODO Auto-generated method stub
+		
+		return authenticators;
 	}
 }

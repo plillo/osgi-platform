@@ -1,0 +1,124 @@
+<div class="container">
+
+	<div class="omb_login">
+	<h3 class="omb_authTitle">New User Registration</h3>
+		<div class="row omb_row-sm-offset-3 omb_socialButtons" >
+    	    <div class="col-xs-4 col-sm-2" ng-repeat="nameouth in ouths">
+		        <a ng-click="callouth(nameouth.name)" class="btn btn-lg btn-block omb_btn-{{nameouth.name}}">
+			        <i class="fa fa-{{nameouth.name}} visible-xs"></i>
+			        <span class="hidden-xs">{{nameouth.name | capitalize:true}}</span>
+		        </a>
+	        </div>
+		</div> 
+
+		<div class="row omb_row-sm-offset-3 omb_loginOr">
+			<div class="col-xs-12 col-sm-6">
+				<hr class="omb_hrOr">
+				<span class="omb_spanOr">or</span>
+			</div>
+		</div>
+		<div class="row omb_row-sm-offset-3">
+			<div class="col-xs-12 col-sm-6">
+				<form ng-submit="vm.register()" role="form" name="form" class="omb_loginForm" novalidate>
+					<div class="input-group">
+						<span for="inputUsername" class="input-group-addon"><i
+							class="fa fa-user fa-1x" ></i></span> <input type="text" class="form-control"
+							name="inputUsername" id="inputUsername" placeholder="Username"
+							ng-model="newUser.username"
+							ng-remote-validate="/users/1.0/validateUsername"
+							ng-remote-method="GET" ng-remote-throttle="0"
+							ng-model-options="{ updateOn: 'blur' }" required>
+							
+					</div>
+					<span class="help-block" ng-show="form.inputUsername.$dirty && form.inputUsername.$error.required" >Username is required</span>
+					<p
+						ng-show="form.inputUsername.$error.ngRemoteValidate && !form.inputUsername.$pristine"
+						class="help-block">Username already exists.</p>
+					<span class="help-block"></span>
+					<div class="control-group">
+						<div class="input-group">
+						<span for="inputUsername" class="input-group-addon"><i style="width: 0.78571429em;"
+							class="fa fa-user fa-1x"></i></span>
+							<input class="form-control" type="text" id="inputFirstname" placeholder="Firstname"
+								ng-model="newUser.firstName">
+						</div>
+					</div>
+					<span class="help-block"></span>
+					<div class="control-group">
+						<div class="input-group">
+						<span for="inputUsername" class="input-group-addon"><i style="width: 0.78571429em;"
+							class="fa fa-user fa-1x"></i></span>
+							<input class="form-control" type="text" id="inputLastname" placeholder="Lastname"
+								ng-model="newUser.lastName">
+						</div>
+					</div>
+					<span class="help-block"></span>
+					<div class="control-group">
+						<div class="input-group">
+						<span for="inputUsername" class="input-group-addon"><i
+							class="fa fa-envelope fa-1x" style="width: 0.78571429em;"></i></span>
+							<input class="form-control" type="email" name="email" id="inputEmail"
+								placeholder="Email" ng-model="newUser.email" required
+								ng-remote-validate="/users/1.0/validateEMail"
+								ng-remote-method="GET" ng-remote-throttle="0"
+								ng-pattern="/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$/"
+								ng-model-options="{ updateOn: 'blur' }">
+							
+						</div>
+						<p ng-show="form.email.$error.required && form.email.$dirty"
+								class="help-block">Email is required.</p>
+							<p ng-show="form.email.$error.pattern && form.email.$dirty"
+								class="help-block">Not a valid email address.</p>
+							<p
+								ng-show="form.email.$error.ngRemoteValidate && !form.email.$pristine"
+								class="help-block">Email already exists.</p>
+					</div>
+					<span class="help-block"></span>
+					<div class="control-group">
+						<div class="input-group">
+						<span for="inputUsername" class="input-group-addon"><i style="width: 0.78571429em;"
+							class="fa fa-mobile fa-1x" style="width: 0.78571429em;"></i></span>
+							<input class="form-control" type="text" name="mobile" id="inputMobile"
+								placeholder="Mobile" ng-model="newUser.mobile"
+								ng-remote-validate="/users/1.0/validateMobile"
+								ng-remote-method="GET" ng-remote-throttle="0"
+								ng-model-options="{ updateOn: 'blur' }">
+							
+						</div>
+						<p
+								ng-show="form.mobile.$error.ngRemoteValidate && !form.mobile.$pristine"
+								class="help-block">Mobile already exists.</p>
+					</div>
+					<span class="help-block"></span>
+					<div class="control-group">
+						<div class="input-group">
+						<span for="inputUsername" class="input-group-addon"><i style="width: 0.78571429em;"
+							class="fa fa-lock fa-1x"></i></span>
+							<input class="form-control" type="password" id="inputPassword" placeholder="Password"
+								ng-model="newUser.password" required>
+						</div>
+					</div>
+					<span class="help-block"></span>
+					<div class="control-group">
+						<div class="input-group">
+						<span for="inputUsername" class="input-group-addon"><i style="width: 0.78571429em;"
+							class="fa fa-lock fa-1x"></i></span>
+							<input class="form-control" type="password" id="inputRepeatPassword"
+								placeholder="Repeat Password" ng-model="repeatPassword" required>
+						</div>
+					</div>
+					<span class="help-block"></span>
+					<div class="help-block">
+						<div class="error">{{errormessage}}</div>
+					</div>
+					<button class="btn btn-lg btn-primary btn-block"
+						ng-click="createUser()" ng-disabled="validate() == false">Register</button>
+				<span class="help-block"></span>
+				</form>
+				<span class="help-block"></span>
+			</div>
+		</div>
+
+	</div>
+
+</div>

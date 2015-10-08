@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import it.unisalento.idalab.osgi.user.api.User;
 import it.unisalento.idalab.osgi.user.api.UserService;
+import it.unisalento.idalab.osgi.user.oauth2.manager.Manager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -38,6 +39,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 @Description("API for Users management version 1.0")
 public class UserResources {
 	private volatile UserService _userService;
+	private volatile Manager _userAuth;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -45,6 +47,15 @@ public class UserResources {
 	@Notes("TODO: the list must be filtered by means of parameters")
 	public Response list() {
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_userService.listUsers()).build();
+	}
+	
+	@GET
+	@Path("oauth")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Description("Returns a list of authenticators")
+	@Notes("TODO: the list must be filtered by means of parameters")
+	public Response authname() {
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_userAuth.authenticators().values()).build();
 	}
 	
 	@POST
@@ -110,6 +121,7 @@ public class UserResources {
 	@ResponseMessages({ @ResponseMessage(code = 200, message = "In case of success") })
 	public Response login(@QueryParam("identificator") String identificator, @QueryParam("password") String password) {
 		Map<String, Object> response = new TreeMap<String, Object>();
+		
 		
 		// Return ERROR if missing password
 		if (password == null || "".equals(password)) {
