@@ -2,6 +2,3 @@ Bundle-Version: 1.0.0
 Bundle-Activator: it.unisalento.idalab.osgi.user.rest.Activator
 Export-Package:  \
 	it.unisalento.idalab.osgi.user.rest
-Include-Resource: userTest=static/userTest
-X-Web-Resource: /userTest 
-X-Web-Resource-Version: 1.0
