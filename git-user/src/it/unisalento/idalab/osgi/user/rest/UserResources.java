@@ -16,7 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -41,6 +43,16 @@ public class UserResources {
 	private volatile UserService _userService;
 	private volatile Manager _userAuth;
 
+	@GET
+	@Path("test")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Description("Returns a list of users")
+	@Notes("TODO: the list must be filtered by means of parameters")
+	public Response test(@Context HttpServletRequest request) {
+	    final String authorizationHeader = request.getHeader("authorization");
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_userService.listUsers()).build();
+	}
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Description("Returns a list of users")

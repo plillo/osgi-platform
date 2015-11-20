@@ -63,16 +63,29 @@ public class UserServiceImpl implements UserService, ManagedService {
 		case 100:
 			User user = (User)login.get("user");
 			SortedMap<String, String> userMap = new TreeMap<>();
+			SortedMap<String, Object> returnMap = new TreeMap<>();
+			SortedMap<String, String> userReturnMap = new TreeMap<>();
 			userMap.put(TokenProvider.USERNAME, user.get_id());
 			
+			userReturnMap.put("_id", user.get_id());
+			userReturnMap.put("username", user.getUsername());
+			userReturnMap.put("email", user.getEmail());
+			userReturnMap.put("mobile", user.getMobile());
+			userReturnMap.put("firstName", user.getFirstName());
+			userReturnMap.put("lastName", user.getLastName());
+
+			returnMap.put("id_token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NhbXBsZXMuYXV0aDAuY29tLyIsInN1YiI6ImZhY2Vib29rfDEwMTU0Mjg3MDI3NTEwMzAyIiwiYXVkIjoiQlVJSlNXOXg2MHNJSEJ3OEtkOUVtQ2JqOGVESUZ4REMiLCJleHAiOjE0MTIyMzQ3MzAsInJvbGVzIjpbInJlYWRlciIsIndyaXRlciJdLCJpYXQiOjE0MTIxOTg3MzB9.egsc0YfweH_O9cpOApAkYbAw58buECpjDG77hfDUS_0");
+			returnMap.put("user", userReturnMap);
+	
+/*			
 			String token;
 			try {
 				token = _tokenProvider.generateToken(userMap);
 			} catch (TokenProviderException e) {
 				return Response.serverError().entity("Error while logging in").header("Access-Control-Allow-Origin", "*").build();
 			}
-			
-			return Response.ok().header("Access-Control-Allow-Origin", "*").entity(user).cookie(new NewCookie(TokenProvider.TOKEN_COOKIE_NAME, token)).build();
+*/		
+			return Response.ok().header("Access-Control-Allow-Origin", "*").entity(returnMap).build();
 			
 		case 110:
 			return Response.status(403).header("Access-Control-Allow-Origin", "*").build();
