@@ -89,6 +89,7 @@ public class AuthenticationFilter implements Filter {
         */
     }
 
+	@SuppressWarnings("rawtypes")
 	private void logRequest(HttpServletRequest httpServletRequest) {
 		// LOG method
 		doLog("Method: " + httpServletRequest.getMethod());
