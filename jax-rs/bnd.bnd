@@ -1,12 +1,22 @@
--buildpath: osgi.annotation;version=6.0.1
+-buildpath: \
+	osgi.annotation;version=6.0.1,\
+	org.apache.felix.dependencymanager,\
+	osgi.cmpn,\
+	osgi.core,\
+	org.apache.felix.gogo.runtime
 Bundle-Version: 0.0.0.${tstamp}
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
-	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)'
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
+	osgi.identity;filter:='(&(osgi.identity=org.apache.felix.dependencymanager)(version=3.1.0))'
 -resolve: auto
--runfw: org.apache.felix.framework;version='[4.4.0,4.4.0]'
+-runfw: org.apache.felix.framework;version='[4.2.0,4.2.0]'
 -runee: JavaSE-1.7
+-sub: *.bnd
 -runbundles: \
+	org.apache.felix.configadmin;version='[1.8.8,1.8.9)',\
+	org.apache.felix.dependencymanager;version='[3.1.0,3.1.1)',\
 	org.apache.felix.gogo.command;version='[0.14.0,0.14.1)',\
 	org.apache.felix.gogo.runtime;version='[0.16.2,0.16.3)',\
-	org.apache.felix.gogo.shell;version='[0.10.0,0.10.1)'
+	org.apache.felix.gogo.shell;version='[0.10.0,0.10.1)',\
+	org.apache.felix.metatype;version='[1.1.2,1.1.3)'
