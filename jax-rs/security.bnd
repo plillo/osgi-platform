@@ -1,0 +1,3 @@
+Private-Package: it.hash.osgi.security
+Bundle-Version: 1.0.0
+Bundle-Activator: it.hash.osgi.security.Activator

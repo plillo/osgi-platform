@@ -1,4 +1,0 @@
-Private-Package: it.hash.osgi.authentication
-Bundle-Version: 1.0.0
-Bundle-Activator: it.hash.osgi.authentication.Activator
-Export-Package: it.hash.osgi.authentication

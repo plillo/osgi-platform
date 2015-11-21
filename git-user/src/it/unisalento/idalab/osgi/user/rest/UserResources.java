@@ -8,17 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import it.unisalento.idalab.osgi.user.api.User;
-import it.unisalento.idalab.osgi.user.api.UserService;
-import it.unisalento.idalab.osgi.user.oauth2.manager.Manager;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -27,6 +21,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.SecurityContext;
 
 import org.amdatu.web.rest.doc.Description;
 import org.amdatu.web.rest.doc.Notes;
@@ -37,12 +32,24 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import it.unisalento.idalab.osgi.user.api.User;
+import it.unisalento.idalab.osgi.user.api.UserService;
+import it.unisalento.idalab.osgi.user.oauth2.manager.Manager;
+
 @Path("users/1.0")
 @Description("API for Users management version 1.0")
 public class UserResources {
 	private volatile UserService _userService;
 	private volatile Manager _userAuth;
 
+	@GET
+    @Produces("text/plain;charset=UTF-8")
+    @Path("/hello")
+    public String sayHello(@Context SecurityContext sc) {
+            if (sc.isUserInRole("admin"))  return "Hello World!";
+            throw new SecurityException("User is unauthorized.");
+    }
+	
 	@GET
 	@Path("test")
 	@Produces(MediaType.APPLICATION_JSON)
