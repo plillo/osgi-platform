@@ -7,7 +7,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
 
+import io.swagger.annotations.Api;
+
 @Path("auth/1.0")
+@Api( value = "/users" )
 public class Resources {
 	
 	@GET

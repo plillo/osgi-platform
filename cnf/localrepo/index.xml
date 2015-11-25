@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<repository increment="1448122339502" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
+<repository increment="1448383005338" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="com.eclipsesource.jaxrs.jersey-all"/>
@@ -1433,6 +1433,2292 @@
   </resource>
   <resource>
     <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="javax.ws.rs.javax.ws.rs-api"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="2.0.0.m09"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="25c4f13f6e04acc12b7d924c9f44fdeb4f842b70351d4254cbbe6aea2d0a261f"/>
+      <attribute name="url" value="javax.ws.rs.javax.ws.rs-api/javax.ws.rs.javax.ws.rs-api-2.0.0.jar"/>
+      <attribute name="size" type="Long" value="94303"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="javax.ws.rs.javax.ws.rs-api"/>
+      <attribute name="bundle-version" type="Version" value="2.0.0.m09"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="javax.ws.rs.javax.ws.rs-api"/>
+      <attribute name="bundle-version" type="Version" value="2.0.0.m09"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="javax.ws.rs"/>
+      <attribute name="version" type="Version" value="2.0.0.m09"/>
+      <attribute name="bundle-symbolic-name" value="javax.ws.rs.javax.ws.rs-api"/>
+      <attribute name="bundle-version" type="Version" value="2.0.0.m09"/>
+      <directive name="uses" value="javax.ws.rs.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="javax.ws.rs.client"/>
+      <attribute name="version" type="Version" value="2.0.0.m09"/>
+      <attribute name="bundle-symbolic-name" value="javax.ws.rs.javax.ws.rs-api"/>
+      <attribute name="bundle-version" type="Version" value="2.0.0.m09"/>
+      <directive name="uses" value="javax.ws.rs.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="javax.ws.rs.container"/>
+      <attribute name="version" type="Version" value="2.0.0.m09"/>
+      <attribute name="bundle-symbolic-name" value="javax.ws.rs.javax.ws.rs-api"/>
+      <attribute name="bundle-version" type="Version" value="2.0.0.m09"/>
+      <directive name="uses" value="javax.ws.rs.core,javax.ws.rs"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="javax.ws.rs.core"/>
+      <attribute name="version" type="Version" value="2.0.0.m09"/>
+      <attribute name="bundle-symbolic-name" value="javax.ws.rs.javax.ws.rs-api"/>
+      <attribute name="bundle-version" type="Version" value="2.0.0.m09"/>
+      <directive name="uses" value="javax.ws.rs.ext,javax.xml.bind.annotation.adapters,javax.xml.namespace,javax.xml.bind.annotation,javax.ws.rs"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="javax.ws.rs.ext"/>
+      <attribute name="version" type="Version" value="2.0.0.m09"/>
+      <attribute name="bundle-symbolic-name" value="javax.ws.rs.javax.ws.rs-api"/>
+      <attribute name="bundle-version" type="Version" value="2.0.0.m09"/>
+      <directive name="uses" value="javax.ws.rs.core,javax.ws.rs"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.xml.bind.annotation)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.xml.bind.annotation.adapters)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.xml.namespace)"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="log4j"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="1.2.17"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="a2234476879b9e76f99a561f3d9da243684edb54b0b44ef7c0cf7a1a3d1e6776"/>
+      <attribute name="url" value="log4j/log4j-1.2.17.jar"/>
+      <attribute name="size" type="Long" value="489883"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="log4j"/>
+      <attribute name="bundle-version" type="Version" value="1.2.17"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="log4j"/>
+      <attribute name="bundle-version" type="Version" value="1.2.17"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.log4j.net"/>
+      <attribute name="version" type="Version" value="1.2.17"/>
+      <attribute name="bundle-symbolic-name" value="log4j"/>
+      <attribute name="bundle-version" type="Version" value="1.2.17"/>
+      <directive name="uses" value="org.apache.log4j,org.apache.log4j.spi,javax.naming,org.apache.log4j.helpers,javax.jms,org.apache.log4j.xml,javax.mail,javax.mail.internet,org.w3c.dom,javax.jmdns"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.log4j.jmx"/>
+      <attribute name="version" type="Version" value="1.2.17"/>
+      <attribute name="bundle-symbolic-name" value="log4j"/>
+      <attribute name="bundle-version" type="Version" value="1.2.17"/>
+      <directive name="uses" value="org.apache.log4j,javax.management,org.apache.log4j.helpers,org.apache.log4j.spi"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.log4j.jdbc"/>
+      <attribute name="version" type="Version" value="1.2.17"/>
+      <attribute name="bundle-symbolic-name" value="log4j"/>
+      <attribute name="bundle-version" type="Version" value="1.2.17"/>
+      <directive name="uses" value="org.apache.log4j,org.apache.log4j.spi"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.log4j.config"/>
+      <attribute name="version" type="Version" value="1.2.17"/>
+      <attribute name="bundle-symbolic-name" value="log4j"/>
+      <attribute name="bundle-version" type="Version" value="1.2.17"/>
+      <directive name="uses" value="org.apache.log4j.helpers,org.apache.log4j,org.apache.log4j.spi"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.log4j.helpers"/>
+      <attribute name="version" type="Version" value="1.2.17"/>
+      <attribute name="bundle-symbolic-name" value="log4j"/>
+      <attribute name="bundle-version" type="Version" value="1.2.17"/>
+      <directive name="uses" value="org.apache.log4j,org.apache.log4j.spi,org.apache.log4j.pattern"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.log4j"/>
+      <attribute name="version" type="Version" value="1.2.17"/>
+      <attribute name="bundle-symbolic-name" value="log4j"/>
+      <attribute name="bundle-version" type="Version" value="1.2.17"/>
+      <directive name="uses" value="org.apache.log4j.spi,org.apache.log4j.helpers,org.apache.log4j.pattern,org.apache.log4j.or,org.apache.log4j.config"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.log4j.or.jms"/>
+      <attribute name="version" type="Version" value="1.2.17"/>
+      <attribute name="bundle-symbolic-name" value="log4j"/>
+      <attribute name="bundle-version" type="Version" value="1.2.17"/>
+      <directive name="uses" value="org.apache.log4j.helpers,javax.jms,org.apache.log4j.or"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.log4j.nt"/>
+      <attribute name="version" type="Version" value="1.2.17"/>
+      <attribute name="bundle-symbolic-name" value="log4j"/>
+      <attribute name="bundle-version" type="Version" value="1.2.17"/>
+      <directive name="uses" value="org.apache.log4j.helpers,org.apache.log4j,org.apache.log4j.spi"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.log4j.or.sax"/>
+      <attribute name="version" type="Version" value="1.2.17"/>
+      <attribute name="bundle-symbolic-name" value="log4j"/>
+      <attribute name="bundle-version" type="Version" value="1.2.17"/>
+      <directive name="uses" value="org.apache.log4j.or,org.xml.sax"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.log4j.pattern"/>
+      <attribute name="version" type="Version" value="1.2.17"/>
+      <attribute name="bundle-symbolic-name" value="log4j"/>
+      <attribute name="bundle-version" type="Version" value="1.2.17"/>
+      <directive name="uses" value="org.apache.log4j.helpers,org.apache.log4j.spi,org.apache.log4j,org.apache.log4j.or"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.log4j.spi"/>
+      <attribute name="version" type="Version" value="1.2.17"/>
+      <attribute name="bundle-symbolic-name" value="log4j"/>
+      <attribute name="bundle-version" type="Version" value="1.2.17"/>
+      <directive name="uses" value="org.apache.log4j,org.apache.log4j.helpers,org.apache.log4j.or"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.log4j.rewrite"/>
+      <attribute name="version" type="Version" value="1.2.17"/>
+      <attribute name="bundle-symbolic-name" value="log4j"/>
+      <attribute name="bundle-version" type="Version" value="1.2.17"/>
+      <directive name="uses" value="org.apache.log4j,org.apache.log4j.spi,org.apache.log4j.helpers,org.apache.log4j.xml,org.w3c.dom"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.log4j.or"/>
+      <attribute name="version" type="Version" value="1.2.17"/>
+      <attribute name="bundle-symbolic-name" value="log4j"/>
+      <attribute name="bundle-version" type="Version" value="1.2.17"/>
+      <directive name="uses" value="org.apache.log4j.helpers,org.apache.log4j.spi,org.apache.log4j"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.log4j.xml"/>
+      <attribute name="version" type="Version" value="1.2.17"/>
+      <attribute name="bundle-symbolic-name" value="log4j"/>
+      <attribute name="bundle-version" type="Version" value="1.2.17"/>
+      <directive name="uses" value="javax.xml.parsers,org.w3c.dom,org.xml.sax,org.apache.log4j.config,org.apache.log4j.helpers,org.apache.log4j,org.apache.log4j.spi,org.apache.log4j.or"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.log4j.varia"/>
+      <attribute name="version" type="Version" value="1.2.17"/>
+      <attribute name="bundle-symbolic-name" value="log4j"/>
+      <attribute name="bundle-version" type="Version" value="1.2.17"/>
+      <directive name="uses" value="org.apache.log4j.spi,org.apache.log4j,org.apache.log4j.helpers"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.jmdns)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.jms)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.mail)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.mail.internet)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.management)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.naming)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.xml.parsers)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.w3c.dom)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.xml.sax)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.xml.sax.helpers)"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="1.10.29.1"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="234a2b81cdd369727ecd7def75308a61bb4888706e186db7d46d66a74741c6d1"/>
+      <attribute name="url" value="org.apache.servicemix.bundles.aws-java-sdk/org.apache.servicemix.bundles.aws-java-sdk-1.10.29.jar"/>
+      <attribute name="size" type="Long" value="25392107"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.route53.internal"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.handlers,com.amazonaws.services.route53.model,com.amazonaws.util,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudfront"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.cloudfront.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.util,org.w3c.dom,com.amazonaws.metrics,com.amazonaws.services.cloudfront.model.transform,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.auth.policy.resources"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.auth.policy"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.sqs"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.sqs.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.util,com.amazonaws.services.sqs.model.transform,org.w3c.dom,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http,org.apache.commons.logging"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.logs.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudsearch.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.cloudsearch.model,javax.xml.stream.events,com.amazonaws.util,com.amazonaws,org.w3c.dom"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudfront_2012_03_15"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.cloudfront_2012_03_15.model,com.amazonaws,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.handlers,com.amazonaws.services.cloudfront_2012_03_15.model.transform,org.w3c.dom,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elastictranscoder.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.dynamodbv2.datamodeling.unmarshallers"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.dynamodbv2.datamodeling,com.amazonaws.services.dynamodbv2.model,com.amazonaws.util"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.securitytoken.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.opsworks.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticloadbalancing.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.elasticloadbalancing.model,javax.xml.stream.events,com.amazonaws.util,com.amazonaws,org.w3c.dom"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticmapreduce.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util.json,com.amazonaws.services.elasticmapreduce.model,com.amazonaws.util,com.amazonaws.internal,com.amazonaws.http,com.amazonaws,com.fasterxml.jackson.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.route53domains.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util.json,com.amazonaws.util,com.amazonaws.services.route53domains.model,com.amazonaws.http,com.amazonaws,com.fasterxml.jackson.core,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticmapreduce"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.elasticmapreduce.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.services.elasticmapreduce.model.transform,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.http.exception"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simplesystemsmanagement.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.util.json,com.amazonaws.services.simplesystemsmanagement.model,com.amazonaws,com.amazonaws.transform,com.fasterxml.jackson.core,com.amazonaws.util,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.identitymanagement.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.http.conn.ssl"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="org.apache.commons.logging,com.amazonaws.internal,javax.net.ssl"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.machinelearning.internal"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.handlers,com.amazonaws.services.machinelearning.model,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudformation.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudsearchv2"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.cloudsearchv2.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.util,org.w3c.dom,com.amazonaws.services.cloudsearchv2.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpledb.internal"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticmapreduce.util"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.elasticmapreduce.model,com.amazonaws,com.amazonaws.util"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.importexport.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.importexport.model,javax.xml.stream.events,com.amazonaws,org.w3c.dom,com.amazonaws.util,com.amazonaws.http,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.glacier.internal"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.handlers,com.amazonaws,com.amazonaws.services.glacier.model,com.amazonaws.internal,com.amazonaws.services.glacier"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.datapipeline.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util.json,com.amazonaws.services.datapipeline.model,com.amazonaws.util,com.amazonaws.internal,com.amazonaws.http,com.amazonaws,com.fasterxml.jackson.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.importexport"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.importexport.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.services.importexport.model.transform,org.apache.commons.logging,com.amazonaws.util,org.w3c.dom,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpledb.util"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.lambda.invoke"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.lambda.model,com.fasterxml.jackson.annotation,com.fasterxml.jackson.databind,org.apache.commons.logging,com.amazonaws.util,com.fasterxml.jackson.databind.type,com.fasterxml.jackson.core,com.amazonaws.services.lambda"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleworkflow.flow.aspectj"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="org.aspectj.lang.annotation,org.aspectj.lang.reflect,com.amazonaws.services.simpleworkflow.flow.annotations,com.amazonaws.services.simpleworkflow.flow.core,org.aspectj.lang,com.amazonaws.services.simpleworkflow.flow.interceptors,com.amazonaws.services.simpleworkflow.flow"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.s3.transfer.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.workspaces.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.workspaces.model,com.amazonaws.util.json,com.amazonaws,com.amazonaws.transform,com.fasterxml.jackson.core,com.amazonaws.util,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.sqs.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudsearch.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.workspaces"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.workspaces.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.services.workspaces.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.metrics.internal"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.metrics,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticache.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.s3.internal.crypto"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,javax.crypto,com.amazonaws.util.json,com.amazonaws.services.s3.model,com.amazonaws.util,com.amazonaws.services.kms,com.amazonaws.services.kms.model,javax.crypto.spec,com.amazonaws.services.s3,com.amazonaws.metrics,com.amazonaws.event,com.amazonaws,com.amazonaws.auth,com.amazonaws.services.s3.internal,org.apache.commons.logging"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticbeanstalk"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.elasticbeanstalk.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.services.elasticbeanstalk.model.transform,com.amazonaws.util,org.w3c.dom,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudwatch.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.cloudwatch.model,javax.xml.stream.events,com.amazonaws.util,com.amazonaws.internal,com.amazonaws.http,com.amazonaws,org.w3c.dom"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudsearchdomain.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.fasterxml.jackson.core,com.amazonaws.services.cloudsearchdomain.model,com.amazonaws.util.json,com.amazonaws,com.amazonaws.util,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.iot.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.machinelearning"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.machinelearning.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.services.machinelearning.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudtrail"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.cloudtrail.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.services.cloudtrail.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.support.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util.json,com.amazonaws.util,com.amazonaws.internal,com.amazonaws.services.support.model,com.amazonaws.http,com.amazonaws,com.fasterxml.jackson.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.importexport.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.auth.internal"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.util,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpledb.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util,com.amazonaws.services.simpledb.model,com.amazonaws,org.w3c.dom,javax.xml.stream.events"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.kms.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.inspector"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.inspector.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.services.inspector.model.transform,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.codecommit.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.codecommit.model,com.amazonaws.util.json,com.amazonaws.util,com.amazonaws.http,com.amazonaws,com.fasterxml.jackson.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.rds.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.rds.model,com.amazonaws.transform,javax.xml.stream.events,com.amazonaws.util,com.amazonaws,org.w3c.dom"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cognitoidentity.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.internal.config"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.fasterxml.jackson.core,com.fasterxml.jackson.databind,com.amazonaws.util.json,com.amazonaws.log,com.amazonaws.util"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.kinesisfirehose"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.kinesisfirehose.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.services.kinesisfirehose.model.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticsearch.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.util.json,com.amazonaws.services.elasticsearch.model,com.amazonaws,com.amazonaws.transform,com.fasterxml.jackson.core,com.amazonaws.util,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.devicefarm.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.ec2.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.services.ec2.model.transform,com.amazonaws.internal,com.amazonaws.util"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticbeanstalk.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util,com.amazonaws.services.elasticbeanstalk.model,com.amazonaws.http,com.amazonaws,javax.xml.stream.events,com.amazonaws.internal,org.w3c.dom"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.glacier.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util,com.amazonaws.services.glacier.model,com.amazonaws.http,com.amazonaws,com.amazonaws.util.json,com.fasterxml.jackson.core,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.ecs.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleworkflow.flow"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.simpleworkflow.flow.generic,com.amazonaws.services.simpleworkflow.flow.core,com.amazonaws.services.simpleworkflow.model,com.amazonaws.services.simpleworkflow,com.amazonaws,com.amazonaws.services.simpleworkflow.flow.worker,com.amazonaws.services.simpleworkflow.flow.pojo,com.fasterxml.jackson.core,com.fasterxml.jackson.databind,com.amazonaws.services.simpleworkflow.flow.common"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticfilesystem"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.elasticfilesystem.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.services.elasticfilesystem.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.sqs.buffered"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.handlers,com.amazonaws.services.sqs.model,com.amazonaws.services.sqs,com.amazonaws.util,com.amazonaws.regions,com.amazonaws,org.apache.commons.logging"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.dynamodbv2.xspec"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.opsworks"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.opsworks.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.services.opsworks.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleworkflow.flow.junit"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.simpleworkflow.flow.core,org.junit,org.junit.rules,org.junit.runners,org.junit.runners.model,com.amazonaws.services.simpleworkflow.flow.generic,com.amazonaws.services.simpleworkflow.flow,com.amazonaws.services.simpleworkflow.flow.worker,com.amazonaws.services.simpleworkflow.flow.test,com.amazonaws.services.simpleworkflow.model"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.lambda"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.lambda.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.services.lambda.model.transform,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.autoscaling.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.autoscaling.model,javax.xml.stream.events,com.amazonaws,org.w3c.dom,com.amazonaws.util,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudsearchv2.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.cloudsearchv2.model,javax.xml.stream.events,com.amazonaws.util,com.amazonaws,org.w3c.dom"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.route53"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.route53.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.services.route53.model.transform,com.amazonaws.util,org.w3c.dom,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.dynamodbv2.document.utils"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.dynamodbv2.document.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.event"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,com.amazonaws,org.apache.commons.logging,com.amazonaws.event.request"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.securitytoken"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.securitytoken.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.util,org.w3c.dom,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http,com.amazonaws.services.securitytoken.model.transform"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.glacier.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.internal"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.fasterxml.jackson.core,com.fasterxml.jackson.databind,com.amazonaws.util,org.apache.commons.logging,com.amazonaws.regions,com.amazonaws,com.amazonaws.log,javax.net.ssl,com.amazonaws.auth"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.dynamodbv2.metrics"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.metrics"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.rds"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.rds.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.util,org.w3c.dom,com.amazonaws.services.rds.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.rds.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.jmx"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="org.apache.commons.logging,com.amazonaws.jmx.spi,javax.management,com.amazonaws.metrics"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.waf.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.retry.internal"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.http,com.amazonaws,com.amazonaws.auth"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.dynamodbv2.document"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.dynamodbv2.document.internal,com.amazonaws.services.dynamodbv2.model,com.amazonaws.services.dynamodbv2,com.amazonaws.services.dynamodbv2.document.spec,com.amazonaws.services.dynamodbv2.document.api,com.amazonaws,com.amazonaws.regions,com.amazonaws.services.dynamodbv2.xspec,com.amazonaws.util.json,com.amazonaws.util"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simplesystemsmanagement.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleworkflow.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.kms.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.kms.model,com.amazonaws.util.json,com.amazonaws,com.amazonaws.transform,com.fasterxml.jackson.core,com.amazonaws.util,com.amazonaws.http,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simplesystemsmanagement"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.simplesystemsmanagement.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.services.simplesystemsmanagement.model.transform,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.redshift.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.redshift.model,com.amazonaws,org.w3c.dom,javax.xml.stream.events,com.amazonaws.util"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.s3.transfer.internal"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.event,com.amazonaws.services.s3.model,com.amazonaws,com.amazonaws.services.s3.transfer,com.amazonaws.services.s3,com.amazonaws.metrics,com.amazonaws.services.s3.transfer.model,org.apache.commons.logging,com.amazonaws.services.s3.transfer.exception,com.amazonaws.internal,com.amazonaws.services.s3.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudformation.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.cloudformation.model,javax.xml.stream.events,com.amazonaws,org.w3c.dom,com.amazonaws.util,com.amazonaws.http,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.machinelearning.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.util.json,com.amazonaws.services.machinelearning.model,com.amazonaws,com.amazonaws.transform,com.fasterxml.jackson.core,com.amazonaws.util,com.amazonaws.http,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.codecommit.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.datapipeline.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.s3"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.s3.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.services.s3.internal,com.amazonaws.auth,org.apache.commons.logging,com.amazonaws.event,com.amazonaws.transform,com.amazonaws.handlers,com.amazonaws.retry.internal,com.amazonaws.services.s3.metrics,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.services.s3.model.transform,com.amazonaws.internal,com.amazonaws.http,com.amazonaws.auth.profile,com.amazonaws.services.kms,com.amazonaws.services.s3.internal.crypto"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.route53.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.inspector.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.glacier"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.glacier.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.services.glacier.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http,com.amazonaws.services.glacier.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.retry"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleworkflow.flow.worker"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.simpleworkflow.model,com.amazonaws.services.simpleworkflow,com.amazonaws.services.simpleworkflow.flow,org.apache.commons.logging,com.amazonaws.services.simpleworkflow.flow.generic,com.amazonaws.services.simpleworkflow.flow.core,com.amazonaws,com.amazonaws.services.simpleworkflow.flow.common"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.dynamodbv2.util"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.dynamodbv2,com.amazonaws.services.dynamodbv2.model,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.iot.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.iot.model,com.amazonaws.util,com.amazonaws.http,com.amazonaws,com.amazonaws.util.json,com.fasterxml.jackson.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpledb"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.simpledb.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.util,com.amazonaws.services.simpledb.model.transform,org.w3c.dom,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http,com.amazonaws.services.simpledb.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.util.json,com.fasterxml.jackson.core,com.fasterxml.jackson.databind,com.amazonaws.http,javax.xml.xpath,com.amazonaws.util,org.w3c.dom,org.apache.commons.logging,javax.xml.stream,javax.xml.stream.events,javax.xml.namespace"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.dynamodbv2.document.spec"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.metrics,com.amazonaws.event,com.amazonaws.services.dynamodbv2.document.internal,com.amazonaws.services.dynamodbv2.document,com.amazonaws.services.dynamodbv2.model,com.amazonaws.services.dynamodbv2.xspec"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.marketplacecommerceanalytics"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.marketplacecommerceanalytics.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.services.marketplacecommerceanalytics.model.transform,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticache.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util,com.amazonaws,com.amazonaws.services.elasticache.model,javax.xml.stream.events,org.w3c.dom"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.logs.internal"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.handlers,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.logs"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.logs.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.services.logs.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleworkflow.flow.common"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.simpleworkflow.model,com.fasterxml.jackson.databind,com.amazonaws.services.simpleworkflow"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudsearchv2.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.directconnect"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.directconnect.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.services.directconnect.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticache"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.elasticache.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.services.elasticache.model.transform,com.amazonaws.util,org.w3c.dom,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.codepipeline.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.util.json,com.amazonaws.services.codepipeline.model,com.amazonaws,com.amazonaws.transform,com.fasterxml.jackson.core,com.amazonaws.util,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleworkflow.flow.annotations"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.simpleworkflow.flow,com.amazonaws.services.simpleworkflow.model"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.sns.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.sns.model,com.amazonaws.util,com.amazonaws,org.w3c.dom,javax.xml.stream.events"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.metrics"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.auth,com.amazonaws.util,org.apache.commons.logging,com.amazonaws.jmx.spi,com.amazonaws.regions,com.amazonaws.internal,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.kinesis.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util.json,com.amazonaws.util,com.amazonaws.internal,com.amazonaws.services.kinesis.model,com.amazonaws.http,com.amazonaws,com.fasterxml.jackson.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleworkflow.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.fasterxml.jackson.core,com.amazonaws.services.simpleworkflow.model,com.amazonaws.util.json,com.amazonaws.util,com.amazonaws.http,com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.marketplacecommerceanalytics.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util.json,com.amazonaws.util,com.amazonaws.http,com.amazonaws.services.marketplacecommerceanalytics.model,com.amazonaws,com.fasterxml.jackson.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.dynamodbv2.document.internal"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.dynamodbv2,com.amazonaws.services.dynamodbv2.document,com.amazonaws.services.dynamodbv2.document.spec,com.amazonaws.services.dynamodbv2.document.api,com.amazonaws.services.dynamodbv2.model,com.amazonaws,com.amazonaws.util"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.http.impl.client"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.http.conn,com.amazonaws.http.protocol,com.amazonaws.metrics,com.amazonaws.util"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.ec2"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.ec2.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.util,org.w3c.dom,com.amazonaws.services.ec2.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.event.request"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.ecs.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.util.json,com.amazonaws.services.ecs.model,com.amazonaws,com.amazonaws.transform,com.fasterxml.jackson.core,com.amazonaws.internal,com.amazonaws.util,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.s3.iterable"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.s3,com.amazonaws.services.s3.model"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticmapreduce.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.config"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.regions,com.amazonaws,com.amazonaws.services.config.model,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.services.config.model.transform,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudwatch.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.sns.util"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.fasterxml.jackson.core,com.amazonaws.util,com.amazonaws.services.sns,com.amazonaws.services.sns.model,com.amazonaws.services.sqs.model,com.amazonaws.services.sqs,com.amazonaws.auth.policy.actions,com.amazonaws.auth.policy.conditions,com.amazonaws.auth.policy,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.http.protocol"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.metrics,com.amazonaws.util"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleworkflow.flow.generic"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.simpleworkflow.flow,com.amazonaws.services.simpleworkflow.flow.worker,com.amazonaws.services.simpleworkflow.model,com.amazonaws.services.simpleworkflow.flow.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.codepipeline"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.services.codepipeline.model,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.services.codepipeline.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.codepipeline.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cognitosync.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util.json,com.amazonaws.services.cognitosync.model,com.amazonaws,com.amazonaws.util,com.amazonaws.http,com.fasterxml.jackson.core,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudtrail.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util.json,com.amazonaws.util,com.amazonaws.internal,com.amazonaws.services.cloudtrail.model,com.amazonaws.http,com.amazonaws,com.fasterxml.jackson.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.codecommit"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.codecommit.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.services.codecommit.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.waf.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.waf.model,com.amazonaws.util.json,com.amazonaws,com.amazonaws.transform,com.fasterxml.jackson.core,com.amazonaws.util,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticbeanstalk.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.directory"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.directory.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.services.directory.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.auth.policy"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.auth.policy.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.auth.profile"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.auth,com.amazonaws.util,org.apache.commons.logging,com.amazonaws,com.amazonaws.auth.profile.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elastictranscoder.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util.json,com.amazonaws,com.amazonaws.services.elastictranscoder.model,com.fasterxml.jackson.core,com.amazonaws.util,com.amazonaws.http,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.redshift"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.redshift.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.util,org.w3c.dom,com.amazonaws.services.redshift.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.devicefarm"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.devicefarm.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.services.devicefarm.model.transform,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudfront.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.sns"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.sns.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.util,org.w3c.dom,com.amazonaws.services.sns.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.lambda.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.lambda.model,com.amazonaws.util.json,com.amazonaws.util,com.amazonaws.http,com.amazonaws,com.fasterxml.jackson.core,org.apache.commons.logging"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.kms"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.kms.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.services.kms.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.ec2.util"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="javax.crypto.spec,com.amazonaws.util,javax.crypto,com.amazonaws.services.ec2.model,com.amazonaws.services.ec2,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.sqs.internal"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.handlers,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.kinesisfirehose.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleworkflow"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.simpleworkflow.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.services.simpleworkflow.model.transform,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.ecs"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.ecs.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.services.ecs.model.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.iotdata"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.iotdata.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http,com.amazonaws.services.iotdata.model.transform"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elastictranscoder"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.regions,com.amazonaws.services.elastictranscoder.model,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http,com.amazonaws.services.elastictranscoder.model.transform"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.directconnect.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.apigateway.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.apigateway"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.apigateway.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.services.apigateway.model.transform,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.codedeploy.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util.json,com.amazonaws.util,com.amazonaws.internal,com.amazonaws.http,com.amazonaws,com.amazonaws.services.codedeploy.model,com.fasterxml.jackson.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.directory.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.util.json,com.amazonaws.services.directory.model,com.amazonaws,com.amazonaws.transform,com.fasterxml.jackson.core,com.amazonaws.internal,com.amazonaws.util,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.regions"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.auth,com.amazonaws,javax.xml.parsers,org.w3c.dom,org.apache.commons.logging,com.amazonaws.util"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cognitosync"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.cognitosync.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.services.cognitosync.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.metrics.internal.cloudwatch.spi"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="org.apache.commons.logging,com.amazonaws.services.cloudwatch.model,com.amazonaws.metrics,com.amazonaws,com.amazonaws.util"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.devicefarm.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.devicefarm.model,com.amazonaws.util.json,com.amazonaws,com.amazonaws.transform,com.fasterxml.jackson.core,com.amazonaws.util,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.s3.internal"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.auth,com.amazonaws.services.s3.model,com.amazonaws.util,com.amazonaws.auth.internal,com.amazonaws,com.amazonaws.internal,org.apache.commons.logging,com.amazonaws.services.s3,com.amazonaws.http,com.amazonaws.services.s3.transfer.exception,javax.crypto,com.amazonaws.services.s3.internal.crypto,com.amazonaws.transform,javax.xml.stream,com.amazonaws.handlers,com.amazonaws.regions,com.amazonaws.retry.internal,com.amazonaws.services.s3.model.transform,javax.net.ssl"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.kinesisfirehose.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.kinesisfirehose.model,com.amazonaws.util.json,com.amazonaws,com.amazonaws.transform,com.fasterxml.jackson.core,com.amazonaws.util,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cognitoidentity.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util.json,com.amazonaws.services.cognitoidentity.model,com.amazonaws.util,com.amazonaws.http,com.amazonaws,com.fasterxml.jackson.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.apigateway.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.util.json,com.amazonaws.services.apigateway.model,com.amazonaws,com.amazonaws.transform,com.fasterxml.jackson.core,com.amazonaws.util,com.amazonaws.http,org.apache.commons.logging"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.iotdata.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.auth.policy.actions"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.auth.policy"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.sqs.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.sqs.model,com.amazonaws.util,com.amazonaws,org.w3c.dom,javax.xml.stream.events"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.directconnect.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.directconnect.model,com.amazonaws.util.json,com.amazonaws.util,com.amazonaws.http,com.amazonaws,com.fasterxml.jackson.core,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.directory.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.sdk"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.dynamodbv2.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudhsm.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util.json,com.amazonaws.util,com.amazonaws.http,com.amazonaws.services.cloudhsm.model,com.amazonaws,com.fasterxml.jackson.core,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.storagegateway.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.machinelearning.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticloadbalancing.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.dynamodbv2"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.dynamodbv2.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.services.dynamodbv2.model.transform,com.amazonaws.internal,com.amazonaws.services.dynamodbv2.metrics,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.sns.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.metrics.internal.cloudwatch"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.util.json,com.amazonaws.metrics,com.amazonaws.services.cloudwatch.model,com.amazonaws.metrics.internal.cloudwatch.spi,com.amazonaws.util,com.amazonaws,com.amazonaws.auth,com.amazonaws.regions,org.apache.commons.logging,com.amazonaws.jmx.spi,com.amazonaws.services.cloudwatch"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.identitymanagement"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.identitymanagement.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.util,com.amazonaws.services.identitymanagement.model.transform,org.w3c.dom,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.jmx.spi"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="org.apache.commons.logging"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudsearchdomain"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.cloudsearchdomain.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.services.cloudsearchdomain.model.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.s3.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.event,com.amazonaws.util.json,com.amazonaws.services.s3.internal,com.amazonaws.regions,com.amazonaws.services.s3.internal.crypto,javax.crypto,com.amazonaws.util,com.amazonaws.metrics,org.apache.commons.logging,com.amazonaws.services.s3.metrics,com.amazonaws.internal,com.amazonaws.services.s3"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.support.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.marketplacecommerceanalytics.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.identitymanagement.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.identitymanagement.model,javax.xml.stream.events,com.amazonaws.util,com.amazonaws,org.w3c.dom"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cognitosync.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudhsm.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.redshift.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.s3.transfer"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.s3.transfer.model,com.amazonaws,com.amazonaws.services.s3.model,com.amazonaws.services.s3.transfer.exception,org.apache.commons.logging,com.amazonaws.services.s3.transfer.internal,com.amazonaws.services.s3,com.amazonaws.services.s3.internal,javax.net.ssl,com.amazonaws.event,com.fasterxml.jackson.annotation,com.fasterxml.jackson.core,com.fasterxml.jackson.databind,com.amazonaws.util.json,com.amazonaws.util,com.amazonaws.auth"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.dynamodbv2.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.util.json,com.amazonaws.services.dynamodbv2.model,com.amazonaws,com.amazonaws.transform,com.fasterxml.jackson.core,com.amazonaws.util,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticfilesystem.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.codedeploy.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.codedeploy"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.regions,com.amazonaws,com.amazonaws.services.codedeploy.model,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.services.codedeploy.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.kinesis"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.kinesis.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.services.kinesis.model.transform,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.log"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="org.apache.commons.logging"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudfront_2012_03_15.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.cloudfront_2012_03_15.model,com.amazonaws,org.w3c.dom,javax.xml.stream.events,com.amazonaws.util,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.route53.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.route53.model,javax.xml.stream.events,com.amazonaws.util,com.amazonaws.http,com.amazonaws,org.w3c.dom"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.autoscaling"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.autoscaling.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,org.w3c.dom,com.amazonaws.services.autoscaling.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleworkflow.flow.core"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.autoscaling.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.auth.profile.internal"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.auth,org.apache.commons.logging,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.ec2.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.ec2.model,com.amazonaws.util,com.amazonaws,javax.xml.stream.events,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.http,com.amazonaws.regions"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.datapipeline"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.datapipeline.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.services.datapipeline.model.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.apigateway.internal"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.handlers,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudsearch"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.cloudsearch.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.util,com.amazonaws.services.cloudsearch.model.transform,org.w3c.dom,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleemail"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.auth,javax.mail.internet,com.amazonaws.util,com.amazonaws.services.simpleemail.model,javax.mail,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.transform,org.w3c.dom,com.amazonaws.metrics,com.amazonaws.services.simpleemail.model.transform,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleworkflow.flow.spring"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.simpleworkflow.flow.interceptors,com.amazonaws.services.simpleworkflow.flow,org.springframework.scheduling.support,com.amazonaws.services.simpleworkflow.flow.pojo,com.amazonaws.services.simpleworkflow,com.amazonaws.services.simpleworkflow.model,com.amazonaws.services.simpleworkflow.flow.generic,org.springframework.context,com.amazonaws.services.simpleworkflow.flow.worker,org.springframework.beans.factory.support,org.springframework.beans,org.springframework.beans.factory.config,org.springframework.beans.factory"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.auth.policy.internal"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.auth.policy,com.fasterxml.jackson.databind,com.amazonaws.util.json,com.amazonaws,com.fasterxml.jackson.core,org.apache.commons.logging"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.annotation"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.s3.transfer.exception"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.services.s3.transfer"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.iotdata.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util,com.amazonaws.services.iotdata.model,com.amazonaws.http,com.amazonaws,org.apache.commons.logging"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.auth,com.amazonaws.handlers,org.apache.commons.logging,com.amazonaws.log,com.amazonaws.util,com.amazonaws.regions,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http,com.amazonaws.event,com.amazonaws.retry,com.amazonaws.util.json,com.amazonaws.internal.config"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleworkflow.flow.test"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.simpleworkflow.flow.generic,com.amazonaws.services.simpleworkflow.flow,com.amazonaws.services.simpleworkflow.flow.worker,com.amazonaws.services.simpleworkflow.flow.core,com.amazonaws.services.simpleworkflow,com.amazonaws.services.simpleworkflow.model,com.amazonaws,com.amazonaws.services.simpleworkflow.flow.pojo"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.storagegateway.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util.json,com.amazonaws.util,com.amazonaws.services.storagegateway.model,com.amazonaws.http,com.amazonaws,com.fasterxml.jackson.core,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudwatch"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.cloudwatch.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.services.cloudwatch.model.transform,org.apache.commons.logging,com.amazonaws.util,org.w3c.dom,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.metrics.internal.cloudwatch.provider.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.dynamodbv2.metrics,org.apache.commons.logging,com.amazonaws.metrics,com.amazonaws.services.cloudwatch.model,com.amazonaws.metrics.internal.cloudwatch.spi,com.amazonaws.services.dynamodbv2.model,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.util.json"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.util,com.fasterxml.jackson.core,com.fasterxml.jackson.databind"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.s3.metrics"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.metrics"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.opsworks.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.opsworks.model,com.amazonaws.util.json,com.amazonaws,com.amazonaws.transform,com.fasterxml.jackson.core,com.amazonaws.internal,com.amazonaws.util,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudsearchdomain.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.logs.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util.json,com.amazonaws.util,com.amazonaws.services.logs.model,com.amazonaws.http,com.amazonaws,com.fasterxml.jackson.core,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.iot"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.iot.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.services.iot.model.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudhsm"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.cloudhsm.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.services.cloudhsm.model.transform,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleworkflow.flow.interceptors"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.simpleworkflow.flow.core,com.amazonaws.services.simpleworkflow.flow"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.http.conn"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="org.apache.commons.logging,com.amazonaws.metrics,com.amazonaws.util"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleemail.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.simpleemail.model,javax.xml.stream.events,com.amazonaws.util,com.amazonaws,org.w3c.dom"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.http"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.auth,com.amazonaws.retry.internal,com.amazonaws.util,com.amazonaws,org.apache.commons.logging,com.amazonaws.http.exception,javax.net.ssl,com.amazonaws.http.conn.ssl,com.amazonaws.retry,com.amazonaws.handlers,com.amazonaws.http.timertask,com.amazonaws.metrics,com.amazonaws.event,com.amazonaws.internal,com.amazonaws.transform,org.w3c.dom,com.amazonaws.http.conn,com.amazonaws.http.impl.client,com.amazonaws.util.json,com.fasterxml.jackson.core,com.fasterxml.jackson.databind,com.amazonaws.internal.http,com.amazonaws.metrics.internal,javax.xml.stream"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.auth"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.log,com.amazonaws.util,com.amazonaws.http,com.amazonaws,com.amazonaws.auth.internal,com.amazonaws.internal,org.apache.commons.logging,javax.crypto.spec,javax.crypto,com.amazonaws.auth.profile,com.fasterxml.jackson.databind,com.amazonaws.util.json,com.amazonaws.services.securitytoken.model,com.amazonaws.services.securitytoken,com.amazonaws.internal.config"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.dynamodbv2.datamodeling.marshallers"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.dynamodbv2.datamodeling,com.amazonaws.services.dynamodbv2.model,com.amazonaws.util,org.apache.commons.logging"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cognitoidentity"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.cognitoidentity.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.services.cognitoidentity.model.transform,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.config.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.util.json,com.amazonaws,com.amazonaws.services.config.model,com.amazonaws.transform,com.fasterxml.jackson.core,com.amazonaws.internal,com.amazonaws.util,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudformation"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.cloudformation.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,org.w3c.dom,com.amazonaws.services.cloudformation.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.route53domains.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.util"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.metrics,org.apache.commons.logging,com.amazonaws.log,com.amazonaws.internal.config,javax.xml.bind,com.amazonaws.internal,com.amazonaws,com.fasterxml.jackson.annotation,com.fasterxml.jackson.databind,com.amazonaws.util.json,com.amazonaws.http,org.xml.sax.helpers,org.xml.sax,javax.xml.parsers,org.w3c.dom,javax.xml.namespace,javax.xml.xpath,com.sun.org.apache.xml.internal.dtm.ref,com.sun.org.apache.xml.internal.dtm,com.sun.org.apache.xerces.internal.jaxp,com.sun.org.apache.xpath.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.kinesis.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.http.timertask"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.config.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleworkflow.flow.pojo"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.simpleworkflow.flow,com.amazonaws.services.simpleworkflow.flow.common,com.amazonaws.services.simpleworkflow.flow.generic,com.amazonaws.services.simpleworkflow.flow.worker,com.amazonaws.services.simpleworkflow.flow.annotations,com.amazonaws.services.simpleworkflow.model,com.amazonaws.services.simpleworkflow.flow.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticloadbalancing"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.elasticloadbalancing.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.util,org.w3c.dom,com.amazonaws.services.elasticloadbalancing.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleworkflow.flow.junit.spring"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="org.junit.rules,com.amazonaws.services.simpleworkflow.flow.junit,org.junit.runners.model,org.springframework.test.context.junit4,org.junit,com.amazonaws.services.simpleworkflow.flow.pojo,com.amazonaws.services.simpleworkflow.flow.spring,com.amazonaws.services.simpleworkflow.model,com.amazonaws.services.simpleworkflow.flow,com.amazonaws.services.simpleworkflow.flow.core,com.amazonaws.services.simpleworkflow.flow.generic,com.amazonaws.services.simpleworkflow.flow.test,com.amazonaws.services.simpleworkflow.flow.worker"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.dynamodbv2.document.api"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.dynamodbv2.document.spec,com.amazonaws.services.dynamodbv2.document,com.amazonaws.services.dynamodbv2.model"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpledb.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudfront_2012_03_15.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.dynamodbv2.datamodeling"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.dynamodbv2.model,com.amazonaws.services.dynamodbv2.datamodeling.marshallers,com.amazonaws.services.dynamodbv2.datamodeling.unmarshallers,org.apache.commons.logging,com.amazonaws.services.dynamodbv2,com.amazonaws.metrics,com.amazonaws,com.amazonaws.auth,com.amazonaws.util,com.amazonaws.services.s3.model,com.amazonaws.retry,com.fasterxml.jackson.core,com.fasterxml.jackson.databind,com.amazonaws.services.s3,com.amazonaws.internal,com.amazonaws.regions,com.amazonaws.services.s3.transfer,com.amazonaws.util.json,com.fasterxml.jackson.annotation,com.amazonaws.services.s3.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.inspector.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util.json,com.amazonaws.util,com.amazonaws.services.inspector.model,com.amazonaws.http,com.amazonaws,com.fasterxml.jackson.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.waf"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.waf.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.services.waf.model.transform,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.auth.policy.conditions"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.auth.policy,com.amazonaws.util,com.amazonaws.services.s3.model"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticsearch"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.elasticsearch.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,com.amazonaws.services.elasticsearch.model.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.storagegateway"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.storagegateway.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http,com.amazonaws.services.storagegateway.model.transform"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.workspaces.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.s3.event"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.fasterxml.jackson.annotation,com.fasterxml.jackson.databind.annotation,com.amazonaws.internal,com.amazonaws.util.json"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.s3.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="org.xml.sax.helpers,org.xml.sax,com.amazonaws.services.s3.internal,com.amazonaws.services.s3.model,com.amazonaws,com.amazonaws.util,com.amazonaws.transform,javax.xml.stream,javax.xml.stream.events,com.amazonaws.http,org.apache.commons.logging"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.simpleemail.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudtrail.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.internal,com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.support"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.support.model,com.amazonaws,com.amazonaws.regions,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.services.support.model.transform,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.securitytoken.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.securitytoken.model,com.amazonaws.util,com.amazonaws,javax.xml.stream.events,org.w3c.dom"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.lambda.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws,com.amazonaws.util,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.handlers"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.util,com.amazonaws,com.amazonaws.auth"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.glacier.transfer"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.auth,com.amazonaws.services.glacier.internal,org.apache.commons.logging,com.amazonaws.services.sns,com.amazonaws.services.sqs,com.amazonaws.util,com.amazonaws.event,com.amazonaws.services.glacier.model,com.amazonaws.internal,com.amazonaws.services.s3.internal,com.amazonaws.services.glacier,com.amazonaws,com.amazonaws.services.sns.model,com.amazonaws.util.json,com.amazonaws.auth.policy.actions,com.amazonaws.auth.policy.conditions,com.amazonaws.services.sqs.model,com.amazonaws.auth.policy"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticfilesystem.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.util.json,com.amazonaws.util,com.amazonaws.http,com.amazonaws.services.elasticfilesystem.model,com.amazonaws,com.fasterxml.jackson.core,com.amazonaws.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.route53domains"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.services.route53domains.model,com.amazonaws.regions,com.amazonaws,com.amazonaws.handlers,com.amazonaws.auth,com.amazonaws.transform,org.apache.commons.logging,com.amazonaws.util,com.amazonaws.metrics,com.amazonaws.services.route53domains.model.transform,com.amazonaws.internal,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.cloudfront.model.transform"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws.transform,com.amazonaws.services.cloudfront.model,com.amazonaws,org.w3c.dom,javax.xml.stream.events,com.amazonaws.util,com.amazonaws.http"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.services.elasticsearch.model"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.amazonaws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.amazonaws.internal.http"/>
+      <attribute name="version" type="Version" value="1.10.29"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.aws-java-sdk"/>
+      <attribute name="bundle-version" type="Version" value="1.10.29.1"/>
+      <directive name="uses" value="com.fasterxml.jackson.databind"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.fasterxml.jackson.annotation)(version&gt;=2.5.0)(!(version&gt;=3.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.fasterxml.jackson.core)(version&gt;=2.5.0)(!(version&gt;=3.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.fasterxml.jackson.databind)(version&gt;=2.5.0)(!(version&gt;=3.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.fasterxml.jackson.databind.annotation)(version&gt;=2.5.0)(!(version&gt;=3.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.fasterxml.jackson.databind.type)(version&gt;=2.5.0)(!(version&gt;=3.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=com.sun.org.apache.xerces.internal.jaxp)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=com.sun.org.apache.xml.internal.dtm)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=com.sun.org.apache.xml.internal.dtm.ref)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=com.sun.org.apache.xpath.internal)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.crypto)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.crypto.spec)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=javax.mail)(version&gt;=1.4.0)(!(version&gt;=2.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=javax.mail.internet)(version&gt;=1.4.0)(!(version&gt;=2.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.management)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.naming)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.naming.directory)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.naming.ldap)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.net)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.net.ssl)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.security.auth.x500)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.xml.bind)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.xml.namespace)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.xml.parsers)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.xml.stream)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.xml.stream.events)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.xml.xpath)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.codec.binary)(version&gt;=1.3.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.logging)(version&gt;=1.1.0)(!(version&gt;=2.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.aspectj.lang)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.aspectj.lang.annotation)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.aspectj.lang.reflect)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.ietf.jgss)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.junit)(version&gt;=4.0.0)(!(version&gt;=5.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.junit.rules)(version&gt;=4.0.0)(!(version&gt;=5.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.junit.runners)(version&gt;=4.0.0)(!(version&gt;=5.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.junit.runners.model)(version&gt;=4.0.0)(!(version&gt;=5.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.springframework.beans)(version&gt;=2.5.0)(!(version&gt;=4.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.springframework.beans.factory)(version&gt;=2.5.0)(!(version&gt;=4.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.springframework.beans.factory.config)(version&gt;=2.5.0)(!(version&gt;=4.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.springframework.beans.factory.support)(version&gt;=2.5.0)(!(version&gt;=4.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.springframework.context)(version&gt;=2.5.0)(!(version&gt;=4.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.springframework.scheduling.support)(version&gt;=2.5.0)(!(version&gt;=4.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.springframework.test.context.junit4)(version&gt;=2.5.0)(!(version&gt;=4.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.w3c.dom)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.xml.sax)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.xml.sax.helpers)"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="org.apache.servicemix.bundles.zxing"/>
       <attribute name="type" value="osgi.bundle"/>
       <attribute name="version" type="Version" value="3.0.1.1"/>
@@ -1700,6 +3986,140 @@
     </requirement>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(osgi.wiring.package=org.xml.sax)"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.ops4j.pax.logging.pax-logging-service"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="1.8.4"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="2d0f760ae5e639b3733190cad1cb9a693a89174350caae47b129fb7b069e6d4d"/>
+      <attribute name="url" value="org.ops4j.pax.logging.pax-logging-service/org.ops4j.pax.logging.pax-logging-service-1.8.4.jar"/>
+      <attribute name="size" type="Long" value="822996"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="org.ops4j.pax.logging.pax-logging-service"/>
+      <attribute name="bundle-version" type="Version" value="1.8.4"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="org.ops4j.pax.logging.pax-logging-service"/>
+      <attribute name="bundle-version" type="Version" value="1.8.4"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=com.ibm.uvm.tools)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=com.sun.jdmk.comm)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.jmdns)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=javax.jms)(version&gt;=1.1.0)(!(version&gt;=2.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.mail)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.mail.internet)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.management)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.naming)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.sql)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.swing)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.swing.border)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.swing.event)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.swing.table)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.swing.text)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.swing.tree)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.xml.parsers)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.xml.transform)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.xml.transform.dom)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.xml.transform.sax)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.xml.transform.stream)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <attribute name="provider" value="paxlogging"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.knopflerfish.service.log)(version&gt;=1.1.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ops4j.pax.logging)(version&gt;=0.9.5)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ops4j.pax.logging.spi)(version&gt;=0.9.5)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.framework)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.framework.wiring)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.service.cm)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.service.event)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.service.log)(version&gt;=1.3.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.util.tracker)(version&gt;=1.3.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.w3c.dom)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.xml.sax)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.xml.sax.helpers)"/>
     </requirement>
   </resource>
   <resource>
@@ -2606,6 +5026,43 @@
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(osgi.wiring.package=javax.security.auth.x500)"/>
       <directive name="resolution" value="optional"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="slf4j.simple"/>
+      <attribute name="type" value="osgi.fragment"/>
+      <attribute name="version" type="Version" value="1.7.13"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="475057e7f04165300d2c421f1937f9952c59dbb998b9e9cafa8c5853c8c70c7c"/>
+      <attribute name="url" value="slf4j.simple/slf4j.simple-1.7.13.jar"/>
+      <attribute name="size" type="Long" value="10553"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.slf4j.impl"/>
+      <attribute name="version" type="Version" value="1.7.13"/>
+      <attribute name="bundle-symbolic-name" value="slf4j.simple"/>
+      <attribute name="bundle-version" type="Version" value="1.7.13"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.slf4j)(version&gt;=1.7.13))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.slf4j.spi)(version&gt;=1.7.13))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.slf4j.helpers)(version&gt;=1.7.13))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.bundle">
+      <directive name="filter" value="(osgi.wiring.bundle=slf4j.api)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.host">
+      <directive name="filter" value="(&amp;(osgi.wiring.host=slf4j.api)(bundle-version&gt;=0.0.0))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.5))"/>
     </requirement>
   </resource>
 </repository>

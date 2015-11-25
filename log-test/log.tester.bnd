@@ -1,0 +1,3 @@
+Private-Package: log.tester
+Bundle-Version: 1.0.0
+Bundle-Activator: log.tester.Activator
