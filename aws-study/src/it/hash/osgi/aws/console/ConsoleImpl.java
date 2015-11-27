@@ -9,6 +9,7 @@ import org.osgi.service.log.LogService;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 
 public class ConsoleImpl implements Console, ManagedService{
     AWSCredentials credentials = null;
@@ -23,10 +24,13 @@ public class ConsoleImpl implements Console, ManagedService{
 		}
 
 		try {
-			//credentials = new ProfileCredentialsProvider("elpablito").getCredentials();
+			//
 			String access_key_id = (String)properties.get("aws_access_key_id");
 			String secret_access_key = (String)properties.get("aws_secret_access_key");
-			credentials = new BasicAWSCredentials(access_key_id, secret_access_key);
+			if("#local".equals(access_key_id))
+				credentials = new ProfileCredentialsProvider("elpablito").getCredentials();
+			else
+				credentials = new BasicAWSCredentials(access_key_id, secret_access_key);
 		} catch (Exception e) {
 			System.out.printf(e.toString());
 			throw new AmazonClientException(""

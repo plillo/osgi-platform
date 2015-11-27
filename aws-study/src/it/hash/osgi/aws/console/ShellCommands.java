@@ -1,7 +1,10 @@
 package it.hash.osgi.aws.console;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -9,6 +12,27 @@ import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.ItemCollection;
+import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
+import com.amazonaws.services.dynamodbv2.document.QueryOutcome;
+import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.TableCollection;
+import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
+import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
+import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
+import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
+import com.amazonaws.services.dynamodbv2.model.KeySchemaElement;
+import com.amazonaws.services.dynamodbv2.model.KeyType;
+import com.amazonaws.services.dynamodbv2.model.ListTablesResult;
+import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
+import com.amazonaws.services.dynamodbv2.model.ScanRequest;
+import com.amazonaws.services.dynamodbv2.model.ScanResult;
+import com.amazonaws.services.dynamodbv2.model.TableDescription;
 import com.amazonaws.services.ec2.AmazonEC2;
 import com.amazonaws.services.ec2.AmazonEC2Client;
 import com.amazonaws.services.ec2.model.DescribeAvailabilityZonesResult;
@@ -37,6 +61,8 @@ import com.amazonaws.services.sqs.model.DeleteMessageRequest;
 import com.amazonaws.services.sqs.model.DeleteQueueRequest;
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
 import com.amazonaws.services.sqs.model.SendMessageRequest;
+
+import it.hash.osgi.utils.Random;
 
 public class ShellCommands {
 	public volatile Console console;
@@ -272,5 +298,151 @@ public class ShellCommands {
                     "being able to access the network.");
             System.out.println("Error Message: " + ace.getMessage());
         }
+	}
+
+	public void dyndb(){
+		DynamoDB dynamoDB = new DynamoDB(new AmazonDynamoDBClient(console.getCredentials()));
+		
+        System.out.println(""
+        		+ "DynamoDB"
+        		+ "\n--------");
+		TableCollection<ListTablesResult> tables = dynamoDB.listTables();
+		Iterator<Table> iterator = tables.iterator();
+		while (iterator.hasNext()) {
+			Table table = iterator.next();
+			System.out.println(table.getTableName());
+            getTableInformation(dynamoDB, table.getTableName());
+		}
+	}
+	
+	public void createtable(String tableName) {
+		AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(console.getCredentials());
+		ddbClient.setEndpoint("https://dynamodb.eu-central-1.amazonaws.com");
+		DynamoDB dynamoDB = new DynamoDB(ddbClient);
+		
+        try {
+            ArrayList<AttributeDefinition> attributeDefinitions = new ArrayList<AttributeDefinition>();
+            attributeDefinitions.add(new AttributeDefinition()
+                .withAttributeName("Id")
+                .withAttributeType("N"));
+            ArrayList<KeySchemaElement> keySchema = new ArrayList<KeySchemaElement>();
+            keySchema.add(new KeySchemaElement()
+                .withAttributeName("Id")
+                .withKeyType(KeyType.HASH)); //Partition key
+            CreateTableRequest request = new CreateTableRequest()
+                .withTableName(tableName)
+                .withKeySchema(keySchema)
+                .withAttributeDefinitions(attributeDefinitions)
+                .withProvisionedThroughput(new ProvisionedThroughput()
+                    .withReadCapacityUnits(5L)
+                    .withWriteCapacityUnits(6L));
+            System.out.println("Issuing CreateTable request for " + tableName);
+            Table table = dynamoDB.createTable(request);
+            System.out.println("Waiting for " + tableName
+                + " to be created...this may take a while...");
+            table.waitForActive();
+            getTableInformation(dynamoDB, tableName);
+        } catch (Exception e) {
+            System.err.println("CreateTable request failed for " + tableName);
+            System.err.println(e.getMessage());
+        }
+    }
+	
+	public String newid(String type) {
+		AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(console.getCredentials());
+		ddbClient.setEndpoint("https://dynamodb.eu-central-1.amazonaws.com");
+		DynamoDB dynamoDB = new DynamoDB(ddbClient);
+        Table table = dynamoDB.getTable("Unids");
+
+        boolean loop = true;
+        int counter = 1;
+        while(loop) {
+        	// RANDOM ID
+            String random_key = Random.getRandomKey(32);
+            
+            // Set item
+    	    Item item = new Item()
+    	    		.withPrimaryKey(new PrimaryKey("Id", random_key))
+    	    		.withLong("cdate", new java.util.Date().getTime());
+    	    if(type!=null)
+    	    	item.withString("type", type);
+    	    
+    	    // Set specs
+            PutItemSpec putItemSpec = new PutItemSpec()
+                    .withItem(item)
+                    .withConditionExpression("attribute_not_exists(Id)");
+            // Put item
+	        try {
+	            table.putItem(putItemSpec);
+	            loop = false;
+	            return random_key;
+	        } catch (ConditionalCheckFailedException e) {
+	        	loop = counter++<=10;
+	        }
+        }
+        System.out.println("New ID error");
+        return null;
+	}
+	
+	public void putuser(String name, String surname){
+		AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(console.getCredentials());
+		ddbClient.setEndpoint("https://dynamodb.eu-central-1.amazonaws.com");
+		DynamoDB dynamoDB = new DynamoDB(ddbClient);
+        Table table = dynamoDB.getTable("Users");
+        
+        // Get UID
+        String uid = newid("core:user");
+        if(uid==null){
+            System.out.println("User ID error");
+            return;
+        }
+        
+        // Set item
+	    Item item = new Item()
+	    		.withPrimaryKey(new PrimaryKey("Id", uid))
+	    		.withLong("cdate", new java.util.Date().getTime())
+	    		.withString("firstName", name)
+	    		.withString("lastName", surname);
+	    
+	    // Set specs
+        PutItemSpec putItemSpec = new PutItemSpec()
+                .withItem(item)
+                .withConditionExpression("attribute_not_exists(Id)");
+        
+        // Put item
+        try {
+            table.putItem(putItemSpec);
+        } catch (ConditionalCheckFailedException e) {
+            System.out.println("PutUser error");
+        } 
+        catch (AmazonServiceException e) {
+            System.out.println(e.toString());
+        }
+	}
+	
+	public void listusers(){
+		AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(console.getCredentials());
+		ddbClient.setEndpoint("https://dynamodb.eu-central-1.amazonaws.com");
+
+        ScanRequest scanRequest = new ScanRequest()
+        	    .withTableName("Users")
+        	    .withProjectionExpression("Id, lastName, firstName");
+
+    	ScanResult result = ddbClient.scan(scanRequest);
+    	for (Map<String, AttributeValue> item : result.getItems()) {
+    		System.out.println(String.format("%-20s %-20s [%s]",item.get("lastName").getS(),item.get("firstName").getS(),item.get("Id").getS()));
+    	}
+	}
+	
+	void getTableInformation(DynamoDB dynamoDB, String tableName) {
+        System.out.println("Describing " + tableName);
+        TableDescription tableDescription = dynamoDB.getTable(tableName).describe();
+        System.out.format("Name: %s:\n" + "Status: %s \n"
+                + "Provisioned Throughput (read capacity units/sec): %d \n"
+                + "Provisioned Throughput (write capacity units/sec): %d \n",
+        tableDescription.getTableName(), 
+        tableDescription.getTableStatus(),
+        tableDescription.getProvisionedThroughput().getReadCapacityUnits(),
+        tableDescription.getProvisionedThroughput().getWriteCapacityUnits());
 	}
 }

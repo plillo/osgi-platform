@@ -24,7 +24,7 @@ public class Activator extends DependencyActivatorBase {
 		// Shell Commands registration
 		properties = new Properties();
 		properties.put(CommandProcessor.COMMAND_SCOPE, "aws");
-		properties.put(CommandProcessor.COMMAND_FUNCTION, new String[]{"ec2", "s3", "sdb", "ses", "sqs"});
+		properties.put(CommandProcessor.COMMAND_FUNCTION, new String[]{"ec2", "s3", "sdb", "ses", "sqs", "dyndb", "createtable", "putuser", "listusers"});
 		manager.add(createComponent()
 			.setInterface(Object.class.getName(), properties)
 			.setImplementation(ShellCommands.class)
