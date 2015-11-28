@@ -15,13 +15,10 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
-import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
-import com.amazonaws.services.dynamodbv2.document.QueryOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.TableCollection;
 import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
-import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
 import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
@@ -301,16 +298,14 @@ public class ShellCommands {
 	}
 
 	public void dyndb(){
-		DynamoDB dynamoDB = new DynamoDB(new AmazonDynamoDBClient(console.getCredentials()));
+		AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(console.getCredentials());
+		ddbClient.setEndpoint("https://dynamodb.eu-central-1.amazonaws.com");
+		DynamoDB dynamoDB = new DynamoDB(ddbClient);
 		
-        System.out.println(""
-        		+ "DynamoDB"
-        		+ "\n--------");
 		TableCollection<ListTablesResult> tables = dynamoDB.listTables();
 		Iterator<Table> iterator = tables.iterator();
 		while (iterator.hasNext()) {
 			Table table = iterator.next();
-			System.out.println(table.getTableName());
             getTableInformation(dynamoDB, table.getTableName());
 		}
 	}
@@ -435,13 +430,13 @@ public class ShellCommands {
 	}
 	
 	void getTableInformation(DynamoDB dynamoDB, String tableName) {
-        System.out.println("Describing " + tableName);
         TableDescription tableDescription = dynamoDB.getTable(tableName).describe();
-        System.out.format("Name: %s:\n" + "Status: %s \n"
+        System.out.format("\n>>> Table: %s\n" + "Status: %s \nItems number: %d \n"
                 + "Provisioned Throughput (read capacity units/sec): %d \n"
                 + "Provisioned Throughput (write capacity units/sec): %d \n",
         tableDescription.getTableName(), 
         tableDescription.getTableStatus(),
+        tableDescription.getItemCount(),
         tableDescription.getProvisionedThroughput().getReadCapacityUnits(),
         tableDescription.getProvisionedThroughput().getWriteCapacityUnits());
 	}

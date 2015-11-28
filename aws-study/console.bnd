@@ -1,3 +1,0 @@
-Bundle-Version: 1.0.0.${tstamp}
-Private-Package: it.hash.osgi.aws.console
-Bundle-Activator: it.hash.osgi.aws.console.Activator
