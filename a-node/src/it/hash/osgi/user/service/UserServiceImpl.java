@@ -8,8 +8,10 @@ import java.util.Map;
 import javax.ws.rs.core.Response;
 
 import it.hash.osgi.user.User;
+import it.hash.osgi.user.persistence.api.UserServicePersistence;
 
 public class UserServiceImpl implements UserService{
+	private volatile UserServicePersistence persistence;
 
 	@Override
 	public Map<String, Object> login(String username, String password) {
@@ -30,9 +32,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<User> listUsers() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<User> getUsers() {
+		return persistence.getUsers();
 	}
 
 	@Override
@@ -72,13 +73,12 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public Map<String, Object> create(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Object> addUser(User user) {
+		return persistence.addUser(user);
 	}
 
 	@Override
-	public void createUsersByCSV(BufferedReader reader, boolean simulation, boolean activation) throws IOException {
+	public void addUsersByCSV(BufferedReader reader, boolean simulation, boolean activation) throws IOException {
 		// TODO Auto-generated method stub
 		
 	}

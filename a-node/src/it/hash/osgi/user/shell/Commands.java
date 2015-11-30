@@ -1,81 +1,44 @@
 package it.hash.osgi.user.shell;
 
-import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import it.hash.osgi.user.User;
-import it.hash.osgi.user.persistence.api.UserServicePersistence;
+import it.hash.osgi.user.service.UserService;
 
 public class Commands {
-	
-	private volatile UserServicePersistence userservice;
+	private volatile UserService _userService;
 
-	public void listuser() {
-		userservice.getUsers();	
+	public void login(String username, String password) {
+		System.out.println("token: "+_userService.login(username, password));
 	}
-
-	public void adduser(String username, String password, String email, String mobile) {
+	
+	public void add(String username, String firstname, String lastname, String password) {
 		User user = new User();
 		user.setUsername(username);
+		user.setFirstName(firstname);
+		user.setLastName(lastname);
 		user.setPassword(password);
-		user.setEmail(email);
-		user.setMobile(mobile);
-		userservice.createUser(user);
-	}
-	
-	public void validate(String userId,String username) {
-		userservice.validateUsername(userId, username);
+		
+		Map<String, Object> ret = _userService.addUser(user);
+		String status = (String) ret.get("status");
+		System.out.println("called shell command 'createUser' - execution status: "+status);
 	}
 
-	public void getusermail(String email) {
-		userservice.getUserByEmail(email);
-	}
-
-	public void removeuser(String username, String email, String mobile) {
-		User user = new User();
-		user.setUsername(username);
-		user.setMobile(mobile);;
-		user.setEmail(email);
-		userservice.deleteUser(user);
+	public void number() {
+		System.out.println("users number: "+_userService.getUsers().size());
 	}
 	
-	public void login(String username,String password, String email, String mobile) {
-		HashMap<String,Object> hm = new HashMap<String,Object> ();
+	public void list() {
+		List<User> users = _userService.getUsers();
 		
-		hm.put("username", username);
-		hm.put("password", password);
-		hm.put("mobile", mobile);
-		hm.put("email", email);
-		
-		userservice.login(hm);
+		if(users!=null){
+			for(Iterator<User> it = users.iterator();it.hasNext();){
+				User user = it.next();
+				System.out.println(String.format("%-20s%-20s", user.getUsername(), user.getEmail()));
+			}
+		}
 	}
 	
-	public void loginOA(String email,String password, String firstName, String lastName) {
-		HashMap<String,Object> hm = new HashMap<String,Object> ();
-		
-		hm.put("firstName", firstName);
-		hm.put("password", password);
-		hm.put("lastName", lastName);
-		hm.put("email", email);
-		
-		userservice.loginByOAuth2(hm);
-	}
-
-	public void updateuser(String username,String password ,String email, String mobile) {
-		User user = new User();
-		user.setUsername(username);
-		user.setPassword(password);
-		user.setMobile(mobile);
-		user.setEmail(email);
-		userservice.updateUser(user);
-	}
-	
-	public void getuser(String username,String password ,String email, String mobile) {
-		User user = new User();
-		user.setUsername(username);
-		user.setPassword(password);
-		user.setMobile(mobile);;
-		user.setEmail(email);
-		userservice.getUser(user);
-	}
-
 }

@@ -7,8 +7,8 @@ import it.hash.osgi.user.User;
 
 public interface UserServicePersistence {
 	// CREATE
-	Map<String, Object> createUser(User user);
-	Map<String, Object> createUser(Map<String, Object> user);
+	Map<String, Object> addUser(User user);
+	Map<String, Object> addUser(Map<String, Object> user);
 	
 	// READ
 	Map<String, Object> getUser(User user);
@@ -18,8 +18,6 @@ public interface UserServicePersistence {
 	User getUserByEmail(String email);
 	User getUserByMobile(String mobile);
 	User getUserByUsername(String username);
-	User getUserByFirstName(String firstName);
-	User getUserByLastName(String lastName);
 	User getUserById(String userId);
 	List<User> getUserDetails(User user);
 	
