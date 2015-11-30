@@ -22,7 +22,7 @@ public class Commands {
 		userservice.createUser(user);
 	}
 	
-	public void validateU(String userId,String username) {
+	public void validate(String userId,String username) {
 		userservice.validateUsername(userId, username);
 	}
 

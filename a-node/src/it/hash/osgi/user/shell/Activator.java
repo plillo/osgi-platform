@@ -13,8 +13,8 @@ public class Activator extends DependencyActivatorBase {
 	@Override
     public synchronized void init(BundleContext context, DependencyManager manager) throws Exception {
     	Properties props = new Properties();
-		props.put(CommandProcessor.COMMAND_SCOPE, "usermanage");
-		props.put(CommandProcessor.COMMAND_FUNCTION, new String[] {"adduser", "listuser", "getusermail","getuser",  "removeuser", "updateuser", "login","loginOA","validateU"});
+		props.put(CommandProcessor.COMMAND_SCOPE, "user");
+		props.put(CommandProcessor.COMMAND_FUNCTION, new String[] {"adduser", "listuser", "getusermail","getuser", "removeuser", "updateuser", "login", "loginOA", "validate"});
 		manager.add(createComponent().setInterface(Object.class.getName(), props)
 				.setImplementation(Commands.class).add(createServiceDependency().setService(UserServicePersistence.class).setRequired(false)));
     }
