@@ -6,6 +6,7 @@ import java.util.List;
 
 import it.hash.osgi.user.User;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
+import it.hash.osgi.utils.StringUtils;
 
 public class Commands {
 	
@@ -17,7 +18,7 @@ public class Commands {
 		if(users!=null){
 			for(Iterator<User> it = users.iterator();it.hasNext();){
 				User user = it.next();
-				System.out.println(String.format("%-20s%-20s", user.getUsername(), user.getEmail()));
+				System.out.println(String.format("%-20s%-20s", StringUtils.defaultIfNullOrEmpty(user.getUsername(),"#"), StringUtils.defaultIfNullOrEmpty(user.getEmail(),"#")));
 			}
 		}
 	}
@@ -87,4 +88,7 @@ public class Commands {
 		persistence.getUser(user);
 	}
 
+	public void impl() {
+		System.out.println(persistence.getImplementation());
+	}
 }

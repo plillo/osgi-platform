@@ -1,4 +1,4 @@
-package it.hash.osgi.user.persistence.mock;
+package it.hash.osgi.user.persistence.aws;
 
 import java.util.Properties;
 
@@ -8,6 +8,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.service.log.LogService;
 
+import it.hash.osgi.aws.console.Console;
 import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
 
@@ -15,7 +16,7 @@ public class Activator extends DependencyActivatorBase {
     @Override
     public synchronized void init(BundleContext context, DependencyManager manager) throws Exception {
     	Properties props = new Properties();
-		props.put(Constants.SERVICE_RANKING, 1);
+		props.put(Constants.SERVICE_RANKING, 100);
     	manager.add(createComponent()
         	.setInterface(UserServicePersistence.class.getName(), props)
             .setImplementation(UserServicePersistenceImpl.class)
@@ -25,6 +26,9 @@ public class Activator extends DependencyActivatorBase {
             .add(createServiceDependency()
                     .setService(Password.class)
                     .setRequired(true))
+			.add(createServiceDependency()
+					.setService(Console.class)
+					.setRequired(true))
             );
     }
 

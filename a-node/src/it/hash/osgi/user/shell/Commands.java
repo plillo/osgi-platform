@@ -7,6 +7,7 @@ import java.util.Map;
 import it.hash.osgi.user.User;
 import it.hash.osgi.user.service.UserService;
 
+
 public class Commands {
 	private volatile UserService _userService;
 

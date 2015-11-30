@@ -7,7 +7,6 @@ import org.apache.felix.dm.DependencyManager;
 import org.apache.felix.service.command.CommandProcessor;
 import org.osgi.framework.BundleContext;
 
-import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.service.UserService;
 
 
@@ -15,19 +14,13 @@ public class Activator extends DependencyActivatorBase {
 
 	@Override
 	public void init(BundleContext context, DependencyManager manager) throws Exception {
-		Properties props = new Properties();
+    	Properties props = new Properties();
 		props.put(CommandProcessor.COMMAND_SCOPE, "user");
-		props.put(CommandProcessor.COMMAND_FUNCTION, new String[]{"login","testtoken","create","list"});
-		
+		props.put(CommandProcessor.COMMAND_FUNCTION, new String[] {"login","add","number","list"});
 		manager.add(createComponent()
 				.setInterface(Object.class.getName(), props)
 				.setImplementation(Commands.class)
-				.add(createServiceDependency()
-						.setService(UserService.class)
-						.setRequired(true))
-				.add(createServiceDependency()
-						.setService(Password.class)
-						.setRequired(false)));
+				.add(createServiceDependency().setService(UserService.class).setRequired(false)));		
 		}
 
 		@Override

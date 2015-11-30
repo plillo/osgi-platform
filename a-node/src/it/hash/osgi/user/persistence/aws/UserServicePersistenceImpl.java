@@ -1,108 +1,104 @@
-package it.hash.osgi.user.persistence.mock;
+package it.hash.osgi.user.persistence.aws;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ScanRequest;
+import com.amazonaws.services.dynamodbv2.model.ScanResult;
+
+import it.hash.osgi.aws.console.Console;
 import it.hash.osgi.user.User;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
-import it.hash.osgi.utils.StringUtils;
 
 public class UserServicePersistenceImpl implements UserServicePersistence{
-	List<User> users = new ArrayList<User>();
+	public volatile Console console;
 
 	@Override
 	public Map<String, Object> addUser(User user) {
-		users.add(user);
-		
-		return new TreeMap<String, Object>();
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public Map<String, Object> addUser(Map<String, Object> mapuser) {
-		User user = new User();
-		user.setUsername((String)mapuser.get("username"));
-		user.setPassword((String)mapuser.get("password"));
-		user.setEmail((String)mapuser.get("email"));
-		user.setMobile((String)mapuser.get("mobile"));
-		
-		return addUser(user);
+	public Map<String, Object> addUser(Map<String, Object> user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public Map<String, Object> getUser(User user) {
 		// TODO Auto-generated method stub
-		return new TreeMap<String, Object>();
+		return null;
 	}
 
 	@Override
 	public Map<String, Object> getUser(Map<String, Object> user) {
 		// TODO Auto-generated method stub
-		return new TreeMap<String, Object>();
+		return null;
 	}
 
 	@Override
 	public Map<String, Object> getConstrainedUser(Map<String, Object> user) {
 		// TODO Auto-generated method stub
-		return new TreeMap<String, Object>();
+		return null;
 	}
 
 	@Override
 	public List<User> getUsers() {
-		return users;
+		List<User> users = new ArrayList<User>();
+		AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(console.getCredentials());
+		ddbClient.setEndpoint("https://dynamodb.eu-central-1.amazonaws.com");
+
+        ScanRequest scanRequest = new ScanRequest()
+        	    .withTableName("Users")
+        	    .withProjectionExpression("Id, lastName, firstName, username, email, mobile");
+
+    	ScanResult result = ddbClient.scan(scanRequest);
+    	for (Map<String, AttributeValue> item : result.getItems()) {
+    		User user = new User();
+    		if(item.get("Id")!=null)
+    			user.set_id(item.get("Id").getS());
+    		if(item.get("username")!=null)
+    			user.setUsername(item.get("username").getS());
+    		if(item.get("email")!=null)
+    			user.setEmail(item.get("email").getS());
+    		if(item.get("mobile")!=null)
+    			user.setMobile(item.get("mobile").getS());
+    		if(item.get("lastName")!=null)
+    			user.setFirstName(item.get("lastName").getS());
+    		if(item.get("lastName")!=null)
+    			user.setLastName(item.get("lastName").getS());
+    		
+    		users.add(user);
+    	}
+    	
+    	return users;
 	}
 
 	@Override
 	public User getUserByEmail(String email) {
-		if(!StringUtils.isEmptyOrNull(email)){
-			for(Iterator<User> it = users.iterator();it.hasNext();){
-				User user = it.next();
-				if(email.equals(user.getEmail()))
-					return user;
-			}
-		}
-
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public User getUserByMobile(String mobile) {
-		if(!StringUtils.isEmptyOrNull(mobile)){
-			for(Iterator<User> it = users.iterator();it.hasNext();){
-				User user = it.next();
-				if(mobile.equals(user.getMobile()))
-					return user;
-			}
-		}
-
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public User getUserByUsername(String username) {
-		if(!StringUtils.isEmptyOrNull(username)){
-			for(Iterator<User> it = users.iterator();it.hasNext();){
-				User user = it.next();
-				if(username.equals(user.getUsername()))
-					return user;
-			}
-		}
-
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public User getUserById(String userId) {
-		if(!StringUtils.isEmptyOrNull(userId)){
-			for(Iterator<User> it = users.iterator();it.hasNext();){
-				User user = it.next();
-				if(userId.equals(user.get_id()))
-					return user;
-			}
-		}
-
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -159,10 +155,9 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
 	public String getImplementation() {
-		return "mocked";
+		return "AWS";
 	}
-
 }

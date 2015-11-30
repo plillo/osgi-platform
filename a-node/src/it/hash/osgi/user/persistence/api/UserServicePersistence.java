@@ -36,5 +36,8 @@ public interface UserServicePersistence {
 	Map<String, Object> validateUsername(String userId, String username);
 	Map<String, Object> validateEMail(String userId, String email);
 	Map<String, Object> validateMobile(String userId, String mobile);
+	
+	// IMPLEMENTATION
+	String getImplementation();
 
 }
