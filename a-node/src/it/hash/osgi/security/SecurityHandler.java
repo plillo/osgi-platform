@@ -46,6 +46,6 @@ public class SecurityHandler implements AuthenticationHandler, AuthorizationHand
 	}
 
 	private void doLog(String message) {
-		System.out.println("## [" + this.name + "] " + message);
+		System.out.println("### [" + this.name + "] " + message);
 	}
 }
