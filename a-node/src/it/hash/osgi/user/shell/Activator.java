@@ -20,7 +20,7 @@ public class Activator extends DependencyActivatorBase {
 		manager.add(createComponent()
 				.setInterface(Object.class.getName(), props)
 				.setImplementation(Commands.class)
-				.add(createServiceDependency().setService(UserService.class).setRequired(false)));		
+				.add(createServiceDependency().setService(UserService.class).setRequired(true)));		
 		}
 
 		@Override

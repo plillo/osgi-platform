@@ -2,15 +2,19 @@ package it.hash.osgi.user.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
+import org.osgi.service.cm.ConfigurationException;
+import org.osgi.service.cm.ManagedService;
+
 import it.hash.osgi.user.User;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
 
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService, ManagedService{
 	private volatile UserServicePersistence persistence;
 
 	@Override
@@ -105,6 +109,12 @@ public class UserServiceImpl implements UserService{
 	public List<User> searchUsers(String parameter) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void updated(Dictionary<String, ?> arg0) throws ConfigurationException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
