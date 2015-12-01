@@ -44,7 +44,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=org.amdatu.mongo)'
 -runfw: org.apache.felix.framework;version='[4.4.1,4.4.1]'
 -runee: JavaSE-1.7
--resolve: auto
 -runbundles: \
 	ch.qos.logback.classic;version='[1.1.2,1.1.3)',\
 	ch.qos.logback.core;version='[1.1.2,1.1.3)',\
@@ -81,3 +80,4 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.apache.servicemix.bundles.aws-java-sdk;version='[1.10.29,1.10.30)',\
 	org.mongodb.mongo-java-driver;version='[2.13.3,2.13.4)',\
 	slf4j.api;version='[1.7.12,1.7.13)'
+-resolve: auto
