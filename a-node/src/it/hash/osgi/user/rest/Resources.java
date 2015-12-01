@@ -37,7 +37,7 @@ public class Resources {
 		if((Boolean)map.get("isValid")) {
 			// Get the user (if any) matching the identificator
 			map = new TreeMap<String, Object>();
-			
+
 			if("username".equals(identificator_type))
 				map.put("username", identificator);
 			else if("email".equals(identificator_type))
@@ -46,6 +46,7 @@ public class Resources {
 				map.put("mobile", identificator);
 			Map<String, Object> userMap = _userService.getUser(map);
 			
+			// Build the response
 			if((int)userMap.get("matched")>0){
 				// MATCHED user
 				response.put("matched", true);

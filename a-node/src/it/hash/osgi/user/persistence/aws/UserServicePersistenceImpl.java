@@ -15,6 +15,7 @@ import com.amazonaws.services.dynamodbv2.model.ScanResult;
 import it.hash.osgi.aws.console.Console;
 import it.hash.osgi.user.User;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
+import it.hash.osgi.utils.StringUtils;
 
 public class UserServicePersistenceImpl implements UserServicePersistence{
 	public volatile Console console;
@@ -112,6 +113,9 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 	}
 
 	private void searchBy(Map<String, Object> user, Map<User, TreeSet<String>> matchs, AmazonDynamoDBClient ddbClient, String fieldDBName, String fieldName) {
+		if(StringUtils.isEmptyOrNull((String)user.get(fieldName)))
+			return;
+		
 		Map<String, AttributeValue> expressionAttributeValues = new HashMap<String, AttributeValue>();
 		expressionAttributeValues.put(":val", new AttributeValue().withS((String)user.get(fieldName))); 
 		ScanRequest scanRequest = new ScanRequest()

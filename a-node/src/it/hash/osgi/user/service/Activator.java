@@ -16,7 +16,7 @@ public class Activator extends DependencyActivatorBase {
 	@Override
 	public synchronized void init(BundleContext context, DependencyManager manager) throws Exception {
 		Properties properties = new Properties();
-		properties.put(Constants.SERVICE_PID, "it.unisalento.idalab.osgi.user.service");
+		properties.put(Constants.SERVICE_PID, "it.hash.osgi.user.service");
 		
 		manager.add(createComponent()
 			.setInterface(new String[]{UserService.class.getName(), ManagedService.class.getName()}, properties)

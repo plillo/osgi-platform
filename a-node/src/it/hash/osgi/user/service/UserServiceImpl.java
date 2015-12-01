@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Response;
 
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
@@ -17,6 +16,8 @@ import it.hash.osgi.user.User;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
 
 public class UserServiceImpl implements UserService, ManagedService{
+	@SuppressWarnings({ "unused", "rawtypes" })
+	private Dictionary properties;
 	private volatile UserServicePersistence _persistence;
 	
 	private Validator validator = new Validator();
@@ -117,8 +118,7 @@ public class UserServiceImpl implements UserService, ManagedService{
 
 	@Override
 	public Map<String, Object> getUser(Map<String, Object> pars) {
-		// TODO Auto-generated method stub
-		return null;
+		return _persistence.getUser(pars);
 	}
 
 	@Override
@@ -128,9 +128,10 @@ public class UserServiceImpl implements UserService, ManagedService{
 	}
 
 	@Override
-	public void updated(Dictionary<String, ?> arg0) throws ConfigurationException {
-		// TODO Auto-generated method stub
+	public void updated(@SuppressWarnings("rawtypes") Dictionary properties) throws ConfigurationException {
+		this.properties = properties;
 		
+		validator.setProperties(properties);
 	}
 
 	@Override
