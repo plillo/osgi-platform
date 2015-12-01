@@ -8,10 +8,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import it.unisalento.idalab.osgi.user.api.User;
+import it.unisalento.idalab.osgi.user.api.UserService;
+import it.unisalento.idalab.osgi.user.oauth2.manager.Manager;
+
+import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -19,6 +25,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
@@ -32,34 +39,12 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import it.unisalento.idalab.osgi.user.api.User;
-import it.unisalento.idalab.osgi.user.api.UserService;
-import it.unisalento.idalab.osgi.user.oauth2.manager.Manager;
-
 @Path("users/1.0")
 @Description("API for Users management version 1.0")
 public class UserResources {
 	private volatile UserService _userService;
 	private volatile Manager _userAuth;
 
-	@GET
-    @Produces("text/plain;charset=UTF-8")
-    @Path("/hello")
-    public String sayHello(@Context SecurityContext sc) {
-            if (sc.isUserInRole("admin"))  return "Hello World!";
-            throw new SecurityException("User is unauthorized.");
-    }
-	
-	@GET
-	@Path("test")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Description("Returns a list of users")
-	@Notes("TODO: the list must be filtered by means of parameters")
-	public Response test(@Context HttpServletRequest request) {
-	    final String authorizationHeader = request.getHeader("authorization");
-		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_userService.listUsers()).build();
-	}
-	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Description("Returns a list of users")
@@ -141,7 +126,6 @@ public class UserResources {
 	public Response login(@QueryParam("identificator") String identificator, @QueryParam("password") String password) {
 		Map<String, Object> response = new TreeMap<String, Object>();
 		
-		
 		// Return ERROR if missing password
 		if (password == null || "".equals(password)) {
 			response.put("isLogged", false);
@@ -150,7 +134,6 @@ public class UserResources {
 
 			// TODO: gestione dello stato ???
 			return Response.status(Status.BAD_REQUEST).header("Access-Control-Allow-Origin", "*").entity(response).status(403).build();
-			//return Response.status(Status.BAD_REQUEST).entity(response).status(403).build();
 		}
 		
 		// Check and identify the type of identificator (username/email/mobile)
@@ -168,38 +151,77 @@ public class UserResources {
 			else if("mobile".equals(identificator_type))
 				map.put("mobile", identificator);
 			 
-			return _userService.login(map);
-			//return Response.ok().header("Access-Control-Allow-Origin", "*").entity(map).build();
+			Map<String, Object> loginResponse = _userService.login(map);
+			String tokenCookieName = (String)loginResponse.get("tokenCookieName");
+			String token = (String)loginResponse.get("token");
+			
+			if((boolean)loginResponse.get("errorStatus")==false){
+				String uid = (String)loginResponse.get("uid");
+				System.out.println("Logged user: "+uid);
+				return Response.ok().header("Access-Control-Allow-Origin", "*").entity(loginResponse).cookie(new NewCookie(tokenCookieName, token)).build();
+			}
+			else {
+				String errorMessage = (String)loginResponse.get("errorMessage");
+				return Response.serverError().entity(errorMessage).header("Access-Control-Allow-Origin", "*").build();
+			}
 		}
 
-		return Response.status(Status.BAD_REQUEST).header("Access-Control-Allow-Origin", "*").entity(response).status(403).build();
-		//return Response.status(Status.BAD_REQUEST).entity(response).status(403).build();
+		return Response.status(Status.BAD_REQUEST).header("Access-Control-Allow-Origin", "*").entity(response).status(401).build();
 	}
 	
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{userId}")
-	public String getByUserId(@PathParam("userId") String userId)
+	public User getByUserId(@PathParam("userId") String userId)
 			throws Exception {
-		return "Load UID: "+userId;
+		
+		Map<String, Object> map = new TreeMap<String, Object>();
+		map.put("userId", userId);
+						
+		return _userService.getUserDetails(map).get(0);
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("validateIdentificator")
 	public Response validateIdentificator(@QueryParam("value") String identificator) {
-		Map<String, Object> validation = new TreeMap<String, Object>();
-		validation.put("validatingItem", identificator);
+		Map<String, Object> response = new TreeMap<String, Object>();
+		response.put("validatingItem", identificator);
 		
-		Map<String, Object> response = _userService.validateIdentificator(identificator);
+		Map<String, Object> validate = _userService.validateIdentificator(identificator);
+		response.put("identificatorType", validate.get("identificatorType"));
+		response.put("isValid", (Boolean)validate.get("isValid"));
 		
-		boolean isValid = (Boolean)response.get("isValid");
-		validation.put("isValid", isValid);
-		validation.put("identificatorType", response.get("identificatorType"));
-		validation.put("message", "\""+identificator+"\" is "+(isValid?"":"not ")+"a valid identificator");
-		validation.put("status", 400);
- 
-		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(validation).build();
+		if((Boolean)validate.get("isValid")) {
+			// Get the user matching the identificator
+			Map<String, Object> map = new TreeMap<String, Object>();
+			
+			String identificator_type = (String)validate.get("identificatorType");
+			if("username".equals(identificator_type))
+				map.put("username", identificator);
+			else if("email".equals(identificator_type))
+				map.put("email", identificator);
+			else if("mobile".equals(identificator_type))
+				map.put("mobile", identificator);
+			Map<String, Object> userMap = _userService.getUser(map);
+			
+			if((int)userMap.get("matched")>0){
+				// MATCHED user
+				response.put("matched", true);
+				response.put("message", "Matched user with \""+identificator+"\" identificator");
+			}
+			else {
+				response.put("matched", false);
+				response.put("message", "The identificator \""+identificator+"\" is available");
+			}
+		}
+		else {
+			// Not a valid identificator
+			response.put("message", "\""+identificator+"\" is not a valid identificator");
+			response.put("status", 210);
+		}
+
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	}
 	
 	@GET
@@ -285,8 +307,19 @@ public class UserResources {
 		return "Changing password to: "+userId;
 	}
 	
-	
-	
+	@POST
+	@Description("Update user")
+	@Notes("Update resourse API")
+	@Produces(MediaType.APPLICATION_JSON)
+	@ResponseMessages({ @ResponseMessage(code = 200, message = "In case of success") })
+	@Path("{userId}/update")
+	public Response updateUser(@PathParam("userId") String userId, @Context HttpServletRequest request, @Context SecurityContext sc) {
+		Map<String, Object> response = new TreeMap<String, Object>();
+		
+		Map<String, Object> update_response = _userService.update(request); 
+		
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
+	}
 	
 	
 	@DELETE
@@ -358,7 +391,7 @@ public class UserResources {
 			else if("mobile".equals(key_type))
 				map.put("mobile", key);
 						
-			user = _userService.getUser(map);
+			user = _userService.getUserDetails(map);
 		}
 		
 		return user;

@@ -12,6 +12,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import net.vz.mongodb.jackson.DBCursor;
+import net.vz.mongodb.jackson.DBQuery;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 
 import org.amdatu.mongo.MongoDBService;
@@ -74,7 +75,9 @@ public class MongoUserService implements UserServicePersistence {
 				}
 			}
 			if(user.containsKey("username") && user.get("username")!=null) {
-				found_user = users.findOne(new BasicDBObject("username", user.get("username")));
+				//found_user = users.findOne(new BasicDBObject("username", user.get("username")));
+				found_user = users.findOne(DBQuery.is("username", user.get("username")));
+				
 				if(found_user!=null){
 					TreeSet<String> list = matchs.get(found_user);
 					if(list==null)
@@ -369,7 +372,7 @@ public class MongoUserService implements UserServicePersistence {
 			response.put("removed", false);
 			response.put("returnCode",115);
 		}
-		// TODO: Gestire bene la composizione della risposta (deve essere pi� informativa possibile)
+		// TODO: Gestire bene la composizione della risposta (deve essere pi? informativa possibile)
 		
 		return response;
 	}

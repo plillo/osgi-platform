@@ -33,7 +33,11 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 
 	@Override
 	public Map<String, Object> getUser(User user) {
-		// TODO Auto-generated method stub
+		return new TreeMap<String, Object>();
+	}
+
+	@Override
+	public Map<String, Object> getConstrainedUser(User user) {
 		return new TreeMap<String, Object>();
 	}
 

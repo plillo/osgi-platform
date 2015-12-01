@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
 
 import org.osgi.service.cm.ConfigurationException;
@@ -15,7 +17,9 @@ import it.hash.osgi.user.User;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
 
 public class UserServiceImpl implements UserService, ManagedService{
-	private volatile UserServicePersistence persistence;
+	private volatile UserServicePersistence _persistence;
+	
+	private Validator validator = new Validator();
 
 	@Override
 	public Map<String, Object> login(String username, String password) {
@@ -24,7 +28,7 @@ public class UserServiceImpl implements UserService, ManagedService{
 	}
 
 	@Override
-	public Response login(Map<String, Object> pars) {
+	public Map<String, Object> login(Map<String, Object> pars) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -37,7 +41,7 @@ public class UserServiceImpl implements UserService, ManagedService{
 
 	@Override
 	public List<User> getUsers() {
-		return persistence.getUsers();
+		return _persistence.getUsers();
 	}
 
 	@Override
@@ -66,8 +70,20 @@ public class UserServiceImpl implements UserService, ManagedService{
 
 	@Override
 	public Map<String, Object> validateIdentificator(String identificator) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Object> map = new TreeMap<String, Object>();
+		map.put("identificatorType", "unmatched");
+		map.put("isValid", true);
+		
+		if(validator.isValidEmail(identificator))
+			map.put("identificatorType", "email");
+		else if(validator.isValidMobile(identificator))
+			map.put("identificatorType", "mobile");
+		else if(validator.isValidUsername(identificator))
+			map.put("identificatorType", "username");
+		else
+			map.put("isValid", false);
+
+		return map;
 	}
 
 	@Override
@@ -78,7 +94,7 @@ public class UserServiceImpl implements UserService, ManagedService{
 
 	@Override
 	public Map<String, Object> addUser(User user) {
-		return persistence.addUser(user);
+		return _persistence.addUser(user);
 	}
 
 	@Override
@@ -100,7 +116,7 @@ public class UserServiceImpl implements UserService, ManagedService{
 	}
 
 	@Override
-	public List<User> getUser(Map<String, Object> pars) {
+	public Map<String, Object> getUser(Map<String, Object> pars) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -115,6 +131,36 @@ public class UserServiceImpl implements UserService, ManagedService{
 	public void updated(Dictionary<String, ?> arg0) throws ConfigurationException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<User> listUsers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> create(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void createUsersByCSV(BufferedReader reader, boolean simulation, boolean activation) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<User> getUserDetails(Map<String, Object> pars) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> update(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

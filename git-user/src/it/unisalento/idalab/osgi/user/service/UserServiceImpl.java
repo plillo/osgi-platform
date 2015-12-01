@@ -1,5 +1,11 @@
 package it.unisalento.idalab.osgi.user.service;
 
+import static it.unisalento.idalab.osgi.util.StringUtils.capitalizeFirstLetters;
+import static it.unisalento.idalab.osgi.util.StringUtils.repeat;
+import static it.unisalento.idalab.osgi.util.StringUtils.stripPrefix;
+import static it.unisalento.idalab.osgi.util.StringUtils.stripPrefixAndSuffix;
+import static it.unisalento.idalab.osgi.util.StringUtils.stripSuffix;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,13 +19,11 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
-import javax.ws.rs.core.NewCookie;
-import javax.ws.rs.core.Response;
-
-import net.vz.mongodb.jackson.DBCursor;
-import net.vz.mongodb.jackson.JacksonDBCollection;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 import org.amdatu.mongo.MongoDBService;
+import org.amdatu.security.tokenprovider.InvalidTokenException;
 import org.amdatu.security.tokenprovider.TokenProvider;
 import org.amdatu.security.tokenprovider.TokenProviderException;
 import org.osgi.service.cm.ConfigurationException;
@@ -30,11 +34,12 @@ import org.osgi.service.event.EventAdmin;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 
-import static it.unisalento.idalab.osgi.util.StringUtils.*;
-import it.unisalento.idalab.osgi.user.password.Password;
-import it.unisalento.idalab.osgi.user.persistence.api.UserServicePersistence;
 import it.unisalento.idalab.osgi.user.api.User;
 import it.unisalento.idalab.osgi.user.api.UserService;
+import it.unisalento.idalab.osgi.user.password.Password;
+import it.unisalento.idalab.osgi.user.persistence.api.UserServicePersistence;
+import net.vz.mongodb.jackson.DBCursor;
+import net.vz.mongodb.jackson.JacksonDBCollection;
 
 @SuppressWarnings("rawtypes")
 public class UserServiceImpl implements UserService, ManagedService {
@@ -51,6 +56,7 @@ public class UserServiceImpl implements UserService, ManagedService {
 		System.out.println("started service: "+this.getClass().getName());
 	}
 
+	/*
 	@Override
 	public Response login(Map<String, Object> pars) {
 		@SuppressWarnings("unused")
@@ -63,35 +69,74 @@ public class UserServiceImpl implements UserService, ManagedService {
 		case 100:
 			User user = (User)login.get("user");
 			SortedMap<String, String> userMap = new TreeMap<>();
-			SortedMap<String, Object> returnMap = new TreeMap<>();
-			SortedMap<String, String> userReturnMap = new TreeMap<>();
 			userMap.put(TokenProvider.USERNAME, user.get_id());
 			
-			userReturnMap.put("_id", user.get_id());
-			userReturnMap.put("username", user.getUsername());
-			userReturnMap.put("email", user.getEmail());
-			userReturnMap.put("mobile", user.getMobile());
-			userReturnMap.put("firstName", user.getFirstName());
-			userReturnMap.put("lastName", user.getLastName());
-
-			returnMap.put("id_token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NhbXBsZXMuYXV0aDAuY29tLyIsInN1YiI6ImZhY2Vib29rfDEwMTU0Mjg3MDI3NTEwMzAyIiwiYXVkIjoiQlVJSlNXOXg2MHNJSEJ3OEtkOUVtQ2JqOGVESUZ4REMiLCJleHAiOjE0MTIyMzQ3MzAsInJvbGVzIjpbInJlYWRlciIsIndyaXRlciJdLCJpYXQiOjE0MTIxOTg3MzB9.egsc0YfweH_O9cpOApAkYbAw58buECpjDG77hfDUS_0");
-			returnMap.put("user", userReturnMap);
-	
-/*			
 			String token;
 			try {
 				token = _tokenProvider.generateToken(userMap);
 			} catch (TokenProviderException e) {
 				return Response.serverError().entity("Error while logging in").header("Access-Control-Allow-Origin", "*").build();
 			}
-*/		
-			return Response.ok().header("Access-Control-Allow-Origin", "*").entity(returnMap).build();
+
+			response.put("username", user.getUsername());
+			response.put("email", user.getEmail());
+			response.put("mobile", user.getMobile());
+			response.put("firstName", user.getFirstName());
+			response.put("lastName", user.getLastName());
+			response.put("accessToken", token);
+			
+			return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).cookie(new NewCookie(TokenProvider.TOKEN_COOKIE_NAME, token)).build();
 			
 		case 110:
-			return Response.status(403).header("Access-Control-Allow-Origin", "*").build();
+			return Response.status(401).header("Access-Control-Allow-Origin", "*").build();
 		}
 
-		return Response.status(403).header("Access-Control-Allow-Origin", "*").build();
+		return Response.status(401).header("Access-Control-Allow-Origin", "*").build();
+	}
+	*/
+	
+	@Override
+	public Map<String, Object> login(Map<String, Object> pars) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		
+		Map<String, Object> login = _userPersistenceService.login(pars);
+		int returnCode = (int)login.get("returnCode");
+		
+		switch(returnCode){
+		case 100:
+			User user = (User)login.get("user");
+			SortedMap<String, String> userMap = new TreeMap<>();
+			userMap.put("UID", user.get_id());
+			
+			String token;
+			try {
+				token = _tokenProvider.generateToken(userMap);
+			} catch (TokenProviderException e) {
+				response.put("errorStatus", true);
+				response.put("errorMessage", "Token provider error");
+				return response;
+			}
+
+			response.put("errorStatus", false);
+			response.put("uid", user.get_id());
+			response.put("username", user.getUsername());
+			response.put("email", user.getEmail());
+			response.put("mobile", user.getMobile());
+			response.put("firstName", user.getFirstName());
+			response.put("lastName", user.getLastName());
+			response.put("tokenCookieName", TokenProvider.TOKEN_COOKIE_NAME);
+			response.put("token", token);
+			return response;
+			
+		case 110:
+			response.put("errorStatus", true);
+			response.put("errorMessage", "Error 110");
+			return response;
+		}
+
+		response.put("errorStatus", true);
+		response.put("errorMessage", "Error");
+		return response;
 	}
 	
 	@Override
@@ -376,6 +421,10 @@ public class UserServiceImpl implements UserService, ManagedService {
 		return _getRandomPassword(10);
 	}
 
+	@Override
+	public Map<String, Object> getUser(Map<String, Object> pars) {
+		return _userPersistenceService.getUser(pars);
+	}
 
 	@Override
 	public Map<String, Object> deleteUser(Map<String, Object> pars) {
@@ -393,7 +442,23 @@ public class UserServiceImpl implements UserService, ManagedService {
 
 		return _userPersistenceService.deleteUser(user);
 	}
-
+	
+	@Override
+	public Map<String, Object> update(HttpServletRequest request) {
+		Map<String, Object> response = new TreeMap<String, Object>();
+		
+		Cookie[] cookies = request.getCookies();
+		String token = _tokenProvider.getTokenFromRequest(request);
+		try {
+			SortedMap<String, String> tokenProperties = _tokenProvider.verifyToken(token);
+			String uid = tokenProperties.get("UID");
+		} catch (TokenProviderException | InvalidTokenException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return response;
+	}
 
 	@Override
 	public Map<String, Object> updateUser(Map<String, Object> pars) {
@@ -404,7 +469,7 @@ public class UserServiceImpl implements UserService, ManagedService {
 
 
 	@Override
-	public List<User> getUser(Map<String, Object> pars) {
+	public List<User> getUserDetails(Map<String, Object> pars) {
 		User user = new User();
 
 		if (pars.containsKey("username"))
@@ -432,6 +497,5 @@ public class UserServiceImpl implements UserService, ManagedService {
 
 		return users;
 	}
-
 
 }
