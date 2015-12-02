@@ -1,35 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<repository increment="1448977152763" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
-  <resource>
-    <capability namespace="osgi.identity">
-      <attribute name="osgi.identity" value="a-node.utils"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="1.0.0.201512011304"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="f44fe62b9f6dc6340f784c23452899cf059db4ddbc5fb3348adb72e45614f2a0"/>
-      <attribute name="url" value="a-node.utils/a-node.utils-1.0.0.jar"/>
-      <attribute name="size" type="Long" value="11134"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="osgi.wiring.bundle" value="a-node.utils"/>
-      <attribute name="bundle-version" type="Version" value="1.0.0.201512011304"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="osgi.wiring.host" value="a-node.utils"/>
-      <attribute name="bundle-version" type="Version" value="1.0.0.201512011304"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="it.hash.osgi.utils"/>
-      <attribute name="version" type="Version" value="1.0.0"/>
-      <attribute name="bundle-symbolic-name" value="a-node.utils"/>
-      <attribute name="bundle-version" type="Version" value="1.0.0.201512011304"/>
-    </capability>
-    <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.7))"/>
-    </requirement>
-  </resource>
+<repository increment="1449041735170" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="com.eclipsesource.jaxrs.consumer"/>
@@ -1988,6 +1958,55 @@
     </requirement>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.7))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.apache.commons.logging"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="1.2.0"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="daddea1ea0be0f56978ab3006b8ac92834afeefbd9b7e4e6316fca57df0fa636"/>
+      <attribute name="url" value="org.apache.commons.logging/org.apache.commons.logging-1.2.0.jar"/>
+      <attribute name="size" type="Long" value="61829"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="org.apache.commons.logging"/>
+      <attribute name="bundle-version" type="Version" value="1.2.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="org.apache.commons.logging"/>
+      <attribute name="bundle-version" type="Version" value="1.2.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.commons.logging"/>
+      <attribute name="version" type="Version" value="1.2.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.commons.logging"/>
+      <attribute name="bundle-version" type="Version" value="1.2.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.commons.logging.impl"/>
+      <attribute name="version" type="Version" value="1.2.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.commons.logging"/>
+      <attribute name="bundle-version" type="Version" value="1.2.0"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=javax.servlet)(version&gt;=2.1.0)(!(version&gt;=3.0.0)))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.avalon.framework.logger)(version&gt;=4.1.3)(version&lt;=4.1.5))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.log)(version&gt;=1.0.1)(version&lt;=1.0.1))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.log4j)(version&gt;=1.2.15)(!(version&gt;=2.0.0)))"/>
+      <directive name="resolution" value="optional"/>
     </requirement>
   </resource>
   <resource>
@@ -4320,6 +4339,154 @@
     </requirement>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(osgi.wiring.package=org.xml.sax)"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="0.4.4"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="ba3a665487af6671f70e1742b3a5a60b8e3f091317f1aa6cb85c77fa884a90a2"/>
+      <attribute name="url" value="org.bitbucket.b_c.jose4j/org.bitbucket.b_c.jose4j-0.4.4.jar"/>
+      <attribute name="size" type="Long" value="231019"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jose4j.base64url"/>
+      <attribute name="version" type="Version" value="0.4.4"/>
+      <attribute name="bundle-symbolic-name" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+      <directive name="uses" value="org.jose4j.lang"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jose4j.http"/>
+      <attribute name="version" type="Version" value="0.4.4"/>
+      <attribute name="bundle-symbolic-name" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+      <directive name="uses" value="org.jose4j.lang,javax.net.ssl,org.slf4j"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jose4j.json"/>
+      <attribute name="version" type="Version" value="0.4.4"/>
+      <attribute name="bundle-symbolic-name" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+      <directive name="uses" value="org.jose4j.lang"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jose4j.jwa"/>
+      <attribute name="version" type="Version" value="0.4.4"/>
+      <attribute name="bundle-symbolic-name" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+      <directive name="uses" value="org.jose4j.keys,org.slf4j,org.jose4j.lang,org.jose4j.jwe,org.jose4j.zip,org.jose4j.jws"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jose4j.jwe"/>
+      <attribute name="version" type="Version" value="0.4.4"/>
+      <attribute name="bundle-symbolic-name" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+      <directive name="uses" value="org.jose4j.jwx,javax.crypto.spec,org.jose4j.keys,org.jose4j.lang,org.jose4j.jwa,org.jose4j.mac,javax.crypto,org.jose4j.base64url,org.slf4j,org.jose4j.jwk,org.jose4j.jwe.kdf,org.jose4j.zip"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jose4j.jwe.kdf"/>
+      <attribute name="version" type="Version" value="0.4.4"/>
+      <attribute name="bundle-symbolic-name" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+      <directive name="uses" value="org.jose4j.lang,org.slf4j,org.jose4j.base64url,org.jose4j.keys,org.jose4j.mac,javax.crypto"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jose4j.jwk"/>
+      <attribute name="version" type="Version" value="0.4.4"/>
+      <attribute name="bundle-symbolic-name" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+      <directive name="uses" value="org.jose4j.jwx,org.jose4j.jwe,org.jose4j.lang,org.jose4j.keys,org.jose4j.http,org.slf4j,org.jose4j.json,javax.crypto.spec,org.jose4j.base64url,org.jose4j.jws,org.jose4j.jwa"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jose4j.jws"/>
+      <attribute name="version" type="Version" value="0.4.4"/>
+      <attribute name="bundle-symbolic-name" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+      <directive name="uses" value="org.jose4j.keys,org.jose4j.lang,org.jose4j.jwa,org.slf4j,org.jose4j.mac,javax.crypto,org.jose4j.jwx,org.jose4j.base64url"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jose4j.jwt.consumer"/>
+      <attribute name="version" type="Version" value="0.4.4"/>
+      <attribute name="bundle-symbolic-name" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+      <directive name="uses" value="org.jose4j.jwt,org.jose4j.jwx,org.jose4j.jwe,org.jose4j.jws,org.jose4j.lang,org.jose4j.jwa,org.jose4j.keys.resolvers"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jose4j.jwt"/>
+      <attribute name="version" type="Version" value="0.4.4"/>
+      <attribute name="bundle-symbolic-name" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+      <directive name="uses" value="org.jose4j.json,org.jose4j.lang,org.jose4j.jwt.consumer,org.jose4j.base64url"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jose4j.jwx"/>
+      <attribute name="version" type="Version" value="0.4.4"/>
+      <attribute name="bundle-symbolic-name" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+      <directive name="uses" value="org.jose4j.lang,org.jose4j.jwk,org.jose4j.json,org.jose4j.base64url,org.jose4j.jwe,org.jose4j.keys,org.jose4j.jws,org.jose4j.jwa"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jose4j.keys"/>
+      <attribute name="version" type="Version" value="0.4.4"/>
+      <attribute name="bundle-symbolic-name" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+      <directive name="uses" value="javax.crypto.spec,org.jose4j.lang,org.jose4j.base64url"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jose4j.keys.resolvers"/>
+      <attribute name="version" type="Version" value="0.4.4"/>
+      <attribute name="bundle-symbolic-name" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+      <directive name="uses" value="org.jose4j.jwx,org.jose4j.jwe,org.jose4j.lang,org.jose4j.jwk,org.jose4j.jws,org.slf4j,org.jose4j.keys"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jose4j.lang"/>
+      <attribute name="version" type="Version" value="0.4.4"/>
+      <attribute name="bundle-symbolic-name" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+      <directive name="uses" value="org.jose4j.base64url,org.jose4j.jwt"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jose4j.mac"/>
+      <attribute name="version" type="Version" value="0.4.4"/>
+      <attribute name="bundle-symbolic-name" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+      <directive name="uses" value="org.jose4j.lang,javax.crypto"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jose4j.zip"/>
+      <attribute name="version" type="Version" value="0.4.4"/>
+      <attribute name="bundle-symbolic-name" value="org.bitbucket.b_c.jose4j"/>
+      <attribute name="bundle-version" type="Version" value="0.4.4"/>
+      <directive name="uses" value="org.jose4j.lang,org.jose4j.jwa,org.jose4j.keys"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.crypto)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.crypto.spec)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.net.ssl)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.jose4j.lang)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.slf4j)(version&gt;=1.7.0)(!(version&gt;=2.0.0)))"/>
     </requirement>
   </resource>
   <resource>

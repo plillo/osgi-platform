@@ -28,6 +28,20 @@ public class Parser {
 			return default_value;
 		}
 	}
+	
+	public static float parseFloat(String value) {
+		return Float.parseFloat(value);
+	}
+
+	public static float parseFloat(String value, float default_value) {
+		if(StringUtils.isEON(value))
+			return default_value;
+		try{
+			return Float.parseFloat(value);
+		} catch (NumberFormatException e) {
+			return default_value;
+		}
+	}
 
 	public static double parseDouble(String value) {
 		return Double.parseDouble(value);
