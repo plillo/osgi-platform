@@ -10,3 +10,15 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.configadmin)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.fileinstall)',\
 	osgi.identity;filter:='(&(osgi.identity=org.apache.felix.dependencymanager)(version>=3.1.0))'
+-sub: *.bnd
+-resolve: auto
+-runfw: org.apache.felix.framework;version='[4.4.1,4.4.1]'
+-runee: JavaSE-1.7
+-runbundles: \
+	org.apache.felix.configadmin;version='[1.8.8,1.8.9)',\
+	org.apache.felix.dependencymanager;version='[4.1.0,4.1.1)',\
+	org.apache.felix.fileinstall;version='[3.5.0,3.5.1)',\
+	org.apache.felix.gogo.command;version='[0.14.0,0.14.1)',\
+	org.apache.felix.gogo.runtime;version='[0.16.2,0.16.3)',\
+	org.apache.felix.gogo.shell;version='[0.10.0,0.10.1)',\
+	org.apache.felix.metatype;version='[1.1.2,1.1.3)'
