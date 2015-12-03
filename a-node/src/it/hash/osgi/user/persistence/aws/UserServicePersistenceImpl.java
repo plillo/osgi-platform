@@ -123,7 +123,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 	    	    .withLimit(1)
 	    	    .withFilterExpression(fieldDBName+" = :val")
 	    	    .withExpressionAttributeValues(expressionAttributeValues)
-	    	    .withProjectionExpression("Id, lastName, firstName, username, email, mobile");
+	    	    .withProjectionExpression("Id, lastName, firstName, username, email, mobile, password");
 
 		ScanResult result = ddbClient.scan(scanRequest);
 		for (Map<String, AttributeValue> item : result.getItems()) {
@@ -140,6 +140,8 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 				user_item.setFirstName(item.get("firstName").getS());
 			if(item.get("lastName")!=null)
 				user_item.setLastName(item.get("lastName").getS());
+			if(item.get("password")!=null)
+				user_item.setPassword(item.get("password").getS());
 			
 			TreeSet<String> list = matchs.get(user_item);
 			if(list==null)
