@@ -9,6 +9,7 @@ import org.osgi.framework.Constants;
 import org.osgi.service.cm.ManagedService;
 import org.osgi.service.event.EventAdmin;
 
+import it.hash.osgi.jwt.service.JWTService;
 import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
 
@@ -23,6 +24,7 @@ public class Activator extends DependencyActivatorBase {
 			.setImplementation(UserServiceImpl.class)
 			.add(createServiceDependency().setService(UserServicePersistence.class).setRequired(false))
 			.add(createServiceDependency().setService(EventAdmin.class).setRequired(true))
+			.add(createServiceDependency().setService(JWTService.class).setRequired(true))
 		    .add(createServiceDependency().setService(Password.class).setRequired(true)));
 	}
  
