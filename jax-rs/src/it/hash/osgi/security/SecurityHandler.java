@@ -1,11 +1,8 @@
 package it.hash.osgi.security;
 
 import java.security.Principal;
-import java.util.Enumeration;
 import java.util.Iterator;
-import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.MultivaluedMap;
 
