@@ -30,7 +30,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 	private volatile MongoDBService m_mongoDBService;
 	@SuppressWarnings("unused")
 	private volatile LogService logService;
-	private volatile Password passwordService;
+	private volatile Password _passwordService;
 	
 	// Mongo User collection
 	private DBCollection userCollection;
@@ -262,7 +262,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 			if(user.getPassword()==null || "".equals(user.getPassword()))
 				password = "0123456789";	
 			try {
-				user.setPassword(passwordService.getSaltedHash(password));
+				user.setPassword(_passwordService.getSaltedHash(password));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -328,7 +328,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 		if (result.containsKey("user")) {
 			if (user.getPassword() != null && !"".equals(user.getPassword()))
 				try {
-					user.setPassword(passwordService.getSaltedHash(user
+					user.setPassword(_passwordService.getSaltedHash(user
 							.getPassword()));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -401,7 +401,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 		User userFound = (User) result.get("user");
 		if (userFound != null) {
 			try {
-				if (passwordService.check(password, userFound.getPassword())) {
+				if (_passwordService.check(password, userFound.getPassword())) {
 					response.put("user", userFound);
 					response.put("returnCode", 100);
 					response.put("logged", true);
