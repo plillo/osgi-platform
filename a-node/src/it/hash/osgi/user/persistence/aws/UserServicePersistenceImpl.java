@@ -18,7 +18,7 @@ import it.hash.osgi.user.persistence.api.UserServicePersistence;
 import it.hash.osgi.utils.StringUtils;
 
 public class UserServicePersistenceImpl implements UserServicePersistence{
-	public volatile Console console;
+	public volatile Console _console;
 
 	@Override
 	public Map<String, Object> addUser(User user) {
@@ -77,7 +77,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 		Map<User, TreeSet<String>> matchs = new TreeMap<User, TreeSet<String>>();
 		
 		// Setup Amazon DB client
-		AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(console.getCredentials());
+		AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(_console.getCredentials());
 		ddbClient.setEndpoint("https://dynamodb.eu-central-1.amazonaws.com");
 		
 		if(constrained){
@@ -155,7 +155,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 	@Override
 	public List<User> getUsers() {
 		List<User> users = new ArrayList<User>();
-		AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(console.getCredentials());
+		AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(_console.getCredentials());
 		ddbClient.setEndpoint("https://dynamodb.eu-central-1.amazonaws.com");
 
         ScanRequest scanRequest = new ScanRequest()
