@@ -1,2 +1,12 @@
--buildpath: osgi.annotation;version=6.0.1
+-buildpath: \
+	osgi.annotation;version=6.0.1,\
+	osgi.core,\
+	org.apache.felix.gogo.runtime,\
+	org.apache.felix.dependencymanager;version=3.1
 Bundle-Version: 0.0.0.${tstamp}
+-runrequires: \
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.configadmin)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.fileinstall)',\
+	osgi.identity;filter:='(&(osgi.identity=org.apache.felix.dependencymanager)(version>=3.1.0))'
