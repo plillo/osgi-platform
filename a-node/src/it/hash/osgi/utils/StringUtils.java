@@ -93,6 +93,21 @@ public class StringUtils {
 		return stripPrefixAndSuffix(s,p,p);
 	}
 	
+	public static String[] splitAndTrim(String s) {
+		return splitAndTrim(s, ",");
+	}
+	
+	public static String[] splitAndTrim(String s, String sep) {
+		if (s == null) {
+			return null;
+		}
+		String[] arr = s.split(sep);
+		for(int k=0; k<arr.length; k++)
+			arr[k] = arr[k].trim();
+		
+		return arr;
+	}
+	
 	public static String trim(final String str) {
 		if (str == null) {
 			return null;

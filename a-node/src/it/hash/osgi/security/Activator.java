@@ -1,13 +1,15 @@
 package it.hash.osgi.security;
 
-import org.osgi.framework.BundleActivator;
+import org.apache.felix.dm.DependencyActivatorBase;
+import org.apache.felix.dm.DependencyManager;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceRegistration;
 
 import com.eclipsesource.jaxrs.provider.security.AuthenticationHandler;
 import com.eclipsesource.jaxrs.provider.security.AuthorizationHandler;
 
+import it.hash.osgi.jwt.service.JWTService;
 
+/*
 public class Activator implements BundleActivator {
 
   private ServiceRegistration resourceRegistration;
@@ -29,4 +31,30 @@ public class Activator implements BundleActivator {
     authorizationRegistration.unregister();
     resourceRegistration.unregister();
   }
+}
+*/
+
+public class Activator extends DependencyActivatorBase {
+
+	@Override
+	public void init(BundleContext context, DependencyManager manager)
+			throws Exception {
+		
+		// Registration of REST resources
+		manager.add(createComponent()
+				.setInterface(SecureResource.class.getName(), null)
+				.setImplementation(SecureResource.class));
+		
+		manager.add(createComponent()
+				.setInterface(new String[] {AuthenticationHandler.class.getName(),AuthorizationHandler.class.getName()}, null)
+				.setImplementation(SecurityHandler.class)
+				.add(createServiceDependency().setService(JWTService.class).setRequired(true)));
+		
+	}
+	
+	@Override
+	public void destroy(BundleContext context, DependencyManager manager)
+			throws Exception {
+
+	}
 }

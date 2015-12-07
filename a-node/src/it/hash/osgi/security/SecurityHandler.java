@@ -1,34 +1,45 @@
 package it.hash.osgi.security;
 
 import java.security.Principal;
-import java.util.Iterator;
+import java.util.List;
 
 import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.core.MultivaluedMap;
 
 import com.eclipsesource.jaxrs.provider.security.AuthenticationHandler;
 import com.eclipsesource.jaxrs.provider.security.AuthorizationHandler;
 
+import it.hash.osgi.jwt.service.JWTService;
+
 public class SecurityHandler implements AuthenticationHandler, AuthorizationHandler {
 	String name = "SecurityHandler";
+	String jwt; // Actual TOKEN
+	List<String> roles; // Actual roles
+	private volatile JWTService _jwtService;
 
 	@Override
 	public boolean isUserInRole(Principal user, String role) {
-		return user.getName().equals("test") && role.equals("secure");
+		if(roles==null) return false;
+		
+		return roles!=null ? roles.contains(role) : true;
 	}
 
 	@Override
 	public Principal authenticate(ContainerRequestContext requestContext) {
-		/*
-		 * String user = requestContext.getHeaderString( "user" ); if( user ==
-		 * null ) { return null; }
-		 */
+		String user_id = "anonymous";
 		
-		MultivaluedMap<String,String> map = requestContext.getHeaders();
+		// GET token: 1) from Authorization header (Bearer), 2) from Query string
+		String authCredentials = requestContext.getHeaderString("Authorization");
+		if(authCredentials.startsWith("Bearer"))
+			jwt = authCredentials.replaceFirst("Bearer" + " ", "");
+		else // search token within query parameyters ("access-token")
+			jwt = requestContext.getUriInfo().getQueryParameters().getFirst("access-token");
+		
+		if(jwt!=null) {
+			roles = _jwtService.getRoles(jwt);
+			user_id = _jwtService.getUID(jwt);
+		}
 
-		logRequest(map);
-
-		return new User("test");
+		return new User(user_id);
 	}
 
 	@Override
@@ -36,16 +47,4 @@ public class SecurityHandler implements AuthenticationHandler, AuthorizationHand
 		return null;
 	}
 
-	private void logRequest(MultivaluedMap<String, String> map) {
-		Iterator<String> itr = map.keySet().iterator();
-
-		for(;itr.hasNext();){
-			String key = (String) itr.next();
-			doLog("Header: " + key + "=" + map.get(key));
-		}
-	}
-
-	private void doLog(String message) {
-		System.out.println("### [" + this.name + "] " + message);
-	}
 }

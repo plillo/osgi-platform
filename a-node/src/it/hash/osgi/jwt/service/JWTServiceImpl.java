@@ -2,6 +2,7 @@ package it.hash.osgi.jwt.service;
 
 import java.util.Arrays;
 import java.util.Dictionary;
+import java.util.List;
 import java.util.Map;
 
 import org.jose4j.jwk.RsaJsonWebKey;
@@ -60,6 +61,8 @@ public class JWTServiceImpl implements JWTService, ManagedService {
 	    	map.put("notBeforeMinutesInThePast", defaultIfNull((String)properties.get("notBeforeMinutesInThePast"),"2"));
 	    if(!map.containsKey("subject"))
 	    	map.put("subject", defaultIfNull((String)properties.get("subject"),""));
+	    if(!map.containsKey("uid"))
+	    	map.put("uid", (String)properties.get("uid"));
 	    if(!map.containsKey("body"))
 	    	map.put("body", (String)properties.get("body"));
 	    if(!map.containsKey("email"))
@@ -83,14 +86,19 @@ public class JWTServiceImpl implements JWTService, ManagedService {
 		claims.setNotBeforeMinutesInThePast(parseFloat((String)map.get("notBeforeMinutesInThePast"), 2)); // time before which the token is not yet valid (default: 2 minutes ago)
 		// set SUBJECT
 		claims.setSubject((String)map.get("subject")); // the subject/principal is whom the token is about
+		// Additional claims about the subject
+		// ===================================
+		// set UID
+		if(isNotEmptyOrNull((String)map.get("uid")))
+			claims.setClaim("uid",map.get("uid"));
 		// set EMAIL
 		if(isNotEmptyOrNull((String)map.get("email")))
-			claims.setClaim("email",map.get("email")); // additional claims/attributes about the subject can be added
+			claims.setClaim("email",map.get("email"));
 		// set BODY
 		if(isNotEmptyOrNull((String)map.get("body")))
-			claims.setClaim("body",map.get("body")); // additional claims/attributes about the subject can be added
+			claims.setClaim("body",map.get("body"));
 		// set ROLES
-		claims.setStringListClaim("roles", Arrays.asList(((String)map.get("roles")).split(","))); // multi-valued claims work too and will end up as a JSON array
+		claims.setStringListClaim("roles", Arrays.asList(splitAndTrim((String)map.get("roles")))); // multi-valued claims work too and will end up as a JSON array
 
 		// A JWT is a JWS and/or a JWE with JSON claims as the payload.
 		// In this example it is a JWS so we create a JsonWebSignature object.
@@ -185,9 +193,54 @@ public class JWTServiceImpl implements JWTService, ManagedService {
 	    
         return null;
 	}
+	
+	@Override
+	public List<String> getRoles(String jwt) {
+	    JwtConsumer firstPassJwtConsumer = new JwtConsumerBuilder()
+	            .setSkipAllValidators()
+	            .setDisableRequireSignature()
+	            .setSkipSignatureVerification()
+	            .build();
+
+	    JwtContext jwtContext;
+		try {
+			jwtContext = firstPassJwtConsumer.process(jwt);
+
+			return jwtContext.getJwtClaims().getStringListClaimValue("roles");
+		} catch (InvalidJwtException e) {
+			e.printStackTrace();
+		} catch (MalformedClaimException e) {
+			e.printStackTrace();
+		}
+	    
+        return null;
+	}
+
+	@Override
+	public String getUID(String jwt) {
+	    JwtConsumer firstPassJwtConsumer = new JwtConsumerBuilder()
+	            .setSkipAllValidators()
+	            .setDisableRequireSignature()
+	            .setSkipSignatureVerification()
+	            .build();
+
+	    JwtContext jwtContext;
+		try {
+			jwtContext = firstPassJwtConsumer.process(jwt);
+
+			return jwtContext.getJwtClaims().getStringClaimValue("uid");
+		} catch (InvalidJwtException e) {
+			e.printStackTrace();
+		} catch (MalformedClaimException e) {
+			e.printStackTrace();
+		}
+	    
+        return null;
+	}
 
 	@Override
 	public void updated(@SuppressWarnings("rawtypes") Dictionary properties) throws ConfigurationException {
 		this.properties = properties;
 	}
+
 }
