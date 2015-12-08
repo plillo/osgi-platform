@@ -19,6 +19,7 @@ import it.hash.osgi.jwt.service.JWTService;
 import it.hash.osgi.user.User;
 import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
+import it.hash.osgi.utils.StringUtils;
 
 public class UserServiceImpl implements UserService, ManagedService{
 	@SuppressWarnings({ "unused", "rawtypes" })
@@ -150,6 +151,17 @@ public class UserServiceImpl implements UserService, ManagedService{
 
 	@Override
 	public Map<String, Object> addUser(User user) {
+		String password = user.getPassword();
+		if(StringUtils.isEmptyOrNull(user.getPassword())){
+			password = _passwordService.getRandom();
+			user.setPassword(password);
+		}
+				
+		try {
+			user.setPassword(_passwordService.getSaltedHash(password));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return _userPersistenceService.addUser(user);
 	}
 

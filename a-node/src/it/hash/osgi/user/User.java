@@ -4,6 +4,7 @@ public class User implements Comparable<User>{
 	private String _id;
 	private String username;
 	private String password;
+	private String salted_hash_password;
 	private String firstName;
 	private String lastName;
 	private String password_mdate;
@@ -44,6 +45,15 @@ public class User implements Comparable<User>{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+
+	public String getSalted_hash_password() {
+		return salted_hash_password;
+	}
+
+	public void setSalted_hash_password(String salted_hash_password) {
+		this.salted_hash_password = salted_hash_password;
 	}
 
 	public String getPassword_mdate() {
@@ -186,6 +196,5 @@ public class User implements Comparable<User>{
 	public int compareTo(User obj) {
        return this._id.compareTo(obj.get_id());
 	}
-	
 	
 }

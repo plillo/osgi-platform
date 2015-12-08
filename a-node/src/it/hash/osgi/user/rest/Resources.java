@@ -3,6 +3,7 @@ package it.hash.osgi.user.rest;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -20,6 +21,7 @@ public class Resources {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed("root")
 	public Response list() {
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_userService.getUsers()).build();
 	}

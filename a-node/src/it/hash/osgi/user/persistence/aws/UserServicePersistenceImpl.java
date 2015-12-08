@@ -7,8 +7,16 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
+import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
+import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import com.amazonaws.services.dynamodbv2.model.ScanRequest;
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
 
@@ -21,13 +29,95 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 	public volatile Console _console;
 
 	@Override
+	public Map<String, Object> addUser(Map<String, Object> user) {
+		User user_obj = new User();
+		user_obj.setUsername((String)user.get("username"));
+		user_obj.setEmail((String)user.get("email"));
+		user_obj.setMobile((String)user.get("mobile"));
+		user_obj.setFirstName((String)user.get("firstName"));
+		user_obj.setLastName((String)user.get("lastName"));
+		// ...
+		
+		return addUser(user_obj);
+	}
+	
+	@Override
 	public Map<String, Object> addUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Object> response = new TreeMap<String, Object>();
+		
+		// Search for existing user
+		Map<String, Object> result = getUser(user);
+		
+		// not existing: CREATE
+		// ====================
+		if((int)result.get("matched")==0) {
+			AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(_console.getCredentials());
+			ddbClient.setEndpoint("https://dynamodb.eu-central-1.amazonaws.com");
+			DynamoDB dynamoDB = new DynamoDB(ddbClient);
+	        Table table = dynamoDB.getTable("Users");
+	        
+	        // Get UUID
+	        String uuid = _console.randomUUID("core:user");
+	        if(uuid==null){
+	            System.out.println("User UUID error");
+	            return response;
+	        }
+	        
+	        // Set item
+		    Item item = new Item()
+		    		.withPrimaryKey(new PrimaryKey("Id", uuid))
+		    		.withLong("cdate", new java.util.Date().getTime())
+		    		.withString("firstName", user.getFirstName())
+		    		.withString("lastName", user.getLastName())
+		    		.withString("password", user.getSalted_hash_password());
+		    
+		    // Set specs
+	        PutItemSpec putItemSpec = new PutItemSpec()
+	                .withItem(item)
+	                .withConditionExpression("attribute_not_exists(Id)");
+	        
+	        // Put item
+	        try {
+	            PutItemOutcome outcome = table.putItem(putItemSpec);
+	            
+	            System.out.println(outcome.getItem().toJSONPretty());
+
+				User created_user = getUser(outcome.getItem());
+				if(created_user!=null) {
+					response.put("user", created_user);
+					response.put("created", true);
+					response.put("returnCode", 100);
+				}
+	        } catch (ConditionalCheckFailedException e) {
+	            System.out.println("PutUser error");
+	        } 
+	        catch (AmazonServiceException e) {
+	            System.out.println(e.toString());
+	        }		
+		}
+		// EXISTING
+		else if((int)result.get("matched")==1){
+			User existing_user = (User) result.get("user");
+			if(existing_user!=null) {
+				response.put("user", existing_user);
+				response.put("created", false);
+				response.put("returnCode", 105);
+				response.put("keys", result.get("keys"));
+			}
+		}
+		// EXISTING MANY
+		else{
+			response.put("created", false);
+			response.put("returnCode", 110);
+			response.put("users", result.get("users"));
+		}
+		
+		// TODO: Gestire bene la composizione della risposta (deve essere più informativa possibile)
+
+		return response;
 	}
 
-	@Override
-	public Map<String, Object> addUser(Map<String, Object> user) {
+	private User getUser(Item item) {
 		// TODO Auto-generated method stub
 		return null;
 	}

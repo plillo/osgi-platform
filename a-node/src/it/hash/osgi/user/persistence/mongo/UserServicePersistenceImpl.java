@@ -256,18 +256,6 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 
 		// If new user
 		if((int)result.get("matched")==0) {
-			String password = user.getPassword();
-			// Controllo di presenza di una password: in assenza impostazione di una password predefinita
-			// N.B. :in realtà il controllo sulla password va fatto a monte dal chiamante del metodo createUser
-			if(user.getPassword()==null || "".equals(user.getPassword()))
-				password = "0123456789";	
-			try {
-				user.setPassword(_passwordService.getSaltedHash(password));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
 			String savedId = users.save(user).getSavedId();
 			if(savedId!=null) {
 				User created_user = users.findOneById(savedId);
