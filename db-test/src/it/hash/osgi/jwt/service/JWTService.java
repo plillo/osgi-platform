@@ -7,7 +7,7 @@ import org.jose4j.jwt.JwtClaims;
 
 public interface JWTService {
 	String getToken(Map<String, Object> map);
-	JwtClaims getClaims(String jwt);
 	String getIssuer(String jwt);
+	JwtClaims getClaims(String jwt);
 	RsaJsonWebKey getRSA();
 }

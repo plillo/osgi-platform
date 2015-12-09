@@ -1,5 +1,6 @@
 package it.hash.osgi.utils;
 
+
 public class Random {
 	public static String getRandomKey(int len){
 		return getRandomKey(len, null, 0)[0];

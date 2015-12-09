@@ -23,6 +23,7 @@ import org.osgi.service.event.EventAdmin;
 public class BusinessServiceImpl implements BusinessService, ManagedService {
 
 	@SuppressWarnings({ "unused", "rawtypes" })
+	
 	private Dictionary properties;
 	private volatile BusinessServicePersistence _businessPersistenceService;
 	private volatile Password _passwordService;

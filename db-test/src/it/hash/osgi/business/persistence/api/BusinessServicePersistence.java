@@ -9,10 +9,11 @@ public interface BusinessServicePersistence {
 	Map<String, Object> addBusiness(Map<String, Object> business);
 	
 	// READ
+	Map<String, Object> getConstrainedBusiness(Map<String, Object> business);
 	Map<String, Object> getBusiness(Business business);
 	Map<String, Object> getConstrainedBusiness(Business business);
 	Map<String, Object> getBusiness(Map<String, Object> business);
-	Map<String, Object> getConstrainedBusiness(Map<String, Object> business);
+	
 	
 	Business getBusinessByEmail(String email);
 	Business getBusinessByMobile(String mobile);

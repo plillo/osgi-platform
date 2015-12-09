@@ -16,7 +16,7 @@ public class Activator extends DependencyActivatorBase {
     @Override
     public synchronized void init(BundleContext context, DependencyManager manager) throws Exception {
     	Properties props = new Properties();
-		props.put(Constants.SERVICE_RANKING, 1);
+		props.put(Constants.SERVICE_RANKING, 2);
 		props.put(Constants.SERVICE_PID, "it.hash.osgi.business.service.mock.cfg");
 		
     	manager.add(createComponent()

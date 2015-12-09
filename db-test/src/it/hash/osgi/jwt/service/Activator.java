@@ -14,6 +14,7 @@ public class Activator extends DependencyActivatorBase {
 		Properties properties = new Properties();
 		properties.put(Constants.SERVICE_PID, "it.hash.osgi.jwt.service");
 		
+		
 		manager.add(createComponent()
 			.setInterface(new String[]{JWTService.class.getName(), ManagedService.class.getName()}, properties)
 			.setImplementation(JWTServiceImpl.class)

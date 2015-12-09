@@ -3,7 +3,6 @@ package it.hash.osgi.jwt.service;
 import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.Map;
-
 import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.jwk.RsaJwkGenerator;
 import org.jose4j.jws.AlgorithmIdentifiers;

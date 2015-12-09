@@ -13,6 +13,7 @@ public class PasswordImpl implements Password {
     private static final int saltLen = 32;
     private static final int desiredKeyLen = 256;
     
+    
     public String getSaltedHash(String password) throws Exception {
         byte[] salt = SecureRandom.getInstance("SHA1PRNG").generateSeed(saltLen);
         

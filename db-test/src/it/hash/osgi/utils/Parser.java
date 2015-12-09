@@ -1,5 +1,6 @@
 package it.hash.osgi.utils;
 
+
 public class Parser {
 	public static int parseInt(String value) {
 		return Integer.parseInt(value);

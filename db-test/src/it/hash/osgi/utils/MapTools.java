@@ -1,5 +1,6 @@
 package it.hash.osgi.utils;
 
+
 import java.util.Map;
 
 public class MapTools {

@@ -50,7 +50,7 @@ public class Resources {
 			else if("mobile".equals(identificator_type))
 				map.put("mobile", identificator);
 			Map<String, Object> businessMap = _businessService.getBusiness(map);
-			// ===
+			// ======================================================
 			
 			// Build the response
 			if((int)businessMap.get("matched")>0){

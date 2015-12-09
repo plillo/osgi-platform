@@ -26,10 +26,10 @@ import it.hash.osgi.utils.StringUtils;
 
 
 public class BusinessServicePersistenceImpl implements BusinessServicePersistence,ManagedService{
-	Map<Integer,String> list = new TreeMap<Integer,String>();
+	
 	List<Business> businesss = new ArrayList<Business>();
 	Dictionary properties;
-	
+	Map<Integer,String> list = new TreeMap<Integer,String>();
 	
 	public String toString(){
 		String s=null;
