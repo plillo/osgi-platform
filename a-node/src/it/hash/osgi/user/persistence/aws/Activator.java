@@ -29,6 +29,9 @@ public class Activator extends DependencyActivatorBase {
 			.add(createServiceDependency()
 					.setService(Console.class)
 					.setRequired(true))
+            .add(createServiceDependency()
+                    .setService(Password.class)
+                    .setRequired(true))
             );
     }
 

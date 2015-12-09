@@ -12,7 +12,6 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
-import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
@@ -22,11 +21,13 @@ import com.amazonaws.services.dynamodbv2.model.ScanResult;
 
 import it.hash.osgi.aws.console.Console;
 import it.hash.osgi.user.User;
+import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
 import it.hash.osgi.utils.StringUtils;
 
 public class UserServicePersistenceImpl implements UserServicePersistence{
 	public volatile Console _console;
+	private volatile Password _passwordService;
 
 	@Override
 	public Map<String, Object> addUser(Map<String, Object> user) {
@@ -66,10 +67,20 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 	        // Set item
 		    Item item = new Item()
 		    		.withPrimaryKey(new PrimaryKey("Id", uuid))
-		    		.withLong("cdate", new java.util.Date().getTime())
-		    		.withString("firstName", user.getFirstName())
-		    		.withString("lastName", user.getLastName())
-		    		.withString("password", user.getSalted_hash_password());
+		    		.withLong("cdate", new java.util.Date().getTime());
+		    
+		    if(StringUtils.isNotEmptyOrNull(user.getUsername()))
+		    	item.withString("username", user.getUsername());
+		    if(StringUtils.isNotEmptyOrNull(user.getEmail()))
+		    	item.withString("email", user.getEmail());
+		    if(StringUtils.isNotEmptyOrNull(user.getMobile()))
+		    	item.withString("mobile", user.getMobile());		    
+		    if(StringUtils.isNotEmptyOrNull(user.getFirstName()))
+		    	item.withString("firstName", user.getFirstName());
+		    if(StringUtils.isNotEmptyOrNull(user.getLastName()))
+		    	item.withString("lastName", user.getLastName());
+		    if(StringUtils.isNotEmptyOrNull(user.getSalted_hash_password()))
+		    	item.withString("password", user.getSalted_hash_password());
 		    
 		    // Set specs
 	        PutItemSpec putItemSpec = new PutItemSpec()
@@ -78,11 +89,9 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 	        
 	        // Put item
 	        try {
-	            PutItemOutcome outcome = table.putItem(putItemSpec);
-	            
-	            System.out.println(outcome.getItem().toJSONPretty());
+	            table.putItem(putItemSpec);
 
-				User created_user = getUser(outcome.getItem());
+				User created_user = getUserById(uuid);
 				if(created_user!=null) {
 					response.put("user", created_user);
 					response.put("created", true);
@@ -117,6 +126,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 		return response;
 	}
 
+	@SuppressWarnings("unused")
 	private User getUser(Item item) {
 		// TODO Auto-generated method stub
 		return null;
@@ -210,7 +220,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 		expressionAttributeValues.put(":val", new AttributeValue().withS((String)user.get(fieldName))); 
 		ScanRequest scanRequest = new ScanRequest()
 	    	    .withTableName("Users")
-	    	    .withLimit(1)
+//	    	    .withLimit(1)
 	    	    .withFilterExpression(fieldDBName+" = :val")
 	    	    .withExpressionAttributeValues(expressionAttributeValues)
 	    	    .withProjectionExpression("Id, lastName, firstName, username, email, mobile, password");
@@ -293,9 +303,38 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 	}
 
 	@Override
-	public User getUserById(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public User getUserById(String uuid) {
+		User user = new User();
+		
+		AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(_console.getCredentials());
+		ddbClient.setEndpoint("https://dynamodb.eu-central-1.amazonaws.com");
+		
+		Map<String, AttributeValue> expressionAttributeValues = new HashMap<String, AttributeValue>();
+		expressionAttributeValues.put(":val", new AttributeValue().withS(uuid)); 
+		ScanRequest scanRequest = new ScanRequest()
+	    	    .withTableName("Users")
+	    	    //.withLimit(1)
+	    	    .withFilterExpression("Id = :val")
+	    	    .withExpressionAttributeValues(expressionAttributeValues)
+	    	    .withProjectionExpression("Id, lastName, firstName, username, email, mobile, password");
+
+		ScanResult result = ddbClient.scan(scanRequest);
+    	for (Map<String, AttributeValue> item : result.getItems()) {
+    		if(item.get("Id")!=null)
+    			user.set_id(item.get("Id").getS());
+    		if(item.get("username")!=null)
+    			user.setUsername(item.get("username").getS());
+    		if(item.get("email")!=null)
+    			user.setEmail(item.get("email").getS());
+    		if(item.get("mobile")!=null)
+    			user.setMobile(item.get("mobile").getS());
+    		if(item.get("lastName")!=null)
+    			user.setFirstName(item.get("lastName").getS());
+    		if(item.get("lastName")!=null)
+    			user.setLastName(item.get("lastName").getS());
+    	}
+		
+		return user;
 	}
 
 	@Override
@@ -324,8 +363,43 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 
 	@Override
 	public Map<String, Object> login(Map<String, Object> user) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Object> response = new HashMap<String, Object>();
+		String password = (String) user.get("password");
+		
+		// Return ERROR if missing password
+		if (password == null || "".equals(password)) {
+			response.put("returnCode", 101); // 101: missing password
+			return response;
+		}
+		
+		// Search and get user
+		Map<String, Object> result = getUser(user);
+		
+		// Get reference to user (if found)
+		User userFound = (User) result.get("user");
+		if (userFound != null) {
+			try {
+				if (_passwordService.check(password, userFound.getPassword())) {
+					response.put("user", userFound);
+					response.put("returnCode", 100);
+					response.put("logged", true);
+				} else
+					response.put("returnCode", 102); // 102: mismatched password
+
+			} catch (Exception e) {
+				response.put("returnCode", 103); // 103: exception
+				response.put("logged", false);
+			}
+		} else if (result.containsKey("users")){
+			response.put("returnCode", 110); 
+			response.put("logged", false);
+			response.put("users",result.get("users"));
+		} else if((int) result.get("matched") == 0){
+			response.put("logged", false);
+			response.put("returnCode",115);
+		}
+		
+		return response;
 	}
 
 	@Override

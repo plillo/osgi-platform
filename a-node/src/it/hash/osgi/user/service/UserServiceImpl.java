@@ -158,7 +158,7 @@ public class UserServiceImpl implements UserService, ManagedService{
 		}
 				
 		try {
-			user.setPassword(_passwordService.getSaltedHash(password));
+			user.setSalted_hash_password(_passwordService.getSaltedHash(password));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
