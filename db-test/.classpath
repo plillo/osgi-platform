@@ -4,5 +4,7 @@
 	<classpathentry kind="src" output="bin_test" path="test"/>
 	<classpathentry exported="true" kind="con" path="aQute.bnd.classpath.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/Users/Antonella/git/osgi-platform-2/db-test/test/org.apache.felix.ipojo.junit4osgi-1.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
