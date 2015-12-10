@@ -8,7 +8,6 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.service.log.LogService;
 
-import it.hash.osgi.user.password.Password;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
 
 public class Activator extends DependencyActivatorBase {
@@ -25,10 +24,7 @@ public class Activator extends DependencyActivatorBase {
             .add(createServiceDependency()
                     .setService(LogService.class)
                     .setRequired(false))
-            .add(createServiceDependency()
-                    .setService(Password.class)
-                    .setRequired(true))
-             .add(createConfigurationDependency().setPid("it.hash.osgi.business.service.mock.cfg"))
+            .add(createConfigurationDependency().setPid("it.hash.osgi.business.service.mock.cfg"))
             );
     }
 

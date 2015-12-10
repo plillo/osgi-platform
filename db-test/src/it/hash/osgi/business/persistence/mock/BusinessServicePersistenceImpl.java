@@ -27,25 +27,20 @@ import it.hash.osgi.utils.StringUtils;
 
 public class BusinessServicePersistenceImpl implements BusinessServicePersistence,ManagedService{
 	
-	List<Business> businesss = new ArrayList<Business>();
+	List<Business> businesses = new ArrayList<Business>();
+		
 	@SuppressWarnings("rawtypes")
 	Dictionary properties;
-	Map<Integer,String> list = new TreeMap<Integer,String>();
 	
-	public String toString(){
-		String s="Prova";
-		if (!list.isEmpty())
-				s+=list.get(1);
-		return s;
-		
+	public BusinessServicePersistenceImpl(){
+		Business b = new Business();
+		b.set_id("OK");
+		businesses.add(new Business());
 	}
 	
 	@Override
 	public Map<String, Object> addBusiness(Business business) {
-		
-		
-	
-		businesss.add(business);
+		businesses.add(business);
 		
 		return new TreeMap<String, Object>();
 	}
@@ -87,14 +82,14 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	}
 
 	@Override
-	public List<Business> getBusinesss() {
-		return businesss;
+	public List<Business> getBusinesses() {
+		return businesses;
 	}
 
 	@Override
 	public Business getBusinessByEmail(String email) {
 		if(!StringUtils.isEmptyOrNull(email)){
-			for(Iterator<Business> it = businesss.iterator();it.hasNext();){
+			for(Iterator<Business> it = businesses.iterator();it.hasNext();){
 				Business business = it.next();
 				if(email.equals(business.getEmail()))
 					return business;
@@ -107,7 +102,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	@Override
 	public Business getBusinessByMobile(String mobile) {
 		if(!StringUtils.isEmptyOrNull(mobile)){
-			for(Iterator<Business> it = businesss.iterator();it.hasNext();){
+			for(Iterator<Business> it = businesses.iterator();it.hasNext();){
 				Business business = it.next();
 				if(mobile.equals(business.getMobile()))
 					return business;
@@ -120,7 +115,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	@Override
 	public Business getBusinessByBusinessname(String businessname) {
 		if(!StringUtils.isEmptyOrNull(businessname)){
-			for(Iterator<Business> it = businesss.iterator();it.hasNext();){
+			for(Iterator<Business> it = businesses.iterator();it.hasNext();){
 				Business business = it.next();
 				if(businessname.equals(business.getCompanyname()))
 					return business;
@@ -133,7 +128,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	@Override
 	public Business getBusinessById(String businessId) {
 		if(!StringUtils.isEmptyOrNull(businessId)){
-			for(Iterator<Business> it = businesss.iterator();it.hasNext();){
+			for(Iterator<Business> it = businesses.iterator();it.hasNext();){
 				Business business = it.next();
 				if(businessId.equals(business.get_id()))
 					return business;
@@ -222,15 +217,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void updated(Dictionary properties) throws ConfigurationException {
-		// TODO Auto-generated method stub
-		
-		// TODO Auto-generated method stub
-		Integer number=1;
-		this.properties = properties;
-		String s=(String)properties.get("company_"+number);
-        list.put(number, s);
-        System.out.println("legge da cfg"+s);
-		
+
 	}
 
 	@SuppressWarnings("unused")

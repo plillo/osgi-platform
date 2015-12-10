@@ -10,8 +10,6 @@ import org.osgi.service.cm.ManagedService;
 import org.osgi.service.event.EventAdmin;
 
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
-import it.hash.osgi.jwt.service.JWTService;
-import it.hash.osgi.user.password.Password;
 
 public class Activator extends DependencyActivatorBase {
 	@Override
@@ -24,8 +22,7 @@ public class Activator extends DependencyActivatorBase {
 			.setImplementation(BusinessServiceImpl.class)
 			.add(createServiceDependency().setService(BusinessServicePersistence.class).setRequired(false))
 			.add(createServiceDependency().setService(EventAdmin.class).setRequired(true))
-			.add(createServiceDependency().setService(JWTService.class).setRequired(true))
-		    .add(createServiceDependency().setService(Password.class).setRequired(true)));
+			);
 	}
  
 	@Override

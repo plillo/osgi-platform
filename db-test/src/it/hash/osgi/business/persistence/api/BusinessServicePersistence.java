@@ -5,7 +5,7 @@ import java.util.Map;
 import it.hash.osgi.business.Business;
 public interface BusinessServicePersistence {
 	// CREATE
-		Map<String, Object> addBusiness(Map<String, Object> business);
+	Map<String, Object> addBusiness(Map<String, Object> business);
 	Map<String, Object> addBusiness(Business business);
 	
 	// READ
@@ -20,7 +20,7 @@ public interface BusinessServicePersistence {
 	Business getBusinessByBusinessname(String businessname);
 	Business getBusinessById(String businessId);
 	
-	List<Business> getBusinesss();
+	List<Business> getBusinesses();
 	List<Business> getBusinessDetails(Business business);
 	
 	// UPDATE
