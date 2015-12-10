@@ -23,8 +23,7 @@ public class Commands {
 		user.setPassword(password);
 		
 		Map<String, Object> ret = _userService.addUser(user);
-		String status = (String) ret.get("status");
-		System.out.println("called shell command 'createUser' - execution status: "+status);
+		System.out.println("called shell command 'createUser' - created: "+(Boolean) ret.get("created"));
 	}
 
 	public void number() {

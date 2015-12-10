@@ -19,6 +19,7 @@ import it.hash.osgi.jwt.service.JWTService;
 import it.hash.osgi.user.User;
 import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
+import it.hash.osgi.utils.StringUtils;
 
 public class UserServiceImpl implements UserService, ManagedService{
 	@SuppressWarnings({ "unused", "rawtypes" })
@@ -48,17 +49,28 @@ public class UserServiceImpl implements UserService, ManagedService{
 			// MATCHED user
 			String password = (String)pars.get("password");
 			try {
-
+				// CHECK password
 				matched = _passwordService.check(password, user.getPassword());
+				
+				// GET ROLES
+				// TODO: get user's roles from system
+				String roles = "reguser, admin, root";
 
+				// PUT ID "Id"
 				response.put("id", user.get_id());
+				
+				// Create a JWT (Jason Web Token)
 				Map<String,Object> map = new TreeMap<String, Object>();
 				map.put("subject", "userId");
-				map.put("body", user.get_id());
+				map.put("uid", user.get_id());
+				map.put("roles", roles);
+				map.put("body", "this is a access token");
 				String token = _jwtService.getToken(map);
+				
+				// PUT JWT "token"
 				response.put("token", token);
 				
-				// Trigging system event: 'user/login'
+				// TRIG system event "user/login"
 				Map<String,Object> event_props = new HashMap<>();
 				event_props.put("token", token);
 				event_props.put("id", user.get_id());
@@ -139,6 +151,17 @@ public class UserServiceImpl implements UserService, ManagedService{
 
 	@Override
 	public Map<String, Object> addUser(User user) {
+		String password = user.getPassword();
+		if(StringUtils.isEmptyOrNull(user.getPassword())){
+			password = _passwordService.getRandom();
+			user.setPassword(password);
+		}
+				
+		try {
+			user.setSalted_hash_password(_passwordService.getSaltedHash(password));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return _userPersistenceService.addUser(user);
 	}
 

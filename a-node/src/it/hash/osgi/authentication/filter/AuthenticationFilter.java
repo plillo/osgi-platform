@@ -24,18 +24,14 @@ public class AuthenticationFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
         throws IOException, ServletException
     {
-        doLog("Filter request [" + req + "]");
-        
-        if(req instanceof HttpServletRequest) {
+		if(req instanceof HttpServletRequest) {
         	HttpServletRequest httpServletRequest = (HttpServletRequest)req;
-
-        	logRequest(httpServletRequest);
         	
             String origin = httpServletRequest.getHeader("Origin");
             String headers = httpServletRequest.getHeader("Access-Control-Request-Headers");
             String methods = httpServletRequest.getHeader("Access-Control-Request-Method");
 
-            // ECHO without control
+            // Handling of browser's HTTP preflight request
             if("OPTIONS".equals(httpServletRequest.getMethod())){
                 if (origin!=null)
                     ((HttpServletResponse) res).addHeader("Access-Control-Allow-Origin", origin);
@@ -47,6 +43,7 @@ public class AuthenticationFilter implements Filter {
                     ((HttpServletResponse) res).addHeader("Access-Control-Allow-Credentials", "true");
             }
            
+            /*
             // AUTHENTICATION
             // ==============
 			String authCredentials = httpServletRequest.getHeader("Authorization");
@@ -64,27 +61,15 @@ public class AuthenticationFilter implements Filter {
 					return;
 				}
 			}
+			*/
 
-           
         } else {
         } 
         
         chain.doFilter(req, res);
-
-        /*
-        if(res instanceof HttpServletResponse) {
-        	HttpServletResponse httpServletResponse = (HttpServletResponse)res;
-        	httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
-        	httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
-        	httpServletResponse.setHeader("Access-Control-Max-Age", "1728000");
-        	httpServletResponse.setHeader("Content-Length", "0");
-        	httpServletResponse.setHeader("Content-Type", "text/plain");
-        } else {
-        } 
-        */
     }
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unused" })
 	private void logRequest(HttpServletRequest httpServletRequest) {
 		// LOG method
 		doLog("Method: " + httpServletRequest.getMethod());

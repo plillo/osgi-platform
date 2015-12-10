@@ -1,6 +1,7 @@
 package it.hash.osgi.aws.console;
 
 import java.util.Dictionary;
+import java.util.UUID;
 
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
@@ -10,6 +11,14 @@ import com.amazonaws.AmazonClientException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
+import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
+import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
+
 
 public class ConsoleImpl implements Console, ManagedService{
     AWSCredentials credentials = null;
@@ -51,5 +60,43 @@ public class ConsoleImpl implements Console, ManagedService{
 	@Override
 	public AWSCredentials getCredentials() {
 		return credentials;
+	}
+
+	@Override
+	public String randomUUID(String type) {
+		AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(getCredentials());
+		ddbClient.setEndpoint("https://dynamodb.eu-central-1.amazonaws.com");
+		DynamoDB dynamoDB = new DynamoDB(ddbClient);
+        Table table = dynamoDB.getTable("Unids");
+
+        boolean loop = true;
+        int counter = 1;
+        while(loop) {
+        	// RANDOM UUID
+            String random_UUID = UUID.randomUUID().toString();
+            
+            // Set item
+    	    Item item = new Item()
+    	    		.withPrimaryKey(new PrimaryKey("Id", random_UUID))
+    	    		.withLong("cdate", new java.util.Date().getTime());
+    	    if(type!=null)
+    	    	item.withString("type", type);
+    	    
+    	    // Set specs
+            PutItemSpec putItemSpec = new PutItemSpec()
+                    .withItem(item)
+                    .withConditionExpression("attribute_not_exists(Id)");
+            // Put item
+	        try {
+	            table.putItem(putItemSpec);
+	            loop = false;
+	            return random_UUID;
+	        } catch (ConditionalCheckFailedException e) {
+	        	loop = counter++<=10;
+	        }
+        }
+        
+        System.out.println("ERROR generating UUID");
+        return null;
 	}
 }
