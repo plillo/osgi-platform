@@ -30,8 +30,10 @@ public class BusinessServiceImpl implements BusinessService, ManagedService {
 	private volatile EventAdmin _eventAdminService;
 	private volatile JWTService _jwtService;
 	
+	@SuppressWarnings("unused")
 	private Validator validator = new Validator();
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void updated(Dictionary properties) throws ConfigurationException {
 		// TODO Auto-generated method stub

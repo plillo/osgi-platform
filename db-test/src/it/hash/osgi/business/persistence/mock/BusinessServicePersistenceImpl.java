@@ -28,6 +28,7 @@ import it.hash.osgi.utils.StringUtils;
 public class BusinessServicePersistenceImpl implements BusinessServicePersistence,ManagedService{
 	
 	List<Business> businesss = new ArrayList<Business>();
+	@SuppressWarnings("rawtypes")
 	Dictionary properties;
 	Map<Integer,String> list = new TreeMap<Integer,String>();
 	
@@ -203,7 +204,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	
 	
-	public void sendParameters(Dictionary properties,String b)
+	public void sendParameters(@SuppressWarnings("rawtypes") Dictionary properties,String b)
 	{
 		System.out.println(" PARAMETRI BUSINESS_MOCK");
 		Map<String, String> parameters = new HashMap<String, String>();
@@ -218,6 +219,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void updated(Dictionary properties) throws ConfigurationException {
 		// TODO Auto-generated method stub
@@ -231,6 +233,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		
 	}
 
+	@SuppressWarnings("unused")
 	private Business convert(String s){
 		
 		return new Business();
