@@ -5,8 +5,8 @@ import java.util.Map;
 import it.hash.osgi.business.Business;
 public interface BusinessServicePersistence {
 	// CREATE
+		Map<String, Object> addBusiness(Map<String, Object> business);
 	Map<String, Object> addBusiness(Business business);
-	Map<String, Object> addBusiness(Map<String, Object> business);
 	
 	// READ
 	Map<String, Object> getConstrainedBusiness(Map<String, Object> business);

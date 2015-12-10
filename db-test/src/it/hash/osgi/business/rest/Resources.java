@@ -1,5 +1,7 @@
 package it.hash.osgi.business.rest;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -17,12 +19,17 @@ import static it.hash.osgi.utils.StringUtils.*;
 @Path("businesss/1.0")
 public class Resources {
 	private volatile BusinessService _businessService;
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response list() {
-		System.out.println("Prova");
-		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_businessService.getBusinesss()).build();
+	 @GET
+	  @Produces(MediaType.APPLICATION_JSON)
+	  public List<String> list() {
+		return Arrays.asList("A", "B", "C");
+	  
+	//@GET
+	//@Produces(MediaType.APPLICATION_JSON)
+//	public Response list() {
+		
+	//	System.out.println("Prova");
+	//	return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_businessService.getBusinesss()).build();
 	}
 	
 	@GET

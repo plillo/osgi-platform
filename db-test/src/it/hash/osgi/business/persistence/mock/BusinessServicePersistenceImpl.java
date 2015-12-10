@@ -32,7 +32,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	Map<Integer,String> list = new TreeMap<Integer,String>();
 	
 	public String toString(){
-		String s=null;
+		String s="Prova";
 		if (!list.isEmpty())
 				s+=list.get(1);
 		return s;
