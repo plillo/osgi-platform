@@ -9,11 +9,8 @@ public interface BusinessServicePersistence {
 	Map<String, Object> addBusiness(Business business);
 	
 	// READ
-	Map<String, Object> getConstrainedBusiness(Map<String, Object> business);
 	Map<String, Object> getBusiness(Business business);
-	Map<String, Object> getConstrainedBusiness(Business business);
 	Map<String, Object> getBusiness(Map<String, Object> business);
-	
 	
 	Business getBusinessByEmail(String email);
 	Business getBusinessByMobile(String mobile);
@@ -28,16 +25,10 @@ public interface BusinessServicePersistence {
 	Map<String, Object> updateBusiness(Map<String, Object> business);
 	
 	// DELETE
-	Map<String, Object> deleteBusiness(Business business);
+	Map<String, Object> deleteBusiness(Map<String, Object> business);
 	
 	// LOGIN
 	Map<String, Object> login(Map<String, Object> business);
-	Map<String, Object> loginByOAuth2(Map<String, Object> business);
-	
-	// VALIDATE
-	Map<String, Object> validateBusinessname(String businessId, String businessname);
-	Map<String, Object> validateEMail(String businessId, String email);
-	Map<String, Object> validateMobile(String businessId, String mobile);
 	
 	// IMPLEMENTATION
 	String getImplementation();

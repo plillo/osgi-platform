@@ -29,30 +29,34 @@ public class BusinessServiceImpl implements BusinessService, ManagedService {
 
 
 	@Override
-	public List<Business> listBusinesss() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
 	public Map<String, Object> getBusiness(Map<String, Object> pars) {
 		// TODO Auto-generated method stub
-		return null;
+		
+		return _businessPersistenceService.getBusiness(pars);
 	}
 
 
 	@Override
 	public Map<String, Object> create(Business business) {
 		// TODO Auto-generated method stub
-		return null;
+		
+		return 	_businessPersistenceService.addBusiness(business);
+	
 	}
+
+
+	@Override
+	public Map<String, Object> create(Map<String, Object> pars) {
+		// TODO Auto-generated method stub
+		return _businessPersistenceService.addBusiness(pars);
+	}
+
 
 
 	@Override
 	public Map<String, Object> deleteBusiness(Map<String, Object> pars) {
 		// TODO Auto-generated method stub
-		return null;
+		return _businessPersistenceService.deleteBusiness(pars);
 	}
 
 
@@ -75,5 +79,6 @@ public class BusinessServiceImpl implements BusinessService, ManagedService {
 		// TODO Auto-generated method stub
 		return _businessPersistenceService.getBusinesses();
 	}
+
 
 }
