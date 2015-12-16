@@ -2,8 +2,10 @@ package it.hash.osgi.business.rest;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -26,9 +28,18 @@ public class Resources {
 	
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_businessService.getBusinesses()).build();
 	}
+//	Map<String, Object> getBusiness(Map<String, Object> pars);
+	@GET
+	@Path("{identificator}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getBusiness(@PathParam("identificator") String id) {
+		System.out.println(" ");
+	    Map <String,Object> pars = new TreeMap<String, Object>();
+	    pars.put("Id", id);
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_businessService.getBusiness(pars)).build();
+	}
 	
 	@POST
-	@Path("Create")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes({MediaType.APPLICATION_JSON,  MediaType.APPLICATION_XML})
 	public Response create(Business business) {
@@ -44,18 +55,27 @@ public class Resources {
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
       	}
 
-	@POST
-	@Path("Delete/{id}/{username}")
+	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes({MediaType.APPLICATION_JSON,  MediaType.APPLICATION_XML})
-	public Response delete(@PathParam("id") String id,@PathParam("username") String username) {
-		
+	@Path("{identificator}")
+	public Response delete(@PathParam("identificator") String id) {
 			Map<String,Object> pars = new HashMap<String,Object>();
-			pars.put("id", id);
-			pars.put("username", username);
+			pars.put("_id", id);
 		    Map<String,Object> response=  _businessService.deleteBusiness(pars);
 			System.out.println("Delete  "+ id);
-			
+		
+			return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
+	      	}
+	@PUT
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("{identificator}")
+	public Response update(@PathParam("identificator") String id, Business newBusiness ) {
+			Map<String,Object> pars = new HashMap<String,Object>();
+			pars.put("id", id);
+			pars.put("newBusiness", newBusiness);
+		    Map<String,Object> response=  _businessService.updateBusiness(pars);
+			System.out.println("Update  "+ id);
+		
 			return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	      	}
 

@@ -21,6 +21,8 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@SuppressWarnings("rawtypes")
 	Dictionary properties;
+	// METODO CHE INSTANZIA UN BUSINESS....ANCHE SE QUESTA RESPONSABILITA' IO LA
+	// DAREI A BusinessServiceImpl
 
 	private Business createBusiness(Map<String, Object> mapbusiness) {
 
@@ -117,10 +119,10 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 		Map<String, Object> map = new TreeMap<String, Object>();
 		map.put("Result", businesses.add(business));
-		map.put("Add", business.get_id());
+		map.put("created", "true");
+		map.put("Id",business.get_id());
 		return map;
 	}
-
 
 	@Override
 	public Map<String, Object> addBusiness(Map<String, Object> mapbusiness) {
@@ -130,13 +132,36 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public Map<String, Object> getBusiness(Business business) {
-		return new TreeMap<String, Object>();
+		Map<String, Object> result = new TreeMap<String, Object>();
+	    result.put("Result", "False");
+		if (businesses.contains(business)) {
+			for (Business element : businesses) {
+				if (element.compareTo(business)==0) {
+					result.remove("Result");
+					result.put("Result ", "True");
+					result.put("Business", element);
+					break;
+				}
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public Map<String, Object> getBusiness(Map<String, Object> business) {
 		// TODO Auto-generated method stub
-		return new TreeMap<String, Object>();
+		Map<String, Object> result = new TreeMap<String, Object>();
+		 result.put("Result", "False");
+		String Id = (String) business.get("Id");
+		for (Business element : businesses) {
+				if (element.get_id().equals(Id)) {
+					result.remove("Result");
+					result.put("Result ", "True");
+					result.put("Business", element);
+					break;
+				}
+			}
+			return result;
 	}
 
 	@Override
@@ -202,42 +227,55 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		return null;
 	}
 
+	private Business machBusiness(Business old, Business New) {
+		// in teoria dovrei confrontare ogni attributo e sostituire solo quelli
+		// modificati
+
+		return New;
+	}
+
 	@Override
 	public Map<String, Object> updateBusiness(Business business) {
 		// TODO Auto-generated method stub
-		Map<String,Object> result = new TreeMap<String,Object>();
-		if (businesses.contains(business)){
+		Map<String, Object> result = new TreeMap<String, Object>();
+		if (businesses.contains(business)) {
 			businesses.remove(business);
 			businesses.add(business);
 			result.put("result", "true");
-			result.put("Update",business.get_id() );
-		}
-		else 
+			result.put("Update", business.get_id());
+		} else
 			result.put("result", "false");
-		
+
 		return result;
 	}
 
 	@Override
-	public Map<String, Object> updateBusiness(Map<String, Object> business) {
+	public Map<String, Object> updateBusiness(Map<String, Object> par) {
 		// TODO Auto-generated method stub
-		return null;
+		System.out.println("Update Business for cfg: ");
+		Business oldBusiness = businesses.get(Integer.parseInt((String) par.get("id")));
+		Business newBusiness = (Business) par.get("newBusiness");
+
+		return updateBusiness(machBusiness(oldBusiness, newBusiness));
+
 	}
 
 	@Override
 	public Map<String, Object> deleteBusiness(Map<String, Object> business) {
 		// TODO Auto-generated method stub
 		Business b = createBusiness(business);
-		Map<String,Object> result = new TreeMap<String,Object>();
-		if (businesses.contains(b)){
-			String id=b.get_id();
-			businesses.remove(b);
+		Map<String, Object> result = new TreeMap<String, Object>();
+		result.put("result", "false");
+		for(Business element: businesses){
+			if (b.compareTo(element)==0){
+			businesses.remove(element);
+			result.remove("result");
 			result.put("result", "true");
-			result.put("delete", id);
-		}
-		else 
-			result.put("result", "false");
-		
+			result.put("delete", b.get_id());
+			break;}
+		} 
+			
+
 		return result;
 	}
 

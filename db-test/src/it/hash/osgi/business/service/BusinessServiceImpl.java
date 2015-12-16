@@ -20,6 +20,11 @@ public class BusinessServiceImpl implements BusinessService, ManagedService {
 	@SuppressWarnings("unused")
 	private volatile EventAdmin _eventAdminService;
 	
+	
+	
+	
+	
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void updated(Dictionary properties) throws ConfigurationException {
@@ -63,7 +68,7 @@ public class BusinessServiceImpl implements BusinessService, ManagedService {
 	@Override
 	public Map<String, Object> updateBusiness(Map<String, Object> pars) {
 		// TODO Auto-generated method stub
-		return null;
+		return _businessPersistenceService.updateBusiness(pars);
 	}
 
 
