@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.service.BusinessService;
+import it.hash.osgi.utils.StringUtils;
 
 @Path("businesses/1.0")
 public class Resources {
@@ -26,19 +27,34 @@ public class Resources {
 	public Response list() {
 		System.out.println("LISTA ");
 	
-		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_businessService.getBusinesses()).build();
+	return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_businessService.getBusinesses()).build();
 	}
-//	Map<String, Object> getBusiness(Map<String, Object> pars);
+//	presupposto che le richieste non vengano fatte tramite id
+	// i parametri sono username email e mobile
 	@GET
-	@Path("{identificator}")
+	@Path("{username}{email}{mobile}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getBusiness(@PathParam("identificator") String id) {
+	public Response getBusiness(@PathParam("username") String username,@PathParam("email") String email,
+			@PathParam("mobile") String mobile) {
 		System.out.println(" ");
 	    Map <String,Object> pars = new TreeMap<String, Object>();
-	    pars.put("Id", id);
-		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_businessService.getBusiness(pars)).build();
+   	    pars.put("username", username);
+   	    pars.put("email", email);
+   	    pars.put("mobile", mobile);
+
+   	    return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_businessService.getBusiness(pars)).build();
 	}
 	
+	@GET
+	@Path("{username}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getBusiness(@PathParam("username") String username) {
+		System.out.println(" ");
+	    Map <String,Object> pars = new TreeMap<String, Object>();
+	  	    pars.put("username", username);
+
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_businessService.getBusiness(pars)).build();
+	}
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes({MediaType.APPLICATION_JSON,  MediaType.APPLICATION_XML})

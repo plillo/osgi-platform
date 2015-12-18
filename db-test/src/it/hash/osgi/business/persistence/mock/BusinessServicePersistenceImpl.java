@@ -25,7 +25,9 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	// DAREI A BusinessServiceImpl
 
 	private Business createBusiness(Map<String, Object> mapbusiness) {
-
+	
+		// ..  abbiamo detto che in un database Nosql non si ha uno schema fisso per cui
+		//  dobbiamo controllare quali attributi andranno settati!!!
 		Business business = new Business();
 		for (Map.Entry<String, Object> entry : mapbusiness.entrySet()) {
 			String attribute = entry.getKey();
@@ -151,21 +153,24 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	public Map<String, Object> getBusiness(Map<String, Object> business) {
 		// TODO Auto-generated method stub
 		Map<String, Object> result = new TreeMap<String, Object>();
+		Business businessObj=null;
 		 result.put("Result", "False");
-		String Id = (String) business.get("Id");
-		for (Business element : businesses) {
-				if (element.get_id().equals(Id)) {
-					result.remove("Result");
-					result.put("Result ", "True");
-					result.put("Business", element);
-					break;
-				}
-			}
-			return result;
+		 
+	
+		if (StringUtils.isNotEmptyOrNull((String) business.get("Id"))){
+					businessObj= getBusinessById((String) business.get("Id"));}
+		
+		result.remove("Result");
+		result.put("Result ", "True");
+		result.put("Business", businessObj);
+		
+		
+		return result;
 	}
 
 	@Override
 	public List<Business> getBusinesses() {
+	
 		return businesses;
 	}
 
@@ -290,25 +295,34 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		return "mocked";
 	}
 
-	public void sendParameters(@SuppressWarnings("rawtypes") Dictionary properties, String b) {
-		System.out.println(" PARAMETRI BUSINESS_MOCK");
-		Map<String, String> parameters = new HashMap<String, String>();
-
-		parameters.put("company_1", (String) properties.get("company_1"));
-
-		/*
-		 * 
-		 * b.setPassword((String)parameters.get("password"));
-		 * b.setEmail((String)parameters.get("email"));
-		 * b.setMobile((String)parameters.get("mobile"));
-		 */
-
+private Business prova(String b){
+	Business business=new Business();
+	String[]  company=b.split("&");
+	for (String s: company){
+		String attribute[]= s.split("=");
+		if (attribute[0].equals("_id"))
+			business.set_id(attribute[1]);
+		if (attribute[0].equals("username"))
+			business.setBusinessname(attribute[1]);
+		if (attribute[0].equals("email"))
+			business.setEmail(attribute[1]);
+		if (attribute[0].equals("mobile"))
+			business.setMobile(attribute[1]);
 	}
+
+	return business;
+}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void updated(Dictionary properties) throws ConfigurationException {
-
+           if (properties!=null){
+        	   
+         	
+        	   businesses.add(prova(((String) properties.get("Business_01"))));
+        	   businesses.add(prova(((String) properties.get("Business_02"))));
+        	  this.properties=properties;
+             }
 	}
 
 	@SuppressWarnings("unused")

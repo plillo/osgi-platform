@@ -16,7 +16,7 @@ public class Activator extends DependencyActivatorBase {
     public synchronized void init(BundleContext context, DependencyManager manager) throws Exception {
     	Properties props = new Properties();
 		props.put(Constants.SERVICE_RANKING, 2);
-		props.put(Constants.SERVICE_PID, "it.hash.osgi.business.service.mock.cfg");
+	//	props.put(Constants.SERVICE_PID, "it.hash.osgi.business.service.mock");
 		
     	manager.add(createComponent()
         	.setInterface(BusinessServicePersistence.class.getName(), props)
@@ -24,7 +24,7 @@ public class Activator extends DependencyActivatorBase {
             .add(createServiceDependency()
                     .setService(LogService.class)
                     .setRequired(false))
-         //   .add(createConfigurationDependency().setPid("it.hash.osgi.business.service.mock.cfg"))
+            .add(createConfigurationDependency().setPid("it.hash.osgi.business.service.mock"))
             );
     }
 

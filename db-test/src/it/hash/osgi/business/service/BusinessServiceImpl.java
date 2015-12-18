@@ -36,7 +36,7 @@ public class BusinessServiceImpl implements BusinessService, ManagedService {
 	@Override
 	public Map<String, Object> getBusiness(Map<String, Object> pars) {
 		// TODO Auto-generated method stub
-		
+		// nei pars controllo su quale attributo recuperare il Business
 		return _businessPersistenceService.getBusiness(pars);
 	}
 
