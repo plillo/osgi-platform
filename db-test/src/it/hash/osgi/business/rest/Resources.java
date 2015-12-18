@@ -25,7 +25,7 @@ public class Resources {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response list() {
-		System.out.println("LISTA ");
+		System.out.println("All Business ");
 	
 	return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_businessService.getBusinesses()).build();
 	}

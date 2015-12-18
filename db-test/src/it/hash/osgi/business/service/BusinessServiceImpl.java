@@ -23,8 +23,6 @@ public class BusinessServiceImpl implements BusinessService, ManagedService {
 	
 	
 	
-	
-	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void updated(Dictionary properties) throws ConfigurationException {

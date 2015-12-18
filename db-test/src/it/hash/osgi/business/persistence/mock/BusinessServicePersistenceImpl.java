@@ -295,7 +295,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		return "mocked";
 	}
 
-private Business prova(String b){
+private Business createBusiness(String b){
 	Business business=new Business();
 	String[]  company=b.split("&");
 	for (String s: company){
@@ -319,8 +319,8 @@ private Business prova(String b){
            if (properties!=null){
         	   
          	
-        	   businesses.add(prova(((String) properties.get("Business_01"))));
-        	   businesses.add(prova(((String) properties.get("Business_02"))));
+        	   businesses.add(createBusiness(((String) properties.get("Business_01"))));
+        	   businesses.add(createBusiness(((String) properties.get("Business_02"))));
         	  this.properties=properties;
              }
 	}

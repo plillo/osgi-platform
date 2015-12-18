@@ -8,7 +8,7 @@ import it.hash.osgi.business.service.BusinessService;
 
 public class Commands {
 	private volatile BusinessService _businessService;
-	
+	// da finire :-(
 	public void add(String username, String businessname, String password) {
 		Business business = new Business();
 		business .setUsername(username);

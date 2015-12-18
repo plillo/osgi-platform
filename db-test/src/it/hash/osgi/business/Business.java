@@ -3,7 +3,7 @@ package it.hash.osgi.business;
 import java.util.Map;
 
 /*
- * Entity attività Commerciale
+ * Pojo attività Commerciale
  */
 
 
