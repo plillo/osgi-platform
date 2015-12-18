@@ -22,7 +22,7 @@ public class Commands {
 		user.setLastName(lastname);
 		user.setPassword(password);
 		
-		Map<String, Object> ret = _userService.addUser(user);
+		Map<String, Object> ret = _userService.createUser(user);
 		System.out.println("called shell command 'createUser' - created: "+(Boolean) ret.get("created"));
 	}
 
@@ -39,6 +39,11 @@ public class Commands {
 				System.out.println(String.format("%-20s%-20s", user.getUsername(), user.getEmail()));
 			}
 		}
+	}
+	
+	public void UUID() {
+		String UUID = _userService.getUUID();
+		System.out.println(String.format("Current user UUID: %s",UUID==null?"NO ONE":UUID));
 	}
 	
 }
