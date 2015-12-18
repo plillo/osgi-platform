@@ -8,13 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-
-
-
-
-
-
-
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
 
@@ -22,63 +15,153 @@ import it.hash.osgi.business.Business;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
 import it.hash.osgi.utils.StringUtils;
 
+public class BusinessServicePersistenceImpl implements BusinessServicePersistence, ManagedService {
 
-
-
-public class BusinessServicePersistenceImpl implements BusinessServicePersistence,ManagedService{
-	
 	List<Business> businesses = new ArrayList<Business>();
-		
+
 	@SuppressWarnings("rawtypes")
 	Dictionary properties;
-	
-	public BusinessServicePersistenceImpl(){
-		Business b = new Business();
-		b.set_id("OK");
-		businesses.add(new Business());
+	// METODO CHE INSTANZIA UN BUSINESS....ANCHE SE QUESTA RESPONSABILITA' IO LA
+	// DAREI A BusinessServiceImpl
+
+	private Business createBusiness(Map<String, Object> mapbusiness) {
+
+		Business business = new Business();
+		for (Map.Entry<String, Object> entry : mapbusiness.entrySet()) {
+			String attribute = entry.getKey();
+			String value = (String) entry.getValue();
+
+			switch (attribute.toLowerCase()) {
+
+			case "_id":
+				business.set_id(value);
+				break;
+
+			case "username":
+				business.setUsername(value);
+				break;
+
+			case "password":
+				business.setPassword(value);
+				break;
+
+			case "businessname":
+				business.setBusinessname(value);
+				break;
+
+			case "password_mdate":
+				business.setPassword_mdate(value);
+				break;
+
+			case "email":
+				business.setEmail(value);
+				break;
+
+			case "mobile":
+				business.setMobile(value);
+				break;
+
+			case "published":
+				business.setPublished(value);
+				break;
+
+			case "last_login_date":
+				business.setLast_login_date(value);
+				break;
+
+			case "last_login_ip":
+				business.setMobile(value);
+				break;
+
+			case "trusted_email":
+				business.setTrusted_email(value);
+				break;
+
+			case "trusted_mobile":
+				business.setTrusted_mobile(value);
+				break;
+
+			case "cauthor":
+				business.setCauthor(value);
+				break;
+			case "cdate":
+				business.setCdate(value);
+				break;
+			case "mauthor":
+				business.setMauthor(value);
+				break;
+			case "mdate":
+				business.setMdate(value);
+				break;
+			case "lauthor":
+				business.setLauthor(value);
+				break;
+			case "ldate":
+				business.setLdate(value);
+				break;
+			case "business_data":
+				business.setBusiness_data(value);
+				break;
+			case "others":
+				business.setOthers((Map<String, Object>) entry.getValue());
+				break;
+
+			}
+			System.out.println(entry.getKey() + "/" + entry.getValue());
+		}
+
+		return business;
+
 	}
-	
+
 	@Override
 	public Map<String, Object> addBusiness(Business business) {
-		businesses.add(business);
-		
-		return new TreeMap<String, Object>();
+
+		Map<String, Object> map = new TreeMap<String, Object>();
+		map.put("Result", businesses.add(business));
+		map.put("created", "true");
+		map.put("Id",business.get_id());
+		return map;
 	}
 
 	@Override
 	public Map<String, Object> addBusiness(Map<String, Object> mapbusiness) {
-		
-		
-    	Business business = new Business();
-	//	sendParameters(properties,business);
-	
-	
 		System.out.println("Add Business for cfg: ");
-		return addBusiness(business);
+		return addBusiness(createBusiness(mapbusiness));
 	}
 
 	@Override
 	public Map<String, Object> getBusiness(Business business) {
-	
-		
-		return new TreeMap<String, Object>();
-	}
-
-	@Override
-	public Map<String, Object> getConstrainedBusiness(Business business) {
-		return new TreeMap<String, Object>();
+		Map<String, Object> result = new TreeMap<String, Object>();
+	    result.put("Result", "False");
+		if (businesses.contains(business)) {
+			for (Business element : businesses) {
+				if (element.compareTo(business)==0) {
+					result.remove("Result");
+					result.put("Result ", "True");
+					result.put("Business", element);
+					break;
+				}
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public Map<String, Object> getBusiness(Map<String, Object> business) {
 		// TODO Auto-generated method stub
-		return new TreeMap<String, Object>();
-	}
-
-	@Override
-	public Map<String, Object> getConstrainedBusiness(Map<String, Object> business) {
-		// TODO Auto-generated method stub
-		return new TreeMap<String, Object>();
+		Map<String, Object> result = new TreeMap<String, Object>();
+		 result.put("Result", "False");
+		String Id = (String) business.get("Id");
+		for (Business element : businesses) {
+				if (element.get_id().equals(Id)) {
+					result.remove("Result");
+					result.put("Result ", "True");
+					result.put("Business", element);
+					break;
+				}
+			}
+			return result;
 	}
 
 	@Override
@@ -88,10 +171,10 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public Business getBusinessByEmail(String email) {
-		if(!StringUtils.isEmptyOrNull(email)){
-			for(Iterator<Business> it = businesses.iterator();it.hasNext();){
+		if (!StringUtils.isEmptyOrNull(email)) {
+			for (Iterator<Business> it = businesses.iterator(); it.hasNext();) {
 				Business business = it.next();
-				if(email.equals(business.getEmail()))
+				if (email.equals(business.getEmail()))
 					return business;
 			}
 		}
@@ -101,10 +184,10 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public Business getBusinessByMobile(String mobile) {
-		if(!StringUtils.isEmptyOrNull(mobile)){
-			for(Iterator<Business> it = businesses.iterator();it.hasNext();){
+		if (!StringUtils.isEmptyOrNull(mobile)) {
+			for (Iterator<Business> it = businesses.iterator(); it.hasNext();) {
 				Business business = it.next();
-				if(mobile.equals(business.getMobile()))
+				if (mobile.equals(business.getMobile()))
 					return business;
 			}
 		}
@@ -114,10 +197,10 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public Business getBusinessByBusinessname(String businessname) {
-		if(!StringUtils.isEmptyOrNull(businessname)){
-			for(Iterator<Business> it = businesses.iterator();it.hasNext();){
+		if (!StringUtils.isEmptyOrNull(businessname)) {
+			for (Iterator<Business> it = businesses.iterator(); it.hasNext();) {
 				Business business = it.next();
-				if(businessname.equals(business.getCompanyname()))
+				if (businessname.equals(business.getBusinessname()))
 					return business;
 			}
 		}
@@ -127,10 +210,10 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public Business getBusinessById(String businessId) {
-		if(!StringUtils.isEmptyOrNull(businessId)){
-			for(Iterator<Business> it = businesses.iterator();it.hasNext();){
+		if (!StringUtils.isEmptyOrNull(businessId)) {
+			for (Iterator<Business> it = businesses.iterator(); it.hasNext();) {
 				Business business = it.next();
-				if(businessId.equals(business.get_id()))
+				if (businessId.equals(business.get_id()))
 					return business;
 			}
 		}
@@ -144,22 +227,56 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		return null;
 	}
 
+	private Business machBusiness(Business old, Business New) {
+		// in teoria dovrei confrontare ogni attributo e sostituire solo quelli
+		// modificati
+
+		return New;
+	}
+
 	@Override
 	public Map<String, Object> updateBusiness(Business business) {
 		// TODO Auto-generated method stub
-		return null;
+		Map<String, Object> result = new TreeMap<String, Object>();
+		if (businesses.contains(business)) {
+			businesses.remove(business);
+			businesses.add(business);
+			result.put("result", "true");
+			result.put("Update", business.get_id());
+		} else
+			result.put("result", "false");
+
+		return result;
 	}
 
 	@Override
-	public Map<String, Object> updateBusiness(Map<String, Object> business) {
+	public Map<String, Object> updateBusiness(Map<String, Object> par) {
 		// TODO Auto-generated method stub
-		return null;
+		System.out.println("Update Business for cfg: ");
+		Business oldBusiness = businesses.get(Integer.parseInt((String) par.get("id")));
+		Business newBusiness = (Business) par.get("newBusiness");
+
+		return updateBusiness(machBusiness(oldBusiness, newBusiness));
+
 	}
 
 	@Override
-	public Map<String, Object> deleteBusiness(Business business) {
+	public Map<String, Object> deleteBusiness(Map<String, Object> business) {
 		// TODO Auto-generated method stub
-		return null;
+		Business b = createBusiness(business);
+		Map<String, Object> result = new TreeMap<String, Object>();
+		result.put("result", "false");
+		for(Business element: businesses){
+			if (b.compareTo(element)==0){
+			businesses.remove(element);
+			result.remove("result");
+			result.put("result", "true");
+			result.put("delete", b.get_id());
+			break;}
+		} 
+			
+
+		return result;
 	}
 
 	@Override
@@ -169,49 +286,23 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	}
 
 	@Override
-	public Map<String, Object> loginByOAuth2(Map<String, Object> business) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Map<String, Object> validateBusinessname(String businessId, String businessname) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Map<String, Object> validateEMail(String businessId, String email) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Map<String, Object> validateMobile(String businessId, String mobile) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String getImplementation() {
 		return "mocked";
 	}
 
-	
-	
-	public void sendParameters(@SuppressWarnings("rawtypes") Dictionary properties,String b)
-	{
+	public void sendParameters(@SuppressWarnings("rawtypes") Dictionary properties, String b) {
 		System.out.println(" PARAMETRI BUSINESS_MOCK");
 		Map<String, String> parameters = new HashMap<String, String>();
-		
-		parameters.put("company_1",(String) properties.get("company_1"));
-		
-	/*	b.setCompanyname((String)parameters.get("businesscompanyname"));
-		b.setPassword((String)parameters.get("password"));
-		b.setEmail((String)parameters.get("email"));
-		b.setMobile((String)parameters.get("mobile"));*/
-		
-	
+
+		parameters.put("company_1", (String) properties.get("company_1"));
+
+		/*
+		 * 
+		 * b.setPassword((String)parameters.get("password"));
+		 * b.setEmail((String)parameters.get("email"));
+		 * b.setMobile((String)parameters.get("mobile"));
+		 */
+
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -221,11 +312,9 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	}
 
 	@SuppressWarnings("unused")
-	private Business convert(String s){
-		
+	private Business convert(String s) {
+
 		return new Business();
 	}
-	
-
 
 }

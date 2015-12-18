@@ -24,7 +24,7 @@ public class Activator extends DependencyActivatorBase {
             .add(createServiceDependency()
                     .setService(LogService.class)
                     .setRequired(false))
-            .add(createConfigurationDependency().setPid("it.hash.osgi.business.service.mock.cfg"))
+         //   .add(createConfigurationDependency().setPid("it.hash.osgi.business.service.mock.cfg"))
             );
     }
 

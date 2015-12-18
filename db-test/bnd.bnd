@@ -22,14 +22,11 @@
 	org.apache.felix.useradmin,\
 	jackson-mapper-asl,\
 	javax.ws.rs.javax.ws.rs-api,\
-	org.amdatu.web.rest.jaxrs,\
-	org.amdatu.web.rest.wink,\
 	com.fasterxml.jackson.core.jackson-annotations,\
 	com.fasterxml.jackson.core.jackson-core,\
 	com.fasterxml.jackson.core.jackson-databind,\
 	com.fasterxml.jackson.jaxrs.jackson-jaxrs-base,\
 	com.fasterxml.jackson.jaxrs.jackson-jaxrs-json-provider,\
-	org.amdatu.web.rest.doc,\
 	javax.servlet
 Bundle-Version: 0.0.0.${tstamp}
 -runrequires: \

@@ -55,12 +55,12 @@ public class Business implements Comparable<Business>{
 		this.password = password;
 	}
 
-	public String getCompanyname() {
+	public String getBusinessname() {
 		return businessname;
 	}
 
-	public void setCompanyname(String companyname) {
-		this.businessname = companyname;
+	public void setBusinessname(String businessname) {
+		this.businessname = businessname;
 	}
 
 	public String getPassword_mdate() {
@@ -175,15 +175,6 @@ public class Business implements Comparable<Business>{
 		this.others = others;
 	}
 
-
-
-
-
-
-	
-
-
-	
 	@Override
 	public int compareTo(Business obj) {
 		   return this._id.compareTo(obj.get_id());
