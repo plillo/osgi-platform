@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
 import org.osgi.service.event.Event;
@@ -102,12 +100,6 @@ public class UserServiceImpl implements UserService, ManagedService{
 	}
 
 	@Override
-	public Map<String, Object> testToken(String token) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Map<String, Object> validateUsername(String userId, String username) {
 		// TODO Auto-generated method stub
 		return null;
@@ -130,7 +122,7 @@ public class UserServiceImpl implements UserService, ManagedService{
 		Map<String, Object> map = new TreeMap<String, Object>();
 		map.put("identificatorType", "unmatched");
 		map.put("isValid", true);
-		
+
 		if(validator.isValidEmail(identificator))
 			map.put("identificatorType", "email");
 		else if(validator.isValidMobile(identificator))
@@ -141,34 +133,6 @@ public class UserServiceImpl implements UserService, ManagedService{
 			map.put("isValid", false);
 
 		return map;
-	}
-
-	@Override
-	public String generatePassword() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Map<String, Object> addUser(User user) {
-		String password = user.getPassword();
-		if(StringUtils.isEmptyOrNull(user.getPassword())){
-			password = _passwordService.getRandom();
-			user.setPassword(password);
-		}
-				
-		try {
-			user.setSalted_hash_password(_passwordService.getSaltedHash(password));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return _userPersistenceService.addUser(user);
-	}
-
-	@Override
-	public void addUsersByCSV(BufferedReader reader, boolean simulation, boolean activation) throws IOException {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -204,15 +168,19 @@ public class UserServiceImpl implements UserService, ManagedService{
 	}
 
 	@Override
-	public List<User> listUsers() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Map<String, Object> create(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Object> createUser(User user) {
+		String password = user.getPassword();
+		if(StringUtils.isEmptyOrNull(user.getPassword())){
+			password = _passwordService.getRandom();
+			user.setPassword(password);
+		}
+				
+		try {
+			user.setSalted_hash_password(_passwordService.getSaltedHash(password));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return _userPersistenceService.addUser(user);
 	}
 
 	@Override
@@ -226,11 +194,61 @@ public class UserServiceImpl implements UserService, ManagedService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
-	public Map<String, Object> update(HttpServletRequest request) {
+	public String getUUID() {
+		return _jwtService.getUID();
+	}
+
+	// getRoles METHODS
+	// ................
+	@Override
+	public List<String> getRoles(String UUID) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<String> getRoles(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getRoles() {
+		return _jwtService.getRoles();
+	}
+
+	// isUserInRole METHODS
+	// ....................
+	@Override
+	public boolean isUserInRole(String UUID, String... roles) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isUserInRole(User user, String... roles) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public boolean isUserInRole(String UUID, List<String> roles) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isUserInRole(User user, List<String> roles) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isUserInRole(String... roles) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -50,6 +50,10 @@ public class Activator extends DependencyActivatorBase {
 				.setImplementation(SecurityHandler.class)
 				.add(createServiceDependency().setService(JWTService.class).setRequired(true)));
 		
+		// Registration of Security Service
+		manager.add(createComponent()
+				.setInterface(SecurityService.class.getName(),null)
+				.setImplementation(SecurityServiceImpl.class));
 	}
 	
 	@Override

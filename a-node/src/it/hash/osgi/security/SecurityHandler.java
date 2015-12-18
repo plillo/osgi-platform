@@ -5,7 +5,6 @@ import java.security.Principal;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.container.ContainerRequestContext;
 
 import org.apache.commons.codec.binary.Base64;
@@ -64,6 +63,8 @@ public class SecurityHandler implements AuthenticationHandler, AuthorizationHand
 		if(jwt!=null) {
 			roles = _jwtService.getRoles(jwt);
 			user_id = _jwtService.getUID(jwt);
+			
+			TokenThreadLocal.set(jwt);
 		}
 
 		return new User(user_id);

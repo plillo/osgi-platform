@@ -8,6 +8,8 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.service.cm.ManagedService;
 
+import it.hash.osgi.security.SecurityService;
+
 public class Activator extends DependencyActivatorBase {
 	@Override
 	public synchronized void init(BundleContext context, DependencyManager manager) throws Exception {
@@ -17,6 +19,7 @@ public class Activator extends DependencyActivatorBase {
 		manager.add(createComponent()
 			.setInterface(new String[]{JWTService.class.getName(), ManagedService.class.getName()}, properties)
 			.setImplementation(JWTServiceImpl.class)
+			.add(createServiceDependency().setService(SecurityService.class).setRequired(true))
 			);
 	}
  

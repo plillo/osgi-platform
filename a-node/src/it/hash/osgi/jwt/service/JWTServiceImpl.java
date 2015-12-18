@@ -19,6 +19,8 @@ import org.jose4j.lang.JoseException;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
 
+import it.hash.osgi.security.SecurityService;
+
 import static it.hash.osgi.utils.StringUtils.*;
 
 import static it.hash.osgi.utils.Parser.*;
@@ -27,6 +29,8 @@ public class JWTServiceImpl implements JWTService, ManagedService {
 	@SuppressWarnings("rawtypes")
 	private Dictionary properties;
 	RsaJsonWebKey rsaJsonWebKey;
+	
+	private volatile SecurityService _securityService;
 	
 	public JWTServiceImpl(){
 		try {
@@ -135,6 +139,8 @@ public class JWTServiceImpl implements JWTService, ManagedService {
 
 	@Override
 	public JwtClaims getClaims(String jwt) {
+		if(jwt==null)
+			return null;
    
 	    // Use JwtConsumerBuilder to construct an appropriate JwtConsumer, which will
 	    // be used to validate and process the JWT.
@@ -167,7 +173,17 @@ public class JWTServiceImpl implements JWTService, ManagedService {
 	}
 
 	@Override
+	public JwtClaims getClaims() {
+		String token = _securityService.getToken();
+		
+		return getClaims(token);
+	}
+
+	@Override
 	public String getIssuer(String jwt) {
+		if(jwt==null)
+			return null;
+		
 		// Build a JwtConsumer that doesn't check signatures or do any validation.
 	    JwtConsumer firstPassJwtConsumer = new JwtConsumerBuilder()
 	            .setSkipAllValidators()
@@ -193,9 +209,19 @@ public class JWTServiceImpl implements JWTService, ManagedService {
 	    
         return null;
 	}
+
+	@Override
+	public String getIssuer() {
+		String token = _securityService.getToken();
+		
+		return getIssuer(token);
+	}
 	
 	@Override
 	public List<String> getRoles(String jwt) {
+		if(jwt==null)
+			return null;
+
 	    JwtConsumer firstPassJwtConsumer = new JwtConsumerBuilder()
 	            .setSkipAllValidators()
 	            .setDisableRequireSignature()
@@ -215,9 +241,19 @@ public class JWTServiceImpl implements JWTService, ManagedService {
 	    
         return null;
 	}
+	
+	@Override
+	public List<String> getRoles() {
+		String token = _securityService.getToken();
+		
+		return getRoles(token);
+	}
 
 	@Override
 	public String getUID(String jwt) {
+		if(jwt==null)
+			return null;
+
 	    JwtConsumer firstPassJwtConsumer = new JwtConsumerBuilder()
 	            .setSkipAllValidators()
 	            .setDisableRequireSignature()
@@ -236,6 +272,13 @@ public class JWTServiceImpl implements JWTService, ManagedService {
 		}
 	    
         return null;
+	}
+	
+	@Override
+	public String getUID() {
+		String token = _securityService.getToken();
+		
+		return getUID(token);
 	}
 
 	@Override
