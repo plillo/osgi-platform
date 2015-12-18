@@ -18,7 +18,6 @@ import it.hash.osgi.utils.StringUtils;
 public class BusinessServicePersistenceImpl implements BusinessServicePersistence, ManagedService {
 
 	List<Business> businesses = new ArrayList<Business>();
-
 	@SuppressWarnings("rawtypes")
 	Dictionary properties;
 	// METODO CHE INSTANZIA UN BUSINESS....ANCHE SE QUESTA RESPONSABILITA' IO LA

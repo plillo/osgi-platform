@@ -20,6 +20,7 @@ import it.hash.osgi.utils.StringUtils;
 
 @Path("businesses/1.0")
 public class Resources {
+
 	private volatile BusinessService _businessService;
 
 	@GET

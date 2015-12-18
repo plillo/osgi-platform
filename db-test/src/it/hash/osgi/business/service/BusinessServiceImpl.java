@@ -30,7 +30,6 @@ public class BusinessServiceImpl implements BusinessService, ManagedService {
 		
 	}
 
-
 	@Override
 	public Map<String, Object> getBusiness(Map<String, Object> pars) {
 		// TODO Auto-generated method stub

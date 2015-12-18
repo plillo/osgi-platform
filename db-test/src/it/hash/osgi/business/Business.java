@@ -6,8 +6,6 @@ import java.util.Map;
  * Pojo attività Commerciale
  */
 
-
-
 public class Business implements Comparable<Business>{
 	private String _id;
 	private String username;
