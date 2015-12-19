@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
@@ -20,13 +21,13 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	List<Business> businesses = new ArrayList<Business>();
 	@SuppressWarnings("rawtypes")
 	Dictionary properties;
-	// METODO CHE INSTANZIA UN BUSINESS....ANCHE SE QUESTA RESPONSABILITA' IO LA
-	// DAREI A BusinessServiceImpl
 
+	@SuppressWarnings("unchecked")
 	private Business createBusiness(Map<String, Object> mapbusiness) {
-	
-		// ..  abbiamo detto che in un database Nosql non si ha uno schema fisso per cui
-		//  dobbiamo controllare quali attributi andranno settati!!!
+
+		// .. abbiamo detto che in un database Nosql non si ha uno schema fisso
+		// per cui
+		// dobbiamo controllare quali attributi andranno settati!!!
 		Business business = new Business();
 		for (Map.Entry<String, Object> entry : mapbusiness.entrySet()) {
 			String attribute = entry.getKey();
@@ -121,7 +122,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		Map<String, Object> map = new TreeMap<String, Object>();
 		map.put("Result", businesses.add(business));
 		map.put("created", "true");
-		map.put("Id",business.get_id());
+		map.put("businessId", business.get_id());
 		return map;
 	}
 
@@ -131,45 +132,119 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		return addBusiness(createBusiness(mapbusiness));
 	}
 
-	@Override
-	public Map<String, Object> getBusiness(Business business) {
-		Map<String, Object> result = new TreeMap<String, Object>();
-	    result.put("Result", "False");
-		if (businesses.contains(business)) {
-			for (Business element : businesses) {
-				if (element.compareTo(business)==0) {
-					result.remove("Result");
-					result.put("Result ", "True");
-					result.put("Business", element);
-					break;
-				}
-			}
-		}
-		return result;
-	}
-
+	
 	@Override
 	public Map<String, Object> getBusiness(Map<String, Object> business) {
 		// TODO Auto-generated method stub
-		Map<String, Object> result = new TreeMap<String, Object>();
-		Business businessObj=null;
-		 result.put("Result", "False");
-		 
-	
-		if (StringUtils.isNotEmptyOrNull((String) business.get("Id"))){
-					businessObj= getBusinessById((String) business.get("Id"));}
-		
-		result.remove("Result");
-		result.put("Result ", "True");
-		result.put("Business", businessObj);
-		
-		
-		return result;
-	}
 
+		Business businessObj = new Business();
+
+		if (StringUtils.isNotEmptyOrNull((String) business.get("businessId")))
+			businessObj.set_id((String) business.get("businessId"));
+		if (StringUtils.isNotEmptyOrNull((String) business.get("username")))
+			businessObj.setUsername((String) business.get("username"));
+		if (StringUtils.isNotEmptyOrNull((String) business.get("email")))
+			businessObj.setEmail((String) business.get("email"));
+		if (StringUtils.isNotEmptyOrNull((String) business.get("mobile")))
+			businessObj.setMobile((String) business.get("mobile"));
+
+		Map<String, Object> businessFound = getBusiness(businessObj);
+         
+		return businessFound;
+	}
+@Override
+	public Map<String,Object>  getBusiness(Business business){
+		Map<Business, TreeSet<String>> matchs = new TreeMap<Business, TreeSet<String>>();
+		Map<String,Object> response = new HashMap<String,Object>();
+		Business found_business = null;
+		
+			if(business.get_id()!=null) {
+			found_business = getBusinessById(business.get_id());
+
+			if(found_business!=null){
+				TreeSet<String> list = matchs.get(found_business);
+				if(list==null)
+					list = new TreeSet<String>();
+				    
+				list.add("businessId");
+				matchs.put(found_business, list);
+			}
+		}
+		
+		if(business.getBusinessname()!=null) {
+			found_business = getBusinessByBusinessname(business.getBusinessname());
+
+			if(found_business!=null){
+				TreeSet<String> list = matchs.get(found_business);
+				if(list==null)
+					list = new TreeSet<String>();
+				    
+				list.add("busienssname");
+				matchs.put(found_business, list);
+			}
+		}
+		if(business.getUsername()!=null) {
+			found_business = getBusinessByBusinessname(business.getUsername());
+
+			if(found_business!=null){
+				TreeSet<String> list = matchs.get(found_business);
+				if(list==null)
+					list = new TreeSet<String>();
+				    
+				list.add("username");
+				matchs.put(found_business, list);
+			}
+		}
+		
+		if(business.getEmail()!=null) {
+			found_business= getBusinessByEmail(business.getEmail());
+			if(found_business!=null){
+				TreeSet<String> list = matchs.get(found_business);
+				if(list==null)
+					list = new TreeSet<String>();
+				    
+				list.add("email");
+				matchs.put(found_business, list);
+			}
+		}
+		if(business.getMobile()!=null) {
+			found_business= getBusinessByMobile(business.getMobile());
+			if(found_business!=null){
+				TreeSet<String> list = matchs.get(found_business);
+				if(list==null)
+					list = new TreeSet<String>();
+				    
+				list.add("mobile");
+				matchs.put(found_business, list);
+			}
+		}
+		// Set response: number of matched users
+					response.put("matched", matchs.size());
+
+					// Set response details
+					switch(matchs.size()){
+					case 0:
+						response.put("found", false);
+						response.put("returnCode",400);
+						break;
+					case 1:
+						Business key = (Business) matchs.keySet().toArray()[0];
+						response.put("business", key);
+						response.put("keys", matchs.get(key));
+						response.put("found", true);
+						response.put("returnCode",200);
+						break;
+					default:
+						response.put("businsess", matchs);
+						response.put("returnCode", 110);
+					}
+				
+						
+				return response;
+			}
 	@Override
 	public List<Business> getBusinesses() {
-	
+
 		return businesses;
 	}
 
@@ -182,7 +257,6 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 					return business;
 			}
 		}
-
 		return null;
 	}
 
@@ -201,6 +275,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public Business getBusinessByBusinessname(String businessname) {
+		System.out.println();
 		if (!StringUtils.isEmptyOrNull(businessname)) {
 			for (Iterator<Business> it = businesses.iterator(); it.hasNext();) {
 				Business business = it.next();
@@ -270,15 +345,15 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		Business b = createBusiness(business);
 		Map<String, Object> result = new TreeMap<String, Object>();
 		result.put("result", "false");
-		for(Business element: businesses){
-			if (b.compareTo(element)==0){
-			businesses.remove(element);
-			result.remove("result");
-			result.put("result", "true");
-			result.put("delete", b.get_id());
-			break;}
-		} 
-			
+		for (Business element : businesses) {
+			if (b.compareTo(element) == 0) {
+				businesses.remove(element);
+				result.remove("result");
+				result.put("result", "true");
+				result.put("delete", b.get_id());
+				break;
+			}
+		}
 
 		return result;
 	}
@@ -294,34 +369,33 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		return "mocked";
 	}
 
-private Business createBusiness(String b){
-	Business business=new Business();
-	String[]  company=b.split("&");
-	for (String s: company){
-		String attribute[]= s.split("=");
-		if (attribute[0].equals("_id"))
-			business.set_id(attribute[1]);
-		if (attribute[0].equals("username"))
-			business.setBusinessname(attribute[1]);
-		if (attribute[0].equals("email"))
-			business.setEmail(attribute[1]);
-		if (attribute[0].equals("mobile"))
-			business.setMobile(attribute[1]);
-	}
+	private Business createBusiness(String b) {
+		Business business = new Business();
+		String[] company = b.split("&");
+		for (String s : company) {
+			String attribute[] = s.split("=");
+			if (attribute[0].equals("_id"))
+				business.set_id(attribute[1]);
+			if (attribute[0].equals("username"))
+				business.setBusinessname(attribute[1]);
+			if (attribute[0].equals("email"))
+				business.setEmail(attribute[1]);
+			if (attribute[0].equals("mobile"))
+				business.setMobile(attribute[1]);
+		}
 
-	return business;
-}
+		return business;
+	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void updated(Dictionary properties) throws ConfigurationException {
-           if (properties!=null){
-        	   
-         	
-        	   businesses.add(createBusiness(((String) properties.get("Business_01"))));
-        	   businesses.add(createBusiness(((String) properties.get("Business_02"))));
-        	  this.properties=properties;
-             }
+		if (properties != null) {
+
+			businesses.add(createBusiness(((String) properties.get("Business_01"))));
+			businesses.add(createBusiness(((String) properties.get("Business_02"))));
+			this.properties = properties;
+		}
 	}
 
 	@SuppressWarnings("unused")

@@ -33,7 +33,7 @@ public class Resources {
 //	presupposto che le richieste non vengano fatte tramite id
 	// i parametri sono username email e mobile
 	@GET
-	@Path("{username}{email}{mobile}")
+	@Path("{username}/{email}/{mobile}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getBusiness(@PathParam("username") String username,@PathParam("email") String email,
 			@PathParam("mobile") String mobile) {

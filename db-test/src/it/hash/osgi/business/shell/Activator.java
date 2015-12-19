@@ -6,8 +6,8 @@ import org.apache.felix.dm.DependencyActivatorBase;
 import org.apache.felix.dm.DependencyManager;
 import org.apache.felix.service.command.CommandProcessor;
 import org.osgi.framework.BundleContext;
-
 import it.hash.osgi.business.service.BusinessService;
+
 
 
 public class Activator extends DependencyActivatorBase {
@@ -16,11 +16,14 @@ public class Activator extends DependencyActivatorBase {
 	public void init(BundleContext context, DependencyManager manager) throws Exception {
     	Properties props = new Properties();
 		props.put(CommandProcessor.COMMAND_SCOPE, "business");
-		props.put(CommandProcessor.COMMAND_FUNCTION, new String[] {"add","number","list","delete"});
+		props.put(CommandProcessor.COMMAND_FUNCTION, new String[] {"addBusiness"});
 		manager.add(createComponent()
 				.setInterface(Object.class.getName(), props)
-				.setImplementation(Commands.class)
-				.add(createServiceDependency().setService(BusinessService.class).setRequired(true)));		
+				.setImplementation(businessCommands.class)
+				.add(createServiceDependency()
+						.setService(BusinessService.class)
+						.setRequired(true)));	
+	
 		}
 
 		@Override

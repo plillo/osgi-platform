@@ -6,10 +6,10 @@ import it.hash.osgi.business.Business;
 import it.hash.osgi.business.service.BusinessService;
 
 
-public class Commands {
+public class businessCommands {
 	private volatile BusinessService _businessService;
 	// da finire :-(
-	public void add(String username, String businessname, String password) {
+	public void addBusiness(String username, String businessname, String password) {
 		Business business = new Business();
 		business .setUsername(username);
 		business .setBusinessname(businessname);
