@@ -244,7 +244,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			}
 	@Override
 	public List<Business> getBusinesses() {
-
+System.out.println(this.getImplementation());
 		return businesses;
 	}
 
@@ -346,7 +346,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		Map<String, Object> result = new TreeMap<String, Object>();
 		result.put("result", "false");
 		for (Business element : businesses) {
-			if (b.compareTo(element) == 0) {
+			if( (b.compareTo(element) == 0) || (b.getUsername().equals(element.getUsername()))) {
 				businesses.remove(element);
 				result.remove("result");
 				result.put("result", "true");
