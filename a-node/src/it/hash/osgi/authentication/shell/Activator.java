@@ -21,12 +21,17 @@ public class Activator extends DependencyActivatorBase {
 			.setImplementation(Commands.class)
 			.add(createServiceDependency().setService(LogService.class)));
 
-		System.out.println("Authentication shell actived");
+		doLog("Authentication command-shell actived");
 	}
 
 	@Override
 	public synchronized void destroy(BundleContext context, DependencyManager manager) throws Exception {
 	}
+	
+    private void doLog(String message)
+    {
+        System.out.println("## [" + this.getClass() + "] " + message);
+    }
 
 }
 

@@ -12,11 +12,15 @@ public class Activator extends DependencyActivatorBase {
 		dm.add(createComponent().setInterface(Object.class.getName(), null).setImplementation(Resources.class)
 				.add(createServiceDependency().setService(UserService.class).setRequired(true)));
 
-		System.out.println("User REST resources actived");
+		doLog("User REST resources actived");
 	}
 
 	@Override
 	public void destroy(BundleContext context, DependencyManager dm) 
 			throws Exception{
+	}
+	
+	private void doLog(String message) {
+		System.out.println("## [" + this.getClass() + "] " + message);
 	}
 }

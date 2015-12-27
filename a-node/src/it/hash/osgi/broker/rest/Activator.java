@@ -14,11 +14,15 @@ public class Activator extends DependencyActivatorBase {
 				.setImplementation(Resources.class)
 				.add(createServiceDependency().setService(JWTService.class).setRequired(true)));
 
-		System.out.println("Broker REST resources actived");
+		doLog("Broker REST resources actived");
 	}
 
 	@Override
 	public void destroy(BundleContext context, DependencyManager dm) 
 			throws Exception{
+	}
+	
+	private void doLog(String message) {
+		System.out.println("## [" + this.getClass() + "] " + message);
 	}
 }

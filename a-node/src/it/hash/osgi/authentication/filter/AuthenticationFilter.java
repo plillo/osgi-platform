@@ -13,12 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AuthenticationFilter implements Filter {
-	String name = "AuthenticationFilter";
    
     public void init(FilterConfig config)
         throws ServletException
     {
-        doLog("Init with config [" + config + "]");
+        doLog("Init with config [" + config.getClass() + "]");
     }
 
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
@@ -78,6 +77,6 @@ public class AuthenticationFilter implements Filter {
 
     private void doLog(String message)
     {
-        System.out.println("## [" + this.name + "] " + message);
+        System.out.println("## [" + this.getClass() + "] " + message);
     }
 }
