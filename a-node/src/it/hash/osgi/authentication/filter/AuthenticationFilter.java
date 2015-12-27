@@ -42,30 +42,9 @@ public class AuthenticationFilter implements Filter {
                 if (methods!=null)
                     ((HttpServletResponse) res).addHeader("Access-Control-Allow-Credentials", "true");
             }
-           
-            /*
-            // AUTHENTICATION
-            // ==============
-			String authCredentials = httpServletRequest.getHeader("Authorization");
-			if(authCredentials!=null){
-				AuthenticationService authenticationService = new AuthenticationService();
-				boolean authenticationStatus = authenticationService.authenticate(authCredentials);
-
-				if (authenticationStatus) {
-					chain.doFilter(req, res);
-					return;
-				} else {
-					if (res instanceof HttpServletResponse) {
-						((HttpServletResponse) res).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-					}
-					return;
-				}
-			}
-			*/
-
-        } else {
-        } 
+        }
         
+		// CHAIN
         chain.doFilter(req, res);
     }
 

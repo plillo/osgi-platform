@@ -15,7 +15,7 @@ public class Activator implements BundleActivator {
 			}
 
 			public Object addingService(ServiceReference reference) {
-				// HTTP service is available, register our resources...
+				// HTTP service is available, registering the AuthenticationFilter
 				ExtHttpService httpService = (ExtHttpService) this.context.getService(reference);
 				try {
 					httpService.registerFilter(new AuthenticationFilter(), "/.*", null, 0, null);
