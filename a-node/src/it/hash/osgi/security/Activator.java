@@ -42,8 +42,8 @@ public class Activator extends DependencyActivatorBase {
 		
 		// Registration of REST resources
 		manager.add(createComponent()
-				.setInterface(SecureResource.class.getName(), null)
-				.setImplementation(SecureResource.class));
+				.setInterface(Resources.class.getName(), null)
+				.setImplementation(Resources.class));
 		
 		manager.add(createComponent()
 				.setInterface(new String[] {AuthenticationHandler.class.getName(),AuthorizationHandler.class.getName()}, null)

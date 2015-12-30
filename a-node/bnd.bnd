@@ -18,7 +18,8 @@
 	com.mongodb,\
 	jackson-mapper-asl,\
 	org.mongodb.mongo-java-driver,\
-	org.bitbucket.b_c.jose4j
+	org.bitbucket.b_c.jose4j,\
+	org.eclipse.paho.client.mqttv3
 Bundle-Version: 0.0.0.${tstamp}
 -sub: *.bnd
 -runrequires: \
@@ -42,7 +43,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=net.vz.mongodb.jackson.mongo-jackson-mapper)',\
 	osgi.identity;filter:='(osgi.identity=org.amdatu.mongo)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.commons.logging)',\
-	osgi.identity;filter:='(osgi.identity=org.bitbucket.b_c.jose4j)'
+	osgi.identity;filter:='(osgi.identity=org.bitbucket.b_c.jose4j)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.paho.client.mqttv3)'
 -runfw: org.apache.felix.framework;version='[4.4.1,4.4.1]'
 -runee: JavaSE-1.7
 -runbundles: \
@@ -80,5 +82,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.apache.geronimo.specs.geronimo-jta_1.1_spec;version='[1.1.1,1.1.2)',\
 	org.apache.servicemix.bundles.aws-java-sdk;version='[1.10.29,1.10.30)',\
 	org.bitbucket.b_c.jose4j;version='[0.4.4,0.4.5)',\
+	org.eclipse.paho.client.mqttv3;version='[1.0.2,1.0.3)',\
 	org.mongodb.mongo-java-driver;version='[2.13.3,2.13.4)',\
 	slf4j.api;version='[1.7.12,1.7.13)'

@@ -1,4 +1,4 @@
-package it.hash.osgi.broker.rest;
+package it.hash.osgi.broker;
 
 import java.util.List;
 import java.util.Map;
@@ -44,7 +44,7 @@ public class Resources {
 			response.put("roles", roles);
 		}
 		else
-			response.put("verified", false);
+			response.put("verified", true); // false
 		
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	}

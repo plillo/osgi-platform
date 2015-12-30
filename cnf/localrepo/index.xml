@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<repository increment="1449041735170" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
+<repository increment="1451220731508" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="com.eclipsesource.jaxrs.consumer"/>
@@ -1305,6 +1305,57 @@
     </requirement>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.7))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="java-uuid-generator"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="3.1.3"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="aee98b1af749e45f547520a3c54eded023122fbc39df098e475526ab883d5e51"/>
+      <attribute name="url" value="com.fasterxml.uuid/java-uuid-generator-3.1.3.jar"/>
+      <attribute name="size" type="Long" value="38940"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="java-uuid-generator"/>
+      <attribute name="bundle-version" type="Version" value="3.1.3"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="java-uuid-generator"/>
+      <attribute name="bundle-version" type="Version" value="3.1.3"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.fasterxml.uuid"/>
+      <attribute name="version" type="Version" value="3.1.3"/>
+      <attribute name="bundle-symbolic-name" value="java-uuid-generator"/>
+      <attribute name="bundle-version" type="Version" value="3.1.3"/>
+      <directive name="uses" value="com.fasterxml.uuid.impl"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.fasterxml.uuid.ext"/>
+      <attribute name="version" type="Version" value="3.1.3"/>
+      <attribute name="bundle-symbolic-name" value="java-uuid-generator"/>
+      <attribute name="bundle-version" type="Version" value="3.1.3"/>
+      <directive name="uses" value="com.fasterxml.uuid"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="com.fasterxml.uuid.impl"/>
+      <attribute name="version" type="Version" value="3.1.3"/>
+      <attribute name="bundle-symbolic-name" value="java-uuid-generator"/>
+      <attribute name="bundle-version" type="Version" value="3.1.3"/>
+      <directive name="uses" value="com.fasterxml.uuid"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.fasterxml.uuid)(version&gt;=3.1.3)(version&lt;=3.1.3))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.fasterxml.uuid.ext)(version&gt;=3.1.3)(version&lt;=3.1.3))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.fasterxml.uuid.impl)(version&gt;=3.1.3)(version&lt;=3.1.3))"/>
     </requirement>
   </resource>
   <resource>
@@ -4487,6 +4538,62 @@
     </requirement>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=org.slf4j)(version&gt;=1.7.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.eclipse.paho.client.mqttv3"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="1.0.2"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="5a319c3b7a168770d663daa2979ddb416c5f9b086d85e7e32c00d7b9728d6837"/>
+      <attribute name="url" value="org.eclipse.paho.client.mqttv3/org.eclipse.paho.client.mqttv3-1.0.2.jar"/>
+      <attribute name="size" type="Long" value="161195"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="org.eclipse.paho.client.mqttv3"/>
+      <attribute name="bundle-version" type="Version" value="1.0.2"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="org.eclipse.paho.client.mqttv3"/>
+      <attribute name="bundle-version" type="Version" value="1.0.2"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.paho.client.mqttv3"/>
+      <attribute name="version" type="Version" value="1.0.2"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.paho.client.mqttv3"/>
+      <attribute name="bundle-version" type="Version" value="1.0.2"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.paho.client.mqttv3.logging"/>
+      <attribute name="version" type="Version" value="1.0.2"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.paho.client.mqttv3"/>
+      <attribute name="bundle-version" type="Version" value="1.0.2"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.paho.client.mqttv3.persist"/>
+      <attribute name="version" type="Version" value="1.0.2"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.paho.client.mqttv3"/>
+      <attribute name="bundle-version" type="Version" value="1.0.2"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.paho.client.mqttv3.util"/>
+      <attribute name="version" type="Version" value="1.0.2"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.paho.client.mqttv3"/>
+      <attribute name="bundle-version" type="Version" value="1.0.2"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.net)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.net.ssl)"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.4))"/>
     </requirement>
   </resource>
   <resource>
