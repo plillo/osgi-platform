@@ -15,17 +15,18 @@ import org.osgi.service.cm.ManagedService;
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
 import it.hash.osgi.utils.StringUtils;
-
+import it.hash.osgi.uuid.api.UuidService;
+     
 public class BusinessServicePersistenceImpl implements BusinessServicePersistence, ManagedService {
 
 	List<Business> businesses = new ArrayList<Business>();
 	@SuppressWarnings("rawtypes")
 	Dictionary properties;
-
-	@SuppressWarnings("unchecked")
+    private volatile UuidService _uuid;
+	
+    @SuppressWarnings("unchecked")
 	private Business createBusiness(Map<String, Object> mapbusiness) {
-
-		// .. abbiamo detto che in un database Nosql non si ha uno schema fisso
+	// .. abbiamo detto che in un database Nosql non si ha uno schema fisso
 		// per cui
 		// dobbiamo controllare quali attributi andranno settati!!!
 		Business business = new Business();
@@ -118,8 +119,10 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public Map<String, Object> addBusiness(Business business) {
-
+      Map<String,Object>  u=_uuid.createUuid();
 		Map<String, Object> map = new TreeMap<String, Object>();
+		Integer id=(Integer) u.get("insertUuid");
+		business.set_id(id.toString());
 		map.put("Result", businesses.add(business));
 		map.put("created", "true");
 		map.put("businessId", business.get_id());
@@ -398,10 +401,11 @@ System.out.println(this.getImplementation());
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private Business convert(String s) {
-
-		return new Business();
+	
+	@Override
+	public Business getBusinessByUsername(String username) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -14,7 +14,7 @@ import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
 public class BusinessServiceImpl implements BusinessService, ManagedService {
 
 	@SuppressWarnings({ "unused", "rawtypes" })
-	
+	       
 	private Dictionary properties;
 	private volatile BusinessServicePersistence _businessPersistenceService;
 	@SuppressWarnings("unused")
@@ -42,18 +42,15 @@ public class BusinessServiceImpl implements BusinessService, ManagedService {
 	@Override
 	public Map<String, Object> create(Business business) {
 		// TODO Auto-generated method stub
-		
 		return 	_businessPersistenceService.addBusiness(business);
 	
 	}
-
 
 	@Override
 	public Map<String, Object> create(Map<String, Object> pars) {
 		// TODO Auto-generated method stub
 		return _businessPersistenceService.addBusiness(pars);
 	}
-
 
 
 	@Override

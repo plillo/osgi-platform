@@ -11,12 +11,12 @@ import it.hash.osgi.business.service.BusinessService;
 
 
 public class Activator extends DependencyActivatorBase {
-
+       
 	@Override
 	public void init(BundleContext context, DependencyManager manager) throws Exception {
     	Properties props = new Properties();
 		props.put(CommandProcessor.COMMAND_SCOPE, "business");
-		props.put(CommandProcessor.COMMAND_FUNCTION, new String[] {"addBusiness","deleteBusiness","listBusiness"});
+		props.put(CommandProcessor.COMMAND_FUNCTION, new String[] {"addBusiness","deleteBusiness","listBusiness","updateBusiness"});
 		manager.add(createComponent()
 				.setInterface(Object.class.getName(), props)
 				.setImplementation(businessCommands.class)

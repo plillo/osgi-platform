@@ -4,15 +4,17 @@ import java.util.Map;
 
 import it.hash.osgi.business.Business;
 public interface BusinessServicePersistence {
+	
 	// CREATE
-	// addBusiness
 	Map<String, Object> addBusiness(Map<String, Object> business);
 	Map<String, Object> addBusiness(Business business);
-	
+	             
 	// READ
 	Map<String, Object> getBusiness(Business business);
 	Map<String, Object> getBusiness(Map<String, Object> business);
 	
+	
+	Business getBusinessByUsername(String username);
 	Business getBusinessByEmail(String email);
 	Business getBusinessByMobile(String mobile);
 	Business getBusinessByBusinessname(String businessname);
