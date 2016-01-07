@@ -6,8 +6,10 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.MqttTopic;
 
 import it.hash.osgi.utils.Parser;
 
@@ -88,4 +90,33 @@ public class CoreMqttClient implements MqttCallback {
 			}
 	}
 
+	public void subscribe(String topic, int subQoS) {
+		try {
+			myClient.subscribe(topic, subQoS);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void publish(String topic, String message) {
+		MqttTopic myTopic = myClient.getTopic(topic);
+		
+		MqttMessage msg = new MqttMessage(message.getBytes());
+		
+   		int pubQoS = 0;
+		msg.setQos(pubQoS);
+		msg.setRetained(false);
+
+    	// Publish the message
+    	System.out.println("Publishing to topic \"" + topic + "\" msg " + message + " qos " + pubQoS);
+    	MqttDeliveryToken token = null;
+    	try {
+    		// publish message to broker
+			token = myTopic.publish(msg);
+			token.waitForCompletion();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

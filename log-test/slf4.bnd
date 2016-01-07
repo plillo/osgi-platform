@@ -1,3 +1,6 @@
 Private-Package: slf4
 Bundle-Version: 1.0.0
 Bundle-Activator: slf4.Activator
+Import-Package: \
+	org.apache.commons.logging;version='[1.0,1.1)';provider=paxlogging,\
+	*

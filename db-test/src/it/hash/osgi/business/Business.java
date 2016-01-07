@@ -2,11 +2,15 @@ package it.hash.osgi.business;
 
 import java.util.Map;
 
+import net.vz.mongodb.jackson.Id;
+import net.vz.mongodb.jackson.ObjectId;
+
 /*
  * Pojo attività Commerciale
  */
-
+    
 public class Business implements Comparable<Business>{
+	@ObjectId @Id
 	private String _id;
 	private String username;
 	private String password;

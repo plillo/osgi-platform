@@ -1,13 +1,13 @@
 package slf4;
 
-import org.osgi.service.log.LogService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class Test {
-	private volatile LogService logService;
+	private static final Log logger = LogFactory.getLog( Test.class );
 	
 	public void echo(String echo) {
-		if(logService!=null)
-			logService.log(LogService.LOG_INFO, "LOG command: echo");
+		logger.debug("LOG command: echo");
 		
 		System.out.println("echo command: "+echo);
 	}

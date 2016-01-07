@@ -12,7 +12,17 @@ public class BrokerServiceImpl implements BrokerService, ManagedService {
 	
 	@Override
 	public void send() {
-		// TODO Auto-generated method stub
+
+	}
+	
+	@Override
+	public void subscribe(String topic){
+		mqttClient.subscribe(topic, 0);
+	}
+	
+	@Override
+	public void publish(String topic, String message){
+		mqttClient.publish(topic, message);
 	}
 
 	@Override
