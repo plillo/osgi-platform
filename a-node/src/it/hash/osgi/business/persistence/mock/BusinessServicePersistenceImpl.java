@@ -16,6 +16,7 @@ import it.hash.osgi.business.Business;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
 import it.hash.osgi.resource.uuid.api.UUIDService;
 import it.hash.osgi.utils.StringUtils;
+
      
 public class BusinessServicePersistenceImpl implements BusinessServicePersistence, ManagedService {
 
@@ -39,23 +40,33 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			case "_id":
 				business.set_id(value);
 				break;
-
-			case "username":
-				business.setUsername(value);
-				break;
-
-			case "password":
-				business.setPassword(value);
-				break;
-
 			case "businessname":
-				business.setBusinessname(value);
+				business.setBusinessName(value);
 				break;
-
-			case "password_mdate":
-				business.setPassword_mdate(value);
+			case "piva":
+				business.setPIva(value);
 				break;
-
+			case "codicefiscale":
+				business.setCodiceFiscale(value);
+				break;
+			case "address":
+				business.setAddress(value);
+				break;
+			case "city":
+				business.setCity(value);
+				break;
+			case "cap":
+				business.setCap(value);
+				break;
+			case "nation":
+				business.setNation(value);
+				break;
+			case "__description":
+				business.set__Description(value);
+				break;	
+			case "__longDescription":
+				business.set__Description(value);
+				break;	
 			case "email":
 				business.setEmail(value);
 				break;
@@ -66,14 +77,6 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 			case "published":
 				business.setPublished(value);
-				break;
-
-			case "last_login_date":
-				business.setLast_login_date(value);
-				break;
-
-			case "last_login_ip":
-				business.setMobile(value);
 				break;
 
 			case "trusted_email":
@@ -102,15 +105,12 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			case "ldate":
 				business.setLdate(value);
 				break;
-			case "business_data":
-				business.setBusiness_data(value);
-				break;
 			case "others":
 				business.setOthers((Map<String, Object>) entry.getValue());
 				break;
 
 			}
-			System.out.println(entry.getKey() + "/" + entry.getValue());
+		//	System.out.println(entry.getKey() + "/" + entry.getValue());
 		}
 
 		return business;
@@ -119,14 +119,13 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public Map<String, Object> addBusiness(Business business) {
-        String uuid = _uuid.createUUID("/app/profiler/business");
+      String uuid=_uuid.createUUID(business.get_id());
 		Map<String, Object> map = new TreeMap<String, Object>();
-
-		business.set_id(uuid);
+	
+		business.setUUID(uuid);
 		map.put("Result", businesses.add(business));
 		map.put("created", "true");
 		map.put("businessId", business.get_id());
-
 		return map;
 	}
 
@@ -139,22 +138,18 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	
 	@Override
 	public Map<String, Object> getBusiness(Map<String, Object> business) {
-		// TODO Auto-generated method stub
+
 
 		Business businessObj = new Business();
 
 		if (StringUtils.isNotEmptyOrNull((String) business.get("businessId")))
 			businessObj.set_id((String) business.get("businessId"));
-		if (StringUtils.isNotEmptyOrNull((String) business.get("username")))
-			businessObj.setUsername((String) business.get("username"));
 		if (StringUtils.isNotEmptyOrNull((String) business.get("email")))
 			businessObj.setEmail((String) business.get("email"));
 		if (StringUtils.isNotEmptyOrNull((String) business.get("mobile")))
 			businessObj.setMobile((String) business.get("mobile"));
-
-		Map<String, Object> businessFound = getBusiness(businessObj);
-         
-		return businessFound;
+	    
+		return getBusiness(businessObj);
 	}
 @Override
 	public Map<String,Object>  getBusiness(Business business){
@@ -175,8 +170,8 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			}
 		}
 		
-		if(business.getBusinessname()!=null) {
-			found_business = getBusinessByBusinessname(business.getBusinessname());
+		if(business.getBusinessName()!=null) {
+			found_business = getBusinessByBusinessName(business.getBusinessName());
 
 			if(found_business!=null){
 				TreeSet<String> list = matchs.get(found_business);
@@ -184,18 +179,6 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 					list = new TreeSet<String>();
 				    
 				list.add("busienssname");
-				matchs.put(found_business, list);
-			}
-		}
-		if(business.getUsername()!=null) {
-			found_business = getBusinessByBusinessname(business.getUsername());
-
-			if(found_business!=null){
-				TreeSet<String> list = matchs.get(found_business);
-				if(list==null)
-					list = new TreeSet<String>();
-				    
-				list.add("username");
 				matchs.put(found_business, list);
 			}
 		}
@@ -278,12 +261,12 @@ System.out.println(this.getImplementation());
 	}
 
 	@Override
-	public Business getBusinessByBusinessname(String businessname) {
+	public Business getBusinessByBusinessName(String businessName) {
 		System.out.println();
-		if (!StringUtils.isEmptyOrNull(businessname)) {
+		if (!StringUtils.isEmptyOrNull(businessName)) {
 			for (Iterator<Business> it = businesses.iterator(); it.hasNext();) {
 				Business business = it.next();
-				if (businessname.equals(business.getBusinessname()))
+				if (businessName.equals(business.getBusinessName()))
 					return business;
 			}
 		}
@@ -310,16 +293,10 @@ System.out.println(this.getImplementation());
 		return null;
 	}
 
-	private Business machBusiness(Business old, Business New) {
-		// in teoria dovrei confrontare ogni attributo e sostituire solo quelli
-		// modificati
-
-		return New;
-	}
 
 	@Override
 	public Map<String, Object> updateBusiness(Business business) {
-		// TODO Auto-generated method stub
+
 		Map<String, Object> result = new TreeMap<String, Object>();
 		if (businesses.contains(business)) {
 			businesses.remove(business);
@@ -334,39 +311,35 @@ System.out.println(this.getImplementation());
 
 	@Override
 	public Map<String, Object> updateBusiness(Map<String, Object> par) {
-		// TODO Auto-generated method stub
-		System.out.println("Update Business for cfg: ");
-		Business oldBusiness = businesses.get(Integer.parseInt((String) par.get("id")));
-		Business newBusiness = (Business) par.get("newBusiness");
 
-		return updateBusiness(machBusiness(oldBusiness, newBusiness));
+		System.out.println("Update Business for cfg: ");
+		
+		Business business = createBusiness(par);
+
+		return updateBusiness(business);
 
 	}
 
 	@Override
-	public Map<String, Object> deleteBusiness(Map<String, Object> business) {
-		// TODO Auto-generated method stub
-		Business b = createBusiness(business);
+	public Map<String, Object> deleteBusiness(Map<String, Object> pars) {
+
+		Business foundBusiness = createBusiness(pars);
 		Map<String, Object> result = new TreeMap<String, Object>();
-		result.put("result", "false");
-		for (Business element : businesses) {
-			if( (b.compareTo(element) == 0) || (b.getUsername().equals(element.getUsername()))) {
-				businesses.remove(element);
-				result.remove("result");
-				result.put("result", "true");
-				result.put("delete", b.get_id());
-				break;
+		result.put("returnCode", 620);
+		for (Business business : businesses) {
+			if (foundBusiness.compareTo(business) == 0)  {
+				businesses.remove(business);
+				result.remove("returnCode");
+				result.put("returnCode", 200);
+				result.put("delete", foundBusiness);
+				return result;
 			}
 		}
 
 		return result;
 	}
 
-	@Override
-	public Map<String, Object> login(Map<String, Object> business) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public String getImplementation() {
@@ -381,7 +354,7 @@ System.out.println(this.getImplementation());
 			if (attribute[0].equals("_id"))
 				business.set_id(attribute[1]);
 			if (attribute[0].equals("username"))
-				business.setBusinessname(attribute[1]);
+				business.setBusinessName(attribute[1]);
 			if (attribute[0].equals("email"))
 				business.setEmail(attribute[1]);
 			if (attribute[0].equals("mobile"))
@@ -403,10 +376,7 @@ System.out.println(this.getImplementation());
 	}
 
 	
-	@Override
-	public Business getBusinessByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
+
 
 }

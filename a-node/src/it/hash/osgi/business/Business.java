@@ -5,34 +5,39 @@ import java.util.Map;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.ObjectId;
 
-/*
- * Pojo attività commerciale
+/**
+ * Pojo attività Commerciale
+ * @author Montinari Antonella
  */
-    
+
 public class Business implements Comparable<Business>{
+
 	@ObjectId @Id
 	private String _id;
 	private String UUID;
-	private String username;
-	private String password;
-	private String businessname;
-	private String password_mdate;
+	private String businessName;
+	private String pIva;
+	private String codiceFiscale;
+	private String address;
+	private String city;
+	private String cap;
+	private String nation;
+	private String __description;
+	private String __longDescription;
 	private String email;
 	private String mobile;
 	private String published;
-	private String last_login_date;
-	private String last_login_ip;
 	private String trusted_email;
 	private String trusted_mobile;
 	private String cauthor;
 	private String cdate;
 	private String mauthor;
 	private String mdate;
+	//look
 	private String lauthor;
 	private String ldate;
-	private String business_data; 
 	private Map <String,Object> others;
-	
+
 	public String get_id() {
 		return _id;
 	}
@@ -41,39 +46,75 @@ public class Business implements Comparable<Business>{
 		this._id = id;
 	}
 
-	
-	public String getUsername() {
-		return username;
+
+
+	public void setBusinessName(String businessName) {
+		this.businessName=businessName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public String getBusinessName() {
+		return businessName;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getPIva() {
+		return pIva;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPIva(String pIva) {
+		this.pIva = pIva;
+	}
+	public String getAddress() {
+		return address;
 	}
 
-	public String getBusinessname() {
-		return businessname;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-	public void setBusinessname(String businessname) {
-		this.businessname = businessname;
+	public String getCity() {
+		return city;
 	}
 
-	public String getPassword_mdate() {
-		return password_mdate;
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getCap() {
+		return this.cap;
 	}
 
-	public void setPassword_mdate(String password_mdate) {
-		this.password_mdate = password_mdate;
+	public void setCap(String cap) {
+		this.cap = cap;
+	}
+	public String getNation() {
+		return nation;
 	}
 
+	public void setNation(String nation) {
+		this.nation = nation;
+	}
+
+	public String get__Description() {
+		return __description;
+	}
+
+	public void set__Description(String __description) {
+		this.__description = __description;
+	}
+
+	public String get__longDescription() {
+		return __longDescription;
+	}
+
+	public void set__longDescription(String __longDescription) {
+		this.__longDescription = __longDescription;
+	}
+	public String getCodiceFiscale() {
+		return codiceFiscale;
+	}
+
+	public void setCodiceFiscale(String codiceFiscale) {
+		this.codiceFiscale = codiceFiscale;
+	}
 	public String getEmail() {
 		return email;
 	}
@@ -85,25 +126,12 @@ public class Business implements Comparable<Business>{
 	public String getPublished() {
 		return published;
 	}
-
+	/**
+	 *
+	 *  @param published
+	 */
 	public void setPublished(String published) {
 		this.published = published;
-	}
-
-	public String getLast_login_date() {
-		return last_login_date;
-	}
-
-	public void setLast_login_date(String last_login_date) {
-		this.last_login_date = last_login_date;
-	}
-
-	public String getLast_login_ip() {
-		return last_login_ip;
-	}
-
-	public void setLast_login_ip(String last_login_ip) {
-		this.last_login_ip = last_login_ip;
 	}
 
 	public String getTrusted_email() {
@@ -113,39 +141,65 @@ public class Business implements Comparable<Business>{
 	public void setTrusted_email(String trusted_email) {
 		this.trusted_email = trusted_email;
 	}
-
+	/**
+	 * Gets the name of the author who created the business
+	 * @return the name of the author
+	 */
 	public String getCauthor() {
 		return cauthor;
 	}
 
+	/**
+	 * sets name of the author who created the business
+	 * @param cauthor name of the author who created the business
+	 */
 	public void setCauthor(String cauthor) {
 		this.cauthor = cauthor;
 	}
-
+	/**
+	 * Gets the date on which it was created the business
+	 * @return the date on which it was created the business
+	 */
 	public String getCdate() {
 		return cdate;
 	}
 
+	/**
+	 * sets the date on which it was created the business
+	 * @param cdate the date on which it was created the business
+	 */
 	public void setCdate(String cdate) {
 		this.cdate = cdate;
 	}
-
+	/**
+	 * Gets the name of the author who modified the business
+	 * @return the name of the author
+	 */
 	public String getMauthor() {
 		return mauthor;
 	}
-
+	/**
+	 * sets name of the author who modified the business
+	 * @param cauthor name of the author who modified the business
+	 */
 	public void setMauthor(String mauthor) {
 		this.mauthor = mauthor;
 	}
-
+	/**
+	 * Gets the date on which it was modified the business
+	 * @return the date on which it was modified the business
+	 */
 	public String getMdate() {
 		return mdate;
 	}
-
+	/**
+	 * sets the date on which it was modified the business
+	 * @param Mdate the date on which it was modified the business
+	 */
 	public void setMdate(String mdate) {
 		this.mdate = mdate;
 	}
-
+	//TODO ....inserire descrizione attributo
 	public String getLauthor() {
 		return lauthor;
 	}
@@ -161,28 +215,41 @@ public class Business implements Comparable<Business>{
 	public void setLdate(String ldate) {
 		this.ldate = ldate;
 	}
-
-	public String getBusiness_data() {
-		return business_data;
-	}
-
-	public void setBusiness_data(String business_data) {
-		this.business_data = business_data;
-	}
-
-	public Map<String, Object> getOthers() {
-		return others;
-	}
-
+	/**
+	 * Map - OPEN/CLOSE PRINCIPLE: permette di aggiungere nuove variabili di istanza
+	 *       per analogia ai database Nosql che sono senza schema
+	 *
+	 * @param others - Map<String: name instance variable ; Object: type of the instance variable>
+	 */
 	public void setOthers(Map<String, Object> others) {
 		this.others = others;
 	}
 
-	@Override
-	public int compareTo(Business obj) {
-		   return this._id.compareTo(obj.get_id());
-			}
+	/**
+	 * Gets variabili di istanza aggiunte all'entità business
+	 * @return Map contenente variabili di istanza <br>
+	 *         che non sono state previste al momento della progettazione
+	 */
+	public Map<String, Object> getOthers() {
+		return others;
+	}
 
+	/**
+	 * Gets eventuali variabili di istanza
+	 * @return Map contenente variabili di istanza <br>
+	 *         che non sono state previste al momento della progettazione
+	 */
+
+	public Object addOthers(String attribute, Object o){
+		return this.others.put(attribute, o);
+	}
+	public Object getOthers(String attribute){
+		return this.others.get(attribute);
+
+	}
+	public Object removeOthers(String attribute){
+		return this.others.remove(attribute);
+	}
 	public String getMobile() {
 		return mobile;
 	}
@@ -198,7 +265,6 @@ public class Business implements Comparable<Business>{
 	public void setTrusted_mobile(String trusted_mobile) {
 		this.trusted_mobile = trusted_mobile;
 	}
-
 	public String getUUID() {
 		return UUID;
 	}
@@ -206,4 +272,9 @@ public class Business implements Comparable<Business>{
 	public void setUUID(String uuid) {
 		UUID = uuid;
 	}
+	@Override
+	public int compareTo(Business obj) {
+		   return this._id.compareTo(obj.get_id());
+			}
+
 }

@@ -13,9 +13,7 @@ public class businessCommands {
 
 	public void addBusiness(String username, String businessname, String password,String email, String mobile) {
 		Business business = new Business();
-		business.setUsername(username);
-		business.setBusinessname(businessname);
-		business.setPassword(password);
+		business.setBusinessName(businessname);
 		business.setEmail(email);
 		business.setMobile(mobile);
 
@@ -32,27 +30,26 @@ public class businessCommands {
 	}
 
 	public void updateBusiness(String username,String businessname,String email,String mobile,String mauthor) {
-		// TODO : ma bisogna prevedere u parametro per ogni attributo????
-
+		
 		Map<String, Object> pars = new HashMap<String, Object>();
 		Map<String, Object> response = new HashMap<String, Object>();
-		pars.put("username",username);
-		pars.put("businessname",businessname);
-		pars.put("email",email);
-		pars.put("mobile",mobile);
-		pars.put("mauthor",mauthor);
+		Business business= new Business();
+		business.setBusinessName(businessname);
+	    business.setEmail(email);
+	    business.setMobile(mobile);
+
+		pars.put("business",business);
         response = _businessService.updateBusiness(pars);
         System.out.println("ReturnCode "+response.get("returncode"));
        
 	}
 
-	public void deleteBusiness(String username, String businessname, String password) {
+	public void deleteBusiness(String businessId, String businessName) {
 
 		Map<String, Object> pars = new HashMap<String, Object>();
-		pars.put("username", username);
-		pars.put("businessname", businessname);
-		pars.put("password", password);
-
+		pars.put("businessId", businessId);
+		pars.put("businessname", businessName);
+	
 		Map<String, Object> ret = _businessService.deleteBusiness(pars);
 		for (Map.Entry<String, Object> entry : ret.entrySet())
 			System.out.println(entry.getKey() + " - " + (String) entry.getValue());
@@ -64,8 +61,7 @@ public class businessCommands {
 		if (businesses != null) {
 			for (Iterator<Business> it = businesses.iterator(); it.hasNext();) {
 				Business business = it.next();
-				System.out.print(String.format("%-30s%-20s%-20s", business.get_id(), business.getUsername(),
-						business.getBusinessname()));
+				System.out.print(String.format("%-30s%-20s%-20s", business.get_id(),business.getBusinessName()));
 				System.out.println(String.format("%-20s%-20s", business.getEmail(), business.getMobile()));
 			}
 		}

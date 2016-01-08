@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.service.BusinessService;
 
+
 @Path("businesses/1.0")
 public class Resources {
 
@@ -33,29 +34,18 @@ public class Resources {
 //	presupposto che le richieste non vengano fatte tramite id
 	// i parametri sono username email e mobile
 	@GET
-	@Path("{username}/{email}/{mobile}")
+	@Path("{_id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getBusiness(@PathParam("username") String username,@PathParam("email") String email,
-			@PathParam("mobile") String mobile) {
+	public Response getBusiness(@PathParam("_id") String _id) {
 		System.out.println(" ");
 	    Map <String,Object> pars = new TreeMap<String, Object>();
-   	    pars.put("username", username);
-   	    pars.put("email", email);
-   	    pars.put("mobile", mobile);
+   	
+   	    pars.put("businessId",_id);
 
    	    return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_businessService.getBusiness(pars)).build();
 	}
 	
-	@GET
-	@Path("{username}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getBusiness(@PathParam("username") String username) {
-		System.out.println(" ");
-	    Map <String,Object> pars = new TreeMap<String, Object>();
-	  	    pars.put("username", username);
 
-		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_businessService.getBusiness(pars)).build();
-	}
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes({MediaType.APPLICATION_JSON,  MediaType.APPLICATION_XML})
@@ -73,22 +63,21 @@ public class Resources {
 
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("{username}")
-	public Response delete(@PathParam("username") String username) {
+	@Path("{_id}")
+	public Response delete(@PathParam("_id") String _id) {
 			Map<String,Object> pars = new HashMap<String,Object>();
-			pars.put("username", username);
+			pars.put("businessId", _id);
 		    Map<String,Object> response=  _businessService.deleteBusiness(pars);
-			System.out.println("Delete  "+ username+ "returnCode "+response.get("returnCode"));
+			System.out.println("Delete  "+response.get("business")+ "returnCode "+response.get("returnCode"));
 		
 			return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	      	}
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	//@Path("{username}")
-	public Response update(Business newBusiness){//(@PathParam("username") String username, Business newBusiness ) {
+
+	public Response update(Business newBusiness){
 			Map<String,Object> pars = new HashMap<String,Object>();
-		//	pars.put("username", username);
-			pars.put("newBusiness", newBusiness);
+			pars.put("business", newBusiness);
 		    Map<String,Object> response=  _businessService.updateBusiness(pars);
 			System.out.println("returnCode"+ response.get("returnCode") );
 		
