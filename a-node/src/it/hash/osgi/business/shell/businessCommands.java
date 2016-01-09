@@ -61,7 +61,7 @@ public class businessCommands {
 		if (businesses != null) {
 			for (Iterator<Business> it = businesses.iterator(); it.hasNext();) {
 				Business business = it.next();
-				System.out.print(String.format("%-20s%-20s%-20s",business.getBusinessName(), business.getEmail(), "  ",business.getMobile()));
+				System.out.print(String.format("%-20s%-20s%-20s",business.getBusinessName(), business.getEmail(),business.getMobile()));
 			}
 		}
 
