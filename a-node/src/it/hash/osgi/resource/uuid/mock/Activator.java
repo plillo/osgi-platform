@@ -14,7 +14,7 @@ public class Activator extends DependencyActivatorBase {
 	@Override
 	public  void init(BundleContext context, DependencyManager manager) throws Exception {
 		Properties props = new Properties();
-		props.put(Constants.SERVICE_RANKING, 100);
+		props.put(Constants.SERVICE_RANKING, 200);
 		manager.add(createComponent()
 		.setInterface(new String[] { UUIDService.class.getName(), ManagedService.class.getName() }, props)
 		.setImplementation(UUIDServiceImpl.class)

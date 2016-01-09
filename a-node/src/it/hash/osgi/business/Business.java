@@ -1,3 +1,8 @@
+
+/**
+ * Business
+ * @author Montinari Antonella
+ */
 package it.hash.osgi.business;
 
 import java.util.Map;
@@ -92,19 +97,36 @@ public class Business implements Comparable<Business>{
 	public void setNation(String nation) {
 		this.nation = nation;
 	}
-
+	/**
+	 * gets on description for back end
+	 * 
+	 * @return short description of the Business
+	 * 	 */
 	public String get__Description() {
 		return __description;
 	}
-
+	/**
+	 * sets on description for back end
+	 * 
+	 * @param __description short description for Business
+	 * 	 */
 	public void set__Description(String __description) {
 		this.__description = __description;
 	}
-
+	/**
+	 * gets on description for front end
+	 * 
+	 * @return long description of the Business
+	 * 	 */
 	public String get__longDescription() {
 		return __longDescription;
 	}
 
+	/**
+	 * sets on description for front end
+	 * 
+	 * @param __longDescription  long description for Business
+	 * 	 */
 	public void set__longDescription(String __longDescription) {
 		this.__longDescription = __longDescription;
 	}
@@ -180,7 +202,7 @@ public class Business implements Comparable<Business>{
 	}
 	/**
 	 * sets name of the author who modified the business
-	 * @param cauthor name of the author who modified the business
+	 * @param mauthor name of the author who modified the business
 	 */
 	public void setMauthor(String mauthor) {
 		this.mauthor = mauthor;
@@ -194,7 +216,7 @@ public class Business implements Comparable<Business>{
 	}
 	/**
 	 * sets the date on which it was modified the business
-	 * @param Mdate the date on which it was modified the business
+	 * @param mdate the date on which it was modified the business
 	 */
 	public void setMdate(String mdate) {
 		this.mdate = mdate;

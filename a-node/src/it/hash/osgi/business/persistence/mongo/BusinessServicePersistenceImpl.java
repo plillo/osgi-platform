@@ -18,7 +18,7 @@ import com.mongodb.BasicDBObject;
 
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
-import it.hash.osgi.resource.uuid.api.UUIDService;
+//import it.hash.osgi.resource.uuid.api.UUIDService;
 import it.hash.osgi.utils.StringUtils;
 
 
@@ -29,7 +29,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	private volatile MongoDBService m_mongoDBService;
 	@SuppressWarnings("unused")
 	private volatile LogService logService;
-	private volatile UUIDService _uuid;
+//	private volatile UUIDService _uuid;
 	// Mongo business collection
 	private DBCollection businessCollection;
 	
@@ -63,15 +63,16 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 		// If new business
 		if ((int) result.get("matched") == 0) {
-			String savedId = business.get_id();
+		/*	String savedId = business.get_id();
 			if (StringUtils.isEmptyOrNull(savedId)) {
-				String u = _uuid.createUUID(savedId);
+			//	String u = _uuid.createUUID(savedId);
 		    	business.set_id(savedId);	
 				business.setUUID(u);
 			
-			}
+			}*/
+			
 			WriteResult<Business, Object> writeResult = businessMap.save(business);
-			savedId = (String) writeResult.getSavedId();
+		String	savedId = (String) writeResult.getSavedId();
 			if (StringUtils.isEmptyOrNull(savedId)) {
 				Business created_business = businessMap.findOneById(savedId);
 				if (created_business != null) {

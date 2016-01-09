@@ -1,11 +1,21 @@
+/**
+ * Persistence Api
+ * @author Montinari Antonella
+ */
 package it.hash.osgi.business.persistence.api;
 import java.util.List;
 import java.util.Map;
 
 import it.hash.osgi.business.Business;
+
+/**
+ * Provides interfaces for the management of the persistence of a business
+ * @author Montinari Antonella
+ */
 public interface BusinessServicePersistence {
 	
 	// CREATE
+	
 	Map<String, Object> addBusiness(Map<String, Object> business);
 	Map<String, Object> addBusiness(Business business);
 	             
