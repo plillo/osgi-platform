@@ -33,14 +33,12 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	// Mongo business collection
 	private DBCollection businessCollection;
 	
-	private JacksonDBCollection<Business, Object> businessMap ;
+	
 
 	public void start() {
 		// Initialize business collection
 		businessCollection = m_mongoDBService.getDB().getCollection(COLLECTION);
-		businessMap= JacksonDBCollection.wrap(businessCollection,
-				Business.class);
-
+		
 	}
 
 //TODO controllare UUID in tutti i metodi
@@ -55,6 +53,8 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public Map<String, Object> addBusiness(Business business) {
+		JacksonDBCollection<Business, Object> businessMap= JacksonDBCollection.wrap(businessCollection,
+				Business.class);
 
 		Map<String, Object> response = new TreeMap<String, Object>();
 	
@@ -73,7 +73,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			
 			WriteResult<Business, Object> writeResult = businessMap.save(business);
 		String	savedId = (String) writeResult.getSavedId();
-			if (StringUtils.isEmptyOrNull(savedId)) {
+			if (!StringUtils.isEmptyOrNull(savedId)) {
 				Business created_business = businessMap.findOneById(savedId);
 				if (created_business != null) {
 					response.put("business", created_business);
@@ -96,13 +96,13 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	@Override
 	public Map<String, Object> getBusiness(Business business) {
 		Map<String, Object> map = new TreeMap<String, Object>();
-		if (StringUtils.isEmptyOrNull(business.get_id()))
+		if (!StringUtils.isEmptyOrNull(business.get_id()))
 			map.put("businessId", business.get_id());
-		if (StringUtils.isEmptyOrNull(business.getBusinessName()))
-			map.put("businessId", business.getBusinessName());
-		if (StringUtils.isEmptyOrNull(business.getEmail()))
+		if (!StringUtils.isEmptyOrNull(business.getBusinessName()))
+			map.put("businessName", business.getBusinessName());
+		if (!StringUtils.isEmptyOrNull(business.getEmail()))
 			map.put("email", business.getEmail());
-		if (StringUtils.isEmptyOrNull(business.getMobile()))
+		if (!StringUtils.isEmptyOrNull(business.getMobile()))
 			map.put("mobile", business.getMobile());
 
 		return getBusiness(map);
@@ -111,7 +111,9 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	@Override
 	public Map<String, Object> getBusiness(Map<String, Object> business) {
 
-		
+		JacksonDBCollection<Business, Object> businessMap= JacksonDBCollection.wrap(businessCollection,
+				Business.class);
+
 		Map<String, Object> response = new HashMap<String, Object>();
 		Business found_business = null;
 
@@ -223,7 +225,9 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	@Override
 	public List<Business> getBusinesses() {
 
-	
+		JacksonDBCollection<Business, Object> businessMap= JacksonDBCollection.wrap(businessCollection,
+				Business.class);
+
 		DBCursor<Business> cursor = businessMap.find();
 
 		List<Business> list = new ArrayList<>();
@@ -235,6 +239,9 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public List<Business> getBusinessDetails(Business business) {
+		JacksonDBCollection<Business, Object> businessMap= JacksonDBCollection.wrap(businessCollection,
+				Business.class);
+
 		DBCursor<Business> cursor = businessMap.find(business);
 
 		List<Business> list = new ArrayList<>();
@@ -247,7 +254,9 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public Map<String, Object> updateBusiness(Business business) {
-		
+		JacksonDBCollection<Business, Object> businessMap= JacksonDBCollection.wrap(businessCollection,
+				Business.class);
+
 		Map<String, Object> response = new TreeMap<String, Object>();
 		Map<String, Object> responseUpdate = new TreeMap<String, Object>();
 		response = getBusiness(business);
@@ -339,7 +348,9 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	}
 
 	private Map<String, Object> deleteBusiness(Business business) {
-	
+		JacksonDBCollection<Business, Object> businessMap= JacksonDBCollection.wrap(businessCollection,
+				Business.class);
+
 		Map<String, Object> response = new TreeMap<String, Object>();
 		Map<String, Object> responseDelete = new TreeMap<String, Object>();
 		response = getBusiness(business);
