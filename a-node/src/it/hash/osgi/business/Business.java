@@ -248,11 +248,12 @@ public class Business implements Comparable<Business>{
 	}
 
 	/**
-	 * Gets variabili di istanza aggiunte all'entità business
-	 * @return Map contenente variabili di istanza <br>
-	 *         che non sono state previste al momento della progettazione
+	 * Gets una Map contenente attributi dell'entità business
+	 * @return Map contenente attributi dell'entità business <br>
+	 *         che non sono stati previsti al momento della progettazione
 	 */
 	public Map<String, Object> getOthers() {
+		// TODO tradurre in inglese!!!!
 		return others;
 	}
 

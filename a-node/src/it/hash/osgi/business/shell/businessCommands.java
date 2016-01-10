@@ -1,9 +1,11 @@
 package it.hash.osgi.business.shell;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.service.BusinessService;
@@ -11,12 +13,15 @@ import it.hash.osgi.business.service.BusinessService;
 public class businessCommands {
 	private volatile BusinessService _businessService;
 
-	public void addBusiness(String username, String businessname, String password,String email, String mobile) {
+	public void addBusiness(String username, String businessname, String password,String email, String mobile, String Category) {
 		Business business = new Business();
 		business.setBusinessName(businessname);
 		business.setEmail(email);
 		business.setMobile(mobile);
-
+		Map<String,Object> others= new TreeMap<String,Object>();
+		List<String> categories=new ArrayList<String>();
+		categories.add(Category);
+		others.put("Categories", categories);
 		Map<String, Object> ret = _businessService.create(business);
 		business = null;
 		business = (Business) ret.get("business");
