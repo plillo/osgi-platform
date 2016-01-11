@@ -5,6 +5,8 @@
  */
 package it.hash.osgi.business;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import net.vz.mongodb.jackson.Id;
@@ -29,6 +31,7 @@ public class Business implements Comparable<Business>{
 	private String nation;
 	private String __description;
 	private String __longDescription;
+	private List<String> categories;
 	private String email;
 	private String mobile;
 	private String published;
@@ -130,6 +133,23 @@ public class Business implements Comparable<Business>{
 	public void set__longDescription(String __longDescription) {
 		this.__longDescription = __longDescription;
 	}
+	public List<String> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<String> categories) {
+		this.categories = categories;
+	}
+    public boolean addCategory (String category){
+    	return this.categories.add(category);
+    }
+    public boolean removeCategory(String category){
+    	if (this.categories.contains(category))
+    		return this.categories.remove(category);
+    	else
+    		return false;
+    }
+   
 	public String getCodiceFiscale() {
 		return codiceFiscale;
 	}

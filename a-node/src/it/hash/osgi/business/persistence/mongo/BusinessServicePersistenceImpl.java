@@ -1,6 +1,7 @@
 package it.hash.osgi.business.persistence.mongo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,23 +20,31 @@ import com.mongodb.BasicDBObject;
 
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
-//import it.hash.osgi.resource.uuid.api.UUIDService;
+import it.hash.osgi.resource.uuid.api.UUIDService;
 import it.hash.osgi.utils.StringUtils;
 
+/**
+ * Implements interface BusinessServicePersistence with MongoDB:
+ * DBMS,open-source, document-oriented
+ * 
+ * @author Montinari Antonella
+ */
+// TODO
+
 public class BusinessServicePersistenceImpl implements BusinessServicePersistence {
+	/** Name of the collection */
 	private static final String COLLECTION = "businesses";
 	// Injected services
 	private volatile MongoDBService m_mongoDBService;
 	@SuppressWarnings("unused")
 	private volatile LogService logService;
-	// private volatile UUIDService _uuid;
+	private volatile UUIDService _uuid;
 	// Mongo business collection
 	private DBCollection businessCollection;
 
 	public void start() {
 		// Initialize business collection
 		businessCollection = m_mongoDBService.getDB().getCollection(COLLECTION);
-
 	}
 
 	// TODO controllare UUID in tutti i metodi
@@ -50,6 +59,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public Map<String, Object> addBusiness(Business business) {
+
 		JacksonDBCollection<Business, Object> businessMap = JacksonDBCollection.wrap(businessCollection,
 				Business.class);
 
@@ -60,14 +70,14 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 		// If new business
 		if ((int) result.get("matched") == 0) {
-			/*
-			 * String savedId = business.get_id(); if
-			 * (StringUtils.isEmptyOrNull(savedId)) { // String u =
-			 * _uuid.createUUID(savedId); business.set_id(savedId);
-			 * business.setUUID(u);
-			 * 
-			 * }
-			 */
+
+			if (StringUtils.isEmptyOrNull(business.getUUID())) {
+				Date date = new Date();
+				Long s = date.getTime();
+				String u = _uuid.createUUID(s.toString());
+				business.setUUID(u);
+
+			}
 
 			WriteResult<Business, Object> writeResult = businessMap.save(business);
 			String savedId = (String) writeResult.getSavedId();
@@ -234,6 +244,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public List<Business> getBusinessDetails(Business business) {
+
 		JacksonDBCollection<Business, Object> businessMap = JacksonDBCollection.wrap(businessCollection,
 				Business.class);
 
@@ -249,6 +260,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public Map<String, Object> updateBusiness(Business business) {
+
 		JacksonDBCollection<Business, Object> businessMap = JacksonDBCollection.wrap(businessCollection,
 				Business.class);
 
@@ -297,23 +309,25 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		if (!StringUtils.isEmptyOrNull(business.get_id()))
 			pars.put("_id", business.get_id());
 		if (!StringUtils.isEmptyOrNull(business.getBusinessName()))
-			pars.put("_id", business.getBusinessName());
+			pars.put("businessname", business.getBusinessName());
 		if (!StringUtils.isEmptyOrNull(business.getPIva()))
-			pars.put("_id", business.getPIva());
+			pars.put("pIva", business.getPIva());
 		if (!StringUtils.isEmptyOrNull(business.getCodiceFiscale()))
-			pars.put("_id", business.getCodiceFiscale());
+			pars.put("codiceFiscale", business.getCodiceFiscale());
 		if (!StringUtils.isEmptyOrNull(business.getAddress()))
-			pars.put("_id", business.getAddress());
+			pars.put("address", business.getAddress());
 		if (!StringUtils.isEmptyOrNull(business.getCity()))
-			pars.put("_id", business.getCity());
+			pars.put("city", business.getCity());
 		if (!StringUtils.isEmptyOrNull(business.getCap()))
-			pars.put("_id", business.getCap());
+			pars.put("cap", business.getCap());
 		if (!StringUtils.isEmptyOrNull(business.getNation()))
-			pars.put("_id", business.getNation());
+			pars.put("nation", business.getNation());
 		if (!StringUtils.isEmptyOrNull(business.get__Description()))
-			pars.put("_id", business.get__Description());
+			pars.put("description", business.get__Description());
 		if (!StringUtils.isEmptyOrNull(business.get__longDescription()))
-			pars.put("_id", business.get__longDescription());
+			pars.put("longDescription", business.get__longDescription());
+		if (business.getCategories()!=null || !business.getCategories().isEmpty())
+			pars.put("categories", business.getCategories());
 		if (!StringUtils.isEmptyOrNull(business.getEmail()))
 			pars.put("email", business.getEmail());
 		if (!StringUtils.isEmptyOrNull(business.getMobile()))
@@ -334,13 +348,14 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			pars.put("mdate", business.getMdate());
 		if (!StringUtils.isEmptyOrNull(business.getLdate()))
 			pars.put("ldate", business.getLdate());
-		if (business.getOthers() != null)
+		if (business.getOthers() != null || !business.getOthers().isEmpty())
 			pars.put("others", business.getOthers());
 
 		return pars;
 	}
 
 	private Map<String, Object> deleteBusiness(Business business) {
+
 		JacksonDBCollection<Business, Object> businessMap = JacksonDBCollection.wrap(businessCollection,
 				Business.class);
 
@@ -383,108 +398,111 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		// per cui
 		// dobbiamo controllare quali attributi andranno settati!!!
 		// TODO : abbiamo previsto una variabile di istanza come Map in modo da
-		// poter
-		/*
-		 * inserire attributi dell'entità business non previsti al momento della
-		 * progettazione. Bisogna stare attenti a cosa mettiamo nella
-		 * mapBusiness
+		/* poter inserire attributi dell'entità business non previsti al momento della
+		 * progettazione. 
+		 * Se vogliamo aggiungere un nuovo attributo
+		 *    nomeAttributo-valore ( verra aggiunto nella Map)
+		 * Se vogliamo aggiungere una categoria di merce alla lista già esistente
+		 *    category-idCategory
 		 */
 		Business business = new Business();
 		String attribute = null;
 		Map<String, Object> others = new TreeMap<String, Object>();
 		for (Map.Entry<String, Object> entry : mapBusiness.entrySet()) {
 			attribute = entry.getKey();
-
 			if (attribute.equals("_id")) {
 				business.set_id(entry.getValue().toString());
 			} else {
-				if (entry.getValue() instanceof String) {
 
-					String value = (String) entry.getValue();
+				switch (attribute.toLowerCase()) {
+				case "uuid":
+					business.setUUID((String) entry.getValue());
+					break;
+				case "businessname":
+					business.setBusinessName((String) entry.getValue());
+					break;
+				case "piva":
+					business.setPIva((String) entry.getValue());
+					break;
+				case "codicefiscale":
+					business.setCodiceFiscale((String) entry.getValue());
+					break;
+				case "address":
+					business.setAddress((String) entry.getValue());
+					break;
+				case "city":
+					business.setCity((String) entry.getValue());
+					break;
+				case "cap":
+					business.setCap((String) entry.getValue());
+					break;
+				case "nation":
+					business.setNation((String) entry.getValue());
+					break;
+				case "__Description":
+					business.set__Description((String) entry.getValue());
+					break;
+				case "__longdescription":
+					business.set__longDescription((String) entry.getValue());
+					break;
+				case "category":
+					if (business.getCategories() == null)
+						business.setCategories(new ArrayList<String>());
+					business.addCategory((String) entry.getValue());
+					break;
+				case "email":
+					business.setEmail((String) entry.getValue());
+					break;
 
-					switch (attribute.toLowerCase()) {
-					case "businessname":
-						business.setBusinessName(value);
-						break;
-					case "piva":
-						business.setPIva(value);
-						break;
-					case "codicefiscale":
-						business.setCodiceFiscale(value);
-						break;
-					case "address":
-						business.setAddress(value);
-						break;
-					case "city":
-						business.setCity(value);
-						break;
-					case "cap":
-						business.setCap(value);
-						break;
-					case "nation":
-						business.setNation(value);
-						break;
-					case "__Description":
-						business.set__Description(value);
-						break;
-					case "__longdescription":
-						business.set__longDescription(value);
-						break;
+				case "mobile":
+					business.setMobile((String) entry.getValue());
+					break;
 
-					case "email":
-						business.setEmail(value);
-						break;
+				case "published":
+					business.setPublished((String) entry.getValue());
+					break;
 
-					case "mobile":
-						business.setMobile(value);
-						break;
+				case "trusted_email":
+					business.setTrusted_email((String) entry.getValue());
+					break;
 
-					case "published":
-						business.setPublished(value);
-						break;
+				case "trusted_mobile":
+					business.setTrusted_mobile((String) entry.getValue());
+					break;
 
-					case "trusted_email":
-						business.setTrusted_email(value);
-						break;
-
-					case "trusted_mobile":
-						business.setTrusted_mobile(value);
-						break;
-
-					case "cauthor":
-						business.setCauthor(value);
-						break;
-					case "cdate":
-						business.setCdate(value);
-						break;
-					case "mauthor":
-						business.setMauthor(value);
-						break;
-					case "mdate":
-						business.setMdate(value);
-						break;
-					case "lauthor":
-						business.setLauthor(value);
-						break;
-					case "ldate":
-						business.setLdate(value);
-						break;
-					default:
-						others.put(attribute, value);
-
-					}
-
-				} else {
-					if (entry.getValue() instanceof Map<?, ?>) {
-						business.setOthers((Map<String, Object>) entry.getValue());
-					} else
+				case "cauthor":
+					business.setCauthor((String) entry.getValue());
+					break;
+				case "cdate":
+					business.setCdate((String) entry.getValue());
+					break;
+				case "mauthor":
+					business.setMauthor((String) entry.getValue());
+					break;
+				case "mdate":
+					business.setMdate((String) entry.getValue());
+					break;
+				case "lauthor":
+					business.setLauthor((String) entry.getValue());
+					break;
+				case "ldate":
+					business.setLdate((String) entry.getValue());
+					break;
+				case "categories":
+					business.setCategories((List<String>) entry.getValue());
+					break;
+				case "others":
+					business.setOthers((Map<String, Object>) entry.getValue());
+					break;
+				default:
+					if (business.getOthers() == null)
+						business.setOthers(new HashMap<String, Object>());
+					if (!business.getOthers().containsKey(attribute))
 						others.put(attribute, entry.getValue());
+
 				}
 			}
 		}
-
-		if (!others.isEmpty())
-			business.setOthers(others);
 		return business;
 
 	}
