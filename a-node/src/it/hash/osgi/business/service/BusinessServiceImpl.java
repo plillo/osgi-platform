@@ -32,26 +32,23 @@ public class BusinessServiceImpl implements BusinessService, ManagedService {
 
 	@Override
 	public Map<String, Object> getBusiness(Map<String, Object> pars) {
-		// TODO Auto-generated method stub
-		// nei pars controllo su quale attributo recuperare il Business
-		
+				
 		return _businessPersistenceService.getBusiness(pars);
 	}
 
 
 	@Override
 	public Map<String, Object> create(Business business) {
-		// TODO Auto-generated method stub
+	
 		return 	_businessPersistenceService.addBusiness(business);
 	
 	}
 
 	@Override
 	public Map<String, Object> create(Map<String, Object> pars) {
-		// TODO Auto-generated method stub
+
 		return _businessPersistenceService.addBusiness(pars);
 	}
-
 
 	@Override
 	public Map<String, Object> deleteBusiness(Map<String, Object> pars) {
@@ -59,11 +56,10 @@ public class BusinessServiceImpl implements BusinessService, ManagedService {
 		return _businessPersistenceService.deleteBusiness(pars);
 	}
 
-
 	@Override
 	public Map<String, Object> updateBusiness(Map<String, Object> pars) {
-		// TODO Auto-generated method stub
-		return _businessPersistenceService.updateBusiness(pars);
+
+		return _businessPersistenceService.updateBusiness((Business)pars.get("business"));
 	}
 
 
@@ -76,7 +72,7 @@ public class BusinessServiceImpl implements BusinessService, ManagedService {
 
 	@Override
 	public List<Business> getBusinesses() {
-		// TODO Auto-generated method stub
+	
 		return _businessPersistenceService.getBusinesses();
 	}
 

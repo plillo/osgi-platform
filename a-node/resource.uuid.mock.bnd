@@ -1,4 +1,4 @@
 Bundle-Version: 1.0.0.${tstamp}
-Bundle-Activator: it.hash.osgi.uuid.mock.Activator
+Bundle-Activator: it.hash.osgi.resource.uuid.mock.Activator
 Private-Package: it.hash.osgi.resource.uuid.mock
 Export-Package: it.hash.osgi.resource.uuid.mock

@@ -9,7 +9,7 @@ import org.osgi.framework.Constants;
 import org.osgi.service.log.LogService;
 
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
-import it.hash.osgi.resource.uuid.api.UUIDService;
+//import it.hash.osgi.resource.uuid.api.UUIDService;
 
 public class Activator extends DependencyActivatorBase {
 	         
@@ -22,9 +22,9 @@ public class Activator extends DependencyActivatorBase {
 		manager.add(createComponent()
         	.setInterface(BusinessServicePersistence.class.getName(), props)
             .setImplementation(BusinessServicePersistenceImpl.class)
-            .add(createServiceDependency()
+        /*    .add(createServiceDependency()
             		.setService(UUIDService.class)
-            		.setRequired(true))
+            		.setRequired(true))*/
             .add(createServiceDependency()
                     .setService(LogService.class)
                     .setRequired(false))
