@@ -10,6 +10,7 @@ import org.osgi.service.cm.ManagedService;
 import org.osgi.service.event.EventAdmin;
 
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
+import it.hash.osgi.resource.uuid.api.UUIDService;
 
 public class Activator extends DependencyActivatorBase {
 	@Override
@@ -21,7 +22,10 @@ public class Activator extends DependencyActivatorBase {
 						properties)
 				.setImplementation(BusinessServiceImpl.class)
 				.add(createServiceDependency().setService(BusinessServicePersistence.class).setRequired(true))
-				.add(createServiceDependency().setService(EventAdmin.class).setRequired(true)));
+				.add(createServiceDependency().setService(EventAdmin.class).setRequired(true))
+				.add(createServiceDependency().setService(UUIDService.class).setRequired(true))
+				);
+		System.out.println("AWS UUID service actived.");
 	}
 
 	@Override

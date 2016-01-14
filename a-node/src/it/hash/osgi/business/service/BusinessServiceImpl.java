@@ -10,8 +10,10 @@ import org.osgi.service.event.EventAdmin;
 
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
+import it.hash.osgi.resource.uuid.api.UUIDService;
 
 public class BusinessServiceImpl implements BusinessService, ManagedService {
+	private volatile UUIDService _uuid;
 
 	@SuppressWarnings({ "unused", "rawtypes" })
 	       
@@ -32,21 +34,19 @@ public class BusinessServiceImpl implements BusinessService, ManagedService {
 
 	@Override
 	public Map<String, Object> getBusiness(Map<String, Object> pars) {
-				
 		return _businessPersistenceService.getBusiness(pars);
 	}
 
 
 	@Override
 	public Map<String, Object> create(Business business) {
-	
-		return 	_businessPersistenceService.addBusiness(business);
-	
+        business.setUUID(_uuid.createUUID("app/business"));
+		return _businessPersistenceService.addBusiness(business);
 	}
 
 	@Override
 	public Map<String, Object> create(Map<String, Object> pars) {
-
+        pars.put("uuid",(_uuid.createUUID("app/business")));
 		return _businessPersistenceService.addBusiness(pars);
 	}
 
