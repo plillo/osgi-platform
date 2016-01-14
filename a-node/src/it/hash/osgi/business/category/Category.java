@@ -115,4 +115,16 @@ public class Category {
 	public void setExtra(Map <String,Object> extra) {
 		this.extra = extra;
 	}
+	
+	public void setExtra(String key, Object value){
+		getExtra().put(key, value);
+	}
+	
+	public Object getQualifiedExtra(String qualification, String key){
+		return getExtra().get(key);
+	}
+	
+	public void setQualifiedExtra(String qualification, String key, Object value) {
+		setExtra(qualification + "." + key, value);
+	}
 }
