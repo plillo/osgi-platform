@@ -1,5 +1,9 @@
 package it.hash.osgi.user;
 
+import java.util.Map;
+
+import static it.hash.osgi.utils.StringUtils.*;
+
 public class User implements Comparable<User>{
 	private String _id;
 	private String username;
@@ -10,6 +14,7 @@ public class User implements Comparable<User>{
 	private String password_mdate;
 	private String email;
 	private String mobile;
+	private Map<String,Object> extra;
 	private String published;
 	private String last_login_date;
 	private String last_login_ip;
@@ -192,9 +197,33 @@ public class User implements Comparable<User>{
 		this.lastName = lastName;
 	}
 
+	public Map<String,Object> getExtra() {
+		return extra;
+	}
+
+	public void setExtra(Map<String, Object> extra) {
+		this.extra = extra;
+	}
+	
+	public Object getExtra(String key){
+		return getExtra().get(key);
+	}
+	
+	public void setExtra(String key, Object value){
+		getExtra().put(key, value);
+	}
+	
+	public Object getQualifiedExtra(String qualification, String key){
+		return getExtra().get(key);
+	}
+	
+	public void setQualifiedExtra(String qualification, String key, Object value) {
+		setExtra(qualification + "." + key, value);
+	}
+
+	// implementing Comparable
 	@Override
 	public int compareTo(User obj) {
        return this._id.compareTo(obj.get_id());
 	}
-	
 }

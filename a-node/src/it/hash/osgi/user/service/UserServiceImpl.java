@@ -251,4 +251,10 @@ public class UserServiceImpl implements UserService, ManagedService{
 		return false;
 	}
 
+	@Override
+	public List<UserAttribute> getAttributesByContext(String context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

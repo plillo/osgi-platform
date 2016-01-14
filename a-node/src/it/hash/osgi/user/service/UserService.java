@@ -35,6 +35,9 @@ public interface UserService {
 	// Get current UUID by token
 	String getUUID();
 	
+	// get attributes by Context
+	List<UserAttribute> getAttributesByContext(String context);
+	
 	// Get ROLES OF user by UUID/pojo or current user by token
 	List<String> getRoles(String UUID);
 	List<String> getRoles(User user);

@@ -8,9 +8,7 @@ import org.apache.felix.service.command.CommandProcessor;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.service.cm.ManagedService;
-import org.osgi.service.log.LogService;
 
-import it.hash.osgi.authentication.shell.Commands;
 import it.hash.osgi.jwt.service.JWTService;
 
 public class Activator extends DependencyActivatorBase {
