@@ -34,18 +34,18 @@ public class Resources {
 //	presupposto che le richieste non vengano fatte tramite id
 	// i parametri sono username email e mobile
 	@GET
-	@Path("{_id}")
+	@Path("{UUID}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getBusiness(@PathParam("_id") String _id) {
+	public Response getBusiness(@PathParam("UUID") String uuid) {
 		System.out.println(" ");
 	    Map <String,Object> pars = new TreeMap<String, Object>();
    	
-   	    pars.put("businessId",_id);
+   	    pars.put("uuid",uuid);
 
    	    return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_businessService.getBusiness(pars)).build();
 	}
 	
-
+// addBusiness
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes({MediaType.APPLICATION_JSON,  MediaType.APPLICATION_XML})
@@ -63,10 +63,10 @@ public class Resources {
 
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("{_id}")
-	public Response delete(@PathParam("_id") String _id) {
+	@Path("{UUID}")
+	public Response delete(@PathParam("UUID") String uuid) {
 			Map<String,Object> pars = new HashMap<String,Object>();
-			pars.put("businessId", _id);
+			pars.put("uuid", uuid);
 		    Map<String,Object> response=  _businessService.deleteBusiness(pars);
 			System.out.println("Delete  "+response.get("business")+ "returnCode "+response.get("returnCode"));
 		
@@ -74,9 +74,11 @@ public class Resources {
 	      	}
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-
-	public Response update(Business newBusiness){
+	@Path("{UUID}")
+	public Response update(@PathParam("UUID") String uuid,Business newBusiness){
 			Map<String,Object> pars = new HashMap<String,Object>();
+			pars.put("uuid", uuid);
+			
 			pars.put("business", newBusiness);
 		    Map<String,Object> response=  _businessService.updateBusiness(pars);
 			System.out.println("returnCode"+ response.get("returnCode") );

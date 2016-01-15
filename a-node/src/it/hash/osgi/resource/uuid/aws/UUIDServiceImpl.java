@@ -2,6 +2,7 @@ package it.hash.osgi.resource.uuid.aws;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -10,9 +11,11 @@ import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.document.DeleteItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
+import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
@@ -51,8 +54,10 @@ public class UUIDServiceImpl implements UUIDService, ManagedService {
                     .withConditionExpression("attribute_not_exists(Id)");
             // Put item
 	        try {
-	            table.putItem(putItemSpec);
+	            PutItemOutcome pioc=table.putItem(putItemSpec);
+	          Item it=  pioc.getItem();
 	            loop = false;
+	            ddbClient.shutdown();
 	            return random_UUID;
 	        } catch (ConditionalCheckFailedException e) {
 	        	loop = counter++<=10;
@@ -72,6 +77,24 @@ public class UUIDServiceImpl implements UUIDService, ManagedService {
 	@Override
 	public Map<String, Object> getUUID(String uuid) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> removeUUID(String uuid) {
+		// TODO Auto-generated method stub
+		AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(_console.getCredentials());
+		//TODO end-point da mettere in configurazione
+		
+		Map<String,Object> response= new HashMap<String,Object>();
+		ddbClient.setEndpoint("https://dynamodb.eu-central-1.amazonaws.com");
+		DynamoDB dynamoDB = new DynamoDB(ddbClient);
+        Table table=dynamoDB.getTable("Unids");
+        PrimaryKey pk= new PrimaryKey().addComponent("Id",uuid);
+        DeleteItemOutcome dIOc = table.deleteItem(pk);
+        if (dIOc.getItem()!= null)
+              response.put("returnCode", 200);
+        
 		return null;
 	}
 }

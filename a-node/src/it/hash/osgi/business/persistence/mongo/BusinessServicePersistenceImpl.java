@@ -1,7 +1,6 @@
 package it.hash.osgi.business.persistence.mongo;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,6 @@ import com.mongodb.BasicDBObject;
 
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
-import it.hash.osgi.resource.uuid.api.UUIDService;
 import it.hash.osgi.utils.StringUtils;
 
 /**
@@ -38,13 +36,14 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	private volatile MongoDBService m_mongoDBService;
 	@SuppressWarnings("unused")
 	private volatile LogService logService;
-	private volatile UUIDService _uuid;
 	// Mongo business collection
 	private DBCollection businessCollection;
+	private JacksonDBCollection<Business, Object> businessMap;
 
 	public void start() {
 		// Initialize business collection
 		businessCollection = m_mongoDBService.getDB().getCollection(COLLECTION);
+		businessMap = JacksonDBCollection.wrap(businessCollection, Business.class);
 	}
 
 	// TODO controllare UUID in tutti i metodi
@@ -60,9 +59,6 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	@Override
 	public Map<String, Object> addBusiness(Business business) {
 
-		JacksonDBCollection<Business, Object> businessMap = JacksonDBCollection.wrap(businessCollection,
-				Business.class);
-
 		Map<String, Object> response = new TreeMap<String, Object>();
 
 		// Match business
@@ -70,15 +66,6 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 		// If new business
 		if ((int) result.get("matched") == 0) {
-
-			if (StringUtils.isEmptyOrNull(business.getUUID())) {
-				Date date = new Date();
-				Long s = date.getTime();
-				String u = _uuid.createUUID(s.toString());
-				business.setUUID(u);
-
-			}
-
 			WriteResult<Business, Object> writeResult = businessMap.save(business);
 			String savedId = (String) writeResult.getSavedId();
 			if (!StringUtils.isEmptyOrNull(savedId)) {
@@ -104,8 +91,11 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	@Override
 	public Map<String, Object> getBusiness(Business business) {
 		Map<String, Object> map = new TreeMap<String, Object>();
+
 		if (!StringUtils.isEmptyOrNull(business.get_id()))
 			map.put("businessId", business.get_id());
+		if (!StringUtils.isEmptyOrNull(business.getUuid()))
+			map.put("uuid", business.getUuid());
 		if (!StringUtils.isEmptyOrNull(business.getBusinessName()))
 			map.put("businessName", business.getBusinessName());
 		if (!StringUtils.isEmptyOrNull(business.getEmail()))
@@ -119,14 +109,27 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	@Override
 	public Map<String, Object> getBusiness(Map<String, Object> business) {
 
-		JacksonDBCollection<Business, Object> businessMap = JacksonDBCollection.wrap(businessCollection,
-				Business.class);
+		 JacksonDBCollection<Business, Object> businessMap =
+		 JacksonDBCollection.wrap(businessCollection,
+		 Business.class);
 
 		Map<String, Object> response = new HashMap<String, Object>();
 		Business found_business = null;
 
 		Map<Business, TreeSet<String>> matchs = new TreeMap<Business, TreeSet<String>>();
 
+		if (business.containsKey("uuid") && business.get("uuid") != null) {
+			found_business = businessMap.findOne(new BasicDBObject("uuid", business.get("uuid")));
+
+			if (found_business != null) {
+				TreeSet<String> list = matchs.get(found_business);
+				if (list == null)
+					list = new TreeSet<String>();
+
+				list.add("uuid");
+				matchs.put(found_business, list);
+			}
+		}
 		if (business.containsKey("businessId") && business.get("businessId") != null) {
 			found_business = businessMap.findOne(DBQuery.is("_id", business.get("businessId")));
 
@@ -229,6 +232,11 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		return getBusinessByKey("businessId", businessId);
 	}
 
+	@Override
+	public Business getBusinessByUuid(String uuid) {
+		return getBusinessByKey("uuid", uuid);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Business> getBusinesses() {
@@ -245,8 +253,9 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	@Override
 	public List<Business> getBusinessDetails(Business business) {
 
-		JacksonDBCollection<Business, Object> businessMap = JacksonDBCollection.wrap(businessCollection,
-				Business.class);
+		// JacksonDBCollection<Business, Object> businessMap =
+		// JacksonDBCollection.wrap(businessCollection,
+		// Business.class);
 
 		DBCursor<Business> cursor = businessMap.find(business);
 
@@ -261,22 +270,25 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	@Override
 	public Map<String, Object> updateBusiness(Business business) {
 
-		JacksonDBCollection<Business, Object> businessMap = JacksonDBCollection.wrap(businessCollection,
-				Business.class);
+		// JacksonDBCollection<Business, Object> businessMap =
+		// JacksonDBCollection.wrap(businessCollection,
+		// Business.class);
 
 		Map<String, Object> response = new TreeMap<String, Object>();
 		Map<String, Object> responseUpdate = new TreeMap<String, Object>();
 		response = getBusiness(business);
 		if ((int) response.get("matched") == 1) {
 			Business found = (Business) response.get("business");
-			String _id = found.get_id();
-			business.set_id(_id);
 
-			// DBObject oldObject = new BasicDBObject("_id", _id);
-			// DBObject newObject = new BasicDBObject(pars);
+			// business.set_id(found.get_id());
+			business.setUuid(found.getUuid());
 
-			Business updateBusiness = businessMap.findAndModify(new BasicDBObject("_id", _id),
-					new BasicDBObject(createPars(business)));
+			BasicDBObject oldObject = new BasicDBObject("uuid", found.getUuid());
+			Map<String, Object> map = createPars(business);
+
+			BasicDBObject newObject = new BasicDBObject(map);
+
+			Business updateBusiness = businessMap.findAndModify(oldObject, newObject);
 
 			if (updateBusiness != null) {
 				responseUpdate.put("business", updateBusiness);
@@ -297,9 +309,19 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public Map<String, Object> updateBusiness(Map<String, Object> pars) {
-
-		return updateBusiness(createBusiness(pars));
-
+		Map<String, Object> response = new HashMap<String, Object>();
+		String uuid = (String) pars.get("uuid");
+		Business business = getBusinessByUuid(uuid);
+		if (business != null) {
+			    pars.remove("uuid");
+		    	response = updateBusiness((Business) pars.get("business"));
+		}
+		else {
+				response.put("update", "ERROR");
+				response.put("returnCode", 610);
+			}
+		
+		return response;
 	}
 
 	private Map<String, Object> createPars(Business business) {
@@ -308,8 +330,10 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 		if (!StringUtils.isEmptyOrNull(business.get_id()))
 			pars.put("_id", business.get_id());
+		if (!StringUtils.isEmptyOrNull(business.getUuid()))
+			pars.put("uuid", business.getUuid());
 		if (!StringUtils.isEmptyOrNull(business.getBusinessName()))
-			pars.put("businessname", business.getBusinessName());
+			pars.put("businessName", business.getBusinessName());
 		if (!StringUtils.isEmptyOrNull(business.getPIva()))
 			pars.put("pIva", business.getPIva());
 		if (!StringUtils.isEmptyOrNull(business.getCodiceFiscale()))
@@ -326,7 +350,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			pars.put("description", business.get__Description());
 		if (!StringUtils.isEmptyOrNull(business.get__longDescription()))
 			pars.put("longDescription", business.get__longDescription());
-		if (business.getCategories()!=null || !business.getCategories().isEmpty())
+		if (business.getCategories() != null)
 			pars.put("categories", business.getCategories());
 		if (!StringUtils.isEmptyOrNull(business.getEmail()))
 			pars.put("email", business.getEmail());
@@ -348,7 +372,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			pars.put("mdate", business.getMdate());
 		if (!StringUtils.isEmptyOrNull(business.getLdate()))
 			pars.put("ldate", business.getLdate());
-		if (business.getOthers() != null || !business.getOthers().isEmpty())
+		if (business.getOthers() != null)
 			pars.put("others", business.getOthers());
 
 		return pars;
@@ -356,15 +380,17 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	private Map<String, Object> deleteBusiness(Business business) {
 
-		JacksonDBCollection<Business, Object> businessMap = JacksonDBCollection.wrap(businessCollection,
-				Business.class);
+		// JacksonDBCollection<Business, Object> businessMap =
+		// JacksonDBCollection.wrap(businessCollection,
+		// Business.class);
 
 		Map<String, Object> response = new TreeMap<String, Object>();
 		Map<String, Object> responseDelete = new TreeMap<String, Object>();
 		response = getBusiness(business);
 		if ((int) response.get("matched") == 1) {
-			String _id = ((Business) response.get("business")).get_id();
-			WriteResult<Business, Object> wr = businessMap.remove(new BasicDBObject("username", _id));
+			String uuid = ((Business) response.get("business")).getUuid();
+			BasicDBObject Dbo = new BasicDBObject("uuid", uuid);
+			WriteResult<Business, Object> wr = businessMap.remove(Dbo);
 			if (wr.getN() == 1) {
 				responseDelete.put("business", business);
 				responseDelete.put("delete", "OK");
@@ -375,6 +401,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			}
 		} else {
 			responseDelete.put("delete", "ERROR");
+			responseDelete.put("returnCode", 680);
 		}
 		return responseDelete;
 	}
@@ -398,12 +425,13 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		// per cui
 		// dobbiamo controllare quali attributi andranno settati!!!
 		// TODO : abbiamo previsto una variabile di istanza come Map in modo da
-		/* poter inserire attributi dell'entità business non previsti al momento della
-		 * progettazione. 
-		 * Se vogliamo aggiungere un nuovo attributo
-		 *    nomeAttributo-valore ( verra aggiunto nella Map)
-		 * Se vogliamo aggiungere una categoria di merce alla lista già esistente
-		 *    category-idCategory
+		/*
+		 * poter inserire attributi dell'entità business non previsti al momento
+		 * della progettazione. Se vogliamo aggiungere un nuovo attributo
+		 * nomeAttributo-valore ( verra aggiunto nella Map) Se vogliamo
+		 * sostituire la Map others-Map Se vogliamo aggiungere una categoria di
+		 * merce alla lista già esistente category-idCategory se vogliamo
+		 * sostituire la lista delle Categorie categories- List
 		 */
 		Business business = new Business();
 		String attribute = null;
@@ -416,7 +444,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 				switch (attribute.toLowerCase()) {
 				case "uuid":
-					business.setUUID((String) entry.getValue());
+					business.setUuid((String) entry.getValue());
 					break;
 				case "businessname":
 					business.setBusinessName((String) entry.getValue());
@@ -439,7 +467,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 				case "nation":
 					business.setNation((String) entry.getValue());
 					break;
-				case "__Description":
+				case "__description":
 					business.set__Description((String) entry.getValue());
 					break;
 				case "__longdescription":

@@ -27,102 +27,129 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	
     @SuppressWarnings("unchecked")
 	private Business createBusiness(Map<String, Object> mapbusiness) {
-	// .. abbiamo detto che in un database Nosql non si ha uno schema fisso
-		// per cui
-		// dobbiamo controllare quali attributi andranno settati!!!
-		Business business = new Business();
-		for (Map.Entry<String, Object> entry : mapbusiness.entrySet()) {
-			String attribute = entry.getKey();
-			String value = (String) entry.getValue();
+    	// .. abbiamo detto che in un database Nosql non si ha uno schema fisso
+    			// per cui
+    			// dobbiamo controllare quali attributi andranno settati!!!
+    			// TODO : abbiamo previsto una variabile di istanza come Map in modo da
+    			/* poter inserire attributi dell'entità business non previsti al momento della
+    			 * progettazione. 
+    			 * Se vogliamo aggiungere un nuovo attributo
+    			 *    nomeAttributo-valore ( verra aggiunto nella Map)
+    			 * Se vogliamo sostituire la Map
+    			 *    others-Map
+    			 * Se vogliamo aggiungere una categoria di merce alla lista già esistente
+    			 *    category-idCategory
+    			 *  se vogliamo sostituire la lista delle Categorie
+    			 *      categories- List
+    			 */
+    			Business business = new Business();
+    			String attribute = null;
+    			Map<String, Object> others = new TreeMap<String, Object>();
+    			for (Map.Entry<String, Object> entry : mapbusiness.entrySet()) {
+    				attribute = entry.getKey();
+    				if (attribute.equals("_id")) {
+    					business.set_id(entry.getValue().toString());
+    				} else {
 
-			switch (attribute.toLowerCase()) {
+    					switch (attribute.toLowerCase()) {
+    					case "uuid":
+    						business.setUuid((String) entry.getValue());
+    						break;
+    					case "businessname":
+    						business.setBusinessName((String) entry.getValue());
+    						break;
+    					case "piva":
+    						business.setPIva((String) entry.getValue());
+    						break;
+    					case "codicefiscale":
+    						business.setCodiceFiscale((String) entry.getValue());
+    						break;
+    					case "address":
+    						business.setAddress((String) entry.getValue());
+    						break;
+    					case "city":
+    						business.setCity((String) entry.getValue());
+    						break;
+    					case "cap":
+    						business.setCap((String) entry.getValue());
+    						break;
+    					case "nation":
+    						business.setNation((String) entry.getValue());
+    						break;
+    					case "__description":
+    						business.set__Description((String) entry.getValue());
+    						break;
+    					case "__longdescription":
+    						business.set__longDescription((String) entry.getValue());
+    						break;
+    					case "category":
+    						if (business.getCategories() == null)
+    							business.setCategories(new ArrayList<String>());
+    						business.addCategory((String) entry.getValue());
+    						break;
+    					case "email":
+    						business.setEmail((String) entry.getValue());
+    						break;
 
-			case "_id":
-				business.set_id(value);
-				break;
-			case "businessname":
-				business.setBusinessName(value);
-				break;
-			case "piva":
-				business.setPIva(value);
-				break;
-			case "codicefiscale":
-				business.setCodiceFiscale(value);
-				break;
-			case "address":
-				business.setAddress(value);
-				break;
-			case "city":
-				business.setCity(value);
-				break;
-			case "cap":
-				business.setCap(value);
-				break;
-			case "nation":
-				business.setNation(value);
-				break;
-			case "__description":
-				business.set__Description(value);
-				break;	
-			case "__longDescription":
-				business.set__Description(value);
-				break;	
-			case "email":
-				business.setEmail(value);
-				break;
+    					case "mobile":
+    						business.setMobile((String) entry.getValue());
+    						break;
 
-			case "mobile":
-				business.setMobile(value);
-				break;
+    					case "published":
+    						business.setPublished((String) entry.getValue());
+    						break;
 
-			case "published":
-				business.setPublished(value);
-				break;
+    					case "trusted_email":
+    						business.setTrusted_email((String) entry.getValue());
+    						break;
 
-			case "trusted_email":
-				business.setTrusted_email(value);
-				break;
+    					case "trusted_mobile":
+    						business.setTrusted_mobile((String) entry.getValue());
+    						break;
 
-			case "trusted_mobile":
-				business.setTrusted_mobile(value);
-				break;
+    					case "cauthor":
+    						business.setCauthor((String) entry.getValue());
+    						break;
+    					case "cdate":
+    						business.setCdate((String) entry.getValue());
+    						break;
+    					case "mauthor":
+    						business.setMauthor((String) entry.getValue());
+    						break;
+    					case "mdate":
+    						business.setMdate((String) entry.getValue());
+    						break;
+    					case "lauthor":
+    						business.setLauthor((String) entry.getValue());
+    						break;
+    					case "ldate":
+    						business.setLdate((String) entry.getValue());
+    						break;
+    					case "categories":
+    						business.setCategories((List<String>) entry.getValue());
+    						break;
+    					case "others":
+    						business.setOthers((Map<String, Object>) entry.getValue());
+    						break;
+    					default:
+    						if (business.getOthers() == null)
+    							business.setOthers(new HashMap<String, Object>());
+    						if (!business.getOthers().containsKey(attribute))
+    							others.put(attribute, entry.getValue());
 
-			case "cauthor":
-				business.setCauthor(value);
-				break;
-			case "cdate":
-				business.setCdate(value);
-				break;
-			case "mauthor":
-				business.setMauthor(value);
-				break;
-			case "mdate":
-				business.setMdate(value);
-				break;
-			case "lauthor":
-				business.setLauthor(value);
-				break;
-			case "ldate":
-				business.setLdate(value);
-				break;
-			case "others":
-				business.setOthers((Map<String, Object>) entry.getValue());
-				break;
+    					}
+    				}
+    			}
+    			return business;
 
-			}
-		//	System.out.println(entry.getKey() + "/" + entry.getValue());
-		}
-
-		return business;
-
-	}
+    		}
 
 	@Override
 	public Map<String, Object> addBusiness(Business business) {
       String uuid=_uuid.createUUID(business.get_id());
 		Map<String, Object> map = new TreeMap<String, Object>();
 	
-		business.setUUID(uuid);
+		business.setUuid(uuid);
 		map.put("Result", businesses.add(business));
 		map.put("created", "true");
 		map.put("businessId", business.get_id());
@@ -373,6 +400,12 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			businesses.add(createBusiness(((String) properties.get("Business_02"))));
 			this.properties = properties;
 		}
+	}
+
+	@Override
+	public Business getBusinessByUuid(String uuid) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

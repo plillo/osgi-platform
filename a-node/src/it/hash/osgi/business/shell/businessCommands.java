@@ -13,20 +13,23 @@ import it.hash.osgi.business.service.BusinessService;
 public class businessCommands {
 	private volatile BusinessService _businessService;
 
-	public void addBusiness(String username, String businessname, String password,String email, String mobile, String Category) {
+	// businessname
+	// email,
+	// mobile
+	// Category
+	public void addBusiness(String businessname, String email, String mobile, String Category) {
 		Business business = new Business();
 		business.setBusinessName(businessname);
 		business.setEmail(email);
 		business.setMobile(mobile);
-		Map<String,Object> others= new TreeMap<String,Object>();
-		List<String> categories=new ArrayList<String>();
+		List<String> categories = new ArrayList<String>();
 		categories.add(Category);
-		others.put("Categories", categories);
+		business.setCategories(categories);
 		Map<String, Object> ret = _businessService.create(business);
 		business = null;
 		business = (Business) ret.get("business");
 		if (business != null) {
-			System.out.println("business_Id" + business.get_id());
+			System.out.println("ADD business_Id" + business.get_id());
 		}
 		for (Map.Entry<String, Object> entry : ret.entrySet())
 			System.out.println(entry.getKey() + " - " + entry.getValue().toString());
@@ -34,30 +37,48 @@ public class businessCommands {
 		System.out.println("called shell command 'createBusiness' - created: " + (Boolean) ret.get("created"));
 	}
 
-	public void updateBusiness(String username,String businessname,String email,String mobile,String mauthor) {
-		
+	public void updateBusiness(String uuid,String businessname, String email, String mobile, String category) {
+
 		Map<String, Object> pars = new HashMap<String, Object>();
 		Map<String, Object> response = new HashMap<String, Object>();
-		Business business= new Business();
+		Business business = new Business();
 		business.setBusinessName(businessname);
-	    business.setEmail(email);
-	    business.setMobile(mobile);
+		business.setEmail(email);
+		business.setMobile(mobile);
+		business.setUuid(uuid);
+		List<String> categories = new ArrayList<String>();
+		categories.add(category);
+		business.setCategories(categories);
+		pars.put("business", business);
+		pars.put("uuid", uuid);
+		response = _businessService.updateBusiness(pars);
+		System.out.println("ReturnCode " + response.get("returnCode"));
 
-		pars.put("business",business);
-        response = _businessService.updateBusiness(pars);
-        System.out.println("ReturnCode "+response.get("returncode"));
-       
 	}
 
-	public void deleteBusiness(String businessId, String businessName) {
+	public void deleteBusiness(String uuid) {
 
 		Map<String, Object> pars = new HashMap<String, Object>();
-		pars.put("businessId", businessId);
-		pars.put("businessname", businessName);
-	
+		pars.put("uuid", uuid);
+
 		Map<String, Object> ret = _businessService.deleteBusiness(pars);
-		for (Map.Entry<String, Object> entry : ret.entrySet())
-			System.out.println(entry.getKey() + " - " + (String) entry.getValue());
+		System.out.println("returnCode " + ret.get("returnCode"));
+	}
+
+	public void getBusiness(String uuid) {
+		Map<String, Object> pars = new HashMap<String, Object>();
+		pars.put("uuid", uuid);
+		Map<String, Object> ret = _businessService.getBusiness(pars);
+		Business business = (Business) ret.get("business");
+		if (business!=null){
+		System.out.println(String.format("%-20s%-20s%-20s%-20s", business.getBusinessName(), business.getEmail(),
+				business.getMobile(), business.getUuid()));
+		List<String> cat = business.getCategories();
+		if (cat != null) {
+			for (String id : cat) {
+				System.out.println(" Category: " + id);
+			}
+		}}
 	}
 
 	public void listBusiness() {
@@ -66,7 +87,14 @@ public class businessCommands {
 		if (businesses != null) {
 			for (Iterator<Business> it = businesses.iterator(); it.hasNext();) {
 				Business business = it.next();
-				System.out.print(String.format("%-20s%-20s%-20s",business.getBusinessName(), business.getEmail(),business.getMobile()));
+				System.out.println(String.format("%-20s%-20s%-20s%-20s", business.getBusinessName(),
+						business.getEmail(), business.getMobile(), business.getUuid()));
+				List<String> cat = business.getCategories();
+				if (cat != null) {
+					for (String id : cat) {
+						System.out.println(" Category: " + id);
+					}
+				}
 			}
 		}
 

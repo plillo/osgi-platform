@@ -27,6 +27,7 @@ public interface BusinessServicePersistence {
 	Business getBusinessByMobile(String mobile);
 	Business getBusinessByBusinessName(String businessName);
 	Business getBusinessById(String businessId);
+	Business getBusinessByUuid(String uuid);
 	
 	List<Business> getBusinesses();
 	List<Business> getBusinessDetails(Business business);
