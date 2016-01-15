@@ -1,5 +1,6 @@
 package it.hash.osgi.business.persistence.mock;
 
+
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;

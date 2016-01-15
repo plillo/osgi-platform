@@ -8,6 +8,7 @@ import java.util.Map;
 
 import it.hash.osgi.business.Business;
 
+
 /**
  * Provides interfaces for the management of the persistence of a business
  * @author Montinari Antonella

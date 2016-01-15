@@ -402,6 +402,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		} else {
 			responseDelete.put("delete", "ERROR");
 			responseDelete.put("returnCode", 680);
+			
 		}
 		return responseDelete;
 	}

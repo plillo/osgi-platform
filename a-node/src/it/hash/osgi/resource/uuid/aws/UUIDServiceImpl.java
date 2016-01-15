@@ -83,6 +83,7 @@ public class UUIDServiceImpl implements UUIDService, ManagedService {
 	@Override
 	public Map<String, Object> removeUUID(String uuid) {
 		// TODO Auto-generated method stub
+		
 		AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(_console.getCredentials());
 		//TODO end-point da mettere in configurazione
 		

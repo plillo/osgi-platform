@@ -1,5 +1,6 @@
 package it.hash.osgi.business.persistence.mock;
 
+
 import java.util.Properties;
 
 import org.apache.felix.dm.DependencyActivatorBase;
