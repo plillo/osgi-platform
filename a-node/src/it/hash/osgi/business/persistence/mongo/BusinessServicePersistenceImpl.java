@@ -268,7 +268,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	}
 
 	@Override
-	public Map<String, Object> updateBusiness(Business business) {
+	public synchronized Map<String, Object> updateBusiness(Business business) {
 
 		// JacksonDBCollection<Business, Object> businessMap =
 		// JacksonDBCollection.wrap(businessCollection,
@@ -378,7 +378,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		return pars;
 	}
 
-	private Map<String, Object> deleteBusiness(Business business) {
+	private synchronized Map<String, Object> deleteBusiness(Business business) {
 
 		// JacksonDBCollection<Business, Object> businessMap =
 		// JacksonDBCollection.wrap(businessCollection,
