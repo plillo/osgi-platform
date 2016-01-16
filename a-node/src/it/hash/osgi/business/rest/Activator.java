@@ -6,6 +6,7 @@ import org.osgi.framework.BundleContext;
 
 import it.hash.osgi.business.service.BusinessService;
 
+
 public class Activator extends DependencyActivatorBase {
 	@Override
 	public void init(BundleContext context, DependencyManager dm) throws Exception {

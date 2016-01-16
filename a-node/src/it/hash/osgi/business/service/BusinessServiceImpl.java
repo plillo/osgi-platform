@@ -1,12 +1,16 @@
 package it.hash.osgi.business.service;
 
 import java.util.Dictionary;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
 import org.osgi.service.event.EventAdmin;
+
+import com.amazonaws.util.StringUtils;
 
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
@@ -16,20 +20,17 @@ public class BusinessServiceImpl implements BusinessService, ManagedService {
 	private volatile UUIDService _uuid;
 
 	@SuppressWarnings({ "unused", "rawtypes" })
-	       
+
 	private Dictionary properties;
 	private volatile BusinessServicePersistence _businessPersistenceService;
 	@SuppressWarnings("unused")
 	private volatile EventAdmin _eventAdminService;
-	
-	
-	
-	
+
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void updated(Dictionary properties) throws ConfigurationException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -37,31 +38,61 @@ public class BusinessServiceImpl implements BusinessService, ManagedService {
 		return _businessPersistenceService.getBusiness(pars);
 	}
 
-
 	@Override
 	public Map<String, Object> create(Business business) {
-        business.setUUID(_uuid.createUUID("app/business"));
-		return _businessPersistenceService.addBusiness(business);
+		String u = _uuid.createUUID("app/business");
+		if (!StringUtils.isNullOrEmpty(u)) {
+			business.setUuid(u);
+			return _businessPersistenceService.addBusiness(business);
+		} else {
+			Map<String, Object> response = new HashMap<String, Object>();
+			response.put("created", false);
+			response.put("returnCode", 630);
+			return response;
+		}
 	}
 
 	@Override
 	public Map<String, Object> create(Map<String, Object> pars) {
-        pars.put("uuid",(_uuid.createUUID("app/business")));
-		return _businessPersistenceService.addBusiness(pars);
+		String u = _uuid.createUUID("app/business");
+		if (!StringUtils.isNullOrEmpty(u)) {
+			pars.put("uuid", (_uuid.createUUID("app/business")));
+			return _businessPersistenceService.addBusiness(pars);
+		} else {
+			Map<String, Object> response = new HashMap<String, Object>();
+			response.put("created", false);
+			response.put("returnCode", 630);
+			return response;
+		}
 	}
 
 	@Override
 	public Map<String, Object> deleteBusiness(Map<String, Object> pars) {
-		// TODO Auto-generated method stub
-		return _businessPersistenceService.deleteBusiness(pars);
+		Map<String, Object> response = new HashMap<String,Object>();
+		
+		String u = (String) pars.get("uuid");
+		if (!StringUtils.isNullOrEmpty(u)) {
+		
+			response = _uuid.removeUUID(u);
+			return _businessPersistenceService.deleteBusiness(pars);
+		}
+		else
+		{
+			response.put("created", false);
+			response.put("errorUUIDService", true);
+			response.put("returnCode", 630);
+			return response;
+		}
+
+	
+
 	}
 
 	@Override
 	public Map<String, Object> updateBusiness(Map<String, Object> pars) {
 
-		return _businessPersistenceService.updateBusiness((Business)pars.get("business"));
+		return _businessPersistenceService.updateBusiness( pars);
 	}
-
 
 	@Override
 	public List<Business> retrieveBusinesses(String parameter) {
@@ -69,12 +100,10 @@ public class BusinessServiceImpl implements BusinessService, ManagedService {
 		return null;
 	}
 
-
 	@Override
 	public List<Business> getBusinesses() {
-	
+
 		return _businessPersistenceService.getBusinesses();
 	}
-
 
 }

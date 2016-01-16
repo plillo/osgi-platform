@@ -5,6 +5,7 @@
  */
 package it.hash.osgi.business;
 
+
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class Business implements Comparable<Business>{
 
 	@ObjectId @Id
 	private String _id;
-	private String UUID;
+	private String uuid;
 	private String businessName;
 	private String pIva;
 	private String codiceFiscale;
@@ -307,12 +308,12 @@ public class Business implements Comparable<Business>{
 	public void setTrusted_mobile(String trusted_mobile) {
 		this.trusted_mobile = trusted_mobile;
 	}
-	public String getUUID() {
-		return UUID;
+	public String getUuid() {
+		return uuid;
 	}
 
-	public void setUUID(String uuid) {
-		UUID = uuid;
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 	@Override
 	public int compareTo(Business obj) {

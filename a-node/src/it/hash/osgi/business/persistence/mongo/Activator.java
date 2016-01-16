@@ -8,9 +8,8 @@ import org.apache.felix.dm.DependencyManager;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.service.log.LogService;
-
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
-import it.hash.osgi.resource.uuid.api.UUIDService;
+
       
 public class Activator extends DependencyActivatorBase {
     @Override
@@ -28,10 +27,8 @@ public class Activator extends DependencyActivatorBase {
             .add(createServiceDependency()
                 .setService(MongoDBService.class)
                 .setRequired(true))
-            .add(createServiceDependency()
-            		.setService(UUIDService.class)
-            		.setRequired(true))
-                );
+                
+                         );
     }
 
     

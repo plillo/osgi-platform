@@ -37,4 +37,11 @@ public class UUIDServiceImpl implements UUIDService, ManagedService {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public Map<String, Object> removeUUID(String uuid) {
+		// TODO Auto-generated method stub
+		uuids.remove(uuid);
+		return null;
+	}
 }

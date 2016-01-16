@@ -8,6 +8,7 @@ import java.util.Map;
 
 import it.hash.osgi.business.Business;
 
+
 /**
  * Provides interfaces for the management of the persistence of a business
  * @author Montinari Antonella
@@ -27,6 +28,7 @@ public interface BusinessServicePersistence {
 	Business getBusinessByMobile(String mobile);
 	Business getBusinessByBusinessName(String businessName);
 	Business getBusinessById(String businessId);
+	Business getBusinessByUuid(String uuid);
 	
 	List<Business> getBusinesses();
 	List<Business> getBusinessDetails(Business business);

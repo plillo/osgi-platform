@@ -5,4 +5,5 @@ import java.util.Map;
 public interface UUIDService {
 	public String createUUID(String type);
 	public Map<String,Object> getUUID(String uuid);
+	public Map<String,Object> removeUUID(String uuid);
 }
