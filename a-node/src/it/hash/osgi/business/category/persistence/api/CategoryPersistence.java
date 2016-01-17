@@ -8,23 +8,23 @@ import it.hash.osgi.business.category.Category;
 
 public interface CategoryPersistence {
 	// CREATE
-	Map<String, Object> createCategory(Map<String, Object> business);
-	Map<String, Object> createCategory(Category business);
+	Map<String, Object> createCategory(Map<String, Object> category);
+	Map<String, Object> createCategory(Category category);
 	             
 	// READ
-	Map<String, Object> getCategory(Category business);
-	Map<String, Object> getCategory(Map<String, Object> business);
+	Map<String, Object> getCategory(Category category);
+	Map<String, Object> getCategory(Map<String, Object> category);
 	
 	Business getCatgoryByUUID(String categoryUuid);
 	
-	List<Business> getCategories();
+	List<Map<String, Object>> retrieveCategories();
 	
 	// UPDATE
-	Map<String, Object> updateCategory(Category business);
-	Map<String, Object> updateCategory(Map<String, Object> business);
+	Map<String, Object> updateCategory(Category category);
+	Map<String, Object> updateCategory(Map<String, Object> category);
 	
 	// DELETE
-	Map<String, Object> deleteCategory(Map<String, Object> business);
+	Map<String, Object> deleteCategory(String uuid);
 	
 	// IMPLEMENTATION
 	String getImplementation();

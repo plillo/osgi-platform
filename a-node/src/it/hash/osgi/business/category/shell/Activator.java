@@ -15,11 +15,11 @@ public class Activator extends DependencyActivatorBase {
 	public void init(BundleContext context, DependencyManager manager) throws Exception {
     	Properties props = new Properties();
 		props.put(CommandProcessor.COMMAND_SCOPE, "category");
-		props.put(CommandProcessor.COMMAND_FUNCTION, new String[] {"addCategory"});
+		props.put(CommandProcessor.COMMAND_FUNCTION, new String[] {"addCategory", "deleteCategory", "retrieveCategories"});
 		manager.add(createComponent()
 				.setInterface(Object.class.getName(), props)
 				.setImplementation(Commands.class)
-				.add(createServiceDependency().setService(CategoryService.class).setRequired(true)));
+				.add(createServiceDependency().setService(CategoryService.class).setRequired(false)));
 		
 		System.out.println("Business category shell actived");
 	}

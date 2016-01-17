@@ -9,12 +9,10 @@ public interface CategoryService {
 	Category getCategory(String uuid);
 	Map<String, Object> createCategory(Category category);
 	Map<String, Object> updateCategory(Category category);
-	Map<String, Object> deleteCategory(Category category);
-	Map<String, Object> deleteCategoryByUUID(String uuid);
+	Map<String, Object> deleteCategory(String uuid);
 	
 	Map<String, Object> createCategory(Map<String, Object> pars);
-	Map<String, Object> deleteCategory(Map<String, Object> pars);
 	Map<String, Object> updateCategory(Map<String, Object> pars);
-	
-	List<Category> searchCategories(String parameter);
+
+	List<Map<String, Object>> retrieveCategories(String criterion);
 }

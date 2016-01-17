@@ -1,23 +1,25 @@
 package it.hash.osgi.business.category.service;
 
-import java.util.Properties;
-
 import org.apache.felix.dm.DependencyActivatorBase;
 import org.apache.felix.dm.DependencyManager;
 import org.osgi.framework.BundleContext;
-import org.osgi.service.cm.ManagedService;
-import org.osgi.service.event.EventAdmin;
+
+import it.hash.osgi.business.category.persistence.api.CategoryPersistence;
+import it.hash.osgi.resource.uuid.api.UUIDService;
 
 public class Activator extends DependencyActivatorBase {
 	@Override
 	public synchronized void init(BundleContext context, DependencyManager manager) throws Exception {
-		Properties properties = new Properties();
-
 		manager.add(createComponent()
-				.setInterface(new String[] { CategoryService.class.getName(), ManagedService.class.getName() },
-						properties)
+				.setInterface(CategoryService.class.getName(),null)
 				.setImplementation(CategoryServiceImpl.class)
-				.add(createServiceDependency().setService(EventAdmin.class).setRequired(true)));
+				.add(createServiceDependency()
+						.setService(CategoryPersistence.class)
+						.setRequired(true))
+				.add(createServiceDependency()
+						.setService(UUIDService.class)
+						.setRequired(true))
+				);
 	}
 
 	@Override

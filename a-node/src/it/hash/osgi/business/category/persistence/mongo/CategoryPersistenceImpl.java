@@ -1,12 +1,17 @@
 package it.hash.osgi.business.category.persistence.mongo;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.amdatu.mongo.MongoDBService;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.category.Category;
@@ -67,9 +72,48 @@ public class CategoryPersistenceImpl implements CategoryPersistence{
 	}
 
 	@Override
-	public Map<String, Object> getCategory(Category business) {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Object> getCategory(Category category) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		JacksonDBCollection<Category, Object> categoryMap = JacksonDBCollection.wrap(categoriesCollection, Category.class);
+
+		Category found_category = null;
+
+		Map<Category, TreeSet<String>> matchs = new TreeMap<Category, TreeSet<String>>();
+		
+		if (category.getUUID() != null) {
+			found_category = categoryMap.findOne(new BasicDBObject("uuid", category.getUUID()));
+			if (found_category != null) {
+				TreeSet<String> list = matchs.get(found_category);
+				if (list == null)
+					list = new TreeSet<String>();
+
+				list.add("uuid");
+				matchs.put(found_category, list);
+			}
+		}
+
+		// Set response: number of matched categories
+		response.put("matched", matchs.size());
+
+		// Set response details
+		switch (matchs.size()) {
+		case 0:
+			response.put("found", false);
+			response.put("returnCode", 650);
+			break;
+		case 1:
+			Category key = (Category) matchs.keySet().toArray()[0];
+			response.put("category", key);
+			response.put("keys", matchs.get(key));
+			response.put("found", true);
+			response.put("returnCode", 200);
+			break;
+		default:
+			response.put("categories", matchs);
+			response.put("returnCode", 640);
+		}
+
+		return response;
 	}
 
 	@Override
@@ -84,10 +128,16 @@ public class CategoryPersistenceImpl implements CategoryPersistence{
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Business> getCategories() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Map<String, Object>> retrieveCategories() {
+		com.mongodb.DBCursor cursor = categoriesCollection.find();
+		List<Map<String, Object>> list = new ArrayList<>();
+		while (cursor.hasNext()) {
+			list.add(cursor.next().toMap());
+		}
+
+		return list;
 	}
 
 	@Override
@@ -103,9 +153,27 @@ public class CategoryPersistenceImpl implements CategoryPersistence{
 	}
 
 	@Override
-	public Map<String, Object> deleteCategory(Map<String, Object> business) {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Object> deleteCategory(String uuid) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		com.mongodb.WriteResult wr;
+		DBObject found_uuid = categoriesCollection.findOne(new BasicDBObject("uuid", uuid));
+		if (found_uuid != null) {
+			wr = categoriesCollection.remove(new BasicDBObject("uuid", uuid));
+			if (wr.getN() == 1) {
+				response.put("uuid",found_uuid);
+				response.put("deleted", true);
+				response.put("returnCode", 200);
+			} else {
+				response.put("deleted", false);
+				response.put("returnCode",680);
+			}
+
+		}
+		else {
+			response.put("deleted", false);
+			response.put("returnCode",680);
+		}
+		return response;
 	}
 
 	@Override
