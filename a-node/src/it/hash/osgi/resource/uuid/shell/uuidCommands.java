@@ -2,6 +2,7 @@ package it.hash.osgi.resource.uuid.shell;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import it.hash.osgi.resource.uuid.api.UUIDService;
@@ -9,11 +10,15 @@ import it.hash.osgi.resource.uuid.api.UUIDService;
 public class uuidCommands {
 
 	private volatile UUIDService _uuidService;
-
-	public void getUuid(String uuid) {
-		Map<String, Object> response = _uuidService.getUUID(uuid);
+    public List<String> listUuid(String type){
+    	List<String> response = _uuidService.listUUID(type);
+    	return response;
+    }
+	public String getUuid(String uuid) {
+		Map<String, Object> response = _uuidService.getTypeUUID(uuid);
 		System.out.println("UUID  " + uuid);
 		System.out.println("Type " + response.get("type"));
+		return (String) response.get("type");
 
 	}
 

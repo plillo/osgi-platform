@@ -1,7 +1,9 @@
 package it.hash.osgi.resource.uuid.mongo;
 
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -10,6 +12,7 @@ import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
@@ -60,7 +63,7 @@ public class UUIDServiceImpl implements UUIDService, ManagedService {
 	}
 
 	@Override
-	public Map<String, Object> getUUID(String uuid) {
+	public Map<String, Object> getTypeUUID(String uuid) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		DBObject found_uuid = uuidCollection.findOne(new BasicDBObject("uuid", uuid));
 		if (found_uuid!=null)
@@ -98,6 +101,19 @@ public class UUIDServiceImpl implements UUIDService, ManagedService {
 	public void updated(Dictionary<String, ?> arg0) throws ConfigurationException {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public List<String>listUUID(String type) {
+		// TODO Auto-generated method stub
+	   List<String> list_uuid = new ArrayList<String>();
+	   DBObject dbo= new BasicDBObject("type",type);
+		DBCursor dbc= uuidCollection.find(dbo);
+		while (dbc.hasNext()) {
+			list_uuid.add((String)dbc.next().get("uuid"));
+		}
+		
+		return list_uuid;
 	}
 
 }
