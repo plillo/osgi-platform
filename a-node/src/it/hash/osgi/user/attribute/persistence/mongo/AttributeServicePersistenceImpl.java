@@ -10,21 +10,28 @@ import java.util.Vector;
 
 import org.amdatu.mongo.MongoDBService;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
+import it.hash.osgi.business.Business;
+import it.hash.osgi.resource.uuid.api.UUIDService;
 import it.hash.osgi.user.attribute.Attribute;
 import it.hash.osgi.user.attribute.persistence.api.AttributeServicePersistence;
+import it.hash.osgi.utils.StringUtils;
+import net.vz.mongodb.jackson.JacksonDBCollection;
+import net.vz.mongodb.jackson.WriteResult;
 
 public class AttributeServicePersistenceImpl implements AttributeServicePersistence{
-	// Injected services
 	private volatile MongoDBService m_mongoDBService;
 	private static final String COLLECTION = "attributes";
 	
 	private DBCollection attributesCollection;
+	private JacksonDBCollection<Attribute, Object> attributeMap;
 	
 	public void start() {
 		attributesCollection = m_mongoDBService.getDB().getCollection(COLLECTION);
+		attributeMap = JacksonDBCollection.wrap(attributesCollection, Attribute.class);
 	}
 	
 	@Override
@@ -103,6 +110,27 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 		}
 		
 		return attribute;
+	}
+
+	@Override
+	public Map<String, Object> createAttribute(Attribute attribute) {
+		Map<String, Object> response = new TreeMap<String, Object>();
+		
+		WriteResult<Attribute, Object> writeResult = attributeMap.save(attribute);
+		String savedId = (String) writeResult.getSavedId();
+		if (!StringUtils.isEmptyOrNull(savedId)) {
+			Attribute created_attribute = attributeMap.findOneById(savedId);
+			if (created_attribute != null) {
+				response.put("attribute", created_attribute);
+				response.put("created", true);
+				response.put("returnCode", 200);
+			} else {
+				response.put("created", false);
+				response.put("returnCode", 630);
+			}
+		}
+		
+		return response;
 	}
 
 }

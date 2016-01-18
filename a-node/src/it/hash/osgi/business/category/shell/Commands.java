@@ -5,6 +5,7 @@ import java.util.Map;
 
 import it.hash.osgi.business.category.Category;
 import it.hash.osgi.business.category.service.CategoryService;
+import it.hash.osgi.user.attribute.Attribute;
 
 public class Commands {
 	private volatile CategoryService _category;
@@ -30,4 +31,11 @@ public class Commands {
 		System.out.println(list.toString());
 	}
 
+	public void createAttribute(String ctgUuid, String name, String label) {
+		Attribute attribute = new Attribute();
+		attribute.setName(name);
+		attribute.setLabel(label);
+
+		_category.createAttribute(ctgUuid, attribute);
+	}
 }

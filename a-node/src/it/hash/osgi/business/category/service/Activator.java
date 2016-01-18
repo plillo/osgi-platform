@@ -6,6 +6,7 @@ import org.osgi.framework.BundleContext;
 
 import it.hash.osgi.business.category.persistence.api.CategoryPersistence;
 import it.hash.osgi.resource.uuid.api.UUIDService;
+import it.hash.osgi.user.attribute.service.AttributeService;
 
 public class Activator extends DependencyActivatorBase {
 	@Override
@@ -18,6 +19,9 @@ public class Activator extends DependencyActivatorBase {
 						.setRequired(true))
 				.add(createServiceDependency()
 						.setService(UUIDService.class)
+						.setRequired(true))
+				.add(createServiceDependency()
+						.setService(AttributeService.class)
 						.setRequired(true))
 				);
 	}
