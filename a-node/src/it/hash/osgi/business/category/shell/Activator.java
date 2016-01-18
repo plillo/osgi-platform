@@ -19,7 +19,7 @@ public class Activator extends DependencyActivatorBase {
 		manager.add(createComponent()
 				.setInterface(Object.class.getName(), props)
 				.setImplementation(Commands.class)
-				.add(createServiceDependency().setService(CategoryService.class).setRequired(false)));
+				.add(createServiceDependency().setService(CategoryService.class).setRequired(true)));
 		
 		System.out.println("Business category shell actived");
 	}

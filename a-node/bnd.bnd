@@ -19,7 +19,8 @@
 	jackson-mapper-asl,\
 	org.mongodb.mongo-java-driver,\
 	org.bitbucket.b_c.jose4j,\
-	org.eclipse.paho.client.mqttv3
+	org.eclipse.paho.client.mqttv3,\
+	jackson-core-asl
 Bundle-Version: 0.0.0.${tstamp}
 -sub: *.bnd
 -runrequires: \

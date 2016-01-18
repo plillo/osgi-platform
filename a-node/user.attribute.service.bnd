@@ -1,0 +1,3 @@
+Bundle-Version: 1.0.0.${tstamp}
+Export-Package: it.hash.osgi.user.attribute.service
+Bundle-Activator: it.hash.osgi.user.attribute.service.Activator
