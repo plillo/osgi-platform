@@ -75,7 +75,7 @@ public class UUIDServiceImpl implements UUIDService, ManagedService {
 	}
 
 	@Override
-	public Map<String, Object> getUUID(String uuid) {
+	public Map<String, Object> getTypeUUID(String uuid) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -98,4 +98,11 @@ public class UUIDServiceImpl implements UUIDService, ManagedService {
         
 		return null;
 	}
+
+	@Override
+	public List<String> listUUID(String type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }
