@@ -2,13 +2,16 @@ package it.hash.osgi.user.attribute.persistence.mongo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Vector;
 
 import org.amdatu.mongo.MongoDBService;
 
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 
 import it.hash.osgi.user.attribute.Attribute;
 import it.hash.osgi.user.attribute.persistence.api.AttributeServicePersistence;
@@ -26,12 +29,24 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 	
 	@Override
 	public List<Attribute> getAttributesByCategories(String[] categories) {
+		Vector<String> ctgs = new Vector<String>();
+		for(String ctg: categories) ctgs.add(ctg);
 		com.mongodb.DBCursor cursor = attributesCollection.find();
 		List<Attribute> list = new ArrayList<>();
 		while (cursor.hasNext()) {
-			List<String> o = (List<String>)cursor.next().get("Context");
-			
-			list.add(mapToAttribute(cursor.next().toMap()));
+			DBObject dbo = cursor.next();
+			List<String> o = (List<String>)dbo.get("context");
+			if(o!=null)
+				for(Iterator<String> i = o.iterator(); i.hasNext();){
+					String context = i.next();
+					if(context.startsWith("busctg:")){
+						String ctg = context.split(":")[1];
+						if(ctgs.contains(ctg)){
+							list.add(mapToAttribute(dbo.toMap()));
+							break;
+						}
+					}
+				}
 		}
 
 		return list;
