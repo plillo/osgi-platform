@@ -17,6 +17,7 @@ import org.osgi.service.log.LogService;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 
+import it.hash.osgi.resource.uuid.api.UUIDService;
 import it.hash.osgi.user.User;
 import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
@@ -31,6 +32,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 	@SuppressWarnings("unused")
 	private volatile LogService logService;
 	private volatile Password _passwordService;
+	private volatile UUIDService _UUISSrv;
 	
 	// Mongo User collection
 	private DBCollection userCollection;
@@ -38,6 +40,67 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 	public void start() {
 		// Initialize user collection
 		userCollection = m_mongoDBService.getDB().getCollection(COLLECTION);
+	}
+	
+	// CREATE
+	// ======
+	@Override
+	public Map<String, Object> addUser(Map<String, Object> user) {
+
+		User user_obj = new User();
+		user_obj.setUsername((String)user.get("username"));
+		user_obj.setEmail((String)user.get("email"));
+		user_obj.setMobile((String)user.get("mobile"));
+		user_obj.setFirstName((String)user.get("firstName"));
+		user_obj.setLastName((String)user.get("lastName"));
+		// ...
+		
+		return addUser(user_obj);
+	}
+	
+	// CREATE
+	// ======
+	@Override
+	public Map<String, Object> addUser(User user) {
+		Map<String, Object> response = new TreeMap<String, Object>();
+		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
+		
+		// Search for existing user
+		Map<String, Object> result = getUser(user);
+
+		// not existing: CREATE
+		// ====================
+		if((int)result.get("matched")==0) {
+			String savedId = users.save(user).getSavedId();
+			if(savedId!=null) {
+				User created_user = users.findOneById(savedId);
+				if(created_user!=null) {
+					response.put("user", created_user);
+					response.put("created", true);
+					response.put("returnCode", 100);
+				}
+			}
+		}
+		// If existing user
+		else if((int)result.get("matched")==1){
+			User existing_user = (User) result.get("user");
+			if(existing_user!=null) {
+				response.put("user", existing_user);
+				response.put("created", false);
+				response.put("returnCode", 105);
+				response.put("keys", result.get("keys"));
+			}
+		}
+		// If existing many users
+		else{
+			response.put("created", false);
+			response.put("returnCode", 110);
+			response.put("users", result.get("users"));
+		}
+		
+		// TODO: Gestire bene la composizione della risposta (deve essere più informativa possibile)
+
+		return response;
 	}
 	
 	// READ methods
@@ -228,65 +291,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 		return getUserByKey("userId", userId);
 	}
 	
-	// CREATE
-	// ======
-	@Override
-	public Map<String, Object> addUser(Map<String, Object> user) {
 
-		User user_obj = new User();
-		user_obj.setUsername((String)user.get("username"));
-		user_obj.setEmail((String)user.get("email"));
-		user_obj.setMobile((String)user.get("mobile"));
-		user_obj.setFirstName((String)user.get("firstName"));
-		user_obj.setLastName((String)user.get("lastName"));
-		// ...
-		
-		return addUser(user_obj);
-	}
-	
-	// CREATE
-	// ======
-	@Override
-	public Map<String, Object> addUser(User user) {
-		Map<String, Object> response = new TreeMap<String, Object>();
-		JacksonDBCollection<User, String> users = JacksonDBCollection.wrap(userCollection, User.class, String.class);
-		
-		// Match user
-		Map<String, Object> result = getUser(user);
-
-		// If new user
-		if((int)result.get("matched")==0) {
-			String savedId = users.save(user).getSavedId();
-			if(savedId!=null) {
-				User created_user = users.findOneById(savedId);
-				if(created_user!=null) {
-					response.put("user", created_user);
-					response.put("created", true);
-					response.put("returnCode", 100);
-				}
-			}
-		}
-		// If existing user
-		else if((int)result.get("matched")==1){
-			User existing_user = (User) result.get("user");
-			if(existing_user!=null) {
-				response.put("user", existing_user);
-				response.put("created", false);
-				response.put("returnCode", 105);
-				response.put("keys", result.get("keys"));
-			}
-		}
-		// If existing many users
-		else{
-			response.put("created", false);
-			response.put("returnCode", 110);
-			response.put("users", result.get("users"));
-		}
-		
-		// TODO: Gestire bene la composizione della risposta (deve essere più informativa possibile)
-
-		return response;
-	}
 
 	// UPDATE
 	// ======

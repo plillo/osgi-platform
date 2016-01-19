@@ -2,10 +2,9 @@ package it.hash.osgi.user;
 
 import java.util.Map;
 
-import static it.hash.osgi.utils.StringUtils.*;
-
 public class User implements Comparable<User>{
 	private String _id;
+	private String uuid;
 	private String username;
 	private String password;
 	private String salted_hash_password;
@@ -34,6 +33,14 @@ public class User implements Comparable<User>{
 
 	public void set_id(String id) {
 		this._id = id;
+	}
+	
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 	public String getUsername() {
@@ -226,4 +233,5 @@ public class User implements Comparable<User>{
 	public int compareTo(User obj) {
        return this._id.compareTo(obj.get_id());
 	}
+
 }

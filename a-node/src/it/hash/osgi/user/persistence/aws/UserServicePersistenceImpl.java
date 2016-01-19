@@ -58,11 +58,14 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 	        Table table = dynamoDB.getTable("Users");
 	        
 	        // Get UUID
+	        /*
 	        String uuid = _console.randomUUID("core:user");
 	        if(uuid==null){
 	            System.out.println("User UUID error");
 	            return response;
 	        }
+	        */
+	        String uuid = user.getUuid();
 	        
 	        // Set item
 		    Item item = new Item()

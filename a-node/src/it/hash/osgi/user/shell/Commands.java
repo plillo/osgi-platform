@@ -3,6 +3,7 @@ package it.hash.osgi.user.shell;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import it.hash.osgi.user.User;
 import it.hash.osgi.user.service.UserService;
@@ -15,15 +16,33 @@ public class Commands {
 		System.out.println("token: "+_userService.login(username, password));
 	}
 	
-	public void add(String username, String firstname, String lastname, String password) {
+	public void add(String identificator, String firstname, String lastname, String password) {
 		User user = new User();
-		user.setUsername(username);
-		user.setFirstName(firstname);
-		user.setLastName(lastname);
-		user.setPassword(password);
 		
-		Map<String, Object> ret = _userService.createUser(user);
-		System.out.println("called shell command 'createUser' - created: "+(Boolean) ret.get("created"));
+		Map<String, Object> map = _userService.validateIdentificator(identificator);
+		String identificator_type = (String)map.get("identificatorType");
+		
+		if((Boolean)map.get("isValid")) {
+			// Get the user (if any) matching the identificator
+			// ================================================
+			map = new TreeMap<String, Object>();
+
+			if("username".equals(identificator_type))
+				user.setUsername(identificator);
+			else if("email".equals(identificator_type))
+				user.setMobile(identificator);
+			else if("mobile".equals(identificator_type))
+				user.setEmail(identificator);
+
+			user.setFirstName(firstname);
+			user.setLastName(lastname);
+			user.setPassword(password);
+		
+			Map<String, Object> ret = _userService.createUser(user);
+			System.out.println("called shell command 'createUser' - created: "+(Boolean) ret.get("created"));
+		}
+		else
+			System.out.println("called shell command 'createUser' - Not a valid identificator");
 	}
 
 	public void number() {

@@ -14,6 +14,7 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 
 import it.hash.osgi.jwt.service.JWTService;
+import it.hash.osgi.resource.uuid.api.UUIDService;
 import it.hash.osgi.user.User;
 import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService, ManagedService{
 	private volatile Password _passwordService;
 	private volatile EventAdmin _eventAdminService;
 	private volatile JWTService _jwtService;
+	private volatile UUIDService _UUIDService;
 	
 	private Validator validator = new Validator();
 
@@ -169,6 +171,8 @@ public class UserServiceImpl implements UserService, ManagedService{
 
 	@Override
 	public Map<String, Object> createUser(User user) {
+		Map<String, Object> response = new TreeMap<String, Object>();
+
 		String password = user.getPassword();
 		if(StringUtils.isEmptyOrNull(user.getPassword())){
 			password = _passwordService.getRandom();
@@ -179,7 +183,16 @@ public class UserServiceImpl implements UserService, ManagedService{
 			user.setSalted_hash_password(_passwordService.getSaltedHash(password));
 		} catch (Exception e) {
 			e.printStackTrace();
+			return response;
 		}
+		
+        // Get and Set UUID
+        String uuid = _UUIDService.createUUID("core:user");
+        if(uuid==null){
+            return response;
+        }
+        user.setUuid(uuid);
+		
 		return _userPersistenceService.addUser(user);
 	}
 
