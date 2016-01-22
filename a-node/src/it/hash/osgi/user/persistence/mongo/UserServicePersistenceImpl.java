@@ -7,20 +7,18 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import net.vz.mongodb.jackson.DBCursor;
-import net.vz.mongodb.jackson.DBQuery;
-import net.vz.mongodb.jackson.JacksonDBCollection;
-
 import org.amdatu.mongo.MongoDBService;
 import org.osgi.service.log.LogService;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 
-import it.hash.osgi.resource.uuid.api.UUIDService;
 import it.hash.osgi.user.User;
 import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
+import net.vz.mongodb.jackson.DBCursor;
+import net.vz.mongodb.jackson.DBQuery;
+import net.vz.mongodb.jackson.JacksonDBCollection;
 
 
 
@@ -32,7 +30,6 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 	@SuppressWarnings("unused")
 	private volatile LogService logService;
 	private volatile Password _passwordService;
-	private volatile UUIDService _UUISSrv;
 	
 	// Mongo User collection
 	private DBCollection userCollection;
@@ -165,6 +162,18 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 						list = new TreeSet<String>();
 					    
 					list.add("userId");
+					matchs.put(found_user, list);
+				}
+			}
+			if(user.containsKey("uuid") && user.get("uuid")!=null) {
+				found_user = users.findOne(DBQuery.is("_id", user.get("uuid")));
+
+				if(found_user!=null){
+					TreeSet<String> list = matchs.get(found_user);
+					if(list==null)
+						list = new TreeSet<String>();
+					    
+					list.add("uuid");
 					matchs.put(found_user, list);
 				}
 			}

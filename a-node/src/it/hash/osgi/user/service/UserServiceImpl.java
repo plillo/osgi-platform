@@ -155,6 +155,14 @@ public class UserServiceImpl implements UserService, ManagedService{
 		
 		return response;
 	}
+	
+	@Override
+	public Map<String, Object> getUserByUuid(String uuid) {
+		Map<String, Object> user = new TreeMap<String, Object>();
+		user.put("uuid", uuid);
+
+		return getUser(user);
+	}
 
 	@Override
 	public List<User> searchUsers(String parameter) {
@@ -269,5 +277,4 @@ public class UserServiceImpl implements UserService, ManagedService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

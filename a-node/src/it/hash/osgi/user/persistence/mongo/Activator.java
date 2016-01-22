@@ -9,7 +9,6 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.service.log.LogService;
 
-import it.hash.osgi.resource.uuid.api.UUIDService;
 import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
 

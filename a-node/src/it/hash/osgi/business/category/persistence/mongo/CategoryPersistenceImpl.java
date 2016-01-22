@@ -13,7 +13,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
-import it.hash.osgi.business.Business;
 import it.hash.osgi.business.category.Category;
 import it.hash.osgi.business.category.persistence.api.CategoryPersistence;
 import it.hash.osgi.utils.StringUtils;
@@ -123,7 +122,7 @@ public class CategoryPersistenceImpl implements CategoryPersistence{
 	}
 
 	@Override
-	public Business getCatgoryByUUID(String categoryUuid) {
+	public Category getCategoryByUUID(String categoryUuid) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -18,6 +18,7 @@ public interface UserService {
 	Map<String, Object> validateIdentificator(String identificator);
 
 	Map<String, Object> getUser(Map<String, Object> pars);
+	Map<String, Object> getUserByUuid(String uuid);
 	Map<String, Object> createUser(User user);
 	Map<String, Object> deleteUser(Map<String, Object> pars);
 	Map<String, Object> updateUser(Map<String, Object> pars);

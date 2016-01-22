@@ -3,7 +3,6 @@ package it.hash.osgi.business.category.persistence.api;
 import java.util.List;
 import java.util.Map;
 
-import it.hash.osgi.business.Business;
 import it.hash.osgi.business.category.Category;
 
 public interface CategoryPersistence {
@@ -15,7 +14,7 @@ public interface CategoryPersistence {
 	Map<String, Object> getCategory(Category category);
 	Map<String, Object> getCategory(Map<String, Object> category);
 	
-	Business getCatgoryByUUID(String categoryUuid);
+	Category getCategoryByUUID(String categoryUuid);
 	
 	List<Map<String, Object>> retrieveCategories();
 	
