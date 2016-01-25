@@ -9,6 +9,7 @@ public class Category {
 	@ObjectId @Id
 	private String _id;
 	private String UUID;
+	private String parentUUID;
 	private String name;
 	private String code;
 	private String _locDescription;
@@ -27,6 +28,14 @@ public class Category {
 	
 	public void setUUID(String uUID) {
 		UUID = uUID;
+	}
+	
+	public String getParentUUID() {
+		return parentUUID;
+	}
+
+	public void setParentUUID(String parentUUID) {
+		this.parentUUID = parentUUID;
 	}
 	
 	public String getName() {

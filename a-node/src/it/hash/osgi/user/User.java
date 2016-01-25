@@ -2,7 +2,11 @@ package it.hash.osgi.user;
 
 import java.util.Map;
 
+import net.vz.mongodb.jackson.Id;
+import net.vz.mongodb.jackson.ObjectId;
+
 public class User implements Comparable<User>{
+	@ObjectId @Id
 	private String _id;
 	private String uuid;
 	private String username;

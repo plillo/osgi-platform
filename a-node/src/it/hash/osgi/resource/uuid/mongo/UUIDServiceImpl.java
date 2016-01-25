@@ -47,10 +47,10 @@ public class UUIDServiceImpl implements UUIDService, ManagedService {
 				map.put("uuid", random_UUID);
 				map.put("type", type);
 				DBObject newUuid = new BasicDBObject(map);
-			   //TODO inserire un controllo del salvataggio andato a buon fine
-				uuidCollection.save(newUuid);
 				
-				System.out.println("salvato");
+			    //TODO inserire un controllo del salvataggio andato a buon fine
+				uuidCollection.save(newUuid);
+
 				loop = false;
 				return random_UUID;
 			} else

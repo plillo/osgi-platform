@@ -16,7 +16,7 @@ public class Commands {
 		System.out.println("token: "+_userService.login(username, password));
 	}
 	
-	public void add(String identificator, String firstname, String lastname, String password) {
+	public void create(String identificator, String firstname, String lastname, String password) {
 		User user = new User();
 		
 		Map<String, Object> map = _userService.validateIdentificator(identificator);
@@ -30,19 +30,21 @@ public class Commands {
 			if("username".equals(identificator_type))
 				user.setUsername(identificator);
 			else if("email".equals(identificator_type))
-				user.setMobile(identificator);
-			else if("mobile".equals(identificator_type))
 				user.setEmail(identificator);
+			else if("mobile".equals(identificator_type))
+				user.setMobile(identificator);
 
 			user.setFirstName(firstname);
 			user.setLastName(lastname);
 			user.setPassword(password);
 		
-			Map<String, Object> ret = _userService.createUser(user);
-			System.out.println("called shell command 'createUser' - created: "+(Boolean) ret.get("created"));
+			Map<String, Object> response = _userService.createUser(user);
+			
+			System.out.println("shell command 'user:create'");
+			System.out.println(String.format("-> %s [%d]", response.get("message"), (Integer) response.get("status")));
 		}
 		else
-			System.out.println("called shell command 'createUser' - Not a valid identificator");
+			System.out.println("shell command 'user:create' - "+identificator+": not a valid identificator.");
 	}
 
 	public void number() {
@@ -55,7 +57,7 @@ public class Commands {
 		if(users!=null){
 			for(Iterator<User> it = users.iterator();it.hasNext();){
 				User user = it.next();
-				System.out.println(String.format("%-20s%-20s", user.getUsername(), user.getEmail()));
+				System.out.println(String.format("%-20s%-20s%-20s", user.getLastName(), user.getFirstName(), user.getEmail()));
 			}
 		}
 	}

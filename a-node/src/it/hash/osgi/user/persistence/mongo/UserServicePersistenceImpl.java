@@ -16,6 +16,7 @@ import com.mongodb.DBCollection;
 import it.hash.osgi.user.User;
 import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
+import it.hash.osgi.user.service.Status;
 import net.vz.mongodb.jackson.DBCursor;
 import net.vz.mongodb.jackson.DBQuery;
 import net.vz.mongodb.jackson.JacksonDBCollection;
@@ -74,7 +75,8 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 				if(created_user!=null) {
 					response.put("user", created_user);
 					response.put("created", true);
-					response.put("returnCode", 100);
+					response.put("status", Status.CREATED.getCode());
+					response.put("message", Status.CREATED.getMessage());
 				}
 			}
 		}
@@ -83,19 +85,19 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 			User existing_user = (User) result.get("user");
 			if(existing_user!=null) {
 				response.put("user", existing_user);
-				response.put("created", false);
-				response.put("returnCode", 105);
 				response.put("keys", result.get("keys"));
+				response.put("created", false);
+				response.put("status", Status.EXISTING_NOT_CREATED.getCode());
+				response.put("message", Status.EXISTING_NOT_CREATED.getMessage());
 			}
 		}
 		// If existing many users
 		else{
 			response.put("created", false);
-			response.put("returnCode", 110);
 			response.put("users", result.get("users"));
+			response.put("status", Status.EXISTING_MANY_NOT_CREATED.getCode());
+			response.put("message", Status.EXISTING_MANY_NOT_CREATED.getMessage());
 		}
-		
-		// TODO: Gestire bene la composizione della risposta (deve essere più informativa possibile)
 
 		return response;
 	}
@@ -241,16 +243,22 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 			switch(matchs.size()){
 			case 0:
 				response.put("found", false);
+				response.put("status", Status.NOT_FOUND);
+				response.put("message", Status.NOT_FOUND.getMessage());
 				break;
 			case 1:
 				User key = (User) matchs.keySet().toArray()[0];
+				response.put("found", true);
 				response.put("user", key);
 				response.put("keys", matchs.get(key));
-				response.put("found", true);
+				response.put("status", Status.FOUND);
+				response.put("message", Status.FOUND.getMessage());
 				break;
 			default:
+				response.put("found", true);
 				response.put("users", matchs);
-				response.put("returnCode", 110);
+				response.put("status", Status.FOUND_MANY);
+				response.put("message", Status.FOUND_MANY.getMessage());
 			}
 		}
 				

@@ -18,6 +18,7 @@ import it.hash.osgi.resource.uuid.api.UUIDService;
 import it.hash.osgi.user.User;
 import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
+import static it.hash.osgi.utils.MapTools.*;
 import it.hash.osgi.utils.StringUtils;
 
 public class UserServiceImpl implements UserService, ManagedService{
@@ -152,7 +153,7 @@ public class UserServiceImpl implements UserService, ManagedService{
 	@Override
 	public Map<String, Object> getUser(Map<String, Object> pars) {
 		Map<String, Object> response = _userPersistenceService.getUser(pars);
-		
+
 		return response;
 	}
 	
@@ -181,27 +182,32 @@ public class UserServiceImpl implements UserService, ManagedService{
 	public Map<String, Object> createUser(User user) {
 		Map<String, Object> response = new TreeMap<String, Object>();
 
+		// If missing, generate a random password
 		String password = user.getPassword();
 		if(StringUtils.isEmptyOrNull(user.getPassword())){
 			password = _passwordService.getRandom();
 			user.setPassword(password);
+			response.put("generatedRandomPassword", true);
 		}
 				
 		try {
 			user.setSalted_hash_password(_passwordService.getSaltedHash(password));
 		} catch (Exception e) {
-			e.printStackTrace();
+			response.put("status", Status.ERROR_HASHING_PASSWORD.getCode());
+			response.put("message", Status.ERROR_HASHING_PASSWORD.getMessage());
 			return response;
 		}
 		
         // Get and Set UUID
         String uuid = _UUIDService.createUUID("core:user");
         if(uuid==null){
+			response.put("status", Status.ERROR_GENERATING_UUID.getCode());
+			response.put("message", Status.ERROR_GENERATING_UUID.getMessage());
             return response;
         }
         user.setUuid(uuid);
 		
-		return _userPersistenceService.addUser(user);
+		return merge(_userPersistenceService.addUser(user), response);
 	}
 
 	@Override
