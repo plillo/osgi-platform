@@ -30,45 +30,7 @@ public class Resources {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("validateIdentificator")
 	public Response validateIdentificator(@QueryParam("value") String identificator) {
-		Map<String, Object> response = new TreeMap<String, Object>();
-		response.put("validatingItem", identificator);
-		
-		// Check and identify the type of identificator (username/email/mobile)
-		Map<String, Object> map = _userService.validateIdentificator(identificator);
-		String identificator_type = (String)map.get("identificatorType");
-		response.put("identificatorType", identificator_type);
-		response.put("isValid", (Boolean)map.get("isValid"));
-		
-		if((Boolean)map.get("isValid")) {
-			// Get the user (if any) matching the identificator
-			// ================================================
-			map = new TreeMap<String, Object>();
-
-			if("username".equals(identificator_type))
-				map.put("username", identificator);
-			else if("email".equals(identificator_type))
-				map.put("email", identificator);
-			else if("mobile".equals(identificator_type))
-				map.put("mobile", identificator);
-			Map<String, Object> userMap = _userService.getUser(map);
-			// ===
-			
-			// Build the response
-			if((int)userMap.get("matched")>0){
-				// MATCHED user
-				response.put("matched", true);
-				response.put("message", "Matched user with \""+identificator+"\" identificator");
-			}
-			else {
-				response.put("matched", false);
-				response.put("message", "The identificator \""+identificator+"\" is available");
-			}
-		}
-		else {
-			// Not a valid identificator
-			response.put("message", "\""+identificator+"\" is not a valid identificator");
-			response.put("status", 210);
-		}
+		Map<String, Object> response = _userService.validateIdentificatorAndGetUser(identificator);
 
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	}
@@ -82,43 +44,25 @@ public class Resources {
 		// Check for password: ERROR if missing password
 		if(isEON(password)) {
 			response.put("isLogged", false);
-			response.put("message", "Missing password");
-			response.put("status", 401);
+			response.put("status", it.hash.osgi.user.service.Status.ERROR_MISSING_PASSWORD);
+			response.put("message", it.hash.osgi.user.service.Status.ERROR_MISSING_PASSWORD.getMessage());
 
 			return Response.status(Status.BAD_REQUEST).header("Access-Control-Allow-Origin", "*").entity(response).status(403).build();
 		}
 		
-		// Check and identify the type of identificator (username/email/mobile)
-		Map<String, Object> validate = _userService.validateIdentificator(identificator);
+		// LOGIN
+		Map<String, Object> loginResponse = _userService.validateIdentificatorAndLogin(identificator, password);
 		
-		if((Boolean)validate.get("isValid")) {
-			Map<String, Object> map = new TreeMap<String, Object>();
-			map.put("password", password);
-			
-			String identificator_type = (String)validate.get("identificatorType");
-			if("username".equals(identificator_type))
-				map.put("username", identificator);
-			else if("email".equals(identificator_type))
-				map.put("email", identificator);
-			else if("mobile".equals(identificator_type))
-				map.put("mobile", identificator);
-			 
-			Map<String, Object> loginResponse = _userService.login(map);
-			
-			//String tokenCookieName = (String)loginResponse.get("tokenCookieName");
-			//String token = (String)loginResponse.get("token");
-			
-			if((boolean)loginResponse.get("verified")){
-				String id = (String)loginResponse.get("id");
-				System.out.println("Logged user: "+id);
-				return Response.ok().header("Access-Control-Allow-Origin", "*").entity(loginResponse).build();
-			}
-			else {
-				String errorMessage = (String)loginResponse.get("message");
-				return Response.status(Status.UNAUTHORIZED).entity(errorMessage).header("Access-Control-Allow-Origin", "*").build();
-			}
+		if((int)loginResponse.get("status")==it.hash.osgi.user.service.Status.LOGGED.getCode()){
+			// LOGGED
+			String uuid = (String)loginResponse.get("uuid");
+			System.out.println("Logged user: "+uuid);
+			return Response.ok().header("Access-Control-Allow-Origin", "*").entity(loginResponse).build();
 		}
-
-		return Response.status(Status.BAD_REQUEST).header("Access-Control-Allow-Origin", "*").entity(response).status(401).build();
+		else {
+			// NOT LOGGED
+			String errorMessage = (String)loginResponse.get("message");
+			return Response.status(Status.UNAUTHORIZED).entity(errorMessage).header("Access-Control-Allow-Origin", "*").build();
+		}
 	}
 }

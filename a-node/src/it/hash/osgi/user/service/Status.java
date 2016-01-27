@@ -16,6 +16,11 @@ public enum Status {
 	CREATED(2001, "created"),
 	
 	// CLIENT ERROR
+	ERROR_NOTVALID_IDENTIFICATOR(4001, "errorNotValidIdentificator"),
+	ERROR_UNAUTHORIZED_ACCESS(4002, "errorUnauthorizedAccess"),
+	ERROR_FORBIDDEN_ACCESS(4003, "errorForbidenAccess"),
+	ERROR_UNMATCHED_USER(4004, "errorUnmatchedUser"),
+	ERROR_MISSING_PASSWORD(4005, "errorMissingPassword"),
 	
 	// SERVER ERROR
 	ERROR_HASHING_PASSWORD(5001, "errorHashingPassword"),
@@ -37,7 +42,6 @@ public enum Status {
 		ResourceBundle labels = ResourceBundle.getBundle("it.hash.osgi.user.service.codes");
 		String message = labels.getString(this.messageKey);
 		
-		System.out.println(message);
 		return message;
 	}
 	
@@ -45,7 +49,6 @@ public enum Status {
 		ResourceBundle labels = ResourceBundle.getBundle("codes", locale);
 		String message = labels.getString(this.messageKey);
 		
-		System.out.println(message);
 		return message;
 	}
 }

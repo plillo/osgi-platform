@@ -65,8 +65,8 @@ public class JWTServiceImpl implements JWTService, ManagedService {
 	    	map.put("notBeforeMinutesInThePast", defaultIfNull((String)properties.get("notBeforeMinutesInThePast"),"2"));
 	    if(!map.containsKey("subject"))
 	    	map.put("subject", defaultIfNull((String)properties.get("subject"),""));
-	    if(!map.containsKey("uid"))
-	    	map.put("uid", (String)properties.get("uid"));
+	    if(!map.containsKey("uuid"))
+	    	map.put("uuid", (String)properties.get("uuid"));
 	    if(!map.containsKey("body"))
 	    	map.put("body", (String)properties.get("body"));
 	    if(!map.containsKey("email"))
@@ -93,16 +93,29 @@ public class JWTServiceImpl implements JWTService, ManagedService {
 		// Additional claims about the subject
 		// ===================================
 		// set UID
-		if(isNotEmptyOrNull((String)map.get("uid")))
-			claims.setClaim("uid",map.get("uid"));
+		if(isNotEmptyOrNull((String)map.get("uuid")))
+			claims.setClaim("uuid",map.get("uuid"));
+		// set USERNAME
+		if(isNotEmptyOrNull((String)map.get("username")))
+			claims.setClaim("username",map.get("username"));
 		// set EMAIL
 		if(isNotEmptyOrNull((String)map.get("email")))
 			claims.setClaim("email",map.get("email"));
+		// set MOBILE
+		if(isNotEmptyOrNull((String)map.get("mobile")))
+			claims.setClaim("mobile",map.get("mobile"));
+		// set FIRSTNAME
+		if(isNotEmptyOrNull((String)map.get("firstName")))
+			claims.setClaim("firstName",map.get("firstName"));
+		// set LASTNAME
+		if(isNotEmptyOrNull((String)map.get("lastName")))
+			claims.setClaim("lastName",map.get("lastName"));
+		// set ROLES
+		claims.setStringListClaim("roles", Arrays.asList(splitAndTrim((String)map.get("roles")))); // multi-valued claims work too and will end up as a JSON array
+		
 		// set BODY
 		if(isNotEmptyOrNull((String)map.get("body")))
 			claims.setClaim("body",map.get("body"));
-		// set ROLES
-		claims.setStringListClaim("roles", Arrays.asList(splitAndTrim((String)map.get("roles")))); // multi-valued claims work too and will end up as a JSON array
 
 		// A JWT is a JWS and/or a JWE with JSON claims as the payload.
 		// In this example it is a JWS so we create a JsonWebSignature object.

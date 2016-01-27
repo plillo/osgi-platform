@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService, ManagedService{
 	@Override
 	public Map<String, Object> login(Map<String, Object> pars) {
 		Map<String, Object> response = new TreeMap<String, Object>();
+
 		// GET user
 		Map<String, Object> userSearch = _userPersistenceService.getUser(pars);
 		boolean matched = false;
@@ -47,23 +48,27 @@ public class UserServiceImpl implements UserService, ManagedService{
 		// Build the response
 		if((int)userSearch.get("matched")>0){
 			User user = (User)userSearch.get("user");
+
 			// MATCHED user
 			String password = (String)pars.get("password");
 			try {
 				// CHECK password
-				matched = _passwordService.check(password, user.getPassword());
+				matched = _passwordService.check(password, user.getSalted_hash_password());
 				
 				// GET ROLES
 				// TODO: get user's roles from system
+				// ==================================
 				String roles = "reguser, admin, root";
 
-				// PUT ID "Id"
-				response.put("id", user.get_id());
-				
-				// Create a JWT (Jason Web Token)
+				// Create a JWT (JSON Web Token)
 				Map<String,Object> map = new TreeMap<String, Object>();
 				map.put("subject", "userId");
-				map.put("uid", user.get_id());
+				map.put("uuid", user.getUuid());
+				map.put("username", user.getUsername());
+				map.put("email", user.getEmail());
+				map.put("mobile", user.getMobile());
+				map.put("firstName", user.getFirstName());
+				map.put("lastName", user.getLastName());
 				map.put("roles", roles);
 				map.put("body", "this is a access token");
 				String token = _jwtService.getToken(map);
@@ -71,23 +76,29 @@ public class UserServiceImpl implements UserService, ManagedService{
 				// PUT JWT "token"
 				response.put("token", token);
 				
-				// TRIG system event "user/login"
+				// TRIGGERING system event "user/login"
 				Map<String,Object> event_props = new HashMap<>();
 				event_props.put("token", token);
-				event_props.put("id", user.get_id());
+				event_props.put("uuid", user.getUuid());
 				event_props.put("verified", matched);
 				_eventAdminService.sendEvent(new Event("user/login", event_props));
+
+				// PUT status LOGGED
+				response.put("status", Status.LOGGED.getCode());
+				response.put("message", Status.LOGGED.getMessage());
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				// PUT status UNAUTHORIZED_ACCESS
+				response.put("status", Status.ERROR_UNAUTHORIZED_ACCESS.getCode());
+				response.put("message", Status.ERROR_UNAUTHORIZED_ACCESS.getMessage());
 				e.printStackTrace();
 			}
 		}
 		else {
-			response.put("message", "Unknown identificator");
+			// PUT status ERROR_UNMATCHED_USER
+			response.put("status", Status.ERROR_UNMATCHED_USER.getCode());
+			response.put("message", Status.ERROR_UNMATCHED_USER.getMessage());
 		}
-		
-		response.put("verified", matched);
-		
+
 		return response;
 	}
 
@@ -95,6 +106,31 @@ public class UserServiceImpl implements UserService, ManagedService{
 	public Map<String, Object> loginByOAuth2(Map<String, Object> pars) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Map<String, Object> validateIdentificatorAndLogin(String identificator, String password) {
+		Map<String, Object> response = new TreeMap<String, Object>();
+		
+		// Check and identify the type of identificator (username/email/mobile)
+		Map<String, Object> validate = validateIdentificator(identificator);
+		
+		if((Boolean)validate.get("isValid")) {
+			response.put("password", password);
+			
+			String identificator_type = (String)validate.get("identificatorType");
+			if("username".equals(identificator_type))
+				response.put("username", identificator);
+			else if("email".equals(identificator_type))
+				response.put("email", identificator);
+			else if("mobile".equals(identificator_type))
+				response.put("mobile", identificator);
+			 
+			return login(response);
+		}
+		response.put("status", Status.ERROR_NOTVALID_IDENTIFICATOR.getCode());
+		
+		return response;
 	}
 
 	@Override
@@ -136,6 +172,50 @@ public class UserServiceImpl implements UserService, ManagedService{
 			map.put("isValid", false);
 
 		return map;
+	}
+	
+	@Override
+	public Map<String, Object> validateIdentificatorAndGetUser(String identificator) {
+		Map<String, Object> response = new TreeMap<String, Object>();
+		response.put("validatingItem", identificator);
+		
+		// Check and identify the type of identificator (username/email/mobile)
+		Map<String, Object> map = validateIdentificator(identificator);
+		String identificator_type = (String)map.get("identificatorType");
+		response.put("identificatorType", identificator_type);
+		response.put("isValid", (Boolean)map.get("isValid"));
+		
+		if((Boolean)map.get("isValid")) {
+			// Get the user (if any) matching the identificator
+			// ================================================
+			map = new TreeMap<String, Object>();
+
+			if("username".equals(identificator_type))
+				map.put("username", identificator);
+			else if("email".equals(identificator_type))
+				map.put("email", identificator);
+			else if("mobile".equals(identificator_type))
+				map.put("mobile", identificator);
+			Map<String, Object> userMap = getUser(map);
+			// TODO controllare se ci sono stati errori, nel qual caso terminare restituendo una risposta adeguata
+			
+			// Build the response
+			if((int)userMap.get("matched")>0){
+				// MATCHED user
+				response.put("matched", true);
+				response.put("message", "Matched user with \""+identificator+"\" identificator");
+			}
+			else {
+				response.put("matched", false);
+				response.put("message", "The identificator \""+identificator+"\" is available");
+			}
+		}
+		else {
+			// Not a valid identificator
+			response.put("message", "\""+identificator+"\" is not a valid identificator");
+		}
+		
+		return response;
 	}
 
 	@Override
@@ -283,4 +363,5 @@ public class UserServiceImpl implements UserService, ManagedService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

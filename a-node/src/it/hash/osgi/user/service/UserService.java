@@ -11,11 +11,13 @@ public interface UserService {
 	Map<String, Object> login(String username, String password);
 	Map<String, Object> login(Map<String, Object> pars);
 	Map<String, Object> loginByOAuth2(Map<String, Object> pars);
+	Map<String, Object> validateIdentificatorAndLogin(String identificator, String password);
 	
 	Map<String, Object> validateUsername(String userId, String username);
 	Map<String, Object> validateEMail(String userId, String email);
 	Map<String, Object> validateMobile(String userId, String mobile);
 	Map<String, Object> validateIdentificator(String identificator);
+	Map<String, Object> validateIdentificatorAndGetUser(String identificator);
 
 	Map<String, Object> getUser(Map<String, Object> pars);
 	Map<String, Object> getUserByUuid(String uuid);
