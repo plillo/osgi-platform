@@ -112,15 +112,14 @@ public class MongoTest extends BaseOSGiServiceTest<BusinessServicePersistence> {
 
 		Map<String, Object> response = instance.addBusiness(business);
 		String businessCodiceFiscale = business.getCodiceFiscale();
-		Business findBusiness = instance
-				.getBusinessByBusinessName(((Business) response.get("business")).getBusinessName());
-		System.out.println(" BusinessName notNull - " + findBusiness);
+		Map<String,Object> find = instance.getBusiness(business);
+		System.out.println(" BusinessName notNull - " + find.get("business"));
 
-		assertNotNull("è stato trovato", findBusiness);
+		assertNotNull("è stato trovato", find.get("business"));
 
-		System.out.println(
+	/*	System.out.println(
 				" TESTFINDBUSINESS - CodiceFiscale" + ((Business) response.get("business")).getCodiceFiscale());
-		findBusiness = instance.getBusinessByCodiceFiscale(businessCodiceFiscale);
+		Business findBusiness = instance.getBusinessByCodiceFiscale(businessCodiceFiscale);
 		System.out.println("codiceFiscale notNull - " + findBusiness);
 		assertNotNull("è stato trovato", findBusiness);
 
@@ -192,5 +191,5 @@ public class MongoTest extends BaseOSGiServiceTest<BusinessServicePersistence> {
 		assertEquals(true, b1.equals(b2));
 
 	}
-
+//TODO implementare test per UPDATE 
 }
