@@ -46,6 +46,8 @@ public class MongoTest extends BaseOSGiServiceTest<BusinessServicePersistence> {
 		addServiceDependencies(MongoDBService.class, UUIDService.class);
 		super.setUp();
 		uuid = uuidservice.createUUID("app/business");
+		uuid1 = uuidservice.createUUID("app/business");
+
 		pars = new HashMap<String, Object>();
 		pars.put("businessName", "Montinari");
 		pars.put("codiceFiscale", "MNTNNL");
@@ -55,8 +57,7 @@ public class MongoTest extends BaseOSGiServiceTest<BusinessServicePersistence> {
 		categories.add("1");
 		categories.add("2");
 		pars.put("categories", categories);
-		uuid1 = uuidservice.createUUID("app/business");
-
+	
 		business = new Business();
 		business.setUuid(uuid);
 		business.setBusinessName("Montina");
@@ -65,7 +66,8 @@ public class MongoTest extends BaseOSGiServiceTest<BusinessServicePersistence> {
 		business.setMobile("3458834978");
 		business.setCategories(categories);
 
-		instance.addBusiness(pars);
+		Map <String,Object> create=instance.addBusiness(pars);
+		System.out.println("CREATO Business with UUID "+((Business) create.get("business")).getUuid());
 
 	}
 
@@ -173,12 +175,18 @@ public class MongoTest extends BaseOSGiServiceTest<BusinessServicePersistence> {
 
 	@Test
 	public void testUguali() {
-		Business b1 = instance.getBusinessByUuid(uuid1);
+		System.out.println("Confronto di " + uuid1);
+		Map<String, Object> pars = new HashMap<String, Object>();
+		pars.put("uuid", uuid1);
 
+		Map<String,Object> response =  instance.getBusiness(pars);
+        Business b1= (Business) response.get("business");
 		Business b2 = new Business();
 		b2.set_id(b1.get_id());
 		b2.setBusinessName(b1.getBusinessName());
 		b2.setCodiceFiscale(b1.getCodiceFiscale());
+		b2.setPIva(b1.getPIva());
+		b2.setUuid(b1.getUuid());
 		System.out.println(" uguali - True - " + b1.equals(b2));
 
 		assertEquals(true, b1.equals(b2));

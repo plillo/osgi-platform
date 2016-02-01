@@ -18,6 +18,48 @@ import net.vz.mongodb.jackson.ObjectId;
 
 public class Business implements Comparable<Business>{
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((businessName == null) ? 0 : businessName.hashCode());
+		result = prime * result + ((codiceFiscale == null) ? 0 : codiceFiscale.hashCode());
+		result = prime * result + ((pIva == null) ? 0 : pIva.hashCode());
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Business other = (Business) obj;
+		if (businessName == null) {
+			if (other.businessName != null)
+				return false;
+		} else if (!businessName.equals(other.businessName))
+			return false;
+		if (codiceFiscale == null) {
+			if (other.codiceFiscale != null)
+				return false;
+		} else if (!codiceFiscale.equals(other.codiceFiscale))
+			return false;
+		if (pIva == null) {
+			if (other.pIva != null)
+				return false;
+		} else if (!pIva.equals(other.pIva))
+			return false;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		return true;
+	}
 	@ObjectId @Id
 	private String _id;
 	private String uuid;
