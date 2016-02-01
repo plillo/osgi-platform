@@ -1,5 +1,5 @@
 package it.hash.osgi.business.persistence.mongo;
-
+ 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -93,15 +93,15 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		Map<String, Object> map = new TreeMap<String, Object>();
 
 		if (!StringUtils.isEmptyOrNull(business.get_id()))
-			map.put("businessId", business.get_id());
+			map.put("_id", business.get_id());
 		if (!StringUtils.isEmptyOrNull(business.getUuid()))
 			map.put("uuid", business.getUuid());
 		if (!StringUtils.isEmptyOrNull(business.getBusinessName()))
 			map.put("businessName", business.getBusinessName());
-		if (!StringUtils.isEmptyOrNull(business.getEmail()))
-			map.put("email", business.getEmail());
-		if (!StringUtils.isEmptyOrNull(business.getMobile()))
-			map.put("mobile", business.getMobile());
+		if (!StringUtils.isEmptyOrNull(business.getPIva()))
+			map.put("partitaIva", business.getPIva());
+		if (!StringUtils.isEmptyOrNull(business.getCodiceFiscale()))
+			map.put("codiceFiscale", business.getCodiceFiscale());
 
 		return getBusiness(map);
 	}
@@ -130,15 +130,15 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 				matchs.put(found_business, list);
 			}
 		}
-		if (business.containsKey("businessId") && business.get("businessId") != null) {
-			found_business = businessMap.findOne(DBQuery.is("_id", business.get("businessId")));
+		if (business.containsKey("_id") && business.get("_id") != null) {
+			found_business = businessMap.findOne(DBQuery.is("_id", business.get("_id")));
 
 			if (found_business != null) {
 				TreeSet<String> list = matchs.get(found_business);
 				if (list == null)
 					list = new TreeSet<String>();
 
-				list.add("businessId");
+				list.add("_id");
 				matchs.put(found_business, list);
 			}
 		}
@@ -155,25 +155,25 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 				matchs.put(found_business, list);
 			}
 		}
-		if (business.containsKey("email") && business.get("email") != null) {
-			found_business = businessMap.findOne(new BasicDBObject("email", business.get("email")));
+		if (business.containsKey("codiceFiscale") && business.get("codiceFiscale") != null) {
+			found_business = businessMap.findOne(new BasicDBObject("codiceFiscale", business.get("codiceFiscale")));
 			if (found_business != null) {
 				TreeSet<String> list = matchs.get(found_business);
 				if (list == null)
 					list = new TreeSet<String>();
 
-				list.add("email");
+				list.add("codiceFiscale");
 				matchs.put(found_business, list);
 			}
 		}
-		if (business.containsKey("mobile") && business.get("mobile") != null) {
-			found_business = businessMap.findOne(new BasicDBObject("mobile", business.get("mobile")));
+		if (business.containsKey("partitaIva") && business.get("partitaIva") != null) {
+			found_business = businessMap.findOne(new BasicDBObject("partitaIva", business.get("partitaIva")));
 			if (found_business != null) {
 				TreeSet<String> list = matchs.get(found_business);
 				if (list == null)
 					list = new TreeSet<String>();
 
-				list.add("mobile");
+				list.add("partitaIva");
 				matchs.put(found_business, list);
 			}
 		}
@@ -213,17 +213,18 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	}
 
 	@Override
-	public Business getBusinessByEmail(String email) {
-		return getBusinessByKey("email", email);
+	public Business getBusinessByCodiceFiscale(String codiceFiscale) {
+		return getBusinessByKey("codiceFiscale", codiceFiscale);
 	}
 
 	@Override
-	public Business getBusinessByMobile(String mobile) {
-		return getBusinessByKey("mobile", mobile);
+	public Business getBusinessByPartitaIva(String partitaIva) {
+		return getBusinessByKey("partitaIva", partitaIva);
 	}
 
 	@Override
 	public Business getBusinessByBusinessName(String businessName) {
+	
 		return getBusinessByKey("businessName", businessName);
 	}
 
@@ -393,14 +394,14 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			WriteResult<Business, Object> wr = businessMap.remove(Dbo);
 			if (wr.getN() == 1) {
 				responseDelete.put("business", business);
-				responseDelete.put("delete", "OK");
+				responseDelete.put("delete", true);
 				responseDelete.put("returnCode", 200);
 			} else {
-				responseDelete.put("delete", "ERROR");
+				responseDelete.put("delete", false);
 				responseDelete.put("returnCode", 620);
 			}
 		} else {
-			responseDelete.put("delete", "ERROR");
+			responseDelete.put("delete", false);
 			responseDelete.put("returnCode", 680);
 			
 		}

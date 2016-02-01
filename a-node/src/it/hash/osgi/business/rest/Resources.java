@@ -19,7 +19,6 @@ import javax.ws.rs.core.Response;
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.service.BusinessService;
 
-
 @Path("businesses/1.0")
 public class Resources {
 

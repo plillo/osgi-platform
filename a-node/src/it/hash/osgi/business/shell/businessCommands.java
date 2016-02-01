@@ -8,25 +8,33 @@ import java.util.Map;
 
 
 import it.hash.osgi.business.Business;
+import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
+
 import it.hash.osgi.business.service.BusinessService;
+
+
 
 
 public class businessCommands {
 	private volatile BusinessService _businessService;
-	
-
+	private volatile BusinessServicePersistence _bsi;
+public void getByCodiceFiscale(String codiceFiscale){
+	Business business=_bsi.getBusinessByCodiceFiscale(codiceFiscale);
+	System.out.println( "TROVATO : "+business.getCodiceFiscale());
+}
 	// businessname
 	// email,
 	// mobile
 	// Category
-	public void addBusiness(String businessname, String email, String mobile, String Category) {
+	public void addBusiness(String businessname, String codiceFiscale, String partitaIva, String Category) {
 		Business business = new Business();
 		business.setBusinessName(businessname);
-		business.setEmail(email);
-		business.setMobile(mobile);
+		business.setCodiceFiscale(codiceFiscale);;
+		business.setPIva(partitaIva);
 		List<String> categories = new ArrayList<String>();
 		categories.add(Category);
 		business.setCategories(categories);
+		
 		Map<String, Object> ret = _businessService.create(business);
 		business = null;
 		business = (Business) ret.get("business");

@@ -40,58 +40,73 @@ public class BusinessServiceImpl implements BusinessService, ManagedService {
 
 	@Override
 	public Map<String, Object> create(Business business) {
+		// TODO IMPLEMENTARE MEGLIO L 'INTEGRITà REFERENZIALE TRA LE DUE
+		// TABELLE!!!!
+		Map<String, Object> response = new HashMap<String, Object>();
 		String u = _uuid.createUUID("app/business");
 		if (!StringUtils.isNullOrEmpty(u)) {
 			business.setUuid(u);
-			return _businessPersistenceService.addBusiness(business);
+
+			response = _businessPersistenceService.addBusiness(business);
+			if ((Boolean) response.get("created") == false) 
+				_uuid.removeUUID(u);
+
 		} else {
-			Map<String, Object> response = new HashMap<String, Object>();
+
 			response.put("created", false);
 			response.put("returnCode", 630);
-			return response;
+
 		}
+		return response;
 	}
 
 	@Override
 	public Map<String, Object> create(Map<String, Object> pars) {
 		String u = _uuid.createUUID("app/business");
+		Map<String, Object> response = new HashMap<String, Object>();
+
 		if (!StringUtils.isNullOrEmpty(u)) {
-			pars.put("uuid", (_uuid.createUUID("app/business")));
-			return _businessPersistenceService.addBusiness(pars);
+			pars.put("uuid", u);
+			response = _businessPersistenceService.addBusiness(pars);
+
+			if ((Boolean) response.get("created") == false) 
+				_uuid.removeUUID(u);
+
+				// TODO INTEGRITA' REFERENZIALE
+
+			
 		} else {
-			Map<String, Object> response = new HashMap<String, Object>();
+
 			response.put("created", false);
 			response.put("returnCode", 630);
-			return response;
+
 		}
+		return response;
 	}
 
 	@Override
 	public Map<String, Object> deleteBusiness(Map<String, Object> pars) {
-		Map<String, Object> response = new HashMap<String,Object>();
-		
+		Map<String, Object> response = new HashMap<String, Object>();
+
 		String u = (String) pars.get("uuid");
 		if (!StringUtils.isNullOrEmpty(u)) {
-		
+
 			response = _uuid.removeUUID(u);
+
 			return _businessPersistenceService.deleteBusiness(pars);
-		}
-		else
-		{
+		} else {
 			response.put("created", false);
 			response.put("errorUUIDService", true);
 			response.put("returnCode", 630);
 			return response;
 		}
 
-	
-
 	}
 
 	@Override
 	public Map<String, Object> updateBusiness(Map<String, Object> pars) {
 
-		return _businessPersistenceService.updateBusiness( pars);
+		return _businessPersistenceService.updateBusiness(pars);
 	}
 
 	@Override

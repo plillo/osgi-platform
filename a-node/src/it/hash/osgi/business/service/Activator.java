@@ -1,5 +1,5 @@
 package it.hash.osgi.business.service;
-
+ 
 import java.util.Properties;
 
 import org.apache.felix.dm.DependencyActivatorBase;
@@ -25,7 +25,7 @@ public class Activator extends DependencyActivatorBase {
 				.add(createServiceDependency().setService(EventAdmin.class).setRequired(true))
 				.add(createServiceDependency().setService(UUIDService.class).setRequired(true))
 				);
-		System.out.println("AWS UUID service actived.");
+		System.out.println(" Business service actived.");
 	}
 
 	@Override

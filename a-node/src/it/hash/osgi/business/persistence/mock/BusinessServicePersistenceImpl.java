@@ -43,6 +43,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
     			 *  se vogliamo sostituire la lista delle Categorie
     			 *      categories- List
     			 */
+    	
     			Business business = new Business();
     			String attribute = null;
     			Map<String, Object> others = new TreeMap<String, Object>();
@@ -211,25 +212,25 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			}
 		}
 		
-		if(business.getEmail()!=null) {
-			found_business= getBusinessByEmail(business.getEmail());
+		if(business.getPIva()!=null) {
+			found_business= getBusinessByPartitaIva(business.getPIva());
 			if(found_business!=null){
 				TreeSet<String> list = matchs.get(found_business);
 				if(list==null)
 					list = new TreeSet<String>();
 				    
-				list.add("email");
+				list.add("partitaIva");
 				matchs.put(found_business, list);
 			}
 		}
-		if(business.getMobile()!=null) {
-			found_business= getBusinessByMobile(business.getMobile());
+		if(business.getCodiceFiscale()!=null) {
+			found_business= getBusinessByCodiceFiscale(business.getCodiceFiscale());
 			if(found_business!=null){
 				TreeSet<String> list = matchs.get(found_business);
 				if(list==null)
 					list = new TreeSet<String>();
 				    
-				list.add("mobile");
+				list.add("codiceFiscale");
 				matchs.put(found_business, list);
 			}
 		}
@@ -264,11 +265,11 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	}
 
 	@Override
-	public Business getBusinessByEmail(String email) {
-		if (!StringUtils.isEmptyOrNull(email)) {
+	public Business getBusinessByPartitaIva(String partitaIva) {
+		if (!StringUtils.isEmptyOrNull(partitaIva)) {
 			for (Iterator<Business> it = businesses.iterator(); it.hasNext();) {
 				Business business = it.next();
-				if (email.equals(business.getEmail()))
+				if (partitaIva.equals(business.getPIva()))
 					return business;
 			}
 		}
@@ -276,11 +277,11 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	}
 
 	@Override
-	public Business getBusinessByMobile(String mobile) {
-		if (!StringUtils.isEmptyOrNull(mobile)) {
+	public Business getBusinessByCodiceFiscale(String codiceFiscale) {
+		if (!StringUtils.isEmptyOrNull(codiceFiscale)) {
 			for (Iterator<Business> it = businesses.iterator(); it.hasNext();) {
 				Business business = it.next();
-				if (mobile.equals(business.getMobile()))
+				if (codiceFiscale.equals(business.getCodiceFiscale()))
 					return business;
 			}
 		}
