@@ -4,7 +4,7 @@ import org.apache.felix.dm.DependencyActivatorBase;
 import org.apache.felix.dm.DependencyManager;
 import org.osgi.framework.BundleContext;
 
-import it.hash.osgi.business.service.BusinessService;
+import it.hash.osgi.business.service.api.BusinessService;
 
 
 public class Activator extends DependencyActivatorBase {

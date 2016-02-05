@@ -1,3 +1,0 @@
-Bundle-Version: 1.0.0.${tstamp}
-Export-Package: it.hash.osgi.uuid.api
-Private-Package: it.hash.osgi.uuid.api

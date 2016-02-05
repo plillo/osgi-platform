@@ -17,7 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import it.hash.osgi.business.Business;
-import it.hash.osgi.business.service.BusinessService;
+import it.hash.osgi.business.service.api.BusinessService;
 
 @Path("businesses/1.0")
 public class Resources {

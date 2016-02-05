@@ -1,0 +1,122 @@
+
+<testsuite name='test.a_node_UUIDService_Test' tests='10' time='0.312' failures='0' skipped='0' target='file:/C:/Users/Antonella/git/osgi-platform/a_node_UUIDService_Test/generated/a_node_UUIDService_Test.jar' timestamp='2016-01-31T11:21:02' hostname='Anto' framework='org.apache.felix.framework [0]' errors='0' framework-version='4.4.1'>
+  <properties>
+    <property name='launch.activators' value=''/>
+    <property name='java.runtime.name' value='Java(TM) SE Runtime Environment'/>
+    <property name='launch.embedded' value='false'/>
+    <property name='sun.boot.library.path' value='C:\Program Files\Java\jre7\bin'/>
+    <property name='java.vm.version' value='24.60-b09'/>
+    <property name='java.vm.vendor' value='Oracle Corporation'/>
+    <property name='java.vendor.url' value='http://java.oracle.com/'/>
+    <property name='path.separator' value=';'/>
+    <property name='java.vm.name' value='Java HotSpot(TM) 64-Bit Server VM'/>
+    <property name='file.encoding.pkg' value='sun.io'/>
+    <property name='launch.timeout' value='0'/>
+    <property name='user.country' value='IT'/>
+    <property name='user.script' value=''/>
+    <property name='sun.java.launcher' value='SUN_STANDARD'/>
+    <property name='sun.os.patch.level' value=''/>
+    <property name='launch.keep' value='false'/>
+    <property name='java.vm.specification.name' value='Java Virtual Machine Specification'/>
+    <property name='user.dir' value='C:\Users\Antonella\git\osgi-platform\a_node_UUIDService_Test'/>
+    <property name='launch.bundles' value='C:\Users\Antonella\git\osgi-platform\a-node\generated\a-node.resource.uuid.api.jar,C:\Users\Antonella\git\osgi-platform\a-node\generated\a-node.resource.uuid.mongo.jar,C:\Users\Antonella\.bnd\cache\https%3A%2F%2Fraw.githubusercontent.com%2Fbndtools%2Fbundle-hub%2Fmaster%2Fbiz.aQute.junit\biz.aQute.junit-3.0.0.jar,C:\Users\Antonella\.bnd\cache\http%3A%2F%2Frepository.amdatu.org%2Fsnapshot%2Forg.amdatu.bndtools.test\org.amdatu.bndtools.test-1.1.0.jar,C:\Users\Antonella\.bnd\cache\http%3A%2F%2Frepository.amdatu.org%2Frelease%2Forg.amdatu.mongo\org.amdatu.mongo-1.1.2.jar,C:\Users\Antonella\.bnd\cache\https%3A%2F%2Fraw.githubusercontent.com%2Fbndtools%2Fbundle-hub%2Fmaster%2Forg.apache.felix.configadmin\org.apache.felix.configadmin-1.8.8.jar,C:\Users\Antonella\.bnd\cache\http%3A%2F%2Frepository.amdatu.org%2Fdependencies%2Forg.apache.felix.dependencymanager\org.apache.felix.dependencymanager-3.1.0.jar,C:\Users\Antonella\.bnd\cache\http%3A%2F%2Frepository.amdatu.org%2Fdependencies%2Forg.apache.felix.dependencymanager\org.apache.felix.dependencymanager-4.1.0.jar,C:\Users\Antonella\.bnd\cache\http%3A%2F%2Frepository.amdatu.org%2Fdependencies%2Forg.apache.felix.log\org.apache.felix.log-1.0.1.jar,C:\Users\Antonella\.bnd\cache\https%3A%2F%2Fraw.githubusercontent.com%2Fbndtools%2Fbundle-hub%2Fmaster%2Forg.apache.felix.metatype\org.apache.felix.metatype-1.1.2.jar,C:\Users\Antonella\.bnd\cache\http%3A%2F%2Frepository.amdatu.org%2Fdependencies%2Forg.mongodb.mongo-java-driver\org.mongodb.mongo-java-driver-2.13.3.jar,C:\Users\Antonella\git\osgi-platform\a_node_UUIDService_Test\generated\a_node_UUIDService_Test.jar'/>
+    <property name='java.runtime.version' value='1.7.0_60-b19'/>
+    <property name='java.awt.graphicsenv' value='sun.awt.Win32GraphicsEnvironment'/>
+    <property name='java.endorsed.dirs' value='C:\Program Files\Java\jre7\lib\endorsed'/>
+    <property name='os.arch' value='amd64'/>
+    <property name='java.io.tmpdir' value='C:\Users\ANTONE~1\AppData\Local\Temp\'/>
+    <property name='line.separator' value='
+'/>
+    <property name='java.vm.specification.vendor' value='Oracle Corporation'/>
+    <property name='user.variant' value=''/>
+    <property name='os.name' value='Windows 8.1'/>
+    <property name='launch.name' value='a_node_UUIDService_Test'/>
+    <property name='sun.jnu.encoding' value='Cp1252'/>
+    <property name='java.library.path' value='C:\Program Files\Java\jre7\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jre1.8.0_25/bin/server;C:/Program Files/Java/jre1.8.0_25/bin;C:/Program Files/Java/jre1.8.0_25/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Skype\Phone\;C:\Eclipse\eclipse-jee-mars-R-win32-x86_64\eclipse;;.'/>
+    <property name='launcher.properties' value='C:\Users\Antonella\git\osgi-platform\a_node_UUIDService_Test\generated\launch5914348088993322478.properties'/>
+    <property name='java.specification.name' value='Java Platform API Specification'/>
+    <property name='java.class.version' value='51.0'/>
+    <property name='launch.storage.dir' value='C:\Users\Antonella\git\osgi-platform\a_node_UUIDService_Test\generated\fw'/>
+    <property name='sun.management.compiler' value='HotSpot 64-Bit Tiered Compilers'/>
+    <property name='os.version' value='6.3'/>
+    <property name='user.home' value='C:\Users\Antonella'/>
+    <property name='user.timezone' value='Europe/Berlin'/>
+    <property name='java.awt.printerjob' value='sun.awt.windows.WPrinterJob'/>
+    <property name='file.encoding' value='Cp1252'/>
+    <property name='java.specification.version' value='1.7'/>
+    <property name='java.class.path' value='C:\Users\Antonella\.bnd\cache\https%3A%2F%2Fraw.githubusercontent.com%2Fbndtools%2Fbundle-hub%2Fmaster%2Forg.apache.felix.framework\org.apache.felix.framework-4.4.1.jar;C:\Users\Antonella\git\osgi-platform\cnf\cache\biz.aQute.launcher\biz.aQute.launcher-latest.jar'/>
+    <property name='user.name' value='Antonella'/>
+    <property name='java.vm.specification.version' value='1.7'/>
+    <property name='sun.java.command' value='aQute.launcher.Launcher'/>
+    <property name='java.home' value='C:\Program Files\Java\jre7'/>
+    <property name='sun.arch.data.model' value='64'/>
+    <property name='user.language' value='it'/>
+    <property name='java.specification.vendor' value='Oracle Corporation'/>
+    <property name='awt.toolkit' value='sun.awt.windows.WToolkit'/>
+    <property name='java.vm.info' value='mixed mode'/>
+    <property name='launch.services' value='true'/>
+    <property name='launch.noreferences' value='false'/>
+    <property name='java.version' value='1.7.0_60'/>
+    <property name='launch.notificationPort' value='56291'/>
+    <property name='java.ext.dirs' value='C:\Program Files\Java\jre7\lib\ext;C:\WINDOWS\Sun\Java\lib\ext'/>
+    <property name='sun.boot.class.path' value='C:\Program Files\Java\jre7\lib\resources.jar;C:\Program Files\Java\jre7\lib\rt.jar;C:\Program Files\Java\jre7\lib\sunrsasign.jar;C:\Program Files\Java\jre7\lib\jsse.jar;C:\Program Files\Java\jre7\lib\jce.jar;C:\Program Files\Java\jre7\lib\charsets.jar;C:\Program Files\Java\jre7\lib\jfr.jar;C:\Program Files\Java\jre7\classes'/>
+    <property name='java.vendor' value='Oracle Corporation'/>
+    <property name='file.separator' value='\'/>
+    <property name='java.vendor.url.bug' value='http://bugreport.sun.com/bugreport/'/>
+    <property name='sun.io.unicode.encoding' value='UnicodeLittle'/>
+    <property name='sun.cpu.endian' value='little'/>
+    <property name='launch.trace' value='false'/>
+    <property name='launch.system.packages' value='sun.reflect,org.osgi.framework;version="1.7",org.osgi.framework.hooks.bundle;version="1.1";uses:="org.osgi.framework",org.osgi.framework.hooks.resolver;version="1.0";uses:="org.osgi.framework.wiring",org.osgi.framework.hooks.service;version="1.1";uses:="org.osgi.framework",org.osgi.framework.hooks.weaving;version="1.0";uses:="org.osgi.framework.wiring",org.osgi.framework.launch;version="1.1";uses:="org.osgi.framework",org.osgi.framework.namespace;version="1.0";uses:="org.osgi.resource",org.osgi.framework.startlevel;version="1.0";uses:="org.osgi.framework",org.osgi.framework.wiring;version="1.1";uses:="org.osgi.framework,org.osgi.resource",org.osgi.resource;version="1.0",org.osgi.service.packageadmin;version="1.2";uses:="org.osgi.framework",org.osgi.service.startlevel;version="1.1";uses:="org.osgi.framework",org.osgi.service.url;version="1.0",org.osgi.util.tracker;version="1.5.1";uses:="org.osgi.framework"'/>
+    <property name='sun.desktop' value='windows'/>
+    <property name='sun.cpu.isalist' value='amd64'/>
+  </properties>
+  <testcase name='testFind' time='0.210' classname='a_node_UUIDService_Test.MongoTest'>
+    <system-out>
+      e91a0fb8-f57c-4d68-ad6a-3e13442cbb70
+TestFind: true - false
+      
+Remove: e91a0fb8-f57c-4d68-ad6a-3e13442cbb70
+    </system-out>
+  </testcase>
+  <testcase name='testRemoveUUID' time='0.13' classname='a_node_UUIDService_Test.MongoTest'>
+    <system-out>
+      aab49f81-56a0-45b7-a2a8-5463dc2e1008
+Cancellato  { "_id" :
+       { "$oid" : "56ade00ef0552bd99f76320e"} , "uuid" : "aab49f81-56a0-45b7-a2a8-5463dc2e1008"
+       , "type" : "app/business"}
+notNull - { "_id" : { "$oid" :
+       "56ade00ef0552bd99f76320e"} , "uuid" : "aab49f81-56a0-45b7-a2a8-5463dc2e1008"
+       , "type" : "app/business"}
+Remove: aab49f81-56a0-45b7-a2a8-5463dc2e1008
+    </system-out>
+  </testcase>
+  <testcase name='testCreateUUID' time='0.14' classname='a_node_UUIDService_Test.MongoTest'>
+    <system-out>
+      1d73847d-6b0f-4465-829f-c4723eab04f1
+TestCreateUUID  e551c9fa-5627-4af2-8c73-c3a8cf034355
+      
+false - false
+Remove: 1d73847d-6b0f-4465-829f-c4723eab04f1
+      
+Remove: e551c9fa-5627-4af2-8c73-c3a8cf034355
+    </system-out>
+  </testcase>
+  <testcase name='testGetTypeUUID' time='0.14' classname='a_node_UUIDService_Test.MongoTest'>
+    <system-out>
+      b49cab38-0f2d-46f2-b863-706009adbb5d
+TestGetTypeUUIDUUID 
+       app/business
+app/business - app/business
+Remove: b49cab38-0f2d-46f2-b863-706009adbb5d
+    </system-out>
+  </testcase>
+  <testcase name='testListType' time='0.32' classname='a_node_UUIDService_Test.MongoTest'>
+    <system-out>
+      b2cd7050-44a0-4451-a1d9-a56021d4500d
+TestListType app/business
+      
+false - false
+Remove: b2cd7050-44a0-4451-a1d9-a56021d4500d
+    </system-out>
+  </testcase>
+</testsuite>

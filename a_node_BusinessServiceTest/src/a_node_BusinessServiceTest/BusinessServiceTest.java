@@ -1,10 +1,10 @@
-package a_node_BusinessTest;
+package a_node_BusinessServiceTest;
+
+import junit.framework.TestCase;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -14,16 +14,14 @@ import java.util.concurrent.TimeUnit;
 import org.amdatu.mongo.MongoDBService;
 import org.apache.felix.dm.Component;
 import org.apache.felix.dm.DependencyManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.Constants;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.event.EventAdmin;
@@ -31,227 +29,65 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
-import it.hash.osgi.business.service.BusinessServiceImpl;
 import it.hash.osgi.business.service.api.BusinessService;
 import it.hash.osgi.resource.uuid.api.UUIDService;
-import junit.framework.TestCase;
 
-import org.amdatu.bndtools.test.BaseOSGiServiceTest;
+public class BusinessServiceTest extends TestCase {
 
-@SuppressWarnings("restriction")
-public  class MongoTest extends TestCase {
-//public class MongoTest extends BaseOSGiServiceTest<BusinessServicePersistence> {
-	private volatile UUIDService uuidservice;
-	
-	 protected final BundleContext context;
-	    protected DependencyManager dependencyManager;
-	    protected volatile  BusinessServicePersistence instance;
-	    protected final Class<BusinessServicePersistence> clazz;
+	 protected DependencyManager dependencyManager;
+	    protected volatile BusinessService instance;
+	    
+	    protected final Class<BusinessService> clazz;
 	    private List<Configuration> m_currentConfigurations = new ArrayList<Configuration>();
 	    protected volatile ConfigurationAdmin configurationAdmin;
 	    private CountDownLatch countDownLatch;
 	    private List<Class<?>> serviceDependencies = new ArrayList<Class<?>>();
 	   
-	
-	
-	Map<String, Object> pars;
-	String uuid;
-	String uuid1;
-	Business business;
+    private final BundleContext context;//= FrameworkUtil.getBundle(this.getClass()).getBundleContext();
 
-	public MongoTest() {
-		 this.clazz =BusinessServicePersistence.class ;
-	        context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
-
-	}
-
-	@Override
-	public void setUp() throws Exception {
-		List<String> categories = new ArrayList<String>();
-		Properties mongoProperties = new Properties();
+    
+    public BusinessServiceTest(){
+    	context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
+    	this.clazz= BusinessService.class;
+    	
+    }
+  
+    public void setUp() throws Exception {
+        dependencyManager = new DependencyManager(context);
+    	Properties mongoProperties = new Properties();
 		mongoProperties.put("dbName", "demo");
-		configureFactory("org.amdatu.mongo", mongoProperties);
-		addServiceDependencies( UUIDService.class);
-		
-		  dependencyManager = new DependencyManager(context);
+		String s=	configureFactory("org.amdatu.mongo", mongoProperties);
+		 System.out.println(s);
 
-	        countDownLatch = new CountDownLatch(serviceDependencies.size() + 1);
+		addServiceDependencies(MongoDBService.class, UUIDService.class,BusinessService.class,Business.class);
 
-	        Component component =
-	            dependencyManager
-	                .createComponent()
-	                .setImplementation(this)
-	                .add(
-	                    dependencyManager.createServiceDependency().setService(clazz).setRequired(true)
-	                        .setAutoConfig("instance").setCallbacks("serviceInjected", "serviceRemoved"));
+        countDownLatch = new CountDownLatch(serviceDependencies.size() + 1);
 
-	        for (Class<?> serviceClass : serviceDependencies) {
-	            component.add(dependencyManager.createServiceDependency().setService(serviceClass).setRequired(true)
-	                .setAutoConfig(true).setCallbacks("serviceInjected", "serviceRemoved"));
-	        }
+        Component component =
+                dependencyManager
+                    .createComponent()
+                    .setImplementation(this)
+                    .add(
+                        dependencyManager.createServiceDependency().setService(clazz).setRequired(true)
+                            .setAutoConfig("instance").setCallbacks("serviceInjected", "serviceRemoved"));
 
-	        dependencyManager.add(component);
+            for (Class<?> serviceClass : serviceDependencies) {
+                component.add(dependencyManager.createServiceDependency().setService(serviceClass).setRequired(true)
+                    .setAutoConfig(true).setCallbacks("serviceInjected", "serviceRemoved"));
+            }
 
-	        boolean created = countDownLatch.await(10, TimeUnit.SECONDS);
-	        if (!created) {
-	            fail("Service instance could not be injected");
-	        }
-
-		
-		
-	//	addServiceDependencies(MongoDBService.class, UUIDService.class);
-	//	super.setUp();
-		uuid = uuidservice.createUUID("app/business");
-		uuid1 = uuidservice.createUUID("app/business");
-
-		pars = new HashMap<String, Object>();
-		pars.put("businessName", "Montinari");
-		pars.put("codiceFiscale", "MNTNNL");
-		pars.put("email", "montinari");
-		pars.put("mobile", "34588");
-		pars.put("uuid", uuid1);
-		pars.put("Attributo","Nuovo");
-		categories.add("1");
-		categories.add("2");
-		pars.put("categories", categories);
-	
-		business = new Business();
-		business.setUuid(uuid);
-		business.setBusinessName("Montina");
-		business.setCodiceFiscale("MNT");
-		business.setEmail("montina");
-		business.setMobile("3458834978");
-		business.setCategories(categories);
-
-		Map <String,Object> create=instance.addBusiness(pars);
-		System.out.println("CREATO Business with UUID "+((Business) create.get("business")).getUuid());
-
-	}
-
-	public void tearDown() {
-		// TODO implementare il metodo per vedere se due business s
-
-		uuidservice.removeUUID(uuid);
-		uuidservice.removeUUID(uuid1);
-		Map<String, Object> pars = new HashMap<String, Object>();
-		List<Business> list = instance.getBusinesses();
-		if (!list.isEmpty()) {
-			for (int i = 0; i < list.size(); i++) {
-				Business b = list.get(i);
-				pars.put("businessName", b.getBusinessName());
-				pars.put("codiceFiscale", b.getCodiceFiscale());
-				pars.put("email", b.getEmail());
-				pars.put("mobile", b.getMobile());
-
-				instance.deleteBusiness(pars);
-			}
-		}
-
-	}
-
-	@Test
-	public void testAddBusiness() { // business non esistente
-		System.out.println(" TEST ADD BUSINESS - NON ESISTENTE");
-
-		Map<String, Object> createBusiness = instance.addBusiness(business);
-		System.out.println("true - " + createBusiness.get("created"));
-		System.out.println("TestAddBusiness - not null - " + createBusiness.get("business"));
-		assertEquals(true, createBusiness.get("created"));
-		assertNotNull(createBusiness.get("business"));
-
-		System.out.println("");
-
-	}
-
-	@Test
-	public void testFindBusiness() {
-		System.out.println(" TESTFINDBUSINESS -");
-
-		Map<String, Object> response = instance.addBusiness(business);
-		String businessCodiceFiscale = business.getCodiceFiscale();
-		Map<String,Object> find = instance.getBusiness(business);
-		System.out.println(" BusinessName notNull - " + find.get("business"));
-
-		assertNotNull("è stato trovato", find.get("business"));
-
-		System.out.println(
-				" TESTFINDBUSINESS - CodiceFiscale" + ((Business) response.get("business")).getCodiceFiscale());
-		Business findBusiness = instance.getBusinessByCodiceFiscale(businessCodiceFiscale);
-		System.out.println("codiceFiscale notNull - " + findBusiness);
-		assertNotNull("è stato trovato", findBusiness);
-
-		/*
-		 * findBusiness = instance.getBusinessByUuid(business.getUuid());
-		 * System.out.println(" UUID notNull - " + findBusiness); assertNotNull(
-		 * "è stato trovato", findBusiness);
-		 * 
-		 * 
-		 */
-
-	}
-
-	@Test
-	public void testAddBusinessMap() {
-
-		// business già esistente System.out.println(" testAddBusinessMap()");
-		Map<String, Object> createBusiness = instance.addBusiness(pars);
-		System.out.println(" Business created - false " + createBusiness.get("created") + " già esiste!!!");
-
-		assertEquals("business  created", false, createBusiness.get("created"));
-
-	}
-
-	@Test
-	public void testDeleteBusiness() {
-		Map<String, Object> pars = new HashMap<String, Object>();
-		String u = uuidservice.createUUID("app/business");
-		System.out.println("testDeleteBusiness\n \n");
-		pars.put("businessName", "Carluccio");
-		pars.put("codiceFiscale", "CRLMTT");
-		pars.put("email", "carluccio");
-		pars.put("mobile", "327013");
-		pars.put("uuid", u);
-
-		Map<String, Object> deleteBusiness = instance.addBusiness(pars);
-
-		Map<String, Object> findBusiness = instance.getBusiness(pars);
-		Business findB = (Business) findBusiness.get("business");
-
-		Map<String, Object> pars1 = new HashMap<String, Object>();
-		pars1.put("uuid", findB.getUuid());
-
-		deleteBusiness = instance.deleteBusiness(pars1);
-		assertEquals(true, deleteBusiness.get("delete"));
-		System.out.println(" DeletedBusiness - notNull - " + deleteBusiness.get("business"));
-
-		assertNotNull(deleteBusiness.get("business"));
-		uuidservice.removeUUID(u);
-
-	}
-
-	@Test
-	public void testUguali() {
-		System.out.println("Confronto di " + uuid1);
-		Map<String, Object> pars = new HashMap<String, Object>();
-		pars.put("uuid", uuid1);
-
-		Map<String,Object> response =  instance.getBusiness(pars);
-        Business b1= (Business) response.get("business");
-		Business b2 = new Business();
-		b2.set_id(b1.get_id());
-		b2.setBusinessName(b1.getBusinessName());
-		b2.setCodiceFiscale(b1.getCodiceFiscale());
-		b2.setPIva(b1.getPIva());
-		b2.setUuid(b1.getUuid());
-		System.out.println(" uguali - True - " + b1.equals(b2));
-
-		assertEquals(true, b1.equals(b2));
-
-	}
-//TODO implementare test per UPDATE 
-	
-	
-	public void stopBundle(String bundleSymbolicName) {
+        dependencyManager.add(component);
+      
+        
+        
+        //   startBundle("business.service");
+        boolean created = countDownLatch.await(10, TimeUnit.SECONDS);
+        if (!created) {
+            fail("Service instance could not be injected");
+        }
+    }
+    
+    public void stopBundle(String bundleSymbolicName) {
         for (Bundle bundle : context.getBundles()) {
             if (bundle.getSymbolicName().equals(bundleSymbolicName)) {
                 try {
@@ -267,9 +103,11 @@ public  class MongoTest extends TestCase {
     
     public void startBundle(String bundleSymbolicName) {
         for (Bundle bundle : context.getBundles()) {
+        	System.out.println(bundle.getSymbolicName());
             if (bundle.getSymbolicName().equals(bundleSymbolicName)) {
                 try {
                     bundle.start();
+           
                 }
                 catch (BundleException e) {
                     throw new RuntimeException(e);
@@ -441,4 +279,18 @@ public  class MongoTest extends TestCase {
         }
     }
 
+
+    @SuppressWarnings("restriction")
+	public void testExample() throws Exception {
+        // TODO: method provided by template
+    	Business business=new Business();
+    	business.setBusinessName("Montina");
+		business.setCodiceFiscale("MNT");
+		business.setEmail("montina");
+		business.setMobile("3458834978");
+
+    	Map <String,Object> response =instance.create(business);
+    	System.out.println(" Creato - " +response.get("business"));
+    
+    }
 }
