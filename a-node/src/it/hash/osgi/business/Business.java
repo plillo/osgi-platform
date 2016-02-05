@@ -13,7 +13,9 @@ import net.vz.mongodb.jackson.ObjectId;
 
 /**
  * Pojo attività Commerciale
+ * 
  * @author Montinari Antonella
+ * 
  */
 
 public class Business implements Comparable<Business>{
@@ -22,8 +24,11 @@ public class Business implements Comparable<Business>{
 	@ObjectId @Id
 	private String _id;
 	private String uuid;
+	// Campo Obbligatorio
 	private String businessName;
+	// Campo obbligatorio
 	private String pIva;
+	// Campo obbligatorio
 	private String codiceFiscale;
 	private String address;
 	private String city;
