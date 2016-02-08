@@ -22,6 +22,6 @@ public interface CategoryService {
 	Map<String, Object> createAttribute(String ctgUuid, Attribute attribute);
 	Map<String, Object> updateAttribute(String ctgUuid, Attribute attribute);
 	Map<String, Object> deleteAttribute(String ctgUuid, String attrUuid);
-	boolean createCollection(String url,String nameFile) ;
+	boolean createCollectionByCsv(String url,String nameFile) ;
 	
 }

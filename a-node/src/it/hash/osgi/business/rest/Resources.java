@@ -84,9 +84,9 @@ public class Resources {
 		Map<String, Object> response = _businessService.create(business);
 		// associo il business al user!!!!!
 
-		// String userUUID = _userService.getUUID();
-		// User user = (User) _userService.getUserByUuid(userUUID);
-		// addBusinessToUser(business,user);
+		 String userUUID = _userService.getUUID();
+		 User user = (User) _userService.getUserByUuid(userUUID);
+		 _userService.updateUser(addBusinessToUser(business,user));
 		System.out.println("Add " + business.get_id() + "returnCode " + response.get("returnCode"));
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	}
@@ -226,21 +226,25 @@ public class Resources {
 		return response;
 	}
 
-	private boolean addBusinessToUser(Business business, User user) {
+	private Map <String,Object> addBusinessToUser(Business business, User user) {
+    Map <String,Object> update = new HashMap<String,Object>();
+    
 
-		boolean add = false;
 		if (!user.getExtra().containsKey("business")) {
 			List<String> bs = new ArrayList();
 			bs.add(business.getUuid());
 			user.setExtra("business", bs);
-			add = true;
+	
 		} else {
 			List<String> bs = (List<String>) user.getExtra("business");
 			bs.add(business.getUuid());
 			user.setExtra("business", bs);
-			add = true;
+	
 		}
-		return add;
+		
+		update.put("user", user);
+	return update;
+	
 	}
 
 

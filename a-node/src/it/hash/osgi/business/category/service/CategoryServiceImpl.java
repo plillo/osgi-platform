@@ -99,52 +99,53 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public boolean createCollection(String url, String fileName) {
-		String outputString = null;
+	public boolean createCollectionByCsv(String url, String fileName) {
+		URL path = null;
+		fileName=url+"\\"+fileName;
 		boolean response = true;
-		String line;
-	
-		if (url.equals(null)) {
-// vuol dire che il file è in locale
+		try {
+			path = new URL(fileName);
+			URLConnection urlConn = path.openConnection();
+
+			String outputString = null;
+			
+			String line;
+
 			outputString = "";
+			BufferedReader readerFile = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
 
-			BufferedReader readerFile;
-			try {
-				readerFile = new BufferedReader(new FileReader(fileName));
+			/*
+			 * BufferedReader readerFile; try { readerFile = new
+			 * BufferedReader(new FileReader(fileName));
+			 */
+			Map<String, Object> createC;
 
-				Map<String, Object> createC;
+			String[] doc;
 
-				String[] doc;
+			line = readerFile.readLine();
 
-				try {
-					line = readerFile.readLine();
+			while (line != null) {
 
-					while (line != null) {
+				doc = line.split(";");
+				Category cat = new Category();
+				cat.setCode(doc[0]);
+				cat.setName(doc[1]);
+				createC = createCategory(cat);
+				// basta che una non vada a buon fine ....si dovrebbe
+				// considerare tutta la transazione fallita
+				if (createC.get("created").equals(false))
+					response = false;
+				line = readerFile.readLine();
 
-						doc = line.split(";");
-						Category cat = new Category();
-						cat.setCode(doc[0]);
-						cat.setName(doc[1]);
-						createC = createCategory(cat);
-						// basta che una non vada a buon fine ....si dovrebbe
-						// considerare tutta la transazione fallita
-						if (createC.get("created").equals(false))
-							response = false;
-						line = readerFile.readLine();
-
-					}
-					readerFile.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-
-		}
+			readerFile.close();
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 
 		return response;
 	}
