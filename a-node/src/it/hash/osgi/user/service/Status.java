@@ -40,7 +40,7 @@ public enum Status {
 
 	public String getMessage() {
 		ResourceBundle labels = ResourceBundle.getBundle("it.hash.osgi.user.service.codes");
-		String message = labels.getString(this.messageKey);
+		String message = labels.getString(this.messageKey); 
 		
 		return message;
 	}

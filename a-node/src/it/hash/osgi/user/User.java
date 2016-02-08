@@ -1,5 +1,6 @@
 package it.hash.osgi.user;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import net.vz.mongodb.jackson.Id;
@@ -221,6 +222,10 @@ public class User implements Comparable<User>{
 	}
 	
 	public void setExtra(String key, Object value){
+		if (getExtra()==null){
+			Map<String,Object> extra= new HashMap<String,Object>();
+			this.setExtra(extra);
+		}
 		getExtra().put(key, value);
 	}
 	

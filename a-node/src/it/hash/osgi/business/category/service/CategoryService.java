@@ -1,5 +1,6 @@
 package it.hash.osgi.business.category.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -21,4 +22,6 @@ public interface CategoryService {
 	Map<String, Object> createAttribute(String ctgUuid, Attribute attribute);
 	Map<String, Object> updateAttribute(String ctgUuid, Attribute attribute);
 	Map<String, Object> deleteAttribute(String ctgUuid, String attrUuid);
+	boolean createCollection(String url,String nameFile) ;
+	
 }

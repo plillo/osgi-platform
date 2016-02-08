@@ -5,6 +5,7 @@
  */
 package it.hash.osgi.business;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -146,6 +147,8 @@ public class Business implements Comparable<Business>{
 		this.categories = categories;
 	}
     public boolean addCategory (String category){
+    	if (this.getCategories()==null)
+    		categories= new ArrayList<String>();
     	return this.categories.add(category);
     }
     public boolean removeCategory(String category){
