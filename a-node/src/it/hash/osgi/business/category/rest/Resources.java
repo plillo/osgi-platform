@@ -1,5 +1,24 @@
 package it.hash.osgi.business.category.rest;
 
-public class Resources {
+import java.util.Map;
+import java.util.TreeMap;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import it.hash.osgi.business.category.service.CategoryService;
+
+@Path("businesses/1.0/categories/")
+public class Resources {
+	
+	private volatile CategoryService _categoryService;
+       
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response list() {
+   	    return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_categoryService.retrieveCategories("")).build();
+	}
 }

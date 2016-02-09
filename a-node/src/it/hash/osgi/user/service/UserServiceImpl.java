@@ -55,6 +55,14 @@ public class UserServiceImpl implements UserService, ManagedService{
 				// CHECK password
 				matched = _passwordService.check(password, user.getSalted_hash_password());
 				
+				if(!matched){
+					// PUT status UNAUTHORIZED_ACCESS
+					response.put("status", Status.ERROR_UNAUTHORIZED_ACCESS.getCode());
+					response.put("message", Status.ERROR_UNAUTHORIZED_ACCESS.getMessage());
+					
+					return response;
+				}
+				
 				// GET ROLES
 				// TODO: get user's roles from system
 				// ==================================

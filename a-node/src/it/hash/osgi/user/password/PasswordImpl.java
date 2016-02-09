@@ -25,7 +25,10 @@ public class PasswordImpl implements Password {
     
 	@Override
     public boolean check(String password, String stored) throws Exception{
-        String[] saltAndPass = stored.split("\\$");
+		if(password==null || stored==null)
+			return false;
+		
+		String[] saltAndPass = stored.split("\\$");
         if (saltAndPass.length != 2) {
             throw new IllegalStateException(
                 "The stored password have the form 'salt$hash'");
