@@ -94,7 +94,7 @@ public class UUIDServiceImpl implements UUIDService, ManagedService {
 			response.put("deleted", false);
 			response.put("returnCode",680);
 		}
-		return null;
+		return response;
 	}
 
 	@Override

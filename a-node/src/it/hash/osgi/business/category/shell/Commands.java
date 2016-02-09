@@ -9,7 +9,13 @@ import it.hash.osgi.user.attribute.Attribute;
 
 public class Commands {
 	private volatile CategoryService _category;
-	
+	public void createCollectionbyCsv(String url, String fileName){
+
+//	String fileName="file:\\C|\\Users\\Antonella\\git\\osgi-platform\\a-node\\src\\it\\hash\\osgi\\business\\category\\service\\categories.csv";
+		System.out.println(" Collection created: "+_category.createCollectionByCsv(url,fileName));
+		
+		
+	}
 	public void addCategory(String name, String code, String description, String longDescription) {
 		Category category = new Category();
 		category.setName(name);

@@ -5,7 +5,7 @@
  */
 package it.hash.osgi.business;
 
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,16 +14,22 @@ import net.vz.mongodb.jackson.ObjectId;
 
 /**
  * Pojo attività Commerciale
+ * 
  * @author Montinari Antonella
+ * 
  */
 
 public class Business implements Comparable<Business>{
 
+	
 	@ObjectId @Id
 	private String _id;
 	private String uuid;
+	// Campo Obbligatorio
 	private String businessName;
+	// Campo obbligatorio
 	private String pIva;
+	// Campo obbligatorio
 	private String codiceFiscale;
 	private String address;
 	private String city;
@@ -141,6 +147,8 @@ public class Business implements Comparable<Business>{
 		this.categories = categories;
 	}
     public boolean addCategory (String category){
+    	if (this.getCategories()==null)
+    		categories= new ArrayList<String>();
     	return this.categories.add(category);
     }
     public boolean removeCategory(String category){
@@ -319,5 +327,46 @@ public class Business implements Comparable<Business>{
 	public int compareTo(Business obj) {
 		   return this._id.compareTo(obj.get_id());
 			}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((businessName == null) ? 0 : businessName.hashCode());
+		result = prime * result + ((codiceFiscale == null) ? 0 : codiceFiscale.hashCode());
+		result = prime * result + ((pIva == null) ? 0 : pIva.hashCode());
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		return result;
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Business other = (Business) obj;
+		if (businessName == null) {
+			if (other.businessName != null)
+				return false;
+		} else if (!businessName.equals(other.businessName))
+			return false;
+		if (codiceFiscale == null) {
+			if (other.codiceFiscale != null)
+				return false;
+		} else if (!codiceFiscale.equals(other.codiceFiscale))
+			return false;
+		if (pIva == null) {
+			if (other.pIva != null)
+				return false;
+		} else if (!pIva.equals(other.pIva))
+			return false;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		return true;
+	}
 }

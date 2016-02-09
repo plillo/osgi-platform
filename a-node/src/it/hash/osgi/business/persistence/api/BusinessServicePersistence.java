@@ -3,6 +3,7 @@
  * @author Montinari Antonella
  */
 package it.hash.osgi.business.persistence.api;
+
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +25,8 @@ public interface BusinessServicePersistence {
 	Map<String, Object> getBusiness(Business business);
 	Map<String, Object> getBusiness(Map<String, Object> business);
 	
-	Business getBusinessByEmail(String email);
-	Business getBusinessByMobile(String mobile);
+	Business getBusinessByCodiceFiscale(String codiceFiscale);
+	Business getBusinessByPartitaIva(String partitaIva);
 	Business getBusinessByBusinessName(String businessName);
 	Business getBusinessById(String businessId);
 	Business getBusinessByUuid(String uuid);

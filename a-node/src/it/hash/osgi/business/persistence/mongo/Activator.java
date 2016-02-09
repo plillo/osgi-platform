@@ -29,6 +29,8 @@ public class Activator extends DependencyActivatorBase {
                 .setRequired(true))
                 
                          );
+		
+		System.out.println("Persistence Mongo Actived");
     }
 
     
