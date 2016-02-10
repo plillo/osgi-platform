@@ -29,8 +29,7 @@ import it.hash.osgi.user.service.UserService;
 public class Resources {
 
 	private volatile BusinessService _businessService;
-	private volatile CategoryService _categoryService;
-	private volatile UserService _userService;
+	
 
 	/*
 	 * @POST
@@ -103,9 +102,9 @@ public class Resources {
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{UUID}")
-	public Response update(@PathParam("UUID") String uuid, Business newBusiness) {
+	public Response update(Business newBusiness) {
 		Map<String, Object> pars = new HashMap<String, Object>();
-		pars.put("uuid", uuid);
+		pars.put("uuid", newBusiness.getUuid());
 
 		pars.put("business", newBusiness);
 		Map<String, Object> response = _businessService.updateBusiness(pars);

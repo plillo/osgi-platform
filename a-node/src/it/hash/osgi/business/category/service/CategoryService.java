@@ -9,7 +9,7 @@ import it.hash.osgi.user.attribute.Attribute;
 
 public interface CategoryService {
 	Category getCategory(Category category);
-	Category getCategoryByKey(String serach);
+	List<Category> getCategory(String serach);
 	Map<String, Object> createCategory(Category category);
 	Map<String, Object> updateCategory(Category category);
 	Map<String, Object> deleteCategory(String uuid);
@@ -17,7 +17,7 @@ public interface CategoryService {
 	Map<String, Object> createCategory(Map<String, Object> pars);
 	Map<String, Object> updateCategory(Map<String, Object> pars);
 
-	List<Map<String, Object>> retrieveCategories(String type,String criterion);
+	List<Category> retrieveCategories(String type,String criterion);
 	
 	List<Attribute> getAttributes(String ctgUuid);
 	Map<String, Object> createAttribute(String ctgUuid, Attribute attribute);

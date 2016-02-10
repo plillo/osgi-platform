@@ -32,7 +32,7 @@ public class Commands {
 	}
 	
 	public void retrieveCategories() {
-		List<Map<String,Object>> list = _category.retrieveCategories("","");
+		List<Category> list = _category.retrieveCategories("","");
 		
 		System.out.println(list.toString());
 	}

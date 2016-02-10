@@ -9,8 +9,8 @@ public class Category implements Comparable<Category>{
 	
 	@ObjectId @Id
 	private String _id;
-	private String UUID;
-	private String parentUUID;
+	private String uuid;
+	private String parentUuid;
 	private String name;
 	private String code;
 	private String _locDescription;
@@ -23,20 +23,20 @@ public class Category implements Comparable<Category>{
 	private String ldate;
 	private Map <String,Object> extra;
 	
-	public String getUUID() {
-		return UUID;
+	public String getUuid() {
+		return uuid;
 	}
 	
-	public void setUUID(String uUID) {
-		UUID = uUID;
+	public void setUuid(String uuid) {
+		uuid = uuid;
 	}
 	
 	public String getParentUUID() {
-		return parentUUID;
+		return parentUuid;
 	}
 
-	public void setParentUUID(String parentUUID) {
-		this.parentUUID = parentUUID;
+	public void setParentUuid(String parentUuid) {
+		this.parentUuid = parentUuid;
 	}
 	
 	public String getName() {
@@ -185,7 +185,7 @@ public class Category implements Comparable<Category>{
 
 	@Override
 	public int compareTo(Category obj) {
-		   return this.UUID.compareTo(obj.getUUID());
+		   return this.uuid.compareTo(obj.getUuid());
 			
 	
 	}

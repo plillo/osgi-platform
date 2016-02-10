@@ -27,6 +27,28 @@ public class CategoryServiceImpl implements CategoryService {
 	private volatile UUIDService _uuidSrv;
 	private volatile AttributeService _attributeSrv;
 
+
+	@Override
+	public List<Category> getCategory(String search) {
+		Map<String, Object> response = new HashMap<String,Object>();
+		Map<String,Object> pars = new HashMap<String,Object>();
+		if (_uuidSrv.isUUID(search))
+			pars.put("uuid", search);
+		else
+			if (Category.isCode(search))
+				pars.put("code", search);
+			else{
+				pars.put("name", search);
+				}
+		
+		response =_persistenceSrv.getCategory(pars);
+		if (response.containsKey("categories"))
+				return (List<Category>) response.get("categories") ;
+		
+		return null;
+	}
+
+	
 	@Override
 	public Category getCategory(Category search) {
 		Map<String, Object> response = new HashMap<String,Object>();
@@ -39,7 +61,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public Map<String, Object> createCategory(Category category) {
-		category.setUUID(_uuidSrv.createUUID("app/profiler/business-category"));
+		category.setUuid(_uuidSrv.createUUID("app/profiler/business-category"));
 
 		return _persistenceSrv.createCategory(category);
 	}
@@ -68,8 +90,22 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Map<String, Object>> retrieveCategories(String type, String criterion) {
-		return _persistenceSrv.retrieveCategories(type,criterion);
+	public List<Category> retrieveCategories(String criterion, String search) {
+		if (criterion==null)
+			return getCategory(search);
+		else{
+			if (_uuidSrv.isUUID(search))
+				criterion="uuid";
+			else
+				if (Category.isCode(search))
+					criterion="code";
+				else
+                     criterion="name";
+			
+			 return _persistenceSrv.retrieveCategories(criterion,search);
+		}
+		
+	    
 	}
 
 	// ATTRIBUTES
@@ -156,23 +192,23 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 
-	@Override
-	public Category getCategoryByKey(String search) {
+
+	private String is(String search) {
 		// TODO Auto-generated method stub
 
-		Category searchCat = new Category();
+		String is ;
 		
 		if (_uuidSrv.isUUID(search)) {
-			searchCat.setUUID(search);}
+			is="uuid";}
 		else {
 			if (Category.isCode(search)) {
-				searchCat.setCode(search);}
+				is="code";}
 			else {
-				searchCat.setName(search);
+				is="name";
 			}
 		}
 
-		return getCategory(searchCat);
+		return is;
 	}
 
 }

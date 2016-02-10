@@ -281,9 +281,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		if ((int) response.get("matched") == 1) {
 			Business found = (Business) response.get("business");
 
-			// business.set_id(found.get_id());
-			business.setUuid(found.getUuid());
-
+			
 			BasicDBObject oldObject = new BasicDBObject("uuid", found.getUuid());
 			Map<String, Object> map = createPars(business);
 

@@ -118,14 +118,13 @@ public class UUIDServiceImpl implements UUIDService, ManagedService {
 
 	
 	@Override
-	public boolean isUUID(String UUID) {
+	public boolean isUUID(String Uuid) {
 		// TODO in java.util.UUID non esiste un metodo per vedere se Ã¨ un UUID
 		// quindi la stringa Ã¨ un UUID se Ã¨ contenuta nella collezione
-		DBObject found_uuid = uuidCollection.findOne(new BasicDBObject("uuid", UUID));
+		String regex="[a-zA-z0-9]{1,}-[a-zA-z0-9]{1,}-[a-zA-z0-9]{1,}-[a-zA-z0-9]{1,}-[a-zA-z0-9]{1,}";
 		
-		if(found_uuid!=null)
+		if 	(Uuid.matches(regex))
 			return true;
-		
 		return false;
 	}
 
