@@ -61,9 +61,12 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public Map<String, Object> createCategory(Category category) {
-		category.setUuid(_uuidSrv.createUUID("app/profiler/business-category"));
-
-		return _persistenceSrv.createCategory(category);
+		String uuid=_uuidSrv.createUUID("app/profiler/business-category");
+		category.setUuid(uuid);
+		Map<String, Object> response = _persistenceSrv.createCategory(category);
+		if ((boolean)response.get("created") ==false)
+			_uuidSrv.removeUUID(uuid);
+		return response ;
 	}
 
 	@Override
@@ -164,7 +167,7 @@ public class CategoryServiceImpl implements CategoryService {
 			String[] doc;
 
 			line = readerFile.readLine();
-
+int i=1;
 			while (line != null) {
 
 				doc = line.split(";");
@@ -177,7 +180,9 @@ public class CategoryServiceImpl implements CategoryService {
 				if (createC.get("created").equals(false))
 					response = false;
 				line = readerFile.readLine();
-
+i++;
+if (i==1987)
+	System.out.println(" trovato");
 			}
 			readerFile.close();
 		} catch (MalformedURLException e1) {

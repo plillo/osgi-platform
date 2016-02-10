@@ -24,11 +24,11 @@ public class Category implements Comparable<Category>{
 	private Map <String,Object> extra;
 	
 	public String getUuid() {
-		return uuid;
+		return this.uuid;
 	}
 	
 	public void setUuid(String uuid) {
-		uuid = uuid;
+		this.uuid = uuid;
 	}
 	
 	public String getParentUUID() {

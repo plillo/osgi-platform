@@ -107,18 +107,6 @@ public class CategoryPersistenceImpl implements CategoryPersistence {
 			}
 		}
 
-		if (category.getName() != null) {
-			found_category = categoryMap.findOne(new BasicDBObject("name", category.getName()));
-			if (found_category != null) {
-				TreeSet<String> list = matchs.get(found_category);
-				if (list == null)
-					list = new TreeSet<String>();
-
-				list.add("name");
-				matchs.put(found_category, list);
-			}
-		}
-
 		// Set response: number of matched categories
 		response.put("matched", matchs.size());
 
