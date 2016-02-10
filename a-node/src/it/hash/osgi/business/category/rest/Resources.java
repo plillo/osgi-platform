@@ -14,7 +14,7 @@ import it.hash.osgi.business.category.Category;
 import it.hash.osgi.business.category.service.CategoryService;
 import it.hash.osgi.resource.uuid.api.UUIDService;
 
-@Path("businesses/1.0/categories/")
+@Path("businesses/1.0/categories")
 public class Resources {
 	
 	private volatile CategoryService _categoryService;

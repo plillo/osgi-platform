@@ -5,7 +5,7 @@ import java.util.Map;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.ObjectId;
 
-public class Category {
+public class Category implements Comparable<Category>{
 	
 	@ObjectId @Id
 	private String _id;
@@ -139,14 +139,16 @@ public class Category {
 	}
 
 	public static boolean isCode(String code) {
-		String regex1= "[A-Z]";
-		String regex2= "[A-Z].[0-9]{2}";
-		String regex3= "[A-Z].[0-9]{2}.[0-9]{2}";
-		String regex4= "[A-Z].[0-9]{2}.[0-9]{2}.[0-9]{2}";
+		String regex1= "[A-Z]{1}";
+		String regex2= "[A-Z]{1}.[0-9]{2}";
+		String regex3= "[A-Z]{1}.[0-9]{2}.[0-9]{2}";
+		String regex4="[A-Z]{1}.[0-9]{2}.[0-9]{2}.[0-9]{2}";
+//		String regex4= "[A-Z]|[A-Z].[0-9]{2}|[A-Z].[0-9]{2}.[0-9]{2}|[A-Z].[0-9]{2}.[0-9]{2}.[0-9]{2}";
 		
-		if (code.matches(regex1)||code.matches(regex2)||code.matches(regex3)||code.matches(regex4)){
-			return true;
-		}
+   if (code.matches(regex1)||code.matches(regex2)||code.matches(regex3)||code.matches(regex4)){
+	//if (code.matches(regex4))
+		return true;}
+		
 			
 			return false;
 	}
@@ -179,6 +181,13 @@ public class Category {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Category obj) {
+		   return this.UUID.compareTo(obj.getUUID());
+			
+	
 	}
 
 	
