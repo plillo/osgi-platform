@@ -116,4 +116,17 @@ public class UUIDServiceImpl implements UUIDService, ManagedService {
 		return list_uuid;
 	}
 
+	
+	@Override
+	public boolean isUUID(String UUID) {
+		// TODO in java.util.UUID non esiste un metodo per vedere se Ã¨ un UUID
+		// quindi la stringa Ã¨ un UUID se Ã¨ contenuta nella collezione
+		DBObject found_uuid = uuidCollection.findOne(new BasicDBObject("uuid", UUID));
+		
+		if(found_uuid!=null)
+			return true;
+		
+		return false;
+	}
+
 }

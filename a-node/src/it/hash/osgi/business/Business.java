@@ -26,11 +26,11 @@ public class Business implements Comparable<Business>{
 	private String _id;
 	private String uuid;
 	// Campo Obbligatorio
-	private String businessName;
+	private String name;
 	// Campo obbligatorio
 	private String pIva;
 	// Campo obbligatorio
-	private String codiceFiscale;
+	private String fiscalCode;
 	private String address;
 	private String city;
 	private String cap;
@@ -62,12 +62,12 @@ public class Business implements Comparable<Business>{
 
 
 
-	public void setBusinessName(String businessName) {
-		this.businessName=businessName;
+	public void setName(String naame) {
+		this.name=name;
 	}
 
-	public String getBusinessName() {
-		return businessName;
+	public String getName() {
+		return name;
 	}
 
 	public String getPIva() {
@@ -158,12 +158,12 @@ public class Business implements Comparable<Business>{
     		return false;
     }
    
-	public String getCodiceFiscale() {
-		return codiceFiscale;
+	public String getFiscalCode() {
+		return fiscalCode;
 	}
 
-	public void setCodiceFiscale(String codiceFiscale) {
-		this.codiceFiscale = codiceFiscale;
+	public void setFiscalCode(String fiscalCode) {
+		this.fiscalCode = fiscalCode;
 	}
 	public String getEmail() {
 		return email;
@@ -331,8 +331,8 @@ public class Business implements Comparable<Business>{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((businessName == null) ? 0 : businessName.hashCode());
-		result = prime * result + ((codiceFiscale == null) ? 0 : codiceFiscale.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((fiscalCode == null) ? 0 : fiscalCode.hashCode());
 		result = prime * result + ((pIva == null) ? 0 : pIva.hashCode());
 		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
 		return result;
@@ -347,15 +347,15 @@ public class Business implements Comparable<Business>{
 		if (getClass() != obj.getClass())
 			return false;
 		Business other = (Business) obj;
-		if (businessName == null) {
-			if (other.businessName != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!businessName.equals(other.businessName))
+		} else if (!name.equals(other.name))
 			return false;
-		if (codiceFiscale == null) {
-			if (other.codiceFiscale != null)
+		if (fiscalCode == null) {
+			if (other.fiscalCode != null)
 				return false;
-		} else if (!codiceFiscale.equals(other.codiceFiscale))
+		} else if (!fiscalCode.equals(other.fiscalCode))
 			return false;
 		if (pIva == null) {
 			if (other.pIva != null)

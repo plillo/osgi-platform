@@ -50,4 +50,11 @@ public class UUIDServiceImpl implements UUIDService, ManagedService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public boolean isUUID(String search) {
+	  if (uuids.contains(search))
+		  return true;
+		return false;
+	}
 }

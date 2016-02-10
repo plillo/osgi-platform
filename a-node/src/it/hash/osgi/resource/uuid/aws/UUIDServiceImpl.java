@@ -104,5 +104,11 @@ public class UUIDServiceImpl implements UUIDService, ManagedService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public boolean isUUID(String search) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

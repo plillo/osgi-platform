@@ -73,20 +73,17 @@ public class Resources {
 	
 	// addBusiness
 	@POST
-	@Consumes("application/x-www-form-urlencoded")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(MultivaluedMap<String, String> form) {
+	@Consumes({MediaType.APPLICATION_JSON,  MediaType.APPLICATION_XML})
 
-		Map<String, Object> toForm = extractToForm(form);
+	public Response create(Business business){//MultivaluedMap<String, String> form) {
 
-		Business business = (Business) toForm.get("business");
+//		Map<String, Object> toForm = extractToForm(form);
+
+	//	Business business = (Business) toForm.get("business");
 
 		Map<String, Object> response = _businessService.create(business);
-		// associo il business al user!!!!!
-
-		 String userUUID = _userService.getUUID();
-		 User user = (User) _userService.getUserByUuid(userUUID);
-		 _userService.updateUser(addBusinessToUser(business,user));
+		
 		System.out.println("Add " + business.get_id() + "returnCode " + response.get("returnCode"));
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	}
@@ -137,14 +134,14 @@ public class Resources {
 				case "uuid":
 					business.setUuid((String) entry.getValue().get(0));
 					break;
-				case "businessname":
-					business.setBusinessName((String) entry.getValue().get(0));
+				case "name":
+					business.setName((String) entry.getValue().get(0));
 					break;
 				case "piva":
 					business.setPIva((String) entry.getValue().get(0));
 					break;
 				case "codicefiscale":
-					business.setCodiceFiscale((String) entry.getValue().get(0));
+					business.setFiscalCode((String) entry.getValue().get(0));
 					break;
 				case "address":
 					business.setAddress((String) entry.getValue().get(0));
@@ -226,26 +223,6 @@ public class Resources {
 		return response;
 	}
 
-	private Map <String,Object> addBusinessToUser(Business business, User user) {
-    Map <String,Object> update = new HashMap<String,Object>();
-    
-
-		if (!user.getExtra().containsKey("business")) {
-			List<String> bs = new ArrayList();
-			bs.add(business.getUuid());
-			user.setExtra("business", bs);
 	
-		} else {
-			List<String> bs = (List<String>) user.getExtra("business");
-			bs.add(business.getUuid());
-			user.setExtra("business", bs);
-	
-		}
-		
-		update.put("user", user);
-	return update;
-	
-	}
-
 
 }

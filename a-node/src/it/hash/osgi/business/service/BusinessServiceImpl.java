@@ -1,5 +1,6 @@
 package it.hash.osgi.business.service;
 
+import java.util.ArrayList;
 import java.util.Dictionary;
 
 import java.util.HashMap;
@@ -15,6 +16,8 @@ import it.hash.osgi.business.Business;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
 import it.hash.osgi.business.service.api.BusinessService;
 import it.hash.osgi.resource.uuid.api.UUIDService;
+import it.hash.osgi.user.User;
+import it.hash.osgi.user.service.UserService;
 
 public class BusinessServiceImpl implements BusinessService {
 	
@@ -23,6 +26,7 @@ public class BusinessServiceImpl implements BusinessService {
 	private Dictionary properties;
 	private volatile BusinessServicePersistence _businessPersistenceService;
 	private volatile UUIDService _uuid;
+	private volatile UserService _userSrv;
 
 	@SuppressWarnings("unused")
 	private volatile EventAdmin _eventAdminService;
@@ -47,6 +51,10 @@ public class BusinessServiceImpl implements BusinessService {
 				_uuid.removeUUID(u);
 
 		} else {
+			// associo il business al user!!!!! 
+	//		 String userUUID = _userSrv.getUUID();
+	//		 User user = (User) _userSrv.getUserByUuid(userUUID);
+	//		 _userSrv.updateUser(addBusinessToUser(business,user));
 
 			response.put("created", false);
 			response.put("returnCode", 630);
@@ -115,5 +123,26 @@ public class BusinessServiceImpl implements BusinessService {
 
 		return _businessPersistenceService.getBusinesses();
 	}
+
+	private Map <String,Object> addBusinessToUser(Business business, User user) {
+	    Map <String,Object> update = new HashMap<String,Object>();
+	    
+
+			if (!user.getExtra().containsKey("business")) {
+				List<String> bs = new ArrayList<String>();
+				bs.add(business.getUuid());
+				user.setExtra("business", bs);
+		
+			} else {
+				List<String> bs = (List<String>) user.getExtra("business");
+				bs.add(business.getUuid());
+				user.setExtra("business", bs);
+		
+			}
+			
+			update.put("user", user);
+		return update;
+		
+		}
 
 }

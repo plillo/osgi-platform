@@ -15,6 +15,7 @@ import com.mongodb.DBObject;
 
 import it.hash.osgi.business.category.Category;
 import it.hash.osgi.business.category.persistence.api.CategoryPersistence;
+import it.hash.osgi.resource.uuid.api.UUIDService;
 import it.hash.osgi.utils.StringUtils;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.WriteResult;
@@ -74,7 +75,9 @@ public class CategoryPersistenceImpl implements CategoryPersistence{
 	public Map<String, Object> getCategory(Category category) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		JacksonDBCollection<Category, Object> categoryMap = JacksonDBCollection.wrap(categoriesCollection, Category.class);
+       
 
+		
 		Category found_category = null;
 
 		Map<Category, TreeSet<String>> matchs = new TreeMap<Category, TreeSet<String>>();
@@ -90,6 +93,32 @@ public class CategoryPersistenceImpl implements CategoryPersistence{
 				matchs.put(found_category, list);
 			}
 		}
+
+		if (category.getCode()!= null) {
+			found_category = categoryMap.findOne(new BasicDBObject("code", category.getCode()));
+			if (found_category != null) {
+				TreeSet<String> list = matchs.get(found_category);
+				if (list == null)
+					list = new TreeSet<String>();
+
+				list.add("code");
+				matchs.put(found_category, list);
+			}
+		}
+
+		if (category.getName() != null) {
+			found_category = categoryMap.findOne(new BasicDBObject("name", category.getName()));
+			if (found_category != null) {
+				TreeSet<String> list = matchs.get(found_category);
+				if (list == null)
+					list = new TreeSet<String>();
+
+				list.add("name");
+				matchs.put(found_category, list);
+			}
+		}
+
+
 
 		// Set response: number of matched categories
 		response.put("matched", matchs.size());
@@ -129,7 +158,15 @@ public class CategoryPersistenceImpl implements CategoryPersistence{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Map<String, Object>> retrieveCategories() {
+	public List<Map<String, Object>> retrieveCategories(String type, String criterion) {
+		// TODo bisogna capire cosa dobbiamo recuperare
+		/* potrebbe essere type code criterion C.21
+		 * allora vado a recuperare tutte le categorie che hanno il codice che inizia con C.21
+		 * 
+		 * oppure type name criterion abbigliamento
+		 * vado a recuperare tutte le categorie che nel nome hanno la parola abbigliamento
+		 * 
+		 * */
 		com.mongodb.DBCursor cursor = categoriesCollection.find();
 		List<Map<String, Object>> list = new ArrayList<>();
 		while (cursor.hasNext()) {

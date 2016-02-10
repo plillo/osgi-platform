@@ -57,14 +57,14 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
     					case "uuid":
     						business.setUuid((String) entry.getValue());
     						break;
-    					case "businessname":
-    						business.setBusinessName((String) entry.getValue());
+    					case "name":
+    						business.setName((String) entry.getValue());
     						break;
     					case "piva":
     						business.setPIva((String) entry.getValue());
     						break;
-    					case "codicefiscale":
-    						business.setCodiceFiscale((String) entry.getValue());
+    					case "fiscalCode":
+    						business.setFiscalCode((String) entry.getValue());
     						break;
     					case "address":
     						business.setAddress((String) entry.getValue());
@@ -199,8 +199,8 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			}
 		}
 		
-		if(business.getBusinessName()!=null) {
-			found_business = getBusinessByBusinessName(business.getBusinessName());
+		if(business.getName()!=null) {
+			found_business = getBusinessByName(business.getName());
 
 			if(found_business!=null){
 				TreeSet<String> list = matchs.get(found_business);
@@ -223,14 +223,14 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 				matchs.put(found_business, list);
 			}
 		}
-		if(business.getCodiceFiscale()!=null) {
-			found_business= getBusinessByCodiceFiscale(business.getCodiceFiscale());
+		if(business.getFiscalCode()!=null) {
+			found_business= getBusinessByFiscalCode(business.getFiscalCode());
 			if(found_business!=null){
 				TreeSet<String> list = matchs.get(found_business);
 				if(list==null)
 					list = new TreeSet<String>();
 				    
-				list.add("codiceFiscale");
+				list.add("fiscalCode");
 				matchs.put(found_business, list);
 			}
 		}
@@ -277,11 +277,11 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	}
 
 	@Override
-	public Business getBusinessByCodiceFiscale(String codiceFiscale) {
-		if (!StringUtils.isEmptyOrNull(codiceFiscale)) {
+	public Business getBusinessByFiscalCode(String fiscalCode) {
+		if (!StringUtils.isEmptyOrNull(fiscalCode)) {
 			for (Iterator<Business> it = businesses.iterator(); it.hasNext();) {
 				Business business = it.next();
-				if (codiceFiscale.equals(business.getCodiceFiscale()))
+				if (fiscalCode.equals(business.getFiscalCode()))
 					return business;
 			}
 		}
@@ -290,12 +290,12 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	}
 
 	@Override
-	public Business getBusinessByBusinessName(String businessName) {
+	public Business getBusinessByName(String name) {
 		System.out.println();
-		if (!StringUtils.isEmptyOrNull(businessName)) {
+		if (!StringUtils.isEmptyOrNull(name)) {
 			for (Iterator<Business> it = businesses.iterator(); it.hasNext();) {
 				Business business = it.next();
-				if (businessName.equals(business.getBusinessName()))
+				if (name.equals(business.getName()))
 					return business;
 			}
 		}
@@ -383,7 +383,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			if (attribute[0].equals("_id"))
 				business.set_id(attribute[1]);
 			if (attribute[0].equals("username"))
-				business.setBusinessName(attribute[1]);
+				business.setName(attribute[1]);
 			if (attribute[0].equals("email"))
 				business.setEmail(attribute[1]);
 			if (attribute[0].equals("mobile"))

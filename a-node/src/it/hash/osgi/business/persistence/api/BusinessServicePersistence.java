@@ -25,9 +25,9 @@ public interface BusinessServicePersistence {
 	Map<String, Object> getBusiness(Business business);
 	Map<String, Object> getBusiness(Map<String, Object> business);
 	
-	Business getBusinessByCodiceFiscale(String codiceFiscale);
+	Business getBusinessByFiscalCode(String fiscalCode);
 	Business getBusinessByPartitaIva(String partitaIva);
-	Business getBusinessByBusinessName(String businessName);
+	Business getBusinessByName(String Name);
 	Business getBusinessById(String businessId);
 	Business getBusinessByUuid(String uuid);
 	

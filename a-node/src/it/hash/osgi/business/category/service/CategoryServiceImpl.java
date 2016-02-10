@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -27,10 +28,14 @@ public class CategoryServiceImpl implements CategoryService {
 	private volatile AttributeService _attributeSrv;
 
 	@Override
-	public Category getCategory(String uuid) {
-		// TODO Auto-generated method stub
+	public Category getCategory(Category search) {
+		Map<String, Object> response = new HashMap<String,Object>();
+		response =_persistenceSrv.getCategory(search);
+		if (response.containsKey("category"))
+				return (Category) response.get("category") ;
 		return null;
 	}
+
 
 	@Override
 	public Map<String, Object> createCategory(Category category) {
@@ -63,8 +68,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Map<String, Object>> retrieveCategories(String criterion) {
-		return _persistenceSrv.retrieveCategories();
+	public List<Map<String, Object>> retrieveCategories(String type, String criterion) {
+		return _persistenceSrv.retrieveCategories(type,criterion);
 	}
 
 	// ATTRIBUTES
@@ -148,6 +153,26 @@ public class CategoryServiceImpl implements CategoryService {
 		} 
 
 		return response;
+	}
+
+
+	@Override
+	public Category getCategoryByKey(String search) {
+		// TODO Auto-generated method stub
+
+		Category searchCat = new Category();
+		
+		if (_uuidSrv.isUUID(search)) {
+			searchCat.setUUID(search);}
+		else {
+			if (Category.isCode(search)) {
+				searchCat.setCode(search);}
+			else {
+				searchCat.setName(search);
+			}
+		}
+
+		return getCategory(searchCat);
 	}
 
 }
