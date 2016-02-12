@@ -1,10 +1,12 @@
 package it.hash.osgi.business.category.service;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -156,12 +158,8 @@ public class CategoryServiceImpl implements CategoryService {
 			String line;
 
 			outputString = "";
-			BufferedReader readerFile = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
+			BufferedReader readerFile = new BufferedReader(new InputStreamReader(urlConn.getInputStream(),"UTF8"));
 
-			/*
-			 * BufferedReader readerFile; try { readerFile = new
-			 * BufferedReader(new FileReader(fileName));
-			 */
 			Map<String, Object> createC;
 
 			String[] doc;
