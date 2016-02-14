@@ -30,7 +30,7 @@ public class Activator extends DependencyActivatorBase {
                 
                          );
 		
-		System.out.println("Persistence Mongo Actived");
+		System.out.println("Business Persistence Mongo Actived");
     }
 
     

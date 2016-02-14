@@ -53,14 +53,14 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
     					business.set_id(entry.getValue().toString());
     				} else {
 
-    					switch (attribute.toLowerCase()) {
+    					switch (attribute) {
     					case "uuid":
     						business.setUuid((String) entry.getValue());
     						break;
     					case "name":
     						business.setName((String) entry.getValue());
     						break;
-    					case "piva":
+    					case "pIva":
     						business.setPIva((String) entry.getValue());
     						break;
     					case "fiscalCode":
@@ -78,10 +78,10 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
     					case "nation":
     						business.setNation((String) entry.getValue());
     						break;
-    					case "__description":
+    					case "_description":
     						business.set__Description((String) entry.getValue());
     						break;
-    					case "__longdescription":
+    					case "_longDescription":
     						business.set__longDescription((String) entry.getValue());
     						break;
     					case "category":
@@ -406,6 +406,12 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public Business getBusinessByUuid(String uuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Business> retrieveBusinesses(String criterion, String search) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -6,7 +6,11 @@ import java.util.Map;
 import it.hash.osgi.user.attribute.Attribute;
 
 public interface AttributeServicePersistence {
-	List<Attribute> getAttributesByCategories(String[] categories);
+
 	
-	Map<String, Object> createAttribute(Attribute attribute);
+	List<Attribute> getAttributesByCategories(List<String> categories);
+
+	List<Attribute> getAttribute();
+
+	Map<String, Object> addAttribute(Attribute attribute);
 }

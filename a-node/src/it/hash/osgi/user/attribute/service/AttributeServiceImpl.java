@@ -15,7 +15,7 @@ public class AttributeServiceImpl implements AttributeService{
 	private volatile UUIDService _uuid;
 
 	@Override
-	public List<Attribute> getAttributesByCategories(String[] categories) {
+	public List<Attribute> getAttributesByCategories(List<String> categories) {
 		// TODO Auto-generated method stub
 		return _persistence.getAttributesByCategories(categories);
 	}
@@ -23,15 +23,24 @@ public class AttributeServiceImpl implements AttributeService{
 	@Override
 	public Map<String, Object> createAttribute(Attribute attribute) {
 		String uuid = _uuid.createUUID("app/user/attribute");
+		Map<String, Object> response = new HashMap<String, Object>();
+		
 		if (!StringUtils.isNullOrEmpty(uuid)) {
 			attribute.setUuid(uuid);
-			return _persistence.createAttribute(attribute);
+			response= _persistence.addAttribute(attribute);
+			if((Boolean)response.get("created")==false)
+				_uuid.removeUUID(uuid);
 		} else {
-			Map<String, Object> response = new HashMap<String, Object>();
 			response.put("created", false);
 			response.put("returnCode", 630);
-			return response;
 		}
+		return response;
+	}
+
+	@Override
+	public List<Attribute> getAttribute() {
+		
+		return _persistence.getAttribute();
 	}
 
 }

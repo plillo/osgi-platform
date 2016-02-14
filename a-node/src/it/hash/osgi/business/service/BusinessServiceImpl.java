@@ -113,9 +113,14 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 
 	@Override
-	public List<Business> retrieveBusinesses(String parameter) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Business> retrieveBusinesses(String criterion, String search) {
+		if(_uuid.isUUID(search)){
+			List<Business> list = new ArrayList<Business>();
+			list.add(_businessPersistenceService.getBusinessByUuid(search));
+			return list;
+		}
+			else
+				return _businessPersistenceService.retrieveBusinesses(criterion, search);
 	}
 
 	@Override

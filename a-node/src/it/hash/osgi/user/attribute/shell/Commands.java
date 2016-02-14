@@ -1,6 +1,7 @@
 package it.hash.osgi.user.attribute.shell;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -14,7 +15,12 @@ public class Commands {
 	private volatile AttributeService _attributeService;
 	
 	public void getAttributesByCategories(String categories){
-		List<Attribute> list = _attributeService.getAttributesByCategories(categories.split(","));
+		List<String> listS= new ArrayList<String>();
+		String[] cat = categories.split(",");
+		for(String cat1: cat){
+			listS.add(cat1);
+		}
+		List<Attribute> list = _attributeService.getAttributesByCategories(listS);
 		
 		ObjectMapper om = new ObjectMapper();
 		String json;

@@ -35,8 +35,8 @@ public class Business implements Comparable<Business>{
 	private String city;
 	private String cap;
 	private String nation;
-	private String __description;
-	private String __longDescription;
+	private String _description;
+	private String _longDescription;
 	private List<String> categories;
 	private String email;
 	private String mobile;
@@ -112,15 +112,15 @@ public class Business implements Comparable<Business>{
 	 * @return short description of the Business
 	 * 	 */
 	public String get__Description() {
-		return __description;
+		return _description;
 	}
 	/**
 	 * sets on description for back end
 	 * 
 	 * @param __description short description for Business
 	 * 	 */
-	public void set__Description(String __description) {
-		this.__description = __description;
+	public void set__Description(String _description) {
+		this._description = _description;
 	}
 	/**
 	 * gets on description for front end
@@ -128,7 +128,7 @@ public class Business implements Comparable<Business>{
 	 * @return long description of the Business
 	 * 	 */
 	public String get__longDescription() {
-		return __longDescription;
+		return _longDescription;
 	}
 
 	/**
@@ -136,8 +136,8 @@ public class Business implements Comparable<Business>{
 	 * 
 	 * @param __longDescription  long description for Business
 	 * 	 */
-	public void set__longDescription(String __longDescription) {
-		this.__longDescription = __longDescription;
+	public void set__longDescription(String _longDescription) {
+		this._longDescription = _longDescription;
 	}
 	public List<String> getCategories() {
 		return categories;

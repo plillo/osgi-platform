@@ -33,6 +33,7 @@ public interface BusinessServicePersistence {
 	
 	List<Business> getBusinesses();
 	List<Business> getBusinessDetails(Business business);
+	List<Business> retrieveBusinesses(String criterion, String search);
 	
 	// UPDATE
 	Map<String, Object> updateBusiness(Business business);

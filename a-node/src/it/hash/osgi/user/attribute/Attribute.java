@@ -6,7 +6,7 @@ import java.util.Map;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.ObjectId;
 
-public class Attribute {
+public class Attribute  implements Comparable<Attribute>{
 	@ObjectId @Id
 	private String _id;
 	private String uuid;
@@ -109,6 +109,20 @@ public class Attribute {
 		this.ldate = ldate;
 	}
 	
+	@Override
+	public int compareTo(Attribute obj) {
+		 return this.uuid.compareTo(obj.getUuid());
+	}
+	public boolean addContext(String value) {
+		return context.add(value);
+		
+	}
+	public boolean removeContext(String value){
+		
+		return context.remove(value);
+	}
+	
+	
 	// EXTRA ATTRIBUTES
 	// ================
 	public Map<String, Object> getOthers() {
@@ -126,5 +140,5 @@ public class Attribute {
 	public Object removeOthers(String attribute){
 		return this.others.remove(attribute);
 	}
-
+	
 }

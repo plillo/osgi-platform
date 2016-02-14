@@ -6,6 +6,7 @@ import org.osgi.framework.BundleContext;
 
 import it.hash.osgi.business.category.service.CategoryService;
 import it.hash.osgi.business.service.api.BusinessService;
+import it.hash.osgi.user.attribute.service.AttributeService;
 import it.hash.osgi.user.service.UserService;
 
 
@@ -16,7 +17,9 @@ public class Activator extends DependencyActivatorBase {
 				.setInterface(Object.class.getName(), null)
 				.setImplementation(Resources.class)
 				.add(createServiceDependency().setService(BusinessService.class).setRequired(true))
-			);
+				.add(createServiceDependency().setService(AttributeService.class).setRequired(true))
+				
+				);
 		System.out.println("Business REST resources actived");
 	}
        

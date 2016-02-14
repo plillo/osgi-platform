@@ -117,7 +117,13 @@ public class CategoryServiceImpl implements CategoryService {
 	// ==========
 	@Override
 	public List<Attribute> getAttributes(String ctgUuid) {
-		return _attributeSrv.getAttributesByCategories(new String[] { ctgUuid });
+		List<String> listS= new ArrayList<String>();
+		String[] cat = ctgUuid.split(",");
+		for(String cat1: cat){
+			listS.add(cat1);
+		}
+	
+		return _attributeSrv.getAttributesByCategories(listS);
 	}
 
 	@Override
