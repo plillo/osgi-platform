@@ -1,0 +1,16 @@
+<!--  "/apache-activemq/conf/activemq.xml" -->
+<broker brokerName="localhost" dataDirectory="${activemq.base}/data" xmlns="http://activemq.apache.org/schema/core">
+  <plugins>
+    <bean id="tokenAuthenticationPlugin" class="it.hash.osgi.activemq.TokenAuthenticationPlugin" xmlns="http://www.springframework.org/schema/beans">
+      <property name="authConfig">
+        <map>
+          <entry key="host" value="localhost" />
+          <entry key="port" value="6379" />
+          <entry key="api-connection" value="/broker/connection" />
+          <entry key="api-consumer" value="/broker/consumer" />
+          <entry key="api-producer" value="/broker/producer" />
+        </map>
+      </property>
+    </bean>
+  </plugins>
+</broker>
