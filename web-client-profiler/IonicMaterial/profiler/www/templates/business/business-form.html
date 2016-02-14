@@ -1,0 +1,40 @@
+<div class="list" style="margin:0 16px;">
+	<form name="businessForm" id="business-form" novalidate>
+		<h3>Business anagraphics</h3>	
+         
+		<div class="ha-item">
+			<input type="text" name="name" ng-model="name" ng-model-options="{debounce:500}" class="ha-input form-control" placeholder="Business name" required>
+			<span ng-show="businessForm.name.$error.required">The value is required!</span>
+		</div>
+        
+   		<div class="ha-item">
+			<input type="text" name="address" ng-model="address" class="ha-input form-control" placeholder="Address">
+		</div>
+
+       	<div class="ha-item">
+			<input type="text" name="city" ng-model="city" class="ha-input form-control" placeholder="City">
+		</div>
+
+       	<div class="ha-item">
+         	<input type="text" name="cap" ng-model="cap" class="ha-input form-control" placeholder="CAP">
+		</div>
+				
+		<div class="ha-item">
+         	<input type="text" name="pIva" ng-model="pIva" class="ha-input form-control" placeholder="Partita IVA">
+		</div>
+
+       	<div class="ha-item">
+         	<input type="text" name="fiscalCode" ng-model="fiscalCode" class="ha-input form-control" placeholder="Fiscal code">
+		</div>
+
+       	<div class="ha-item">
+         	<textarea name="description" ng-model="description" class="ha-text-area ha-input form-control" placeholder="Description"></textarea>
+		</div>
+
+		<app-search-categories categories-selected-attr="categoriesSelected"></app-search-categories>
+	</form>
+
+	<div class="padding" style="text-align: center">
+    	<button id="mybutton-send" class="button button-small button-assertive ink">Create</button>
+	</div>
+</div>
