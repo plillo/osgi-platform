@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService, ManagedService{
 				// GET ROLES
 				// TODO: get user's roles from system
 				// ==================================
-				String roles = "reguser, admin, root";
+				String roles = "reguser, admin, root, business.busadmin";
 
 				// Create a JWT (JSON Web Token)
 				Map<String,Object> map = new TreeMap<String, Object>();
