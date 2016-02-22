@@ -21,6 +21,7 @@ import com.amazonaws.services.dynamodbv2.model.ScanResult;
 
 import it.hash.osgi.aws.console.Console;
 import it.hash.osgi.user.User;
+import it.hash.osgi.user.attribute.Attribute;
 import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
 import it.hash.osgi.utils.StringUtils;
@@ -433,4 +434,18 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 	public String getImplementation() {
 		return "AWS";
 	}
+
+	@Override
+	public List<Attribute> getAttribute(String userUuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User getUserByUuid(String uuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 }

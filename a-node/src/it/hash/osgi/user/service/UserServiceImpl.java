@@ -2,6 +2,7 @@ package it.hash.osgi.user.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
@@ -16,12 +17,13 @@ import org.osgi.service.event.EventAdmin;
 import it.hash.osgi.jwt.service.JWTService;
 import it.hash.osgi.resource.uuid.api.UUIDService;
 import it.hash.osgi.user.User;
+import it.hash.osgi.user.attribute.Attribute;
 import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
 import static it.hash.osgi.utils.MapTools.*;
 import it.hash.osgi.utils.StringUtils;
 
-public class UserServiceImpl implements UserService, ManagedService{
+public class UserServiceImpl implements UserService, ManagedService {
 	@SuppressWarnings({ "unused", "rawtypes" })
 	private Dictionary properties;
 	private volatile UserServicePersistence _userPersistenceService;
@@ -29,7 +31,7 @@ public class UserServiceImpl implements UserService, ManagedService{
 	private volatile EventAdmin _eventAdminService;
 	private volatile JWTService _jwtService;
 	private volatile UUIDService _UUIDService;
-	
+
 	private Validator validator = new Validator();
 
 	@Override
@@ -46,30 +48,30 @@ public class UserServiceImpl implements UserService, ManagedService{
 		boolean matched = false;
 
 		// Build the response
-		if((int)userSearch.get("matched")>0){
-			User user = (User)userSearch.get("user");
+		if ((int) userSearch.get("matched") > 0) {
+			User user = (User) userSearch.get("user");
 
 			// MATCHED user
-			String password = (String)pars.get("password");
+			String password = (String) pars.get("password");
 			try {
 				// CHECK password
 				matched = _passwordService.check(password, user.getSalted_hash_password());
-				
-				if(!matched){
+
+				if (!matched) {
 					// PUT status UNAUTHORIZED_ACCESS
 					response.put("status", Status.ERROR_UNAUTHORIZED_ACCESS.getCode());
 					response.put("message", Status.ERROR_UNAUTHORIZED_ACCESS.getMessage());
-					
+
 					return response;
 				}
-				
+
 				// GET ROLES
 				// TODO: get user's roles from system
 				// ==================================
 				String roles = "reguser, admin, root";
 
 				// Create a JWT (JSON Web Token)
-				Map<String,Object> map = new TreeMap<String, Object>();
+				Map<String, Object> map = new TreeMap<String, Object>();
 				map.put("subject", "userId");
 				map.put("uuid", user.getUuid());
 				map.put("username", user.getUsername());
@@ -80,12 +82,12 @@ public class UserServiceImpl implements UserService, ManagedService{
 				map.put("roles", roles);
 				map.put("body", "this is a access token");
 				String token = _jwtService.getToken(map);
-				
+
 				// PUT JWT "token"
 				response.put("token", token);
-				
+
 				// TRIGGERING system event "user/login"
-				Map<String,Object> event_props = new HashMap<>();
+				Map<String, Object> event_props = new HashMap<>();
 				event_props.put("token", token);
 				event_props.put("uuid", user.getUuid());
 				event_props.put("verified", matched);
@@ -100,8 +102,7 @@ public class UserServiceImpl implements UserService, ManagedService{
 				response.put("message", Status.ERROR_UNAUTHORIZED_ACCESS.getMessage());
 				e.printStackTrace();
 			}
-		}
-		else {
+		} else {
 			// PUT status ERROR_UNMATCHED_USER
 			response.put("status", Status.ERROR_UNMATCHED_USER.getCode());
 			response.put("message", Status.ERROR_UNMATCHED_USER.getMessage());
@@ -119,25 +120,25 @@ public class UserServiceImpl implements UserService, ManagedService{
 	@Override
 	public Map<String, Object> validateIdentificatorAndLogin(String identificator, String password) {
 		Map<String, Object> response = new TreeMap<String, Object>();
-		
+
 		// Check and identify the type of identificator (username/email/mobile)
 		Map<String, Object> validate = validateIdentificator(identificator);
-		
-		if((Boolean)validate.get("isValid")) {
+
+		if ((Boolean) validate.get("isValid")) {
 			response.put("password", password);
-			
-			String identificator_type = (String)validate.get("identificatorType");
-			if("username".equals(identificator_type))
+
+			String identificator_type = (String) validate.get("identificatorType");
+			if ("username".equals(identificator_type))
 				response.put("username", identificator);
-			else if("email".equals(identificator_type))
+			else if ("email".equals(identificator_type))
 				response.put("email", identificator);
-			else if("mobile".equals(identificator_type))
+			else if ("mobile".equals(identificator_type))
 				response.put("mobile", identificator);
-			 
+
 			return login(response);
 		}
 		response.put("status", Status.ERROR_NOTVALID_IDENTIFICATOR.getCode());
-		
+
 		return response;
 	}
 
@@ -170,59 +171,58 @@ public class UserServiceImpl implements UserService, ManagedService{
 		map.put("identificatorType", "unmatched");
 		map.put("isValid", true);
 
-		if(validator.isValidEmail(identificator))
+		if (validator.isValidEmail(identificator))
 			map.put("identificatorType", "email");
-		else if(validator.isValidMobile(identificator))
+		else if (validator.isValidMobile(identificator))
 			map.put("identificatorType", "mobile");
-		else if(validator.isValidUsername(identificator))
+		else if (validator.isValidUsername(identificator))
 			map.put("identificatorType", "username");
 		else
 			map.put("isValid", false);
 
 		return map;
 	}
-	
+
 	@Override
 	public Map<String, Object> validateIdentificatorAndGetUser(String identificator) {
 		Map<String, Object> response = new TreeMap<String, Object>();
 		response.put("validatingItem", identificator);
-		
+
 		// Check and identify the type of identificator (username/email/mobile)
 		Map<String, Object> map = validateIdentificator(identificator);
-		String identificator_type = (String)map.get("identificatorType");
+		String identificator_type = (String) map.get("identificatorType");
 		response.put("identificatorType", identificator_type);
-		response.put("isValid", (Boolean)map.get("isValid"));
-		
-		if((Boolean)map.get("isValid")) {
+		response.put("isValid", (Boolean) map.get("isValid"));
+
+		if ((Boolean) map.get("isValid")) {
 			// Get the user (if any) matching the identificator
 			// ================================================
 			map = new TreeMap<String, Object>();
 
-			if("username".equals(identificator_type))
+			if ("username".equals(identificator_type))
 				map.put("username", identificator);
-			else if("email".equals(identificator_type))
+			else if ("email".equals(identificator_type))
 				map.put("email", identificator);
-			else if("mobile".equals(identificator_type))
+			else if ("mobile".equals(identificator_type))
 				map.put("mobile", identificator);
 			Map<String, Object> userMap = getUser(map);
-			// TODO controllare se ci sono stati errori, nel qual caso terminare restituendo una risposta adeguata
-			
+			// TODO controllare se ci sono stati errori, nel qual caso terminare
+			// restituendo una risposta adeguata
+
 			// Build the response
-			if((int)userMap.get("matched")>0){
+			if ((int) userMap.get("matched") > 0) {
 				// MATCHED user
 				response.put("matched", true);
-				response.put("message", "Matched user with \""+identificator+"\" identificator");
-			}
-			else {
+				response.put("message", "Matched user with \"" + identificator + "\" identificator");
+			} else {
 				response.put("matched", false);
-				response.put("message", "The identificator \""+identificator+"\" is available");
+				response.put("message", "The identificator \"" + identificator + "\" is available");
 			}
-		}
-		else {
+		} else {
 			// Not a valid identificator
-			response.put("message", "\""+identificator+"\" is not a valid identificator");
+			response.put("message", "\"" + identificator + "\" is not a valid identificator");
 		}
-		
+
 		return response;
 	}
 
@@ -235,7 +235,9 @@ public class UserServiceImpl implements UserService, ManagedService{
 	@Override
 	public Map<String, Object> updateUser(Map<String, Object> pars) {
 		// TODO Auto-generated method stub
-		return null;
+		pars.put("userUuid", getUUID());
+
+		return _userPersistenceService.updateUser(pars);
 	}
 
 	@Override
@@ -244,7 +246,7 @@ public class UserServiceImpl implements UserService, ManagedService{
 
 		return response;
 	}
-	
+
 	@Override
 	public Map<String, Object> getUserByUuid(String uuid) {
 		Map<String, Object> user = new TreeMap<String, Object>();
@@ -262,7 +264,7 @@ public class UserServiceImpl implements UserService, ManagedService{
 	@Override
 	public void updated(@SuppressWarnings("rawtypes") Dictionary properties) throws ConfigurationException {
 		this.properties = properties;
-		
+
 		validator.setProperties(properties);
 	}
 
@@ -272,12 +274,12 @@ public class UserServiceImpl implements UserService, ManagedService{
 
 		// If missing, generate a random password
 		String password = user.getPassword();
-		if(StringUtils.isEmptyOrNull(user.getPassword())){
+		if (StringUtils.isEmptyOrNull(user.getPassword())) {
 			password = _passwordService.getRandom();
 			user.setPassword(password);
 			response.put("generatedRandomPassword", true);
 		}
-				
+
 		try {
 			user.setSalted_hash_password(_passwordService.getSaltedHash(password));
 		} catch (Exception e) {
@@ -285,23 +287,23 @@ public class UserServiceImpl implements UserService, ManagedService{
 			response.put("message", Status.ERROR_HASHING_PASSWORD.getMessage());
 			return response;
 		}
-		
-        // Get and Set UUID
-        String uuid = _UUIDService.createUUID("core:user");
-        if(uuid==null){
+
+		// Get and Set UUID
+		String uuid = _UUIDService.createUUID("core:user");
+		if (uuid == null) {
 			response.put("status", Status.ERROR_GENERATING_UUID.getCode());
 			response.put("message", Status.ERROR_GENERATING_UUID.getMessage());
-            return response;
-        }
-        user.setUuid(uuid);
-		
+			return response;
+		}
+		user.setUuid(uuid);
+
 		return merge(_userPersistenceService.addUser(user), response);
 	}
 
 	@Override
 	public void createUsersByCSV(BufferedReader reader, boolean simulation, boolean activation) throws IOException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -309,7 +311,7 @@ public class UserServiceImpl implements UserService, ManagedService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	public String getUUID() {
 		return _jwtService.getUID();
@@ -347,7 +349,7 @@ public class UserServiceImpl implements UserService, ManagedService{
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	@Override
 	public boolean isUserInRole(String UUID, List<String> roles) {
 		// TODO Auto-generated method stub
@@ -370,6 +372,48 @@ public class UserServiceImpl implements UserService, ManagedService{
 	public List<UserAttribute> getAttributesByContext(String context) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	private Map<String, Object> mergeList(List<Attribute> listBusiness, List<Attribute> listUser) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		List<Attribute> listB = new ArrayList<Attribute>();
+		List<Attribute> listU = new ArrayList<Attribute>();
+		listU.addAll(listUser);
+		listB.addAll(listBusiness);
+		Attribute elem;
+		for (int i = 0; i < listUser.size(); i++) {
+			elem = listUser.get(i);
+			if (listBusiness.contains(elem)) {
+				listB.remove(elem);
+				listB.add(elem);
+				listU.remove(elem);
+			}
+		}
+		response.put("attributeBusiness", listB);
+		response.put("attributesUser", listU);
+
+		return response;
+	}
+
+	@Override
+	public Map<String, Object> updateAttributes(Map<String, Object> pars) {
+		Map<String, Object> response = new HashMap<String, Object>();
+
+		// lista attibuti user già compilati in precedenti situazioni
+		// List<Attribute> listU =
+		// _userPersistenceService.getAttribute(getUUID());
+		List<Attribute> listU = _userPersistenceService.getAttribute((String) pars.get("userUuid"));
+		// in pars c'è la lista di attributi del business che vuole seguire !!!
+
+		// in response ci sono due liste:
+		// 1) attributesBusiness == lista degli attributi del business che vuole
+		// seguire aggiornati...
+		// 2) attributeUser == lista degli altri attributi User che non
+		// riguardano iquel partivolare business
+		// TODO dare un nuome più significativo a questo metodo!!!!!!
+		response = mergeList((List<Attribute>) pars.get("attributes"), listU);
+
+		return response;
 	}
 
 }

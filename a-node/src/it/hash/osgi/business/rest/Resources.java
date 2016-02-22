@@ -69,16 +69,16 @@ public class Resources {
 		String criterion = s.getMatrixParameters().getFirst("criterion");
 		
 		//   http://localhost:8080/businesses/1.0/1042ffdf-2482-43ba-8d57-e1afc9338dac
-		if(criterion==null){
 			//    http://localhost:8080/businesses/1.0/calzature
-		    businesses= _businessService.retrieveBusinesses(criterion,search);
 		
+		    businesses= _businessService.retrieveBusinesses(criterion,search);
+		   
+		   if (businesses == null) {
+			   return Response.serverError().build();
 		}
 
-		if (businesses == null) {
-			return Response.serverError().build();
-		}
-		else 
+		if(criterion==null){
+		
 			if(businesses.size()==1){
 				List<String> list = businesses.get(0).getCategories();
 				
@@ -90,9 +90,10 @@ public class Resources {
 			else
 				response.put("businesses", businesses);
 		
-		
+		}
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
-	}
+	
+		}
 
 	// presupposto che le richieste non vengano fatte tramite id
 	// i parametri sono username email e mobile

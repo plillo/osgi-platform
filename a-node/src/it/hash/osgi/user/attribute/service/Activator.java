@@ -20,6 +20,7 @@ public class Activator extends DependencyActivatorBase{
 			.add(createServiceDependency()
 					.setService(UUIDService.class)
 					.setRequired(true))
+	
 		);
 	}
 
