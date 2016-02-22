@@ -159,6 +159,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 				matchs.put(found_business, list);
 			}
 		}
+		
 		if (business.containsKey("_id") && business.get("_id") != null) {
 			found = businessCollection.findOne(new BasicDBObject("_id", business.get("_id")));
 

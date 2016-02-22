@@ -124,7 +124,7 @@ public class Resources {
 			// aggiornare solo gli attributi del user
 			// che non si tratta di update generale!!!!
 			response.put("update", "attribute");
-
+  
 			response = _userService.updateUser(response);
 		}
 		// altrimenti chiede aggiornare alla lista che già sta

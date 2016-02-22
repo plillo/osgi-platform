@@ -22,7 +22,7 @@ public class Commands {
 		c.add(context);
 		a.setContext(c);
 		_attributeService.createAttribute(a);
-		
+		   
 	}
 	
 	public void getAttributesByCategories(String categories){

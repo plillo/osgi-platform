@@ -31,7 +31,7 @@ public class CategoryPersistenceImpl implements CategoryPersistence {
 	public void start() {
 		categoriesCollection = m_mongoDBService.getDB().getCollection(COLLECTION);
 	}
-
+ 
 	@Override
 	public Map<String, Object> createCategory(Category category) {
 

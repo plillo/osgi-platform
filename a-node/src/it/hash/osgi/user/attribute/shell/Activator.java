@@ -20,7 +20,7 @@ public class Activator extends DependencyActivatorBase{
 				.setInterface(Object.class.getName(), props)
 				.setImplementation(Commands.class)
 				.add(createServiceDependency().setService(AttributeService.class).setRequired(true)));	
-	}
+	}   
 
 	@Override
 	public void destroy(BundleContext context, DependencyManager manager) throws Exception {

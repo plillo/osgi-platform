@@ -20,7 +20,7 @@ public class AttributeServiceImpl implements AttributeService{
 		// list conterra gli uuid delle categorie
 		return _persistence.getAttributesByCategories(categories);
 	}
-
+   
 	@Override
 	public Map<String, Object> createAttribute(Attribute attribute) {
 		String uuid = _uuid.createUUID("app/user/attribute");

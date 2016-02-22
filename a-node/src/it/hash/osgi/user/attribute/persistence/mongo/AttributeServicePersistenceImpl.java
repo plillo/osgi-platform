@@ -219,7 +219,7 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 				TreeSet<String> list = matchs.get(found_attribute);
 				if (list == null)
 					list = new TreeSet<String>();
-
+   
 				list.add("name");
 				matchs.put(found_attribute, list);
 			}

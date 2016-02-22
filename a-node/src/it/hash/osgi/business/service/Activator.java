@@ -20,7 +20,7 @@ public class Activator extends DependencyActivatorBase {
 	@Override
 	public synchronized void init(BundleContext context, DependencyManager manager) throws Exception {
 		Properties properties = new Properties();
-
+  
 		manager.add(createComponent()
 				.setInterface( BusinessService.class.getName() ,
 						properties)

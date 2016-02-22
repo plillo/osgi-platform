@@ -30,7 +30,6 @@ public class Resources {
 	private volatile BusinessService _businessService;
 	private volatile AttributeService _attributeService;
 	
-
 	/*
 	 * @POST
 	 * 

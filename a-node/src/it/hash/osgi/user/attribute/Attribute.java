@@ -29,7 +29,7 @@ public class Attribute  implements Comparable<Attribute>{
 	private String lauthor;
 	private String ldate;
 	private Map <String,Object> others;
-	
+	   
 	public String get_id() {
 		return _id;
 	}

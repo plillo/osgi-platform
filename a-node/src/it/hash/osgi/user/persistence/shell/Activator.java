@@ -32,7 +32,7 @@ public class Activator extends DependencyActivatorBase {
 						.setService(UserService.class)
 						.setRequired(true))
 				);
-    }
+    } 
 
     @Override
     public synchronized void destroy(BundleContext context, DependencyManager manager) throws Exception {

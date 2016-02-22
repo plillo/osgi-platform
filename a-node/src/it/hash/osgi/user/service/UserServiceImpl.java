@@ -398,7 +398,7 @@ public class UserServiceImpl implements UserService, ManagedService {
 	@Override
 	public Map<String, Object> updateAttributes(Map<String, Object> pars) {
 		Map<String, Object> response = new HashMap<String, Object>();
-
+   
 		// lista attibuti user già compilati in precedenti situazioni
 		// List<Attribute> listU =
 		// _userPersistenceService.getAttribute(getUUID());

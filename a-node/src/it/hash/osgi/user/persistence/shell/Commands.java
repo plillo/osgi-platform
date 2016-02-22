@@ -32,13 +32,13 @@ public class Commands {
 			}
 		}
 	}
-
+   
 	public void adduser(String username,  String email, String mobile, String uuidCategories) {
 		User user = new User();
 		user.setUsername(username);
 		user.setEmail(email);
 		user.setMobile(mobile);
-		List<Category> categories= categoryService.getCategory("70e219b1-7cca-4043-bf48-4ac2e91c0f88");
+		List<Category> categories= categoryService.getCategory(uuidCategories);
 		List<String> cat= new ArrayList<String>();
 		for (Category elem:categories){
 			cat.add(elem.getUuid());

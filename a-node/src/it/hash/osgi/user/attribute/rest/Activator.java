@@ -17,7 +17,7 @@ public class Activator extends DependencyActivatorBase{
 
 		doLog("User Attribute REST resources actived");
 	}
-	
+	  
 	private void doLog(String message) {
 		System.out.println("## [" + this.getClass() + "] " + message);
 	}

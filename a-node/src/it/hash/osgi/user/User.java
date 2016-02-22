@@ -222,7 +222,7 @@ public class User implements Comparable<User>{
 	public Object getExtra(String key){
 		return getExtra().get(key);
 	}
-	
+	   
 	public void setExtra(String key, Object value){
 		if (getExtra()==null){
 			Map<String,Object> extra= new HashMap<String,Object>();

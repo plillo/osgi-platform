@@ -23,7 +23,7 @@ public class Activator extends DependencyActivatorBase{
 	
 		);
 	}
-
+   
 	@Override
 	public void destroy(BundleContext context, DependencyManager manager) throws Exception {
 	}

@@ -6,7 +6,7 @@ import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.ObjectId;
 
 public class Category implements Comparable<Category>{
-	
+	 
 	@ObjectId @Id
 	private String _id;
 	private String uuid;

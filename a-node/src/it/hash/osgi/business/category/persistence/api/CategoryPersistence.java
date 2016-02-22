@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import it.hash.osgi.business.category.Category;
-
+ 
 public interface CategoryPersistence {
 	// CREATE
 	Map<String, Object> createCategory(Map<String, Object> category);

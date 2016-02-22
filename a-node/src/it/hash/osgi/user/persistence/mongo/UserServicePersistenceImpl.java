@@ -38,7 +38,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 	@SuppressWarnings("unused")
 	private volatile LogService logService;
 	private volatile Password _passwordService;
-
+    
 	// Mongo User collection
 	private DBCollection userCollection;
 

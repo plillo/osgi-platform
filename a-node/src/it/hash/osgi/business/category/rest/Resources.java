@@ -21,7 +21,7 @@ import it.hash.osgi.resource.uuid.api.UUIDService;
 public class Resources {
 
 	private volatile CategoryService _categoryService;
-
+ 
 	// cerca in tutta la collezione la stringa search
 	@GET
 	@Path("{search}")

@@ -16,7 +16,7 @@ public interface UserServicePersistence {
 	Map<String, Object> getConstrainedUser(User user);
 	Map<String, Object> getUser(Map<String, Object> user);
 	Map<String, Object> getConstrainedUser(Map<String, Object> user);
-	
+	   
 	User getUserByEmail(String email);
 	User getUserByMobile(String mobile);
 	User getUserByUsername(String username);

@@ -14,6 +14,6 @@ public interface BusinessService {
 	Map<String, Object> updateBusiness(Map<String, Object> pars);
 	List<Business> retrieveBusinesses(String criterion, String search);
 	List<Business> getBusinesses();
-	       
+	     
 
 }

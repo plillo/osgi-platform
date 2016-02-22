@@ -29,7 +29,7 @@ public class Resources {
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_attributeService.getAttribute())
 				.build();
 	}
-
+   
 	@PUT
 	
 	@Produces(MediaType.APPLICATION_JSON)
