@@ -1,7 +1,13 @@
 package it.hash.osgi.user.attribute;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import com.mongodb.BasicDBList;
 
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.ObjectId;
@@ -23,7 +29,7 @@ public class Attribute  implements Comparable<Attribute>{
 	private String lauthor;
 	private String ldate;
 	private Map <String,Object> others;
-	
+	   
 	public String get_id() {
 		return _id;
 	}
@@ -110,6 +116,29 @@ public class Attribute  implements Comparable<Attribute>{
 	}
 	
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Attribute other = (Attribute) obj;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		return true;
+	}
+	@Override
 	public int compareTo(Attribute obj) {
 		 return this.uuid.compareTo(obj.getUuid());
 	}
@@ -139,6 +168,82 @@ public class Attribute  implements Comparable<Attribute>{
 	}
 	public Object removeOthers(String attribute){
 		return this.others.remove(attribute);
+	}
+	
+	public static Attribute attributeToMap(Map<String, Object> map){
+		Attribute attribute = new Attribute();
+
+		for (Map.Entry<String, Object> entry : map.entrySet()) {
+			String key = entry.getKey();
+			switch (key.toLowerCase()) {
+			case "_id":
+				attribute.set_id(entry.getValue().toString());
+				break;
+			case "uuid":
+				attribute.setUuid((String) entry.getValue());
+				break;
+			case "name":
+				attribute.setName((String) entry.getValue());
+				break;
+			case "label":
+				attribute.setLabel((String) entry.getValue());
+				break;
+			case "values":
+				attribute.setValues((List<String>) entry.getValue());
+				break;
+			case "mandatory":
+				attribute.setMandatory((boolean) entry.getValue());
+				break;
+			case "context":
+				if (attribute.getContext() == null)
+					attribute.setContext(new ArrayList<String>());
+				if(entry.getValue() instanceof BasicDBList){
+					 BasicDBList bd= (BasicDBList)entry.getValue();
+					 Map mapContext =bd.toMap();
+					 Set keyContext= 	mapContext.keySet()	;
+					Iterator it= keyContext.iterator();
+					while (it.hasNext()){
+						String elem=(String) mapContext.get(it.next());
+						if (!attribute.getContext().contains(elem))
+						    attribute.addContext(elem);
+					}
+					
+					 }
+				else{
+				if (!attribute.getContext().contains((String) entry.getValue()))
+					attribute.addContext((String) entry.getValue());
+				}
+				break;
+			case "cauthor":
+				attribute.setCauthor((String) entry.getValue());
+				break;
+			case "cdate":
+				attribute.setCdate((String) entry.getValue());
+				break;
+			case "mauthor":
+				attribute.setMauthor((String) entry.getValue());
+				break;
+			case "mdate":
+				attribute.setMdate((String) entry.getValue());
+				break;
+			case "lauthor":
+				attribute.setLauthor((String) entry.getValue());
+				break;
+			case "ldate":
+				attribute.setLdate((String) entry.getValue());
+				break;
+			case "others":
+				attribute.setOthers((Map<String, Object>) entry.getValue());
+				break;
+			default:
+				if (attribute.getOthers() == null)
+					attribute.setOthers(new HashMap<String, Object>());
+
+				attribute.setOthers(key, entry.getValue());
+			}
+		}
+
+		return attribute;
 	}
 	
 }

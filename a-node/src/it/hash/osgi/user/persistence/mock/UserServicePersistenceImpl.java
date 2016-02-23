@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import it.hash.osgi.user.User;
+import it.hash.osgi.user.attribute.Attribute;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
 import it.hash.osgi.utils.StringUtils;
 
@@ -19,7 +20,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 		
 		return new TreeMap<String, Object>();
 	}
-
+   
 	@Override
 	public Map<String, Object> addUser(Map<String, Object> mapuser) {
 		User user = new User();
@@ -168,5 +169,20 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 	public String getImplementation() {
 		return "mocked";
 	}
+
+	@Override
+	public List<Attribute> getAttribute(String userUuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User getUserByUuid(String uuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	
 
 }

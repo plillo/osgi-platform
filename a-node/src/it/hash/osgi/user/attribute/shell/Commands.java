@@ -14,6 +14,17 @@ import it.hash.osgi.user.attribute.service.AttributeService;
 public class Commands {
 	private volatile AttributeService _attributeService;
 	
+	public void createAttribute(String name, String label, String context){
+		Attribute a = new Attribute();
+		a.setName(name);
+		a.setLabel(label);
+		List c = new ArrayList<String>();
+		c.add(context);
+		a.setContext(c);
+		_attributeService.createAttribute(a);
+		   
+	}
+	
 	public void getAttributesByCategories(String categories){
 		List<String> listS= new ArrayList<String>();
 		String[] cat = categories.split(",");

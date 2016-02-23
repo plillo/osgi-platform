@@ -24,6 +24,7 @@ public class Activator extends DependencyActivatorBase {
 		System.out.println("Business category shell actived");
 	}
 
+	
 	@Override
 	public synchronized void destroy(BundleContext context, DependencyManager manager) throws Exception {
 	}

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import it.hash.osgi.user.User;
+import it.hash.osgi.user.attribute.Attribute;
 
 public interface UserServicePersistence {
 	// CREATE
@@ -15,15 +16,16 @@ public interface UserServicePersistence {
 	Map<String, Object> getConstrainedUser(User user);
 	Map<String, Object> getUser(Map<String, Object> user);
 	Map<String, Object> getConstrainedUser(Map<String, Object> user);
-	
+	   
 	User getUserByEmail(String email);
 	User getUserByMobile(String mobile);
 	User getUserByUsername(String username);
 	User getUserById(String userId);
-	
+	User getUserByUuid(String uuid);
 	List<User> getUsers();
 	List<User> getUserDetails(User user);
-	
+	List<Attribute> getAttribute(String userUuid);
+
 	// UPDATE
 	Map<String, Object> updateUser(User user);
 	Map<String, Object> updateUser(Map<String, Object> user);
@@ -42,5 +44,6 @@ public interface UserServicePersistence {
 	
 	// IMPLEMENTATION
 	String getImplementation();
+	
 
 }

@@ -1,16 +1,26 @@
 package it.hash.osgi.user.persistence.shell;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import it.hash.osgi.business.category.Category;
+import it.hash.osgi.business.category.service.CategoryService;
 import it.hash.osgi.user.User;
+import it.hash.osgi.user.attribute.Attribute;
+import it.hash.osgi.user.attribute.service.AttributeService;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
+import it.hash.osgi.user.service.UserService;
 import it.hash.osgi.utils.StringUtils;
 
 public class Commands {
 	
 	private volatile UserServicePersistence persistence;
+	private volatile UserService userService;
+	private volatile AttributeService attributeService;
+	private volatile CategoryService categoryService;
+	
 
 	public void list() {
 		List<User> users = persistence.getUsers();
@@ -22,14 +32,31 @@ public class Commands {
 			}
 		}
 	}
-
-	public void adduser(String username, String password, String email, String mobile) {
+   
+	public void adduser(String username,  String email, String mobile, String uuidCategories) {
 		User user = new User();
 		user.setUsername(username);
-		user.setPassword(password);
 		user.setEmail(email);
 		user.setMobile(mobile);
-		persistence.addUser(user);
+		List<Category> categories= categoryService.getCategory(uuidCategories);
+		List<String> cat= new ArrayList<String>();
+		for (Category elem:categories){
+			cat.add(elem.getUuid());
+		}
+		
+		List<Attribute> a =  attributeService.getAttributesByCategories(cat);
+		int i=3;
+		
+		for(Attribute att:a){
+			List<String> v= new ArrayList<String>();
+			String values="TEST"+i;
+			i++;
+			v.add(values);
+			att.setValues(v);
+			
+		}
+	   user.setExtra("Attributes", a);
+		userService.createUser(user);
 	}
 	
 	public void validate(String userId,String username) {

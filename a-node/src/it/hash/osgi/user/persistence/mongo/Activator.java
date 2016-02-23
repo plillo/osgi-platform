@@ -30,7 +30,7 @@ public class Activator extends DependencyActivatorBase {
                 .setService(MongoDBService.class)
                 .setRequired(true))
         );
-    }
+    }   
 
     @Override
     public synchronized void destroy(BundleContext context, DependencyManager manager) throws Exception {

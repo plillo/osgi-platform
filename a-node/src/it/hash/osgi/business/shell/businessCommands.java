@@ -20,7 +20,7 @@ public class businessCommands {
 public void getByCodiceFiscale(String fiscalCode){
 	Business business=_bsi.getBusinessByFiscalCode(fiscalCode);
 	System.out.println( "TROVATO : "+business.getFiscalCode());
-}
+}  
 	// name
 	// email,
 	// mobile

@@ -18,7 +18,7 @@ public class Activator extends DependencyActivatorBase{
 	                .setRequired(true))
 		);
 	}
-
+   
 	@Override
 	public void destroy(BundleContext context, DependencyManager manager) throws Exception {
 	}

@@ -27,7 +27,7 @@ public class BusinessServiceImpl implements BusinessService {
 	private volatile BusinessServicePersistence _businessPersistenceService;
 	private volatile UUIDService _uuid;
 	private volatile UserService _userSrv;
-
+   
 	@SuppressWarnings("unused")
 	private volatile EventAdmin _eventAdminService;
 

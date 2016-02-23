@@ -20,7 +20,6 @@ import net.vz.mongodb.jackson.ObjectId;
  */
 
 public class Business implements Comparable<Business>{
-
 	
 	@ObjectId @Id
 	private String _id;

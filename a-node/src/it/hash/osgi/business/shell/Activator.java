@@ -24,7 +24,7 @@ public class Activator extends DependencyActivatorBase {
 						.add(createServiceDependency().setService(BusinessServicePersistence.class).setRequired(true)));
 
 	}
-
+   
 	@Override
 	public synchronized void destroy(BundleContext context, DependencyManager manager) throws Exception {
 	}

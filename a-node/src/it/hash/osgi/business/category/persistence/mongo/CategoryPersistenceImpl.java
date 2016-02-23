@@ -31,7 +31,7 @@ public class CategoryPersistenceImpl implements CategoryPersistence {
 	public void start() {
 		categoriesCollection = m_mongoDBService.getDB().getCollection(COLLECTION);
 	}
-
+ 
 	@Override
 	public Map<String, Object> createCategory(Category category) {
 
@@ -157,24 +157,20 @@ public class CategoryPersistenceImpl implements CategoryPersistence {
 
 		} else if (category.containsKey("name")) {
 			String search = (String) category.get("name");
-		
+
 			regexQuery = new BasicDBObject();
 			List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
 			obj.add(new BasicDBObject("name", new BasicDBObject("$regex", search).append("$options", "$i")));
 			obj.add(new BasicDBObject("_locDescription", new BasicDBObject("$regex", search).append("$options", "$i")));
 			regexQuery.put("$or", obj);
 
-		//	regexQuery.put("name", new BasicDBObject("$regex", search).append("$options", "$i"));
+			// regexQuery.put("name", new BasicDBObject("$regex",
+			// search).append("$options", "$i"));
 			// db.categories.find({name:{$regex:"computer",$options:"$i"}})
 			System.out.println(regexQuery.toString());
 
 		}
-		
-		
 
-	
-		
-		
 		DBCursor<Category> cursor = categoryMap.find(regexQuery);
 		list = cursor.toArray();
 		response.put("categories", list);
@@ -197,14 +193,13 @@ public class CategoryPersistenceImpl implements CategoryPersistence {
 		Category cat = null;
 		BasicDBObject regexQuery = null;
 
-		 if (criterion.equals("code")) {
+		if (criterion.equals("code")) {
 			regexQuery = new BasicDBObject();
 			regexQuery.put("code", new BasicDBObject("$regex", search));
 			System.out.println(regexQuery.toString());
 			cat = categoryMap.findOne(regexQuery);
 			list.add(cat);
-		 }
-		
+		}
 
 		return list;
 

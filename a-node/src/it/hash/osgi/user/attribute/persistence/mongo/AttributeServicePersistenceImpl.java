@@ -12,6 +12,7 @@ import java.util.Vector;
 
 import org.amdatu.mongo.MongoDBService;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -37,7 +38,7 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 		DBCursor cursor = attributesCollection.find();
 		List<Attribute> list = new ArrayList<>();
 		while (cursor.hasNext()) {
-			list.add(mapToAttribute(cursor.next().toMap()));
+			list.add(Attribute.attributeToMap(cursor.next().toMap()));
 		}
 		return list;
 
@@ -48,7 +49,7 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 
 		DBObject regexQuery = new BasicDBObject();
 
-		List<Attribute> listB = new ArrayList<Attribute>();
+		List<Attribute> listAtt = new ArrayList<Attribute>();
 
 		regexQuery = new BasicDBObject();
 
@@ -63,69 +64,10 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 		List<DBObject> list = cursor.toArray();
 		Attribute b;
 		for (DBObject elem : list) {
-			b = mapToAttribute(elem.toMap());
-			listB.add(b);
+			b = Attribute.attributeToMap(elem.toMap());
+			listAtt.add(b);
 		}
-		return listB;
-	}
-
-	private Attribute mapToAttribute(Map<String, Object> map) {
-		Attribute attribute = new Attribute();
-
-		for (Map.Entry<String, Object> entry : map.entrySet()) {
-			String key = entry.getKey();
-			switch (key.toLowerCase()) {
-			case "_id":
-				attribute.set_id(entry.getValue().toString());
-				break;
-			case "uuid":
-				attribute.setUuid((String) entry.getValue());
-				break;
-			case "name":
-				attribute.setName((String) entry.getValue());
-				break;
-			case "label":
-				attribute.setLabel((String) entry.getValue());
-				break;
-			case "values":
-				attribute.setValues((List<String>) entry.getValue());
-				break;
-			case "context":
-				if (attribute.getContext() == null)
-					attribute.setContext(new ArrayList<String>());
-				if (!attribute.getContext().contains((String) entry.getValue()))
-					attribute.addContext((String) entry.getValue());
-				break;
-			case "cauthor":
-				attribute.setCauthor((String) entry.getValue());
-				break;
-			case "cdate":
-				attribute.setCdate((String) entry.getValue());
-				break;
-			case "mauthor":
-				attribute.setMauthor((String) entry.getValue());
-				break;
-			case "mdate":
-				attribute.setMdate((String) entry.getValue());
-				break;
-			case "lauthor":
-				attribute.setLauthor((String) entry.getValue());
-				break;
-			case "ldate":
-				attribute.setLdate((String) entry.getValue());
-				break;
-			case "others":
-				attribute.setOthers((TreeMap<String, Object>) entry.getValue());
-				break;
-			default:
-				if (attribute.getOthers() == null)
-					attribute.setOthers(new HashMap<String, Object>());
-
-				attribute.setOthers(key, entry.getValue());
-			}
-		}
-
-		return attribute;
+		return listAtt;
 	}
 
 	@Override
@@ -142,7 +84,7 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 			DBObject created = attributesCollection.findOne(dbObjectAttribute(attribute));
 
 			if (created != null) {
-				Attribute created_attribute = mapToAttribute(created.toMap());
+				Attribute created_attribute = Attribute.attributeToMap(created.toMap());
 				response.put("attribute", created_attribute);
 				response.put("created", true);
 				response.put("returnCode", 200);
@@ -243,7 +185,7 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 			found = attributesCollection.findOne(new BasicDBObject("uuid", map.get("uuid")));
 
 			if (found != null) {
-				found_attribute = mapToAttribute(found.toMap());
+				found_attribute = Attribute.attributeToMap(found.toMap());
 
 				TreeSet<String> list = matchs.get(found_attribute);
 				if (list == null)
@@ -257,7 +199,7 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 			found = attributesCollection.findOne(new BasicDBObject("_id", map.get("_id")));
 
 			if (found != null) {
-				found_attribute = mapToAttribute(found.toMap());
+				found_attribute = Attribute.attributeToMap(found.toMap());
 				TreeSet<String> list = matchs.get(found_attribute);
 				if (list == null)
 					list = new TreeSet<String>();
@@ -272,12 +214,12 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 			found = attributesCollection.findOne(new BasicDBObject("name", map.get("name")));
 
 			if (found != null) {
-				found_attribute = mapToAttribute(found.toMap());
+				found_attribute =  Attribute.attributeToMap(found.toMap());
 
 				TreeSet<String> list = matchs.get(found_attribute);
 				if (list == null)
 					list = new TreeSet<String>();
-
+   
 				list.add("name");
 				matchs.put(found_attribute, list);
 			}

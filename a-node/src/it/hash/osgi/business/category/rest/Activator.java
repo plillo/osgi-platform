@@ -18,7 +18,7 @@ public class Activator extends DependencyActivatorBase {
 		System.out.println("Business category REST resources actived");
     }
 
-    
+      
     @Override
     public synchronized void destroy(BundleContext context, DependencyManager manager) throws Exception {
     }

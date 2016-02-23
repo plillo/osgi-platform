@@ -20,9 +20,10 @@ public class Activator extends DependencyActivatorBase{
 			.add(createServiceDependency()
 					.setService(UUIDService.class)
 					.setRequired(true))
+	
 		);
 	}
-
+   
 	@Override
 	public void destroy(BundleContext context, DependencyManager manager) throws Exception {
 	}

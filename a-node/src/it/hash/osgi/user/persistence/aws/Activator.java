@@ -16,7 +16,7 @@ public class Activator extends DependencyActivatorBase {
     @Override
     public synchronized void init(BundleContext context, DependencyManager manager) throws Exception {
     	Properties props = new Properties();
-		props.put(Constants.SERVICE_RANKING, 100);
+		props.put(Constants.SERVICE_RANKING, 1);
     	manager.add(createComponent()
         	.setInterface(UserServicePersistence.class.getName(), props)
             .setImplementation(UserServicePersistenceImpl.class)

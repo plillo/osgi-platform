@@ -18,6 +18,8 @@ public class User implements Comparable<User>{
 	private String password_mdate;
 	private String email;
 	private String mobile;
+	// Attributes, List<Attribute>
+	// Users, List<String> ( userUuid)
 	private Map<String,Object> extra;
 	private String published;
 	private String last_login_date;
@@ -220,7 +222,7 @@ public class User implements Comparable<User>{
 	public Object getExtra(String key){
 		return getExtra().get(key);
 	}
-	
+	   
 	public void setExtra(String key, Object value){
 		if (getExtra()==null){
 			Map<String,Object> extra= new HashMap<String,Object>();
@@ -235,6 +237,9 @@ public class User implements Comparable<User>{
 	
 	public void setQualifiedExtra(String qualification, String key, Object value) {
 		setExtra(qualification + "." + key, value);
+	}
+	public void removeExtra(String key){
+		 this.extra.remove(key);
 	}
 
 	// implementing Comparable

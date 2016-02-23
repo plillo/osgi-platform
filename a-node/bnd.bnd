@@ -20,7 +20,8 @@
 	org.mongodb.mongo-java-driver,\
 	org.bitbucket.b_c.jose4j,\
 	org.eclipse.paho.client.mqttv3,\
-	jackson-core-asl
+	jackson-core-asl,\
+	com.google.gson
 Bundle-Version: 0.0.0.${tstamp}
 -sub: *.bnd
 -runrequires: \
@@ -46,7 +47,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=org.bitbucket.b_c.jose4j)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.paho.client.mqttv3)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.commons.logging)',\
-	osgi.identity;filter:='(osgi.identity=org.apache.felix.log)'
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.log)',\
+	osgi.identity;filter:='(osgi.identity=com.google.gson)'
 -runfw: org.apache.felix.framework;version='[4.4.1,4.4.1]'
 -runee: JavaSE-1.7
 

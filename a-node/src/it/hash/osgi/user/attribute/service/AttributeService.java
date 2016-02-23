@@ -10,6 +10,6 @@ public interface AttributeService {
 	Map<String, Object> createAttribute(Attribute attribute);
 
 	List<Attribute> getAttributesByCategories(List<String> categories);
-
+	   
 	List<Attribute> getAttribute();
 }

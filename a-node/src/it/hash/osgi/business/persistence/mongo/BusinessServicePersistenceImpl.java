@@ -1,6 +1,5 @@
 package it.hash.osgi.business.persistence.mongo;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +43,6 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		businessCollection = m_mongoDBService.getDB().getCollection(COLLECTION);
 	}
 
-
 	@Override
 	public Map<String, Object> addBusiness(Map<String, Object> business) {
 
@@ -71,10 +69,10 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		// If new business
 		if ((int) result.get("matched") == 0) {
 
-		    businessCollection.save(dbObjectBusiness(business));
+			businessCollection.save(dbObjectBusiness(business));
 			DBObject created = businessCollection.findOne(dbObjectBusiness(business));
-            
-			if (created!= null) {
+
+			if (created != null) {
 				Business created_business = createBusiness(created.toMap());
 				response.put("business", created_business);
 				response.put("created", true);
@@ -116,26 +114,25 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		List<Business> listB = new ArrayList<Business>();
 		BasicDBObject regexQuery = null;
 
-		if (criterion == null) {
-			regexQuery = new BasicDBObject();
-			List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
-			obj.add(new BasicDBObject("name", new BasicDBObject("$regex", search).append("$options", "$i")));
-			obj.add(new BasicDBObject("_description", new BasicDBObject("$regex", search).append("$options", "$i")));
-			regexQuery.put("$or", obj);
+		regexQuery = new BasicDBObject();
+		List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+		obj.add(new BasicDBObject("name", new BasicDBObject("$regex", search).append("$options", "$i")));
+		obj.add(new BasicDBObject("_description", new BasicDBObject("$regex", search).append("$options", "$i")));
+		regexQuery.put("$or", obj);
 
-			// regexQuery.put("name", new BasicDBObject("$regex",
-			// search).append("$options", "$i"));
-			// db.categories.find({name:{$regex:"computer",$options:"$i"}})
-			System.out.println(regexQuery.toString());
-			DBCursor cursor = businessCollection.find(regexQuery);
-			list = cursor.toArray();
-			Business b;
-			for (DBObject elem : list) {
-				b = createBusiness(elem.toMap());
-				listB.add(b);
+		// regexQuery.put("name", new BasicDBObject("$regex",
+		// search).append("$options", "$i"));
+		// db.categories.find({name:{$regex:"computer",$options:"$i"}})
+		System.out.println(regexQuery.toString());
+		DBCursor cursor = businessCollection.find(regexQuery);
+		list = cursor.toArray();
+		Business b;
+		for (DBObject elem : list) {
+			b = createBusiness(elem.toMap());
+			listB.add(b);
 
-			}
 		}
+
 		return listB;
 
 	}
@@ -162,6 +159,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 				matchs.put(found_business, list);
 			}
 		}
+		
 		if (business.containsKey("_id") && business.get("_id") != null) {
 			found = businessCollection.findOne(new BasicDBObject("_id", business.get("_id")));
 
@@ -342,10 +340,10 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	@Override
 	public Map<String, Object> updateBusiness(Map<String, Object> pars) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		String uuid =( (Business) pars.get("business")).getUuid();
+		String uuid = ((Business) pars.get("business")).getUuid();
 		Business business = getBusinessByUuid(uuid);
 		if (business != null) {
-	
+
 			response = updateBusiness((Business) pars.get("business"));
 		} else {
 			response.put("update", "ERROR");
@@ -550,13 +548,14 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 					business.setCategories((List<String>) mapBusiness.get(elem));
 					break;
 				case "others":
-					business.setOthers((Map<String, Object>) mapBusiness.get(elem));
+					if (mapBusiness.get(elem) instanceof Map)
+						business.setOthers((Map<String, Object>) mapBusiness.get(elem));
 					break;
 				default:
 					if (business.getOthers() == null)
 						business.setOthers(new HashMap<String, Object>());
 					if (!business.getOthers().containsKey(attribute))
-						others.put(attribute, mapBusiness.get(elem));
+						business.getOthers().put(attribute, mapBusiness.get(elem));
 
 				}
 			}
