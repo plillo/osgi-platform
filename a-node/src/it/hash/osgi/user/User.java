@@ -1,8 +1,11 @@
 package it.hash.osgi.user;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import it.hash.osgi.business.Business;
+import it.hash.osgi.user.attribute.Attribute;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.ObjectId;
 
@@ -18,8 +21,8 @@ public class User implements Comparable<User>{
 	private String password_mdate;
 	private String email;
 	private String mobile;
-	// Attributes, List<Attribute>
-	// Users, List<String> ( userUuid)
+	private List<Attribute> attributes;
+	private List<Business> businesses;
 	private Map<String,Object> extra;
 	private String published;
 	private String last_login_date;
@@ -242,10 +245,52 @@ public class User implements Comparable<User>{
 		 this.extra.remove(key);
 	}
 
+	
+	public List<Attribute> getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(List<Attribute> attributes) {
+		this.attributes = attributes;
+	}
+
+	public List<Business> getBusinesses() {
+		return businesses;
+	}
+
+	public void setBusinesses(List<Business> businesses) {
+		this.businesses = businesses;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		return true;
+	}
+
 	// implementing Comparable
 	@Override
 	public int compareTo(User obj) {
-       return this._id.compareTo(obj.get_id());
+       return this.uuid.compareTo(obj.uuid);
 	}
 
 }

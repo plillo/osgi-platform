@@ -400,11 +400,11 @@ public class UserServiceImpl implements UserService, ManagedService {
 		Map<String, Object> response = new HashMap<String, Object>();
    
 		// lista attibuti user già compilati in precedenti situazioni
-		// List<Attribute> listU =
-		// _userPersistenceService.getAttribute(getUUID());
+		//List<Attribute> listU =_userPersistenceService.getAttribute(getUUID());
+		
 		List<Attribute> listU = _userPersistenceService.getAttribute((String) pars.get("userUuid"));
 		// in pars c'è la lista di attributi del business che vuole seguire !!!
-
+        
 		// in response ci sono due liste:
 		// 1) attributesBusiness == lista degli attributi del business che vuole
 		// seguire aggiornati...
