@@ -12,6 +12,7 @@ public interface BusinessService {
 	Map<String, Object> create(Map<String, Object> pars);
 	Map<String, Object> deleteBusiness(Map<String, Object> pars);
 	Map<String, Object> updateBusiness(Map<String, Object> pars);
+	Map<String, Object> updateFollowersToBusiness(Map<String, Object> pars);
 	List<Business> retrieveBusinesses(String criterion, String search);
 	List<Business> getBusinesses();
 	     

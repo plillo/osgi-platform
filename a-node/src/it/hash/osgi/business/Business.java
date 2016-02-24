@@ -19,9 +19,10 @@ import net.vz.mongodb.jackson.ObjectId;
  * 
  */
 
-public class Business implements Comparable<Business>{
-	
-	@ObjectId @Id
+public class Business implements Comparable<Business> {
+
+	@ObjectId
+	@Id
 	private String _id;
 	private String uuid;
 	// Campo Obbligatorio
@@ -37,6 +38,7 @@ public class Business implements Comparable<Business>{
 	private String _description;
 	private String _longDescription;
 	private List<String> categories;
+	private List<String> users;
 	private String email;
 	private String mobile;
 	private String published;
@@ -46,10 +48,10 @@ public class Business implements Comparable<Business>{
 	private String cdate;
 	private String mauthor;
 	private String mdate;
-	//look
+	// look
 	private String lauthor;
 	private String ldate;
-	private Map <String,Object> others;
+	private Map<String, Object> others;
 
 	public String get_id() {
 		return _id;
@@ -59,10 +61,8 @@ public class Business implements Comparable<Business>{
 		this._id = id;
 	}
 
-
-
 	public void setName(String naame) {
-		this.name=name;
+		this.name = name;
 	}
 
 	public String getName() {
@@ -76,6 +76,7 @@ public class Business implements Comparable<Business>{
 	public void setPIva(String pIva) {
 		this.pIva = pIva;
 	}
+
 	public String getAddress() {
 		return address;
 	}
@@ -91,6 +92,7 @@ public class Business implements Comparable<Business>{
 	public void setCity(String city) {
 		this.city = city;
 	}
+
 	public String getCap() {
 		return this.cap;
 	}
@@ -98,6 +100,7 @@ public class Business implements Comparable<Business>{
 	public void setCap(String cap) {
 		this.cap = cap;
 	}
+
 	public String getNation() {
 		return nation;
 	}
@@ -105,27 +108,31 @@ public class Business implements Comparable<Business>{
 	public void setNation(String nation) {
 		this.nation = nation;
 	}
+
 	/**
 	 * gets on description for back end
 	 * 
 	 * @return short description of the Business
-	 * 	 */
+	 */
 	public String get__Description() {
 		return _description;
 	}
+
 	/**
 	 * sets on description for back end
 	 * 
-	 * @param __description short description for Business
-	 * 	 */
+	 * @param __description
+	 *            short description for Business
+	 */
 	public void set__Description(String _description) {
 		this._description = _description;
 	}
+
 	/**
 	 * gets on description for front end
 	 * 
 	 * @return long description of the Business
-	 * 	 */
+	 */
 	public String get__longDescription() {
 		return _longDescription;
 	}
@@ -133,30 +140,75 @@ public class Business implements Comparable<Business>{
 	/**
 	 * sets on description for front end
 	 * 
-	 * @param __longDescription  long description for Business
-	 * 	 */
+	 * @param __longDescription
+	 *            long description for Business
+	 */
 	public void set__longDescription(String _longDescription) {
 		this._longDescription = _longDescription;
 	}
+
 	public List<String> getCategories() {
 		return categories;
 	}
 
 	public void setCategories(List<String> categories) {
-		this.categories = categories;
+		if (this.categories == null)
+			this.categories = categories;
+		else {
+			for (String elem : categories) {
+				if (!this.categories.contains(elem))
+				    	this.categories.add(elem);
+			}
+		}
 	}
-    public boolean addCategory (String category){
-    	if (this.getCategories()==null)
-    		categories= new ArrayList<String>();
-    	return this.categories.add(category);
-    }
-    public boolean removeCategory(String category){
-    	if (this.categories.contains(category))
-    		return this.categories.remove(category);
-    	else
-    		return false;
-    }
-   
+
+	public boolean addCategory(String category) {
+		
+		if (this.getCategories() == null)
+			categories = new ArrayList<String>();
+
+		if (!this.categories.contains(category))
+			 return  this.categories.add(category);
+				
+		return false;
+		
+	}
+
+	public boolean removeCategory(String category) {
+
+		return this.categories.remove(category);
+	}
+	public List<String> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<String> usersUuid) {
+		if (this.users==null)
+			this.users = usersUuid;
+		else 
+		{
+			for (String elem:users){
+				if (this.users.contains(elem))
+					this.users.remove(elem);
+				this.users.add(elem);
+			}
+		}}
+	
+	public boolean addUser(String userUuid) {
+		if (this.getUsers() == null)
+			this.users= new ArrayList<String>();
+		if (this.users.contains(userUuid))
+			this.users.remove(userUuid);
+		return this.users.add(userUuid);
+	}
+
+	public boolean removeUser(String userUuid) {
+		if (this.users.contains(userUuid))
+			return this.users.remove(userUuid);
+		else
+			return false;
+	}
+
 	public String getFiscalCode() {
 		return fiscalCode;
 	}
@@ -164,6 +216,7 @@ public class Business implements Comparable<Business>{
 	public void setFiscalCode(String fiscalCode) {
 		this.fiscalCode = fiscalCode;
 	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -175,9 +228,10 @@ public class Business implements Comparable<Business>{
 	public String getPublished() {
 		return published;
 	}
+
 	/**
 	 *
-	 *  @param published
+	 * @param published
 	 */
 	public void setPublished(String published) {
 		this.published = published;
@@ -190,8 +244,10 @@ public class Business implements Comparable<Business>{
 	public void setTrusted_email(String trusted_email) {
 		this.trusted_email = trusted_email;
 	}
+
 	/**
 	 * Gets the name of the author who created the business
+	 * 
 	 * @return the name of the author
 	 */
 	public String getCauthor() {
@@ -200,13 +256,17 @@ public class Business implements Comparable<Business>{
 
 	/**
 	 * sets name of the author who created the business
-	 * @param cauthor name of the author who created the business
+	 * 
+	 * @param cauthor
+	 *            name of the author who created the business
 	 */
 	public void setCauthor(String cauthor) {
 		this.cauthor = cauthor;
 	}
+
 	/**
 	 * Gets the date on which it was created the business
+	 * 
 	 * @return the date on which it was created the business
 	 */
 	public String getCdate() {
@@ -215,40 +275,53 @@ public class Business implements Comparable<Business>{
 
 	/**
 	 * sets the date on which it was created the business
-	 * @param cdate the date on which it was created the business
+	 * 
+	 * @param cdate
+	 *            the date on which it was created the business
 	 */
 	public void setCdate(String cdate) {
 		this.cdate = cdate;
 	}
+
 	/**
 	 * Gets the name of the author who modified the business
+	 * 
 	 * @return the name of the author
 	 */
 	public String getMauthor() {
 		return mauthor;
 	}
+
 	/**
 	 * sets name of the author who modified the business
-	 * @param mauthor name of the author who modified the business
+	 * 
+	 * @param mauthor
+	 *            name of the author who modified the business
 	 */
 	public void setMauthor(String mauthor) {
 		this.mauthor = mauthor;
 	}
+
 	/**
 	 * Gets the date on which it was modified the business
+	 * 
 	 * @return the date on which it was modified the business
 	 */
 	public String getMdate() {
 		return mdate;
 	}
+
 	/**
 	 * sets the date on which it was modified the business
-	 * @param mdate the date on which it was modified the business
+	 * 
+	 * @param mdate
+	 *            the date on which it was modified the business
 	 */
 	public void setMdate(String mdate) {
 		this.mdate = mdate;
 	}
-	//TODO ....inserire descrizione attributo
+
+	// TODO ....inserire descrizione attributo
 	public String getLauthor() {
 		return lauthor;
 	}
@@ -264,11 +337,14 @@ public class Business implements Comparable<Business>{
 	public void setLdate(String ldate) {
 		this.ldate = ldate;
 	}
+
 	/**
-	 * Map - OPEN/CLOSE PRINCIPLE: permette di aggiungere nuove variabili di istanza
-	 *       per analogia ai database Nosql che sono senza schema
+	 * Map - OPEN/CLOSE PRINCIPLE: permette di aggiungere nuove variabili di
+	 * istanza per analogia ai database Nosql che sono senza schema
 	 *
-	 * @param others - Map<String: name instance variable ; Object: type of the instance variable>
+	 * @param others
+	 *            - Map<String: name instance variable ; Object: type of the
+	 *            instance variable>
 	 */
 	public void setOthers(Map<String, Object> others) {
 		this.others = others;
@@ -276,6 +352,7 @@ public class Business implements Comparable<Business>{
 
 	/**
 	 * Gets una Map contenente attributi dell'entità business
+	 * 
 	 * @return Map contenente attributi dell'entità business <br>
 	 *         che non sono stati previsti al momento della progettazione
 	 */
@@ -286,20 +363,24 @@ public class Business implements Comparable<Business>{
 
 	/**
 	 * Gets eventuali variabili di istanza
+	 * 
 	 * @return Map contenente variabili di istanza <br>
 	 *         che non sono state previste al momento della progettazione
 	 */
 
-	public Object addOthers(String attribute, Object o){
+	public Object addOthers(String attribute, Object o) {
 		return this.others.put(attribute, o);
 	}
-	public Object getOthers(String attribute){
+
+	public Object getOthers(String attribute) {
 		return this.others.get(attribute);
 
 	}
-	public Object removeOthers(String attribute){
+
+	public Object removeOthers(String attribute) {
 		return this.others.remove(attribute);
 	}
+
 	public String getMobile() {
 		return mobile;
 	}
@@ -315,6 +396,7 @@ public class Business implements Comparable<Business>{
 	public void setTrusted_mobile(String trusted_mobile) {
 		this.trusted_mobile = trusted_mobile;
 	}
+
 	public String getUuid() {
 		return uuid;
 	}
@@ -322,10 +404,12 @@ public class Business implements Comparable<Business>{
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
+
 	@Override
 	public int compareTo(Business obj) {
-		   return this._id.compareTo(obj.get_id());
-			}
+		return this._id.compareTo(obj.get_id());
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

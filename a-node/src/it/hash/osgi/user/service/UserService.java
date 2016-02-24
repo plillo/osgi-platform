@@ -46,6 +46,8 @@ public interface UserService {
 	// TODO filter list by conditions
 	List<User> getUsers();
 
+	Map<String, Object> getAttributes();
+
 	// Create by CSV
 	void createUsersByCSV(BufferedReader reader, boolean simulation, boolean activation) throws IOException;
 

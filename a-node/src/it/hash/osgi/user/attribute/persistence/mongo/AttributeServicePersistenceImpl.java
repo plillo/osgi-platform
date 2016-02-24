@@ -20,6 +20,7 @@ import com.mongodb.DBObject;
 
 import it.hash.osgi.business.Business;
 import it.hash.osgi.user.attribute.Attribute;
+import it.hash.osgi.user.attribute.utilsAttribute;
 import it.hash.osgi.user.attribute.persistence.api.AttributeServicePersistence;
 import it.hash.osgi.utils.StringUtils;
 
@@ -38,7 +39,7 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 		DBCursor cursor = attributesCollection.find();
 		List<Attribute> list = new ArrayList<>();
 		while (cursor.hasNext()) {
-			list.add(Attribute.attributeToMap(cursor.next().toMap()));
+			list.add(utilsAttribute.toMap(cursor.next().toMap()));
 		}
 		return list;
 
@@ -64,7 +65,7 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 		List<DBObject> list = cursor.toArray();
 		Attribute b;
 		for (DBObject elem : list) {
-			b = Attribute.attributeToMap(elem.toMap());
+			b = utilsAttribute.toMap(elem.toMap());
 			listAtt.add(b);
 		}
 		return listAtt;
@@ -84,7 +85,7 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 			DBObject created = attributesCollection.findOne(dbObjectAttribute(attribute));
 
 			if (created != null) {
-				Attribute created_attribute = Attribute.attributeToMap(created.toMap());
+				Attribute created_attribute =utilsAttribute.toMap(created.toMap());
 				response.put("attribute", created_attribute);
 				response.put("created", true);
 				response.put("returnCode", 200);
@@ -185,7 +186,7 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 			found = attributesCollection.findOne(new BasicDBObject("uuid", map.get("uuid")));
 
 			if (found != null) {
-				found_attribute = Attribute.attributeToMap(found.toMap());
+				found_attribute = utilsAttribute.toMap(found.toMap());
 
 				TreeSet<String> list = matchs.get(found_attribute);
 				if (list == null)
@@ -199,7 +200,7 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 			found = attributesCollection.findOne(new BasicDBObject("_id", map.get("_id")));
 
 			if (found != null) {
-				found_attribute = Attribute.attributeToMap(found.toMap());
+				found_attribute = utilsAttribute.toMap(found.toMap());
 				TreeSet<String> list = matchs.get(found_attribute);
 				if (list == null)
 					list = new TreeSet<String>();
@@ -214,7 +215,7 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 			found = attributesCollection.findOne(new BasicDBObject("name", map.get("name")));
 
 			if (found != null) {
-				found_attribute =  Attribute.attributeToMap(found.toMap());
+				found_attribute =  utilsAttribute.toMap(found.toMap());
 
 				TreeSet<String> list = matchs.get(found_attribute);
 				if (list == null)

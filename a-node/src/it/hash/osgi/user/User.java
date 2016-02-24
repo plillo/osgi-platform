@@ -1,5 +1,6 @@
 package it.hash.osgi.user;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +10,9 @@ import it.hash.osgi.user.attribute.Attribute;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.ObjectId;
 
-public class User implements Comparable<User>{
-	@ObjectId @Id
+public class User implements Comparable<User> {
+	@ObjectId
+	@Id
 	private String _id;
 	private String uuid;
 	private String username;
@@ -22,8 +24,8 @@ public class User implements Comparable<User>{
 	private String email;
 	private String mobile;
 	private List<Attribute> attributes;
-	private List<Business> businesses;
-	private Map<String,Object> extra;
+
+	private Map<String, Object> extra;
 	private String published;
 	private String last_login_date;
 	private String last_login_ip;
@@ -44,7 +46,7 @@ public class User implements Comparable<User>{
 	public void set_id(String id) {
 		this._id = id;
 	}
-	
+
 	public String getUuid() {
 		return uuid;
 	}
@@ -68,7 +70,6 @@ public class User implements Comparable<User>{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
 
 	public String getSalted_hash_password() {
 		return salted_hash_password;
@@ -214,52 +215,69 @@ public class User implements Comparable<User>{
 		this.lastName = lastName;
 	}
 
-	public Map<String,Object> getExtra() {
+	public Map<String, Object> getExtra() {
 		return extra;
 	}
 
 	public void setExtra(Map<String, Object> extra) {
 		this.extra = extra;
 	}
-	
-	public Object getExtra(String key){
+
+	public Object getExtra(String key) {
 		return getExtra().get(key);
 	}
-	   
-	public void setExtra(String key, Object value){
-		if (getExtra()==null){
-			Map<String,Object> extra= new HashMap<String,Object>();
+
+	public void setExtra(String key, Object value) {
+		if (getExtra() == null) {
+			Map<String, Object> extra = new HashMap<String, Object>();
 			this.setExtra(extra);
 		}
 		getExtra().put(key, value);
 	}
-	
-	public Object getQualifiedExtra(String qualification, String key){
+
+	public Object getQualifiedExtra(String qualification, String key) {
 		return getExtra().get(key);
 	}
-	
+
 	public void setQualifiedExtra(String qualification, String key, Object value) {
 		setExtra(qualification + "." + key, value);
 	}
-	public void removeExtra(String key){
-		 this.extra.remove(key);
+
+	public void removeExtra(String key) {
+		this.extra.remove(key);
 	}
 
-	
 	public List<Attribute> getAttributes() {
 		return attributes;
 	}
 
 	public void setAttributes(List<Attribute> attributes) {
-		this.attributes = attributes;
+		if (this.attributes==null)
+			this.attributes = attributes;
+		else 
+		{
+			for (Attribute elem:attributes){
+				if (this.attributes.contains(elem))
+					this.attributes.remove(elem);
+				this.attributes.add(elem);
+			}
+		}
 	}
 
-	public List<Business> getBusinesses() {
-		return businesses;
+	public boolean addAttribute(Attribute attribute) {
+		if (this.getAttributes() == null)
+			attributes = new ArrayList<Attribute>();
+		if (this.attributes.contains(attribute))
+			this.attributes.remove(attribute);
+		
+		return this.attributes.add(attribute);
 	}
 
-	public void setBusinesses(List<Business> businesses) {
-		this.businesses = businesses;
+	public boolean removeAttribute(Attribute attribute) {
+		if (this.attributes.contains(attribute))
+			return this.attributes.remove(attribute);
+		else
+			return false;
 	}
 
 	@Override
@@ -290,7 +308,7 @@ public class User implements Comparable<User>{
 	// implementing Comparable
 	@Override
 	public int compareTo(User obj) {
-       return this.uuid.compareTo(obj.uuid);
+		return this.uuid.compareTo(obj.uuid);
 	}
 
 }

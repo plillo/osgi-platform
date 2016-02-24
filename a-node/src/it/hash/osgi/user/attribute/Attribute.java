@@ -58,13 +58,53 @@ public class Attribute  implements Comparable<Attribute>{
 		return values;
 	}
 	public void setValues(List<String> values) {
-		this.values = values;
+		if (this.values==null)
+			   this.values = values;
+			else {
+				for(String elem:values)
+					if (!this.values.contains(elem))
+						this.values.add(elem);
+						
+			}
+		
 	}
+	public boolean addContext(String value) {
+		if (this.context==null)
+			this.context= new ArrayList<String>();
+		if (!this.context.contains(value))
+			return this.context.add(value);
+		return false;
+	}
+	public boolean removeContext(String value){
+		
+		return this.context.remove(value);
+	}
+	public boolean addValues(String value) {
+		if (this.values==null)
+			this.values= new ArrayList<String>();
+		if (!this.values.contains(value))
+			return this.values.add(value);
+		return false;
+	}
+		public boolean removeValues(String value){
+			
+			return this.values.remove(value);
+		}
+		
+	
+	
 	public List<String> getContext() {
 		return context;
 	}
 	public void setContext(List<String> context) {
-		this.context = context;
+		if (this.context==null)
+		   this.context = context;
+		else {
+			for(String elem:context)
+				if (!this.context.contains(elem))
+					this.context.add(elem);
+					
+		}
 	}
 	public String getValidator() {
 		return validator;
@@ -142,14 +182,6 @@ public class Attribute  implements Comparable<Attribute>{
 	public int compareTo(Attribute obj) {
 		 return this.uuid.compareTo(obj.getUuid());
 	}
-	public boolean addContext(String value) {
-		return context.add(value);
-		
-	}
-	public boolean removeContext(String value){
-		
-		return context.remove(value);
-	}
 	
 	
 	// EXTRA ATTRIBUTES
@@ -170,80 +202,6 @@ public class Attribute  implements Comparable<Attribute>{
 		return this.others.remove(attribute);
 	}
 	
-	public static Attribute attributeToMap(Map<String, Object> map){
-		Attribute attribute = new Attribute();
-
-		for (Map.Entry<String, Object> entry : map.entrySet()) {
-			String key = entry.getKey();
-			switch (key.toLowerCase()) {
-			case "_id":
-				attribute.set_id(entry.getValue().toString());
-				break;
-			case "uuid":
-				attribute.setUuid((String) entry.getValue());
-				break;
-			case "name":
-				attribute.setName((String) entry.getValue());
-				break;
-			case "label":
-				attribute.setLabel((String) entry.getValue());
-				break;
-			case "values":
-				attribute.setValues((List<String>) entry.getValue());
-				break;
-			case "mandatory":
-				attribute.setMandatory((boolean) entry.getValue());
-				break;
-			case "context":
-				if (attribute.getContext() == null)
-					attribute.setContext(new ArrayList<String>());
-				if(entry.getValue() instanceof BasicDBList){
-					 BasicDBList bd= (BasicDBList)entry.getValue();
-					 Map mapContext =bd.toMap();
-					 Set keyContext= 	mapContext.keySet()	;
-					Iterator it= keyContext.iterator();
-					while (it.hasNext()){
-						String elem=(String) mapContext.get(it.next());
-						if (!attribute.getContext().contains(elem))
-						    attribute.addContext(elem);
-					}
-					
-					 }
-				else{
-				if (!attribute.getContext().contains((String) entry.getValue()))
-					attribute.addContext((String) entry.getValue());
-				}
-				break;
-			case "cauthor":
-				attribute.setCauthor((String) entry.getValue());
-				break;
-			case "cdate":
-				attribute.setCdate((String) entry.getValue());
-				break;
-			case "mauthor":
-				attribute.setMauthor((String) entry.getValue());
-				break;
-			case "mdate":
-				attribute.setMdate((String) entry.getValue());
-				break;
-			case "lauthor":
-				attribute.setLauthor((String) entry.getValue());
-				break;
-			case "ldate":
-				attribute.setLdate((String) entry.getValue());
-				break;
-			case "others":
-				attribute.setOthers((Map<String, Object>) entry.getValue());
-				break;
-			default:
-				if (attribute.getOthers() == null)
-					attribute.setOthers(new HashMap<String, Object>());
-
-				attribute.setOthers(key, entry.getValue());
-			}
-		}
-
-		return attribute;
-	}
 	
+		
 }
