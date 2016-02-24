@@ -129,25 +129,12 @@ public class BusinessServiceImpl implements BusinessService {
 		return _businessPersistenceService.getBusinesses();
 	}
 
-	private Map <String,Object> addBusinessToUser(Business business, User user) {
-	    Map <String,Object> update = new HashMap<String,Object>();
-	    
+	
 
-			if (!user.getExtra().containsKey("business")) {
-				List<String> bs = new ArrayList<String>();
-				bs.add(business.getUuid());
-				user.setExtra("business", bs);
+	@Override
+	public Map<String, Object> updateFollowersToBusiness(Map<String, Object> pars) {
+	return _businessPersistenceService.updateBusiness(pars);
 		
-			} else {
-				List<String> bs = (List<String>) user.getExtra("business");
-				bs.add(business.getUuid());
-				user.setExtra("business", bs);
-		
-			}
-			
-			update.put("user", user);
-		return update;
-		
-		}
+	}
 
 }

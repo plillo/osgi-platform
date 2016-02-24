@@ -18,6 +18,7 @@ public class Activator extends DependencyActivatorBase {
 				.setImplementation(Resources.class)
 				.add(createServiceDependency().setService(BusinessService.class).setRequired(true))
 				.add(createServiceDependency().setService(AttributeService.class).setRequired(true))
+				.add(createServiceDependency().setService(UserService.class).setRequired(true))
 				);
 		System.out.println("Business REST resources actived");
 	}

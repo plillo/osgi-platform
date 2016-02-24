@@ -2,7 +2,7 @@ package it.hash.osgi.user.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
+
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +17,7 @@ import org.osgi.service.event.EventAdmin;
 import it.hash.osgi.jwt.service.JWTService;
 import it.hash.osgi.resource.uuid.api.UUIDService;
 import it.hash.osgi.user.User;
-import it.hash.osgi.user.attribute.Attribute;
+
 import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
 import static it.hash.osgi.utils.MapTools.*;
@@ -374,46 +374,23 @@ public class UserServiceImpl implements UserService, ManagedService {
 		return null;
 	}
 
-	private Map<String, Object> mergeList(List<Attribute> listBusiness, List<Attribute> listUser) {
-		Map<String, Object> response = new HashMap<String, Object>();
-		List<Attribute> listB = new ArrayList<Attribute>();
-		List<Attribute> listU = new ArrayList<Attribute>();
-		listU.addAll(listUser);
-		listB.addAll(listBusiness);
-		Attribute elem;
-		for (int i = 0; i < listUser.size(); i++) {
-			elem = listUser.get(i);
-			if (listBusiness.contains(elem)) {
-				listB.remove(elem);
-				listB.add(elem);
-				listU.remove(elem);
-			}
-		}
-		response.put("attributeBusiness", listB);
-		response.put("attributesUser", listU);
-
-		return response;
-	}
-
+	
 	@Override
 	public Map<String, Object> updateAttributes(Map<String, Object> pars) {
 		Map<String, Object> response = new HashMap<String, Object>();
    
-		// lista attibuti user già compilati in precedenti situazioni
-		//List<Attribute> listU =_userPersistenceService.getAttribute(getUUID());
 		
-		List<Attribute> listU = _userPersistenceService.getAttribute((String) pars.get("userUuid"));
-		// in pars c'è la lista di attributi del business che vuole seguire !!!
-        
-		// in response ci sono due liste:
-		// 1) attributesBusiness == lista degli attributi del business che vuole
-		// seguire aggiornati...
-		// 2) attributeUser == lista degli altri attributi User che non
-		// riguardano iquel partivolare business
-		// TODO dare un nuome più significativo a questo metodo!!!!!!
-		response = mergeList((List<Attribute>) pars.get("attributes"), listU);
-
+		response=_userPersistenceService.updateAttribute(pars);
+		
 		return response;
 	}
 
+	@Override
+	public Map<String, Object> getAttributes() {
+		
+				return _userPersistenceService.getAttribute(getUUID());
+	}
+	
+	
+	
 }

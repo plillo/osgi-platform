@@ -24,12 +24,15 @@ import it.hash.osgi.business.Business;
 import it.hash.osgi.business.service.api.BusinessService;
 import it.hash.osgi.user.attribute.Attribute;
 import it.hash.osgi.user.attribute.service.AttributeService;
+import it.hash.osgi.user.service.UserService;
+import static it.hash.osgi.utils.ListTools.*;
 
 @Path("businesses/1.0")
 public class Resources {
 
 	private volatile BusinessService _businessService;
 	private volatile AttributeService _attributeService;
+	private volatile UserService _userService;
 
 	@GET
 	@Path("/business/{search}")
@@ -56,11 +59,11 @@ public class Resources {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAttribute(@PathParam("search") PathSegment s) {
 		System.out.println(" ");
-
-		Map<String, Object> pars;
+ 
 		Map<String, Object> response = new TreeMap<String, Object>();
 		List<Business> businesses = new ArrayList<Business>();
 		List<Attribute> attributes = new ArrayList<Attribute>();
+		List<Attribute> attributesUser=new ArrayList<Attribute>();
 		String search = s.getPath();
 		String criterion = s.getMatrixParameters().getFirst("criterion");
 
@@ -69,14 +72,17 @@ public class Resources {
 			List<String> list = businesses.get(0).getCategories();
 
 			attributes = _attributeService.getAttributesByCategories(list);
-
-			response.put("businsses", businesses.get(0));
+            attributesUser=  (List<Attribute>) _userService.getAttributes().get("attributes");
+			attributes= mergeList(attributes,attributesUser);
+            response.put("businsses", businesses.get(0));
 			response.put("Attributes", attributes);
 		} else
 			response.put("Error", 400);
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 
 	}
+
+	
 
 	// addBusiness
 	@POST
@@ -102,28 +108,7 @@ public class Resources {
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	}
 
-	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
-	// o per aggiornare il business
-	// o per far si che un user segua un business
-	// in questo caso si potrebbe pensare che il client mandi uuid User e
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response update(MultivaluedMap<String, String> form) {
-
-		Map<String, Object> response = new HashMap<String, Object>();
-		Map<String, Object> toForm = extractToForm(form);
-
-		if (toForm.containsKey("business")) {
-			Business newBusiness = (Business) toForm.get("business");
-			Map<String, Object> pars = new HashMap<String, Object>();
-			pars.put("uuid", newBusiness.getUuid());
-			pars.put("business", newBusiness);
-			response = _businessService.updateBusiness(pars);
-			System.out.println("returnCode" + response.get("returnCode"));
-		}
-
-		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
-	}
+	
 
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
@@ -139,6 +124,7 @@ public class Resources {
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	}
 
+	@SuppressWarnings("unused")
 	private Map<String, Object> extractToForm(MultivaluedMap<String, String> form) {
 		Map<String, Object> response = new TreeMap<String, Object>();
 

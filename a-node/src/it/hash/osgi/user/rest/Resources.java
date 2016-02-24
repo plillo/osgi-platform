@@ -1,37 +1,36 @@
 package it.hash.osgi.user.rest;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+
+import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 import java.util.TreeMap;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
+
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.google.gson.Gson;
-
-import it.hash.osgi.business.Business;
+import it.hash.osgi.business.service.api.BusinessService;
 import it.hash.osgi.user.attribute.Attribute;
 import it.hash.osgi.user.service.UserService;
+import it.hash.osgi.utils.MapTools;
+
 import static it.hash.osgi.utils.StringUtils.*;
 
 @Path("users/1.0")
 public class Resources {
 	private volatile UserService _userService;
+	private volatile BusinessService _businessService;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -81,56 +80,29 @@ public class Resources {
 		}
 	}
 
-	private Map<String, Object> extractToForm(MultivaluedMap<String, String> form) {
-		Map<String, Object> response = new TreeMap<String, Object>();
-		List<Attribute> list = new ArrayList<Attribute>();
-		Set<String> entry = form.keySet();
-		for (String elem : entry) {
-			 if (elem.equals("userUuid")) 
-					response.put("userUuid", form.get("userUuid").get(0));
-			 if (elem.equals("businessUuid")) {
-				response.put("businessUuid", form.get("businessUuid").get(0));
-
-			} else {
-				String key = elem.toString();
-				if (key.startsWith("att")) {
-					String at = form.get(key).get(0);
-					Attribute a = new Gson().fromJson(at, Attribute.class);
-					list.add(a);
-				}
-			}
-
-		}
-
-		response.put("attributes", list);
-
-		return response;
-	}
-
-	@Path("follow")
+	@Path("/follow/{businessUuid}")
 	@POST
-	@Produces("application/json")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-
-	public Response follow(MultivaluedMap<String, String> form) {
-		/*
-		 * nel form ci deve stare nome valore nome: businessUuid valore: stringa
-		 * di uuid nome: "attributeI" valore:oggetto attribute con i= 1...N
-		 */
-		Map<String, Object> response = extractToForm(form);
-		// se contiene businessUuid vuol dire che bisogna aggiornare user
-		if (response.containsKey("businessUuid")) {
-			// inserisco questa informazione per dire al metodo update che deve
-			// aggiornare solo gli attributi del user
-			// che non si tratta di update generale!!!!
-			response.put("update", "attribute");
-  
-			response = _userService.updateUser(response);
-		}
-		// altrimenti chiede aggiornare alla lista che già sta
-		else
-			response = _userService.updateAttributes(response);
-
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+   public Response follow(@PathParam("businessUuid") String businessUuid,List<Attribute> list){
+		
+		System.out.println("");
+	
+		Map<String, Object> responseUser= new HashMap<String,Object>();
+		Map<String, Object> responseBusiness= new HashMap<String,Object>();
+		Map<String, Object> response= new HashMap<String,Object>();
+		
+		Map<String, Object> pars = new HashMap<String,Object>();
+		pars.put("attributes", list);
+		
+		pars.put("userUuid",_userService.getUUID() );
+	    responseUser=_userService.updateAttributes(pars);
+	    if ((boolean)responseUser.get("updated")==true){
+	    	pars.put("businessUuid", businessUuid);
+	    	pars.remove("attributes");
+	    	responseBusiness=_businessService.updateFollowersToBusiness(pars);
+	    }
+	    response= MapTools.merge(responseUser, responseBusiness);
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	}
 

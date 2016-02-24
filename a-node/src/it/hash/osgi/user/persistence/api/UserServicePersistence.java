@@ -24,11 +24,12 @@ public interface UserServicePersistence {
 	User getUserByUuid(String uuid);
 	List<User> getUsers();
 	List<User> getUserDetails(User user);
-	List<Attribute> getAttribute(String userUuid);
+	Map<String, Object> getAttribute(String userUuid);
 
 	// UPDATE
 	Map<String, Object> updateUser(User user);
 	Map<String, Object> updateUser(Map<String, Object> user);
+	Map<String, Object> updateAttribute(Map<String, Object> pars);
 	
 	// DELETE
 	Map<String, Object> deleteUser(User user);
@@ -44,6 +45,7 @@ public interface UserServicePersistence {
 	
 	// IMPLEMENTATION
 	String getImplementation();
+	
 	
 
 }

@@ -22,7 +22,9 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
 import it.hash.osgi.user.User;
+import it.hash.osgi.user.utilsUser;
 import it.hash.osgi.user.attribute.Attribute;
+import it.hash.osgi.user.attribute.utilsAttribute;
 import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
 import it.hash.osgi.user.service.Status;
@@ -38,7 +40,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 	@SuppressWarnings("unused")
 	private volatile LogService logService;
 	private volatile Password _passwordService;
-    
+
 	// Mongo User collection
 	private DBCollection userCollection;
 
@@ -52,15 +54,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 	@Override
 	public Map<String, Object> addUser(Map<String, Object> user) {
 
-		User user_obj = new User();
-		user_obj.setUsername((String) user.get("username"));
-		user_obj.setEmail((String) user.get("email"));
-		user_obj.setMobile((String) user.get("mobile"));
-		user_obj.setFirstName((String) user.get("firstName"));
-		user_obj.setLastName((String) user.get("lastName"));
-		// ...
-
-		return addUser(user_obj);
+		return addUser(utilsUser.toMap(user));
 	}
 
 	// CREATE
@@ -166,8 +160,8 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 			if (user.containsKey("userId") && user.get("userId") != null) {
 				found = userCollection.findOne(new BasicDBObject("_id", user.get("userId")));
 				if (found != null) {
-					found_user = userToMap(found.toMap());
-					
+					found_user = utilsUser.toMap(found.toMap());
+
 					TreeSet<String> list = matchs.get(found_user);
 					if (list == null)
 						list = new TreeSet<String>();
@@ -178,9 +172,9 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 			}
 			if (user.containsKey("uuid") && user.get("uuid") != null) {
 				found = userCollection.findOne(new BasicDBObject("uuid", user.get("uuid")));
-				
+
 				if (found != null) {
-					found_user = userToMap(found.toMap());
+					found_user = utilsUser.toMap(found.toMap());
 
 					TreeSet<String> list = matchs.get(found_user);
 					if (list == null)
@@ -192,9 +186,9 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 			}
 			if (user.containsKey("username") && user.get("username") != null) {
 				found = userCollection.findOne(new BasicDBObject("username", user.get("username")));
-				
+
 				if (found != null) {
-					found_user = userToMap(found.toMap());
+					found_user = utilsUser.toMap(found.toMap());
 
 					TreeSet<String> list = matchs.get(found_user);
 					if (list == null)
@@ -206,9 +200,9 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 			}
 			if (user.containsKey("email") && user.get("email") != null) {
 				found = userCollection.findOne(new BasicDBObject("email", user.get("email")));
-				
+
 				if (found != null) {
-					found_user = userToMap(found.toMap());
+					found_user = utilsUser.toMap(found.toMap());
 
 					TreeSet<String> list = matchs.get(found_user);
 					if (list == null)
@@ -221,8 +215,8 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 			if (user.containsKey("mobile") && user.get("mobile") != null) {
 				found = userCollection.findOne(new BasicDBObject("mobile", user.get("mobile")));
 				if (found != null) {
-					found_user = userToMap(found.toMap());
-					
+					found_user = utilsUser.toMap(found.toMap());
+
 					TreeSet<String> list = matchs.get(found_user);
 					if (list == null)
 						list = new TreeSet<String>();
@@ -234,8 +228,8 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 			if (user.containsKey("firstName") && user.get("firstName") != null) {
 				found = userCollection.findOne(new BasicDBObject("firstName", user.get("firstName")));
 				if (found != null) {
-					found_user = userToMap(found.toMap());
-					
+					found_user = utilsUser.toMap(found.toMap());
+
 					TreeSet<String> list = matchs.get(found_user);
 					if (list == null)
 						list = new TreeSet<String>();
@@ -247,8 +241,8 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 			if (user.containsKey("lastName") && user.get("lastName") != null) {
 				found = userCollection.findOne(new BasicDBObject("lastName", user.get("lastName")));
 				if (found != null) {
-					found_user = userToMap(found.toMap());
-					
+					found_user = utilsUser.toMap(found.toMap());
+
 					TreeSet<String> list = matchs.get(found_user);
 					if (list == null)
 						list = new TreeSet<String>();
@@ -285,129 +279,6 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 		}
 
 		return response;
-	}
-
-	private User userToMap(Map mapUser) {
-		User user = new User();
-		String attribute = null;
-		Map<String, Object> others = new TreeMap<String, Object>();
-		Set entry = mapUser.keySet();
-		for (Object elem : entry) {
-			attribute = (String) elem;
-			switch (attribute) {
-			case "_id":
-				user.set_id(mapUser.get(attribute).toString());
-				break;
-
-			case "uuid":
-				user.setUuid((String) mapUser.get(attribute));
-				break;
-
-			case "username":
-				user.setUsername((String) mapUser.get(attribute));
-				break;
-			case "password":
-				user.setPassword((String) mapUser.get(attribute));
-				break;
-
-			case "salted_hash_password":
-				user.setSalted_hash_password((String) mapUser.get(attribute));
-				break;
-
-			case "firstName":
-				user.setFirstName((String) mapUser.get(attribute));
-				break;
-			case "lastName":
-				user.setLastName((String) mapUser.get(attribute));
-				break;
-
-			case "password_mdate":
-				user.setPassword_mdate((String) mapUser.get(attribute));
-				break;
-
-			case "email":
-				user.setEmail((String) mapUser.get(attribute));
-				break;
-			case "mobile":
-				user.setMobile((String) mapUser.get(attribute));
-				break;
-
-			case "extra":
-				Map<String, Object> map = new HashMap<String, Object>();
-				if (mapUser.get(elem) instanceof Map) {
-					Map mapExtra = (Map) mapUser.get(elem);
-					Set<String> key = mapExtra.keySet();
-					for (String value : key) {
-						if (value.equals("Attributes")) {
-							List<Attribute> listAtt = new ArrayList<Attribute>();
-							if (mapExtra.get(value) instanceof BasicDBList) {
-								BasicDBList list = (BasicDBList) mapExtra.get(value);
-								Set<String> keyList = list.keySet();
-								for (String valueList : keyList) {
-									BasicDBObject dbo = (BasicDBObject) list.get(valueList);
-									System.out.println(dbo.toString());
-									listAtt.add(Attribute.attributeToMap(dbo.toMap()));
-									System.out.println();
-
-								}
-							}
-							map.put("attributes", listAtt);
-
-						} else
-							map.put(value, mapExtra.get(value));
-					}
-				
-				}
-				user.setExtra(map);
-				break;
-			case "published":
-				user.setPublished((String) mapUser.get("elem"));
-				break;
-			case "last_login_date":
-				user.setLast_login_date((String) mapUser.get("elem"));
-				break;
-			case "last_login_ip":
-				user.setLast_login_ip((String) mapUser.get("elem"));
-				break;
-
-			case "trusted_email":
-				user.setTrusted_email((String) mapUser.get("elem"));
-				break;
-			case "trusted_mobile":
-				user.setTrusted_mobile((String) mapUser.get("elem"));
-				break;
-			case "cauthor":
-				user.setCauthor((String) mapUser.get("elem"));
-				break;
-			case "cdate":
-				user.setCdate((String) mapUser.get("elem"));
-				break;
-			case "mauthor":
-				user.setMauthor((String) mapUser.get("elem"));
-				break;
-			case "mdate":
-				user.setMdate((String) mapUser.get("elem"));
-				break;
-			case "lauthor":
-				user.setLauthor((String) mapUser.get("elem"));
-				break;
-			case "ldate":
-				user.setLdate((String) mapUser.get("elem"));
-				break;
-			case "user_data":
-				user.setUser_data((String) mapUser.get("elem"));
-				break;
-
-			default:
-				if (user.getExtra() == null)
-					user.setExtra(new HashMap<String, Object>());
-				if (!user.getExtra().containsKey(attribute))
-					user.setExtra(attribute, mapUser.get(elem));
-
-			}
-
-		}
-		return user;
 	}
 
 	@Override
@@ -463,26 +334,17 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 
 	@Override
 	public Map<String, Object> updateUser(Map<String, Object> user) {
-		User find_user = null;
-		if (user.containsKey("update")) {
-			if (user.get("update").equals("attribute")) {
-				find_user = getUserByUuid((String) user.get("userUuid"));
-
-				find_user.removeExtra("attributes");
-				find_user.setExtra("attributes", user.get("attributes"));
-				if (user.containsKey("businessUuid")) {
-					List<String> users = (List<String>) find_user.getExtra("users");
-					if (!users.contains(user.get("businessUuid"))) {
-						users.add((String) user.get("businessUuid"));
-						find_user.removeExtra("users");
-						find_user.setExtra("users", users);
-					}
-				}
-			}
-			updateUser(find_user);
-		}
-
 		return null;
+	}
+
+	@Override
+	public Map<String, Object> updateAttribute(Map<String, Object> pars) {
+	
+		User find_user = getUserByUuid((String) pars.get("userUuid"));
+		find_user.setAttributes((List<Attribute>) pars.get("attributes"));
+		
+
+		return updateUser(find_user);
 	}
 
 	@Override
@@ -773,7 +635,6 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 		while (cursor.hasNext()) {
 			list.add(cursor.next());
 		}
-
 		return list;
 	}
 
@@ -783,10 +644,11 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 	}
 
 	@Override
-	public List<Attribute> getAttribute(String userUuid) {
-
+	public Map<String, Object> getAttribute(String userUuid) {
+		Map<String, Object> response = new HashMap<String,Object>();
 		User found_user = getUserByUuid(userUuid);
-		return (List<Attribute>) found_user.getExtra("attributes");
+		response.put("attributes", found_user.getAttributes());
+		return response;
 	}
 
 }
