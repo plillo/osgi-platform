@@ -129,6 +129,32 @@ angular.module('starter.controllers', [])
 	};
 })
 
+.controller('ServiceCtrl', function($scope, backend, $timeout, $stateParams, ionicMaterialInk, ionicMaterialMotion) {
+	// Set Header
+    $scope.$parent.showHeader();
+    $scope.$parent.clearFabs();
+    $scope.$parent.setHeaderFab('left');
+
+    // Delay expansion
+    $timeout(function() {
+        $scope.isExpanded = true;
+        $scope.$parent.setExpanded(true);
+    }, 300);
+
+    $scope.urlBackend = backend.getBackend();
+    
+    /*
+    // Set Motion
+    ionicMaterialMotion.fadeSlideInRight();
+    */
+    // Set Ink
+    ionicMaterialInk.displayEffect();
+    
+	$scope.setUrlService = function(url) {
+		backend.setBackend(url);
+	};
+})
+
 .controller('LoginCtrl', function($scope, $timeout, $stateParams, ionicMaterialInk) {
     $scope.$parent.clearFabs();
     $timeout(function() {
@@ -235,21 +261,55 @@ angular.module('starter.controllers', [])
     ionicMaterialInk.displayEffect();
 })
 
-.controller('ActivityCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk) {
+.controller('QRCodeCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk) {
+	// Set Header
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
-    $scope.isExpanded = true;
-    $scope.$parent.setExpanded(true);
-    $scope.$parent.setHeaderFab('right');
+    $scope.$parent.setHeaderFab('left');
 
+    // Delay expansion
     $timeout(function() {
-        ionicMaterialMotion.fadeSlideIn({
-            selector: '.animate-fade-slide-in .item'
-        });
-    }, 200);
+        $scope.isExpanded = true;
+        $scope.$parent.setExpanded(true);
+    }, 300);
 
-    // Activate ink for controller
+    // Set Motion
+    ionicMaterialMotion.fadeSlideInRight();
+
+    // Set Ink
     ionicMaterialInk.displayEffect();
+})
+
+.controller('ActivityCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk) {
+	// Set Header
+    $scope.$parent.showHeader();
+    $scope.$parent.clearFabs();
+    $scope.$parent.setHeaderFab('left');
+
+    // Delay expansion
+    $timeout(function() {
+        $scope.isExpanded = true;
+        $scope.$parent.setExpanded(true);
+    }, 300);
+
+    // Set Ink
+    ionicMaterialInk.displayEffect(); 
+})
+
+.controller('ChannelsCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk) {
+	// Set Header
+    $scope.$parent.showHeader();
+    $scope.$parent.clearFabs();
+    $scope.$parent.setHeaderFab('left');
+
+    // Delay expansion
+    $timeout(function() {
+        $scope.isExpanded = true;
+        $scope.$parent.setExpanded(true);
+    }, 300);
+
+    // Set Ink
+    ionicMaterialInk.displayEffect(); 
 })
 
 .controller('GalleryCtrl', function($scope, $stateParams, $timeout, ionicMaterialInk, ionicMaterialMotion) {

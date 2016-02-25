@@ -1,11 +1,27 @@
 <ion-view view-title="Business manager">
-    <ion-content ng-class="{expanded:isExpanded}">
+    <ion-content ng-class="{expanded:isExpanded}" style="background-color:#EEEEEE;padding:30px;">
         <div class="content has-header">
             <div class="list animate-fade-slide-in-right">     
 				
+			    <h2>Gestione dei business personali</h2>
+				<p>
+				In quest'area l'utente pu&ograve;:
+				<ul style="list-style-type: disc">
+				<li>amministrare i suoi business</li>
+				<li>inserire un nuovo business</li>
+				</ul>
+				
+				<br /><br />Dunque occorre chiedere al back-end i seguenti servizi:
+				<ul style="list-style-type: disc">
+				<li>Array di oggetti Business "amministrati" dall'utente attuale, in modo da listarli per eventuale selezione ai fini di modifica/cancellazione del business
+				    <br />[NOTA] sembra la solita GET ma con un filtraggio sull'utente 'attuale' (info in ThreadLocal): come gestire la cosa a livello REST?</li>
+				</ul>
+				</p>
+
 				<div class="padding" style="text-align: center">
-    				<button id="new-business" class="button button-small button-assertive ink">Create new business</button>
+    				<button id="new-business" ui-sref="app.business" class="button button-small button-assertive ink">Create new business</button>
 				</div>
+				
 			</div>
 		</div>
     </ion-content>

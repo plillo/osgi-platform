@@ -7,10 +7,13 @@
         </ion-header-bar>
         <ion-content class="stable-bg has-expanded-header">
             <ion-list class="bs-menu-list">
-                <ion-item nav-clear menu-close ui-sref="app.landingpage">
-                    <i class="icon ion-gear-a"></i> Gestione adesioni
+                <ion-item nav-clear menu-close ui-sref="app.service">
+                    <i class="icon ion-gear-a"></i> Service Setting
+                </ion-item>    
+                <ion-item nav-clear menu-close ui-sref="app.activity">
+                    <i class="icon ion-gear-a"></i> Gestione adesioni (*)
                 </ion-item>            
-                <ion-item nav-clear menu-close ui-sref="app.landingpage">
+                <ion-item nav-clear menu-close ui-sref="app.channels">
                     <i class="icon ion-social-rss"></i> Abilitazione canali
                 </ion-item>
                 <ion-item nav-clear menu-close ui-sref="app.landingpage">
@@ -51,14 +54,17 @@
         </ion-header-bar>
         <ion-content class="stable-bg has-expanded-header">
             <ion-list class="bs-menu-list">
+                <ion-item nav-clear menu-close ui-sref="app.qrcode" ng-if="isBusinessUser()">
+                    <i class="icon ion-bag"></i> Codice QR
+                </ion-item>
                 <ion-item nav-clear menu-close ui-sref="app.activity" ng-if="isUserLogged()">
-                    <i class="icon ion-card"></i> Gestione adesioni
+                    <i class="icon ion-card"></i> Gestione adesioni (*)
                 </ion-item>
                 <ion-item nav-clear menu-close ui-sref="app.business" ng-if="isUserLogged() && !isBusinessUser()">
                     <i class="icon ion-bag"></i> Attiva il tuo business
                 </ion-item>
                 <ion-item nav-clear menu-close ui-sref="app.business-manager" ng-if="isUserLogged() && isBusinessUser()">
-                    <i class="icon ion-bag"></i> Gestisci il tuo business
+                    <i class="icon ion-bag"></i> Gestisci il tuo business (*)
                 </ion-item>
                 <ion-item nav-clear menu-close ui-sref="app.gallery" ng-if="isUserLogged()">
                     <i class="icon ion-android-map"></i> Volantino

@@ -4,12 +4,21 @@ angular.module('starter', ['ionic', 'hashServices', 'hashDirectives', 'starter.c
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
 })
 
+/*
+.config(function(backend){
+	backend.setBackend('http://calimero:8080/');
+})
+*/
+.run(function(backend){})
+
 .config(function(loggerProvider){
-	loggerProvider.setUrl('http://calimero:8080/users/1.0/');
+	loggerProvider.setPath('users/1.0/');
 })
 
 .config(function(brokerProvider){
-	brokerProvider.initBroker('calimero', 61614);
+	//brokerProvider.initBroker('calimero', 61614);
+	brokerProvider.initBroker('52.28.84.18', 61614);
+	
 })
 
 .run(function($ionicPlatform) {
@@ -42,6 +51,24 @@ angular.module('starter', ['ionic', 'hashServices', 'hashDirectives', 'starter.c
         templateUrl: 'templates/menu.html',
         controller: 'AppCtrl'
     })
+    
+    .state('app.qrcode', {
+        url: '/qrcode',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/qrcode.html',
+                controller: 'QRCodeCtrl'
+            },
+            'fabContent': {
+                template: '<button id="fab-qrcode" class="button button-fab button-fab-top-left expanded button-energized-900 flap"><i class="icon ion-ios-barcode"></i></button>',
+                controller: function ($timeout) {
+                    $timeout(function () {
+                        document.getElementById('fab-qrcode').classList.toggle('on');
+                    }, 200);
+                }
+            }
+        }
+    })
 
     .state('app.activity', {
         url: '/activity',
@@ -61,6 +88,24 @@ angular.module('starter', ['ionic', 'hashServices', 'hashDirectives', 'starter.c
         }
     })
 
+    .state('app.channels', {
+        url: '/channels',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/channels.html',
+                controller: 'ChannelsCtrl'
+            },
+            'fabContent': {
+                template: '<button id="fab-channels" class="button button-fab button-fab-top-right expanded button-energized-900 flap"><i class="icon ion-barcode"></i></button>',
+                controller: function ($timeout) {
+                    $timeout(function () {
+                        document.getElementById('fab-channels').classList.toggle('on');
+                    }, 200);
+                }
+            }
+        }
+    })
+    
     .state('app.friends', {
         url: '/friends',
         views: {
@@ -159,6 +204,19 @@ angular.module('starter', ['ionic', 'hashServices', 'hashDirectives', 'starter.c
         }
     })
 
+    .state('app.service', {
+        url: '/service',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/service.html',
+                controller: 'ServiceCtrl'
+            },
+            'fabContent': {
+                template: ''
+            }
+        }
+    })
+    
     .state('app.profile', {
         url: '/profile',
         views: {

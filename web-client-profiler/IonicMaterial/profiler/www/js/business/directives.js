@@ -79,7 +79,7 @@ angular.module('business.directives').directive('appSearchCategories', function(
 			$scope.change = function(event) {
 				var searchString = $(event.target).val();
 
-				business.getBusiness(searchString).then(
+				business.getBusinessByCategory(searchString).then(
 				   function successCallback(response) {
 					   $scope.results = response.data;
 		           },
@@ -91,6 +91,50 @@ angular.module('business.directives').directive('appSearchCategories', function(
 		link: function(scope, element, attributes){
  			// EVENTS BINDING
  			element.find('#search').bind('change', scope.change);
+		}
+	};
+});
+
+//ADD 'appSearchBusiness' directive
+//.................................
+angular.module('business.directives').directive('appSearchBusiness', function(business, ionicMaterialMotion, ionicMaterialInk) {
+	return {
+		replace: false,
+		templateUrl : 'templates/business/search-business.html',
+		controller: function($scope, $window, $element){
+	       	// insert here scope-properties
+			// ...
+			$scope.results = [];
+			
+	       	// insert here scope-functions
+			// ...
+			$scope.select = function(index) {
+			};
+			
+			$scope.change = function(event) {
+				var searchString = $(event.target).val();
+
+				business.getBusiness(searchString).then(
+				   function successCallback(response) {
+					   $scope.results = response.data.businesses;
+					   
+					   ionicMaterialMotion.fadeSlideInRight();
+				       ionicMaterialInk.displayEffect();
+		           },
+		           function errorCallback(response) {
+			    	  alert('KO');
+		           });
+			};
+			
+			$scope.follow = function(uuid) {
+				alert(uuid);
+			}
+			
+
+	    },
+		link: function(scope, element, attributes){
+			// EVENTS BINDING
+			element.find('#search').bind('change', scope.change);
 		}
 	};
 });

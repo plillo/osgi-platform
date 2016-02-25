@@ -1,5 +1,6 @@
 <ion-view view-title="Profilo personale">
     <ion-content ng-class="{expanded:$scope.isExpanded}">
+
         <div class="hero slide-up" style="background-image: url('img/profile-bg.jpg');">
             <div class="content">
                 <div class="avatar" style="background-image: url('img/user.png');"></div>
@@ -15,6 +16,43 @@
                 <i class="icon ion-card"></i> Affiliazioni
             </a>
         </div>
+        
+        <ha-profile-component>
+            <h4 class="content padding double-padding-x">Personal data</h4>
+	        <form name="profileForm" id="profile-form" novalidate>
+	        
+	        <div class="list" style="margin:0 16px;">
+	            
+	            <div class="ha-item">
+		            <input type="text" name="username" ng-model="currentUser.username" class="ha-input form-control" placeholder="Username">
+	            </div>     
+	            
+	            <div class="ha-item">
+		            <input type="text" name="firstName" ng-model="currentUser.firstName"  class="ha-input form-control" placeholder="First name">
+	            </div>
+	            
+	            <div class="ha-item">
+		            <input type="text" name="lastName" ng-model="currentUser.lastName" class="ha-input form-control" placeholder="Last name" >
+	            </div>
+	            
+	            <div class="ha-item">
+		            <input type="text" name="email" ng-model="currentUser.email" class="ha-input form-control" placeholder="EMail" >
+	            </div>
+	            
+	            <div class="ha-item">
+		            <input type="text" name="mobile" ng-model="currentUser.mobile" class="ha-input form-control" placeholder="Mobile" >
+	            </div>
+	        </div>
+	        <div class="padding" style="text-align: center">
+	            <button id="button-update" class="button button-small button-assertive ink">Update</button>
+	        </div>
+	        
+	        </form>
+	    </ha-profile-component> 
+        
+        
+        
+        <!--
         <h4 class="content padding double-padding-x">Following</h4>
         <div class="list animate-fade-slide-in-right">
             <a ui-sref="app.friends" class="item item-avatar item-icon-right">
@@ -36,5 +74,6 @@
                 <i class="icon ion-chatbubble muted"></i>
             </a>
         </div>
+        -->
     </ion-content>
 </ion-view>

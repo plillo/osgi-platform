@@ -141,6 +141,32 @@ div.bs-category-selected span.description {
     max-width: 370px;
 }
 
+
+
+div.bs-search-business-results {
+}
+div.bs-search-business-result {
+    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, #cccccc, transparent) repeat scroll 0 0;
+}
+div.bs-search-business-result img {
+
+}
+div.bs-search-business-result div {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+}
+div.bs-search-business-result div h2 {
+
+}
+div.bs-search-business-result div p {
+
+}
+
+
+
+
+
 .bs-menu-list .item a {
 	font-size: 16px;
 }
@@ -148,4 +174,10 @@ div.bs-category-selected span.description {
     color: #33aacc;
     font-size: 16px;
     margin-right: 6px;
+}
+
+span.bs-evidenziato {
+    background-color: #ffffaa;
+    color: #aa0000;
+    padding: 0 10px;
 }
