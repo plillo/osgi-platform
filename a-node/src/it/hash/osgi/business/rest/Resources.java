@@ -90,8 +90,12 @@ public class Resources {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 
 	public Response create(Business business) {
-
+		// SET Business's owner
+		String actual_user_uuid = _userService.getUUID();
+		business.setOwner(actual_user_uuid);
+		
 		Map<String, Object> response = _businessService.create(business);
+		
 		System.out.println("Add " + business.get_id() + "returnCode " + response.get("returnCode"));
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	}

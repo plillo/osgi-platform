@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
-import it.hash.osgi.business.Business;
 import it.hash.osgi.user.attribute.Attribute;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.ObjectId;
@@ -308,7 +309,106 @@ public class User implements Comparable<User> {
 	// implementing Comparable
 	@Override
 	public int compareTo(User obj) {
+		if(this.uuid==null || obj==null || obj.uuid==null)
+			return -1;
 		return this.uuid.compareTo(obj.uuid);
 	}
+	
+	public Map<String, Object> toMap(){
+		Map<String, Object> map = new TreeMap<String, Object>();
+		
+		// TODO
+		
+		return map;
+	}
+	
+	public static User toUser(Map<String, Object> mapUser) {
+		User user = new User();
+		
+		Set<String> entry = mapUser.keySet();
+		for (String elem : entry) {
+			switch (elem) {
+			case "_id":
+				user.set_id(mapUser.get(elem).toString());
+				break;
+			case "uuid":
+				user.setUuid((String) mapUser.get(elem));
+				break;
+			case "username":
+				user.setUsername((String) mapUser.get(elem));
+				break;
+			case "password":
+				user.setPassword((String) mapUser.get(elem));
+				break;
+			case "salted_hash_password":
+				user.setSalted_hash_password((String) mapUser.get(elem));
+				break;
+			case "firstName":
+				user.setFirstName((String) mapUser.get(elem));
+				break;
+			case "lastName":
+				user.setLastName((String) mapUser.get(elem));
+				break;
+			case "password_mdate":
+				user.setPassword_mdate((String) mapUser.get(elem));
+				break;
+			case "email":
+				user.setEmail((String) mapUser.get(elem));
+				break;
+			case "mobile":
+				user.setMobile((String) mapUser.get(elem));
+				break;
+			case "attributes":
+				user.setAttributes((List<Attribute>) mapUser.get(elem));
+				break;
+			case "published":
+				user.setPublished((String) mapUser.get(elem));
+				break;
+			case "last_login_date":
+				user.setLast_login_date((String) mapUser.get(elem));
+				break;
+			case "last_login_ip":
+				user.setLast_login_ip((String) mapUser.get(elem));
+				break;
+			case "trusted_email":
+				user.setTrusted_email((String) mapUser.get(elem));
+				break;
+			case "trusted_mobile":
+				user.setTrusted_mobile((String) mapUser.get(elem));
+				break;
+			case "cauthor":
+				user.setCauthor((String) mapUser.get(elem));
+				break;
+			case "cdate":
+				user.setCdate((String) mapUser.get(elem));
+				break;
+			case "mauthor":
+				user.setMauthor((String) mapUser.get(elem));
+				break;
+			case "mdate":
+				user.setMdate((String) mapUser.get(elem));
+				break;
+			case "lauthor":
+				user.setLauthor((String) mapUser.get(elem));
+				break;
+			case "ldate":
+				user.setLdate((String) mapUser.get(elem));
+				break;
+			case "user_data":
+				user.setUser_data((String) mapUser.get(elem));
+				break;
+
+			default:
+				if (user.getExtra() == null)
+					user.setExtra(new HashMap<String, Object>());
+				if (!user.getExtra().containsKey(elem))
+					user.setExtra(elem, mapUser.get(elem));
+
+			}
+
+		}
+		return user;
+	}
+
 
 }

@@ -34,6 +34,7 @@ public interface UserService {
 
 	Map<String, Object> deleteUser(Map<String, Object> pars);
 
+	Map<String, Object> updateUser(User user);
 	Map<String, Object> updateUser(Map<String, Object> pars);
 
 	List<User> getUserDetails(Map<String, Object> pars);

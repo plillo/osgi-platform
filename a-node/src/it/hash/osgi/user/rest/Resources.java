@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import it.hash.osgi.business.service.api.BusinessService;
+import it.hash.osgi.user.User;
 import it.hash.osgi.user.attribute.Attribute;
 import it.hash.osgi.user.service.UserService;
 import it.hash.osgi.utils.MapTools;
@@ -37,6 +38,50 @@ public class Resources {
 	// @RolesAllowed("root")
 	public Response list() {
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(_userService.getUsers()).build();
+	}
+	
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createAndLogin(@QueryParam("identificator") String identificator, @QueryParam("password") String password) {
+		Map<String, Object> response = new TreeMap<String, Object>();
+		User user = new User();
+		
+		Map<String, Object> map = _userService.validateIdentificator(identificator);
+		String identificator_type = (String)map.get("identificatorType");
+		
+		if((Boolean)map.get("isValid")) {
+			// Get the user (if any) matching the identificator
+			// ================================================
+			map = new TreeMap<String, Object>();
+
+			if("username".equals(identificator_type))
+				user.setUsername(identificator);
+			else if("email".equals(identificator_type))
+				user.setEmail(identificator);
+			else if("mobile".equals(identificator_type))
+				user.setMobile(identificator);
+
+			user.setPassword(password);
+		
+			response = _userService.createUser(user);
+			boolean created = (boolean)response.get("created");
+			if(created)
+				return login(identificator, password);
+		}
+		
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
+	}
+	
+	@Path("/{Uuid}/update")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response update(@PathParam("Uuid") String uuid, User user) {
+		Map<String, Object> response = new TreeMap<String, Object>();
+
+		response = _userService.updateUser(user);
+		
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	}
 
 	@GET
@@ -84,7 +129,7 @@ public class Resources {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-   public Response follow(@PathParam("businessUuid") String businessUuid,List<Attribute> list){
+   public Response follow(@PathParam("businessUuid") String businessUuid, List<Attribute> list){
 		
 		System.out.println("");
 	

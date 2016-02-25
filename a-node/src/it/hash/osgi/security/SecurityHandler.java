@@ -62,7 +62,7 @@ public class SecurityHandler implements AuthenticationHandler, AuthorizationHand
 		
 		if(jwt!=null) {
 			roles = _jwtService.getRoles(jwt);
-			user_id = _jwtService.getUID(jwt);
+			user_id = _jwtService.getUuid(jwt);
 			
 			TokenThreadLocal.set(jwt);
 		}

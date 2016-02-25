@@ -263,7 +263,7 @@ public class JWTServiceImpl implements JWTService, ManagedService {
 	}
 
 	@Override
-	public String getUID(String jwt) {
+	public String getUuid(String jwt) {
 		if(jwt==null)
 			return null;
 
@@ -277,7 +277,7 @@ public class JWTServiceImpl implements JWTService, ManagedService {
 		try {
 			jwtContext = firstPassJwtConsumer.process(jwt);
 
-			return jwtContext.getJwtClaims().getStringClaimValue("uid");
+			return jwtContext.getJwtClaims().getStringClaimValue("uuid");
 		} catch (InvalidJwtException e) {
 			e.printStackTrace();
 		} catch (MalformedClaimException e) {
@@ -288,10 +288,10 @@ public class JWTServiceImpl implements JWTService, ManagedService {
 	}
 	
 	@Override
-	public String getUID() {
+	public String getUuid() {
 		String token = _securityService.getToken();
 		
-		return getUID(token);
+		return getUuid(token);
 	}
 
 	@Override

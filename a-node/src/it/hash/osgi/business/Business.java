@@ -37,6 +37,7 @@ public class Business implements Comparable<Business> {
 	private String nation;
 	private String _description;
 	private String _longDescription;
+	private String owner;
 	private List<String> categories;
 	private List<String> users;
 	private String email;
@@ -451,5 +452,13 @@ public class Business implements Comparable<Business> {
 		} else if (!uuid.equals(other.uuid))
 			return false;
 		return true;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 }

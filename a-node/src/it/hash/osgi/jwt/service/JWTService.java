@@ -14,7 +14,7 @@ public interface JWTService {
 	String getIssuer();
 	List<String> getRoles(String jwt);
 	List<String> getRoles();
-	String getUID(String jwt);
-	String getUID();
+	String getUuid(String jwt);
+	String getUuid();
 	RsaJsonWebKey getRSA();
 }

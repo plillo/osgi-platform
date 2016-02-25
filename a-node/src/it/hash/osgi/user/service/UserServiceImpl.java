@@ -36,7 +36,11 @@ public class UserServiceImpl implements UserService, ManagedService {
 
 	@Override
 	public Map<String, Object> login(String identificator, String password) {
-		return null;
+		Map<String, Object> pars = new TreeMap<String, Object>();
+		pars.put("identificator", identificator);
+		pars.put("password", password);
+
+		return login(pars);
 	}
 
 	@Override
@@ -233,11 +237,13 @@ public class UserServiceImpl implements UserService, ManagedService {
 	}
 
 	@Override
-	public Map<String, Object> updateUser(Map<String, Object> pars) {
-		// TODO Auto-generated method stub
-		pars.put("userUuid", getUUID());
-
-		return _userPersistenceService.updateUser(pars);
+	public Map<String, Object> updateUser(User user) {
+		return _userPersistenceService.updateUser(user);
+	}
+	
+	@Override
+	public Map<String, Object> updateUser(Map<String, Object> mapUser) {
+		return updateUser(User.toUser(mapUser));
 	}
 
 	@Override
@@ -314,7 +320,7 @@ public class UserServiceImpl implements UserService, ManagedService {
 
 	@Override
 	public String getUUID() {
-		return _jwtService.getUID();
+		return _jwtService.getUuid();
 	}
 
 	// getRoles METHODS

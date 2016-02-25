@@ -151,6 +151,8 @@ public static Map<String, Object> createPars(Business business) {
 			pars.put("_description", business.get__Description());
 		if (!StringUtils.isEmptyOrNull(business.get__longDescription()))
 			pars.put("_longDescription", business.get__longDescription());
+		if (!StringUtils.isEmptyOrNull(business.getOwner()))
+			pars.put("owner", business.getOwner());
 		if (business.getCategories() != null)
 			pars.put("categories", business.getCategories());
 		if (business.getUsers()!=null)

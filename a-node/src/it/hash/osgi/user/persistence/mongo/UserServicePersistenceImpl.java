@@ -10,6 +10,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.amdatu.mongo.MongoDBService;
+import org.bson.types.ObjectId;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -20,6 +21,8 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
+import com.mongodb.WriteResult;
 
 import it.hash.osgi.user.User;
 import it.hash.osgi.user.utilsUser;
@@ -343,7 +346,6 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 		User find_user = getUserByUuid((String) pars.get("userUuid"));
 		find_user.setAttributes((List<Attribute>) pars.get("attributes"));
 		
-
 		return updateUser(find_user);
 	}
 
@@ -364,8 +366,20 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 					e.printStackTrace();
 				}
 			String userId = ((User) result.get("user")).get_id();
-			users.updateById(userId, user);
-			found_user = users.findOne(new BasicDBObject("_id", userId));
+			//users.updateById(userId, user);
+			
+			BasicDBObject updateDocument = new BasicDBObject().append("$set", toBasicDBObject(user));
+			BasicDBObject searchQuery = new BasicDBObject().append("_id", new ObjectId(userId));
+
+			@SuppressWarnings("unused")
+			WriteResult wr = userCollection.update(searchQuery, updateDocument);
+			//TODO verificare l'esito dell'update da 'wr' ed effettuare azioni se esito negativo
+			
+			found_user = users.findOne(new BasicDBObject("_id", new ObjectId(userId)));
+			
+			//DBObject updated_user = userCollection.findOne(new BasicDBObject("_id", new ObjectId(userId)));
+			//found_user = User.toUser(updated_user.toMap());
+			
 			response.put("user", found_user);
 			response.put("updated", true);
 			response.put("keys", result.get("keys"));
@@ -651,4 +665,22 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 		return response;
 	}
 
+	BasicDBObject toBasicDBObject(User user) {
+		BasicDBObject bdbObject = new BasicDBObject();
+		
+		if(user.getUuid()!=null)
+			bdbObject.append("uuid",user.getUuid());
+		if(user.getUuid()!=null)
+			bdbObject.append("username",user.getUsername());
+		if(user.getUuid()!=null)
+			bdbObject.append("firstName",user.getFirstName());
+		if(user.getUuid()!=null)
+			bdbObject.append("lastName",user.getLastName());
+		if(user.getUuid()!=null)
+			bdbObject.append("email",user.getEmail());
+		if(user.getUuid()!=null)
+			bdbObject.append("mobile",user.getMobile());
+		
+		return bdbObject;
+	}
 }
