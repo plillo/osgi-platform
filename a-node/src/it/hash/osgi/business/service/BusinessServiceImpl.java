@@ -2,11 +2,9 @@ package it.hash.osgi.business.service;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 import org.osgi.service.event.EventAdmin;
 
@@ -16,7 +14,6 @@ import it.hash.osgi.business.Business;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
 import it.hash.osgi.business.service.api.BusinessService;
 import it.hash.osgi.resource.uuid.api.UUIDService;
-import it.hash.osgi.user.User;
 import it.hash.osgi.user.service.UserService;
 
 public class BusinessServiceImpl implements BusinessService {
@@ -26,6 +23,7 @@ public class BusinessServiceImpl implements BusinessService {
 	private Dictionary properties;
 	private volatile BusinessServicePersistence _businessPersistenceService;
 	private volatile UUIDService _uuid;
+	@SuppressWarnings("unused")
 	private volatile UserService _userSrv;
    
 	@SuppressWarnings("unused")
@@ -129,12 +127,20 @@ public class BusinessServiceImpl implements BusinessService {
 		return _businessPersistenceService.getBusinesses();
 	}
 
-	
-
 	@Override
 	public Map<String, Object> updateFollowersToBusiness(Map<String, Object> pars) {
 	return _businessPersistenceService.updateBusiness(pars);
 		
+	}
+
+	@Override
+	public Map<String, Object> followBusiness(String businessUuid, String actual_user_uuid) {
+		return _businessPersistenceService.follow(businessUuid, actual_user_uuid);
+	}
+
+	@Override
+	public List<Business> retrieveFollowedBusinesses(String uuid) {
+		return _businessPersistenceService.retrieveFollowedBusinesses(uuid);
 	}
 
 }

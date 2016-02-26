@@ -44,5 +44,8 @@ public interface BusinessServicePersistence {
 	
 	// IMPLEMENTATION
 	String getImplementation();
+	Map<String, Object> follow(String businessUuid, String actual_user_uuid);
+	List<Business> retrieveFollowedBusinesses(String uuid);
+
 
 }

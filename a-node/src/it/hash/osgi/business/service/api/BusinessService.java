@@ -15,6 +15,8 @@ public interface BusinessService {
 	Map<String, Object> updateFollowersToBusiness(Map<String, Object> pars);
 	List<Business> retrieveBusinesses(String criterion, String search);
 	List<Business> getBusinesses();
-	     
+	Map<String, Object> followBusiness(String businessUuid, String actual_user_uuid);
+	List<Business> retrieveFollowedBusinesses(String uuid);
+	
 
 }

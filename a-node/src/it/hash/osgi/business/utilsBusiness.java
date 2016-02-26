@@ -13,7 +13,7 @@ import it.hash.osgi.utils.StringUtils;
 public class utilsBusiness {
 
 
-	public static Business toMap(Map mapBusiness) {
+	public static Business toBusiness(Map mapBusiness) {
 		
 		Business business = new Business();
 		String attribute = null;

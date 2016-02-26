@@ -25,6 +25,20 @@ angular.module('business.services').factory('business', function($http, $rootSco
 			      url:$rootScope.urlBackend+'/businesses/1.0/business/'+search
 			};
 			return $http(pars); // return promise
+		},
+		getFollowedBusiness: function(search){
+			var pars = {
+			      method:'GET',
+			      url:$rootScope.urlBackend+'/businesses/1.0/business/followed'
+			};
+			return $http(pars); // return promise
+		},
+		followBusiness: function(uuid){
+			var pars = {
+			      method:'POST',
+			      url:$rootScope.urlBackend+'/businesses/1.0/business/'+uuid+'/follow'
+			};
+			return $http(pars); // return promise
 		}
 	}
 });

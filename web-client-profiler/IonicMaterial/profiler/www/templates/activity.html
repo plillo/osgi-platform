@@ -1,24 +1,10 @@
 <ion-view view-title="Activity">
     <ion-content ng-class="{expanded:isExpanded}" class="animate-fade-slide-in" style="background-color:#EEEEEE;padding:30px;">
-
 	    <h2>Gestione delle adesioni</h2>
-		<p>
-		In quest'area l'utente pu&ograve;:
-		<ul style="list-style-type: disc">
-			<li>amministrare le sue attuali adesioni ai business</li>
-			<li>cercare e aderire ad altri business</li>
-		</ul>
-		
-		<br /><br />Dunque occorre chiedere al back-end i seguenti servizi:
-		<ul style="list-style-type: disc">
-			<li><span class="bs-evidenziato">Array di oggetti Business "followed" dall'utente attuale, in modo da listarli per eventuale selezione ai fini di modifica/cancellazione dell'adesione</span>
-			    <br />[NOTA] sembra la solita GET ma con un filtraggio sull'utente 'attuale' (info in ThreadLocal): come gestire la cosa a livello REST?</li>
-			<li><span class="bs-evidenziato">Array di oggetti business NON "followed" dall'utente attuale per parola chiave, in modo da listarli ai fini di una nuova adesione</span>
-			    <br />[NOTA] come sopra, con un filtraggio "negativo" sull'utente 'attuale' (info in ThreadLocal): come gestire la cosa a livello REST?</li>
-		</ul>
-		</p>
+	
+		<app-followed-business></app-followed-business>
 		
 		<app-search-business></app-search-business>
-
+		<br /><br /><br />
     </ion-content>
 </ion-view>

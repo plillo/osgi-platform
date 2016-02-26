@@ -143,15 +143,18 @@ div.bs-category-selected span.description {
 
 
 
-div.bs-search-business-results {
+div.bs-search-business-results,
+div.bs-followed-business-results {
 }
-div.bs-search-business-result {
+div.bs-search-business-result,
+div.bs-followed-business-result {
     background: rgba(0, 0, 0, 0) linear-gradient(to bottom, #cccccc, transparent) repeat scroll 0 0;
 }
 div.bs-search-business-result img {
 
 }
-div.bs-search-business-result div {
+div.bs-search-business-result div,
+div.bs-followed-business-result div  {
     display: inline-block;
     vertical-align: top;
     margin-left: 10px;

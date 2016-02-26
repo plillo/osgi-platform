@@ -416,8 +416,16 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		return null;
 	}
 
-	
+	@Override
+	public Map<String, Object> follow(String businessUuid, String actual_user_uuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@Override
+	public List<Business> retrieveFollowedBusinesses(String uuid) {
+		return new ArrayList<Business>();
+	}
 
 
 }

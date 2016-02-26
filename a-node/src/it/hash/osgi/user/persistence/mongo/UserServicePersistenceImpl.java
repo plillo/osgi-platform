@@ -1,38 +1,28 @@
 package it.hash.osgi.user.persistence.mongo;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.amdatu.mongo.MongoDBService;
 import org.bson.types.ObjectId;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.osgi.service.log.LogService;
 
-import com.google.gson.Gson;
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
-import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 
 import it.hash.osgi.user.User;
 import it.hash.osgi.user.utilsUser;
 import it.hash.osgi.user.attribute.Attribute;
-import it.hash.osgi.user.attribute.utilsAttribute;
 import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
 import it.hash.osgi.user.service.Status;
 import net.vz.mongodb.jackson.DBCursor;
-import net.vz.mongodb.jackson.DBQuery;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 
 public class UserServicePersistenceImpl implements UserServicePersistence {
@@ -340,6 +330,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> updateAttribute(Map<String, Object> pars) {
 	

@@ -4,23 +4,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.amdatu.mongo.MongoDBService;
 import org.osgi.service.log.LogService;
+
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
-import com.mongodb.BasicDBObject;
-
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.utilsBusiness;
+import it.hash.osgi.business.category.Category;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
+import it.hash.osgi.user.User;
 import it.hash.osgi.utils.StringUtils;
+import net.vz.mongodb.jackson.JacksonDBCollection;
 
 /**
  * Implements interface BusinessServicePersistence with MongoDB:
@@ -47,7 +49,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	@Override
 	public Map<String, Object> addBusiness(Map<String, Object> business) {
 
-		Business business_obj = utilsBusiness.toMap(business);
+		Business business_obj = utilsBusiness.toBusiness(business);
 
 		return addBusiness(business_obj);
 
@@ -74,7 +76,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			DBObject created = businessCollection.findOne(dbObjectBusiness(business));
 
 			if (created != null) {
-				Business created_business = utilsBusiness.toMap(created.toMap());
+				Business created_business = utilsBusiness.toBusiness(created.toMap());
 				response.put("business", created_business);
 				response.put("created", true);
 				response.put("returnCode", 200);
@@ -129,7 +131,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		list = cursor.toArray();
 		Business b;
 		for (DBObject elem : list) {
-			b = utilsBusiness.toMap(elem.toMap());
+			b = utilsBusiness.toBusiness(elem.toMap());
 			listB.add(b);
 
 		}
@@ -150,7 +152,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			found = businessCollection.findOne(new BasicDBObject("uuid", business.get("uuid")));
 
 			if (found != null) {
-				found_business = utilsBusiness.toMap(found.toMap());
+				found_business = utilsBusiness.toBusiness(found.toMap());
 
 				TreeSet<String> list = matchs.get(found_business);
 				if (list == null)
@@ -165,7 +167,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			found = businessCollection.findOne(new BasicDBObject("_id", business.get("_id")));
 
 			if (found != null) {
-				found_business = utilsBusiness.toMap(found.toMap());
+				found_business = utilsBusiness.toBusiness(found.toMap());
 				TreeSet<String> list = matchs.get(found_business);
 				if (list == null)
 					list = new TreeSet<String>();
@@ -177,7 +179,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		if (business.containsKey("fiscalCode") && business.get("fiscalCode") != null) {
 			found = businessCollection.findOne(new BasicDBObject("fiscalCode", business.get("fiscalCode")));
 			if (found != null) {
-				found_business = utilsBusiness.toMap(found.toMap());
+				found_business = utilsBusiness.toBusiness(found.toMap());
 				TreeSet<String> list = matchs.get(found_business);
 				if (list == null)
 					list = new TreeSet<String>();
@@ -192,7 +194,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			found = businessCollection.findOne(new BasicDBObject("name", business.get("name")));
 
 			if (found != null) {
-				found_business = utilsBusiness.toMap(found.toMap());
+				found_business = utilsBusiness.toBusiness(found.toMap());
 
 				TreeSet<String> list = matchs.get(found_business);
 				if (list == null)
@@ -206,7 +208,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			found = businessCollection.findOne(new BasicDBObject("pIva", business.get("pIva")));
 
 			if (found != null) {
-				found_business = utilsBusiness.toMap(found.toMap());
+				found_business = utilsBusiness.toBusiness(found.toMap());
 				TreeSet<String> list = matchs.get(found_business);
 				if (list == null)
 					list = new TreeSet<String>();
@@ -282,7 +284,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		DBCursor cursor = businessCollection.find();
 		List<Business> list = new ArrayList<>();
 		while (cursor.hasNext()) {
-			list.add(utilsBusiness.toMap(cursor.next().toMap()));
+			list.add(utilsBusiness.toBusiness(cursor.next().toMap()));
 		}
 
 		return list;
@@ -295,7 +297,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 		List<Business> list = new ArrayList<>();
 		while (cursor.hasNext()) {
-			list.add(utilsBusiness.toMap(cursor.next().toMap()));
+			list.add(utilsBusiness.toBusiness(cursor.next().toMap()));
 		}
 
 		return list;
@@ -320,7 +322,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			BasicDBObject newObject = new BasicDBObject(map);
 
 			DBObject update = businessCollection.findAndModify(oldObject, newObject);
-			Business updateBusiness = utilsBusiness.toMap(update.toMap());
+			Business updateBusiness = utilsBusiness.toBusiness(update.toMap());
 			if (updateBusiness != null) {
 				responseUpdate.put("business", updateBusiness);
 				responseUpdate.put("update", "OK");
@@ -386,7 +388,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	@Override
 	public Map<String, Object> deleteBusiness(Map<String, Object> pars) {
 
-		return deleteBusiness(utilsBusiness.toMap(pars));
+		return deleteBusiness(utilsBusiness.toBusiness(pars));
 	}
 
 	@Override
@@ -394,6 +396,39 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 		return "Mongo";
 
+	}
+
+	@Override
+	public Map<String, Object> follow(String businessUuid, String actual_user_uuid) {
+		BasicDBObject updatedDocument = new BasicDBObject().append("$addToSet", new BasicDBObject().append("followers",actual_user_uuid));
+		BasicDBObject searchQuery = new BasicDBObject().append("uuid", businessUuid);
+
+		@SuppressWarnings("unused")
+		WriteResult wr = businessCollection.update(searchQuery, updatedDocument);
+		//TODO verificare l'esito dell'update da 'wr' ed effettuare azioni se esito negativo
+
+		return null;
+	}
+
+	@Override
+	public List<Business> retrieveFollowedBusinesses(String uuid) {
+		//JacksonDBCollection<Business, Object> businessJacksonCollection = JacksonDBCollection.wrap(businessCollection, Business.class);
+		if (uuid != null) {
+			//net.vz.mongodb.jackson.DBCursor<Business> cursor = businessJacksonCollection.find(new BasicDBObject("followers", uuid));
+
+			DBCursor cursor = businessCollection.find(new BasicDBObject("followers", uuid));
+
+			List<Business> list = new ArrayList<Business>();
+			while (cursor.hasNext()) {
+				list.add(utilsBusiness.toBusiness(cursor.next().toMap()));
+			}
+
+			return list;
+			
+			//return cursor.toArray();
+		}
+		
+		return new ArrayList<Business>();
 	}
 
 }

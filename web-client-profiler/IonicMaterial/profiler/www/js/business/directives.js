@@ -100,6 +100,7 @@ angular.module('business.directives').directive('appSearchCategories', function(
 angular.module('business.directives').directive('appSearchBusiness', function(business, ionicMaterialMotion, ionicMaterialInk) {
 	return {
 		replace: false,
+		scope: {},
 		templateUrl : 'templates/business/search-business.html',
 		controller: function($scope, $window, $element){
 	       	// insert here scope-properties
@@ -127,7 +128,13 @@ angular.module('business.directives').directive('appSearchBusiness', function(bu
 			};
 			
 			$scope.follow = function(uuid) {
-				alert(uuid);
+				business.followBusiness(uuid).then(
+				    function successCallback(response) {
+				    	alert('OK!');
+		            },
+		            function errorCallback(response) {
+		            	alert('KO');
+		            });
 			}
 			
 
@@ -135,6 +142,41 @@ angular.module('business.directives').directive('appSearchBusiness', function(bu
 		link: function(scope, element, attributes){
 			// EVENTS BINDING
 			element.find('#search').bind('change', scope.change);
+		}
+	};
+});
+
+//ADD 'appFollowedBusiness' directive
+//...................................
+angular.module('business.directives').directive('appFollowedBusiness', function(business, ionicMaterialMotion, ionicMaterialInk) {
+	return {
+		replace: false,
+		scope: {},
+		templateUrl : 'templates/business/followed-business.html',
+		controller: function($scope, $window, $element){
+	       	// insert here scope-properties
+			// ...
+			$scope.results = [];
+			
+	       	// insert here scope-functions
+			// ...
+			$scope.select = function(index) {
+			};
+			
+			$scope.load = function() {
+				business.getFollowedBusiness().then(
+				   function successCallback(response) {
+					   $scope.results = response.data.businesses;
+		           },
+		           function errorCallback(response) {
+			    	  alert('KO');
+		           });
+			};
+			$scope.load();
+	    },
+		link: function(scope, element, attributes){
+			// EVENTS BINDING
+			//element.find('#search').bind('change', scope.change);
 		}
 	};
 });

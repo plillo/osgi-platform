@@ -53,6 +53,26 @@ public class Resources {
 
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	}
+	
+	@GET
+	@Path("/business/followed")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getFollowedBusinesses() {
+		Map<String, Object> response = new TreeMap<String, Object>();
+		
+		// SET Business's follower
+		String actual_user_uuid = _userService.getUUID();
+		
+		// Retrieve
+		List<Business> businesses = _businessService.retrieveFollowedBusinesses(actual_user_uuid);
+
+		if (businesses == null)
+			return Response.serverError().build();
+
+		response.put("businesses", businesses);
+
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
+	}
 
 	@GET
 	@Path("/attributeBusiness/{search}")
@@ -237,4 +257,17 @@ public class Resources {
 		return response;
 	}
 
+	// addBusiness
+	@POST
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Path("/business/{uuid}/follow")
+	public Response follow(@PathParam("uuid") String businessUuid) {
+		// SET Business's owner
+		String actual_user_uuid = _userService.getUUID();
+		
+		Map<String, Object> response = _businessService.followBusiness(businessUuid, actual_user_uuid);
+		
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
+	}
+	
 }
