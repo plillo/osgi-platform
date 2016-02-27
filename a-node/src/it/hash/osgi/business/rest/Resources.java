@@ -53,6 +53,26 @@ public class Resources {
 
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	}
+	@GET 
+	@Path("/business/owned")
+	@Produces (MediaType.APPLICATION_JSON)
+	public Response getOwnerBusinesses() {
+		Map<String, Object> response = new TreeMap<String, Object>();
+		
+		// SET Business's owned
+		String actual_user_uuid = "ceaaa4bc-0ac0-4938-b501-e4cb3c7460a2";//_userService.getUUID();
+		
+		// Retrieve
+		List<Business> businesses = _businessService.retrieveOwnedBusinesses(actual_user_uuid);
+
+		if (businesses == null)
+			return Response.serverError().build();
+
+		response.put("businesses", businesses);
+
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
+	}
+
 	
 	@GET
 	@Path("/business/followed")

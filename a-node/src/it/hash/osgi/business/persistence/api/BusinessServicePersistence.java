@@ -35,6 +35,10 @@ public interface BusinessServicePersistence {
 	List<Business> getBusinessDetails(Business business);
 	List<Business> retrieveBusinesses(String criterion, String search);
 	
+	Map<String, Object> follow(String businessUuid, String actual_user_uuid);
+	List<Business> retrieveFollowedBusinesses(String uuid);
+	List<Business> retrieveOwnedBusinesses(String uuid);
+	
 	// UPDATE
 	Map<String, Object> updateBusiness(Business business);
 	Map<String, Object> updateBusiness(Map<String, Object> business);
@@ -44,8 +48,7 @@ public interface BusinessServicePersistence {
 	
 	// IMPLEMENTATION
 	String getImplementation();
-	Map<String, Object> follow(String businessUuid, String actual_user_uuid);
-	List<Business> retrieveFollowedBusinesses(String uuid);
+
 
 
 }

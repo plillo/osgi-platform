@@ -349,7 +349,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		if (business != null) {
 
 			if (pars.containsKey("userUuid")) {
-				business.addUser((String) pars.get("userUuid"));
+				business.addFollower((String) pars.get("userUuid"));
 				response = updateBusiness(business);
 			}
 		} else {
@@ -400,21 +400,26 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public Map<String, Object> follow(String businessUuid, String actual_user_uuid) {
-		BasicDBObject updatedDocument = new BasicDBObject().append("$addToSet", new BasicDBObject().append("followers",actual_user_uuid));
+		BasicDBObject updatedDocument = new BasicDBObject().append("$addToSet",
+				new BasicDBObject().append("followers", actual_user_uuid));
 		BasicDBObject searchQuery = new BasicDBObject().append("uuid", businessUuid);
 
 		@SuppressWarnings("unused")
 		WriteResult wr = businessCollection.update(searchQuery, updatedDocument);
-		//TODO verificare l'esito dell'update da 'wr' ed effettuare azioni se esito negativo
+		// TODO verificare l'esito dell'update da 'wr' ed effettuare azioni se
+		// esito negativo
 
 		return null;
 	}
 
 	@Override
 	public List<Business> retrieveFollowedBusinesses(String uuid) {
-		//JacksonDBCollection<Business, Object> businessJacksonCollection = JacksonDBCollection.wrap(businessCollection, Business.class);
+		// JacksonDBCollection<Business, Object> businessJacksonCollection =
+		// JacksonDBCollection.wrap(businessCollection, Business.class);
 		if (uuid != null) {
-			//net.vz.mongodb.jackson.DBCursor<Business> cursor = businessJacksonCollection.find(new BasicDBObject("followers", uuid));
+			// net.vz.mongodb.jackson.DBCursor<Business> cursor =
+			// businessJacksonCollection.find(new BasicDBObject("followers",
+			// uuid));
 
 			DBCursor cursor = businessCollection.find(new BasicDBObject("followers", uuid));
 
@@ -424,10 +429,29 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			}
 
 			return list;
-			
-			//return cursor.toArray();
+
+			// return cursor.toArray();
 		}
-		
+
+		return new ArrayList<Business>();
+	}
+
+	@Override
+	public List<Business> retrieveOwnedBusinesses(String uuid) {
+		if (uuid != null) {
+			DBCursor cursor = businessCollection.find(new BasicDBObject("owner", uuid));
+
+			List<Business> list = new ArrayList<Business>();
+			
+			
+			while (cursor.hasNext()) {
+				list.add(utilsBusiness.toBusiness(cursor.next().toMap()));
+			}
+
+			return list;
+
+		}
+
 		return new ArrayList<Business>();
 	}
 

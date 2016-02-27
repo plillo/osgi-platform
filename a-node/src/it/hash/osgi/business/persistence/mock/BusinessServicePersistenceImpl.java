@@ -427,5 +427,11 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		return new ArrayList<Business>();
 	}
 
+	@Override
+	public List<Business> retrieveOwnedBusinesses(String uuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

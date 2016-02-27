@@ -143,4 +143,10 @@ public class BusinessServiceImpl implements BusinessService {
 		return _businessPersistenceService.retrieveFollowedBusinesses(uuid);
 	}
 
+	@Override
+	public List<Business> retrieveOwnedBusinesses(String uuid) {
+		return _businessPersistenceService.retrieveOwnedBusinesses(uuid);
+		
+	}
+
 }

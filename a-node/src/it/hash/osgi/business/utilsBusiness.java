@@ -66,14 +66,16 @@ public class utilsBusiness {
 					business.setCategories((List<String>) mapBusiness.get(elem));
 					break;
 				
-				case "businesses":
-					business.setUsers((List<String>) mapBusiness.get(elem));
+				case "followers":
+					business.setFollower((List<String>) mapBusiness.get(elem));
 					break;
 				
 				case "email":
 					business.setEmail((String) mapBusiness.get(elem));
 					break;
-
+				case "owner":
+					business.setOwner((String) mapBusiness.get(elem));
+					break;
 				case "mobile":
 					business.setMobile((String) mapBusiness.get(elem));
 					break;
@@ -155,8 +157,8 @@ public static Map<String, Object> createPars(Business business) {
 			pars.put("owner", business.getOwner());
 		if (business.getCategories() != null)
 			pars.put("categories", business.getCategories());
-		if (business.getUsers()!=null)
-			pars.put("users", business.getUsers());
+		if (business.getFollowers()!=null)
+			pars.put("followers", business.getFollowers());
 		if (!StringUtils.isEmptyOrNull(business.getEmail()))
 			pars.put("email", business.getEmail());
 		if (!StringUtils.isEmptyOrNull(business.getMobile()))

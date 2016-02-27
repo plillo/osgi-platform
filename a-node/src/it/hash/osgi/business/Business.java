@@ -39,7 +39,8 @@ public class Business implements Comparable<Business> {
 	private String _longDescription;
 	private String owner;
 	private List<String> categories;
-	private List<String> users;
+
+	private List<String> followers;
 	private String email;
 	private String mobile;
 	private String published;
@@ -179,33 +180,33 @@ public class Business implements Comparable<Business> {
 
 		return this.categories.remove(category);
 	}
-	public List<String> getUsers() {
-		return users;
+	public List<String> getFollowers() {
+		return followers;
 	}
 
-	public void setUsers(List<String> usersUuid) {
-		if (this.users==null)
-			this.users = usersUuid;
+	public void setFollower(List<String> userUuid) {
+		if (this.followers==null)
+			this.followers = userUuid;
 		else 
 		{
-			for (String elem:users){
-				if (this.users.contains(elem))
-					this.users.remove(elem);
-				this.users.add(elem);
+			for (String elem:followers){
+				if (this.followers.contains(elem))
+					this.followers.remove(elem);
+				this.followers.add(elem);
 			}
 		}}
 	
-	public boolean addUser(String userUuid) {
-		if (this.getUsers() == null)
-			this.users= new ArrayList<String>();
-		if (this.users.contains(userUuid))
-			this.users.remove(userUuid);
-		return this.users.add(userUuid);
+	public boolean addFollower(String userUuid) {
+		if (this.getFollowers() == null)
+			this.followers= new ArrayList<String>();
+		if (this.followers.contains(userUuid))
+			this.followers.remove(userUuid);
+		return this.followers.add(userUuid);
 	}
 
-	public boolean removeUser(String userUuid) {
-		if (this.users.contains(userUuid))
-			return this.users.remove(userUuid);
+	public boolean removeFollower(String userUuid) {
+		if (this.followers.contains(userUuid))
+			return this.followers.remove(userUuid);
 		else
 			return false;
 	}
