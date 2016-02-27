@@ -60,7 +60,7 @@ public class Resources {
 		Map<String, Object> response = new TreeMap<String, Object>();
 		
 		// SET Business's owned
-		String actual_user_uuid = "ceaaa4bc-0ac0-4938-b501-e4cb3c7460a2";//_userService.getUUID();
+		String actual_user_uuid = _userService.getUUID();
 		
 		// Retrieve
 		List<Business> businesses = _businessService.retrieveOwnedBusinesses(actual_user_uuid);
