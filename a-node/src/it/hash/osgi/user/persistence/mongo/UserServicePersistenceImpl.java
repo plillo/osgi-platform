@@ -361,7 +361,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 			
 			BasicDBObject updateDocument = new BasicDBObject().append("$set", toBasicDBObject(user));
 			BasicDBObject searchQuery = new BasicDBObject().append("_id", new ObjectId(userId));
-
+           
 			@SuppressWarnings("unused")
 			WriteResult wr = userCollection.update(searchQuery, updateDocument);
 			//TODO verificare l'esito dell'update da 'wr' ed effettuare azioni se esito negativo

@@ -139,6 +139,11 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 
 	@Override
+	public Map<String, Object> unFollowBusiness(String businessUuid, String actual_user_uuid) {
+		return _businessPersistenceService.unFollow(businessUuid, actual_user_uuid);
+	}
+
+	@Override
 	public List<Business> retrieveFollowedBusinesses(String uuid) {
 		return _businessPersistenceService.retrieveFollowedBusinesses(uuid);
 	}

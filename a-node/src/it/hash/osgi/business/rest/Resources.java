@@ -97,6 +97,8 @@ public class Resources {
 	@GET
 	@Path("/attributeBusiness/{search}")
 	@Produces(MediaType.APPLICATION_JSON)
+	// if search ==uuidBusiness  ritorna tutti gli attributi di quel Business (valorati e non) 
+	// in base alle categorie a cui appartiene 
 	public Response getAttribute(@PathParam("search") PathSegment s) {
 		System.out.println(" ");
  
@@ -276,6 +278,18 @@ public class Resources {
 		}
 		return response;
 	}
+	
+@POST
+@Consumes ({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+@Path("/business/{uuid}/unFollow")
+public Response unFollow(@PathParam("uuid") String businessUuid) {
+	// SET Business's owner
+	String actual_user_uuid = "ceaaa4bc-0ac0-4938-b501-e4cb3c7460a2";//_userService.getUUID();
+	
+	Map<String, Object> response = _businessService.unFollowBusiness(businessUuid, actual_user_uuid);
+	
+	return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
+}
 
 	// addBusiness
 	@POST

@@ -400,6 +400,8 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public Map<String, Object> follow(String businessUuid, String actual_user_uuid) {
+		Map<String, Object> response = new HashMap<String, Object>();
+
 		BasicDBObject updatedDocument = new BasicDBObject().append("$addToSet",
 				new BasicDBObject().append("followers", actual_user_uuid));
 		BasicDBObject searchQuery = new BasicDBObject().append("uuid", businessUuid);
@@ -409,7 +411,11 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		// TODO verificare l'esito dell'update da 'wr' ed effettuare azioni se
 		// esito negativo
 
-		return null;
+		if (wr.getN() == 0)
+			response.put("update", false);
+		else
+			response.put("update", true);
+		return response;
 	}
 
 	@Override
@@ -442,8 +448,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 			DBCursor cursor = businessCollection.find(new BasicDBObject("owner", uuid));
 
 			List<Business> list = new ArrayList<Business>();
-			
-			
+
 			while (cursor.hasNext()) {
 				list.add(utilsBusiness.toBusiness(cursor.next().toMap()));
 			}
@@ -453,6 +458,21 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		}
 
 		return new ArrayList<Business>();
+	}
+
+	@Override
+	public Map<String, Object> unFollow(String businessUuid, String actual_user_uuid) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		BasicDBObject searchQuery = new BasicDBObject().append("uuid", businessUuid);
+		BasicDBObject update = new BasicDBObject("followers", actual_user_uuid);
+
+		WriteResult wr = businessCollection.update(searchQuery, new BasicDBObject("$pull", update));
+		if (wr.getN() == 0)
+			response.put("update", false);
+		else
+			response.put("update", true);
+
+		return response;
 	}
 
 }
