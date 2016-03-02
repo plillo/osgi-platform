@@ -439,5 +439,11 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		return null;
 	}
 
+	@Override
+	public Map<String, Object> notFollow(String actual_user_uuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

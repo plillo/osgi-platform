@@ -304,4 +304,17 @@ public Response unFollow(@PathParam("uuid") String businessUuid) {
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	}
 	
+	@GET 
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Path("/business/notFollow")
+	public Response getNotfollowBusiness() {
+		// SET Business's owner
+		String actual_user_uuid = "35b34044-71d1-4454-b0b8-7b9a542d7893";//_userService.getUUID();
+		
+		Map<String, Object> response = _businessService.notFollowBusiness(actual_user_uuid);
+		
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
+	}
+	
+	
 }

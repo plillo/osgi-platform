@@ -154,4 +154,10 @@ public class BusinessServiceImpl implements BusinessService {
 		
 	}
 
+	@Override
+	public Map<String, Object> notFollowBusiness(String actual_user_uuid) {
+		return _businessPersistenceService.notFollow(actual_user_uuid);
+	
+	}
+
 }
