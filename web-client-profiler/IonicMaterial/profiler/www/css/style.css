@@ -84,6 +84,16 @@ p {
     bottom: 0;
 }
 
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+ha-profile-component {
+	text-align: center;
+}
+
 /* PATCHS
 ==================================*/
 .item-md-label {
@@ -108,6 +118,28 @@ p {
 
 
 /* BUSINESS */
+.list.profile .item-select select {
+    padding: 7px 48px 16px 16px;
+    top: 1px;
+}
+
+.list.profile .item-select option {
+    height: 30px;
+    padding-top: 5px;
+}
+
+.list.profile textarea, 
+.list.profile input[type="text"] {
+    background-color: #EEEEEE;
+    padding: 0 10px;
+}
+.list.profile textarea {
+    padding: 10px;
+}
+
+.list.profile .item-input {
+    padding: 6px 16px 5px;
+}
 
 
 div.bs-search-category-results {
@@ -166,10 +198,6 @@ div.bs-search-business-result div p {
 
 }
 
-
-
-
-
 .bs-menu-list .item a {
 	font-size: 16px;
 }
@@ -183,4 +211,8 @@ span.bs-evidenziato {
     background-color: #ffffaa;
     color: #aa0000;
     padding: 0 10px;
+}
+
+.angular-google-map-container { 
+  min-height: 400px; 
 }

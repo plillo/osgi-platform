@@ -2,7 +2,7 @@ package it.hash.osgi.user.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +13,9 @@ import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
+
+import com.amazonaws.util.json.JSONArray;
+import com.amazonaws.util.json.JSONObject;
 
 import it.hash.osgi.jwt.service.JWTService;
 import it.hash.osgi.resource.uuid.api.UUIDService;
@@ -39,6 +42,16 @@ public class UserServiceImpl implements UserService, ManagedService {
 		Map<String, Object> pars = new TreeMap<String, Object>();
 		pars.put("identificator", identificator);
 		pars.put("password", password);
+
+		return login(pars);
+	}
+	
+	@Override
+	public Map<String, Object> login(String identificator, String password, String appcode) {
+		Map<String, Object> pars = new TreeMap<String, Object>();
+		pars.put("identificator", identificator);
+		pars.put("password", password);
+		pars.put("appcode", appcode);
 
 		return login(pars);
 	}
@@ -73,6 +86,7 @@ public class UserServiceImpl implements UserService, ManagedService {
 				// TODO: get user's roles from system
 				// ==================================
 				String roles = "reguser, admin, root, business.busadmin";
+				String appcode = (String) pars.get("appcode");
 
 				// Create a JWT (JSON Web Token)
 				Map<String, Object> map = new TreeMap<String, Object>();
@@ -83,8 +97,64 @@ public class UserServiceImpl implements UserService, ManagedService {
 				map.put("mobile", user.getMobile());
 				map.put("firstName", user.getFirstName());
 				map.put("lastName", user.getLastName());
+				
+				// Setting APPCODE
+				if(appcode!=null)
+					map.put("appcode", appcode);
+				// Setting user's ROLES
 				map.put("roles", roles);
-				map.put("body", "this is a access token");
+				// Setting body
+				map.put("body", "this is an access token");
+				
+				// Setting user's ATTRIBUTE TYPES
+				// ---
+				List<JSONObject> attribute_types = new ArrayList<JSONObject>();
+				
+				/*
+				 * recupero degli attributi-utente:
+				 * - attributi CORE: presenti nella tabella 'attributes' con context "CORE"
+				 * - se presente APPCODE, attributi applicazione:
+				 *   delegare APPROPRIATO SERVICE dell'applicazione (?usare pattern whiteboard con chiave APPCODE?) per
+				 *   il recupero degli attributi utente applicativi
+				 * costruire un array di attributi valorizzati con i valori ATTUALI dell'utente
+				 * e inserirlo nel JWT con claim 'attributeTypes' (modificare in 'attributes')
+				 */
+				
+				Map<String, Object> mapobj = new TreeMap<String, Object>();
+				mapobj.put("type", "radio");
+				mapobj.put("name", "sex");
+				mapobj.put("label", "Gender");
+				JSONArray jsa = new JSONArray();
+				jsa.put("M");
+				jsa.put("F");
+				mapobj.put("values", jsa);
+				attribute_types.add(new JSONObject(mapobj));
+				
+				mapobj.put("type", "text");
+				mapobj.put("name", "title");
+				mapobj.put("label", "Title");
+				attribute_types.add(new JSONObject(mapobj));
+				
+				mapobj.put("type", "textarea");
+				mapobj.put("name", "comment");
+				mapobj.put("label", "Comment");
+				attribute_types.add(new JSONObject(mapobj));
+				
+				mapobj.put("type", "select");
+				mapobj.put("name", "sport");
+				mapobj.put("label", "Sport");
+				jsa = new JSONArray();
+				jsa.put("tennis");
+				jsa.put("rugby");
+				jsa.put("calcio");
+				mapobj.put("values", jsa);
+				attribute_types.add(new JSONObject(mapobj));
+				
+				map.put("attributeTypes", attribute_types.toArray(new JSONObject[]{}));
+				// ---
+				
+				
+				// CREATE JWT
 				String token = _jwtService.getToken(map);
 
 				// PUT JWT "token"
@@ -122,7 +192,7 @@ public class UserServiceImpl implements UserService, ManagedService {
 	}
 
 	@Override
-	public Map<String, Object> validateIdentificatorAndLogin(String identificator, String password) {
+	public Map<String, Object> validateIdentificatorAndLogin(String identificator, String password, String appcode) {
 		Map<String, Object> response = new TreeMap<String, Object>();
 
 		// Check and identify the type of identificator (username/email/mobile)
@@ -130,6 +200,8 @@ public class UserServiceImpl implements UserService, ManagedService {
 
 		if ((Boolean) validate.get("isValid")) {
 			response.put("password", password);
+			if(appcode!=null)
+				response.put("appcode", appcode);
 
 			String identificator_type = (String) validate.get("identificatorType");
 			if ("username".equals(identificator_type))

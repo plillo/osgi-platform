@@ -1,0 +1,11 @@
+<div class="bs-followed-business-results">
+
+    <div ng-repeat="result in results" class="bs-followed-business-result" href="#" data-uuid="{{result.uuid}}" ng-click="follow('{{result.uuid}}')">
+      <img src="img/cover.png">
+      <div>
+      	<h2>{{result.city}}</h2>
+      	<p>{{result.address}}</p>
+      </div>
+    </div>
+
+</div>

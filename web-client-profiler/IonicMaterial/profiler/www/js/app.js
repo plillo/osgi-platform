@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'hashServices', 'hashDirectives', 'starter.controllers', 'business.services', 'business.directives', 'ionic-material', 'ionMdInput'])
+angular.module('starter', ['ionic', 'uiGmapgoogle-maps', 'hashServices', 'hashDirectives', 'starter.controllers', 'business.services', 'business.directives', 'ionic-material', 'ionMdInput'])
 
 .config(function($compileProvider){
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
@@ -11,14 +11,19 @@ angular.module('starter', ['ionic', 'hashServices', 'hashDirectives', 'starter.c
 */
 .run(function(backend){})
 
+.config(function(applicationProvider){
+	applicationProvider.setAppcode('bsnss-v1.0');
+	applicationProvider.setDescription('Profiler 1.0');
+})
+
 .config(function(loggerProvider){
 	loggerProvider.setPath('users/1.0/');
+	loggerProvider.setAppCode('bsnss-v1.0');
 })
 
 .config(function(brokerProvider){
-	//brokerProvider.initBroker('calimero', 61614);
-	brokerProvider.initBroker('52.28.84.18', 61614);
-	
+	brokerProvider.initBroker('calimero', 61614);
+	//brokerProvider.initBroker('52.28.84.18', 61614);
 })
 
 .run(function($ionicPlatform) {
@@ -70,19 +75,45 @@ angular.module('starter', ['ionic', 'hashServices', 'hashDirectives', 'starter.c
         }
     })
 
-    .state('app.activity', {
-        url: '/activity',
+    .state('app.subscriptions', {
+        url: '/subscriptions',
         views: {
             'menuContent': {
-                templateUrl: 'templates/activity.html',
-                controller: 'ActivityCtrl'
+                templateUrl: 'templates/subscriptions.html',
+                controller: 'SubscriptionsCtrl'
             },
             'fabContent': {
-                template: '<button id="fab-activity" class="button button-fab button-fab-top-right expanded button-energized-900 flap"><i class="icon ion-paper-airplane"></i></button>',
-                controller: function ($timeout) {
+                template: '<button id="fab-activity" class="button button-fab button-fab-top-right expanded button-energized-900 flap" ng-click="click()"><i class="icon ion-plus"></i></button>',
+                controller: function ($scope, $state, $timeout) {
                     $timeout(function () {
                         document.getElementById('fab-activity').classList.toggle('on');
                     }, 200);
+                    
+                    $scope.click = function() {
+                    	$state.go('app.newsubscription');
+                    };
+                }
+            }
+        }
+    })
+    
+    .state('app.newsubscription', {
+        url: '/new-subscription',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/new-subscription.html',
+                controller: 'NewSubscriptionCtrl'
+            },
+            'fabContent': {
+                template: '<button id="fab-subscriptions" class="button button-fab button-fab-top-right expanded button-energized-900 flap" ng-click="click()"><i class="icon ion-card"></i></button>',
+                controller: function ($scope, $state, $timeout) {
+                    $timeout(function () {
+                        document.getElementById('fab-subscriptions').classList.toggle('on');
+                    }, 200);
+                    
+                    $scope.click = function() {
+                    	$state.go('app.subscriptions');
+                    };
                 }
             }
         }
@@ -225,12 +256,7 @@ angular.module('starter', ['ionic', 'hashServices', 'hashDirectives', 'starter.c
                 controller: 'ProfileCtrl'
             },
             'fabContent': {
-                template: '<button id="fab-profile" class="button button-fab button-fab-bottom-right button-energized-900"><i class="icon ion-plus"></i></button>',
-                controller: function ($timeout) {
-                    /*$timeout(function () {
-                        document.getElementById('fab-profile').classList.toggle('on');
-                    }, 800);*/
-                }
+                template: ''
             }
         }
     })
@@ -248,12 +274,38 @@ angular.module('starter', ['ionic', 'hashServices', 'hashDirectives', 'starter.c
         }
     })
     
+    .state('app.map', {
+        url: '/map',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/map.html',
+                controller: 'MapCtrl'
+            },
+            'fabContent': {
+                template: ''
+            }
+        }
+    })
+    
     .state('app.info', {
         url: '/info',
         views: {
             'menuContent': {
                 templateUrl: 'templates/info.html',
                 controller: 'InfoCtrl'
+            },
+            'fabContent': {
+                template: ''
+            }
+        }
+    })
+    
+    .state('app.lookingfor', {
+        url: '/lookingfor',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/lookingfor.html',
+                controller: 'LookingForCtrl'
             },
             'fabContent': {
                 template: ''

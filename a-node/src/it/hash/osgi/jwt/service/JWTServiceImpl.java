@@ -112,6 +112,14 @@ public class JWTServiceImpl implements JWTService, ManagedService {
 			claims.setClaim("lastName",map.get("lastName"));
 		// set ROLES
 		claims.setStringListClaim("roles", Arrays.asList(splitAndTrim((String)map.get("roles")))); // multi-valued claims work too and will end up as a JSON array
+		// set ATTRIBUTES
+		/*
+		if(map.get("attributes")!=null)
+			claims.setStringListClaim("attributes", (String[])map.get("attributes")); // multi-valued claims work too and will end up as a JSON array
+		*/
+		// set ATTRIBUTE TYPES
+		if(map.get("attributeTypes")!=null)
+			claims.setClaim("attributeTypes", map.get("attributeTypes")); // multi-valued claims work too and will end up as a JSON array
 		
 		// set BODY
 		if(isNotEmptyOrNull((String)map.get("body")))
@@ -289,6 +297,38 @@ public class JWTServiceImpl implements JWTService, ManagedService {
 	
 	@Override
 	public String getUuid() {
+		String token = _securityService.getToken();
+		
+		return getUuid(token);
+	}
+	
+	@Override
+	public String getAppcode(String jwt) {
+		if(jwt==null)
+			return null;
+
+	    JwtConsumer firstPassJwtConsumer = new JwtConsumerBuilder()
+	            .setSkipAllValidators()
+	            .setDisableRequireSignature()
+	            .setSkipSignatureVerification()
+	            .build();
+
+	    JwtContext jwtContext;
+		try {
+			jwtContext = firstPassJwtConsumer.process(jwt);
+
+			return jwtContext.getJwtClaims().getStringClaimValue("appcode");
+		} catch (InvalidJwtException e) {
+			e.printStackTrace();
+		} catch (MalformedClaimException e) {
+			e.printStackTrace();
+		}
+	    
+        return null;
+	}
+	
+	@Override
+	public String getAppcode() {
 		String token = _securityService.getToken();
 		
 		return getUuid(token);

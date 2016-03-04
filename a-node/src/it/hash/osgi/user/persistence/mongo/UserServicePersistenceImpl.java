@@ -9,16 +9,19 @@ import java.util.TreeSet;
 
 import org.amdatu.mongo.MongoDBService;
 import org.bson.types.ObjectId;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.osgi.service.log.LogService;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
+import com.mongodb.util.JSON;
 
+import it.hash.osgi.user.AttributeValue;
 import it.hash.osgi.user.User;
 import it.hash.osgi.user.utilsUser;
-import it.hash.osgi.user.attribute.Attribute;
 import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
 import it.hash.osgi.user.service.Status;
@@ -335,7 +338,7 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 	public Map<String, Object> updateAttribute(Map<String, Object> pars) {
 	
 		User find_user = getUserByUuid((String) pars.get("userUuid"));
-		find_user.setAttributes((List<Attribute>) pars.get("attributes"));
+		find_user.setAttributes((List<AttributeValue>) pars.get("attributes"));
 		
 		return updateUser(find_user);
 	}
@@ -661,16 +664,34 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 		
 		if(user.getUuid()!=null)
 			bdbObject.append("uuid",user.getUuid());
-		if(user.getUuid()!=null)
+		if(user.getUsername()!=null)
 			bdbObject.append("username",user.getUsername());
-		if(user.getUuid()!=null)
+		if(user.getFirstName()!=null)
 			bdbObject.append("firstName",user.getFirstName());
-		if(user.getUuid()!=null)
+		if(user.getLastName()!=null)
 			bdbObject.append("lastName",user.getLastName());
-		if(user.getUuid()!=null)
+		if(user.getEmail()!=null)
 			bdbObject.append("email",user.getEmail());
-		if(user.getUuid()!=null)
+		if(user.getMobile()!=null)
 			bdbObject.append("mobile",user.getMobile());
+		if(user.getAttributes()!=null) {
+			BasicDBList dbl = new BasicDBList();
+			// Insert user's attributes in BasicDBList
+			for(AttributeValue attr: user.getAttributes()){
+				BasicDBObject obj = new BasicDBObject();
+				String uuid = attr.getAttributeUuid();
+				Map<String, Object> jso = attr.getValue();
+				try {
+					String json = new ObjectMapper().writeValueAsString(jso);
+					obj.append("attributeUuid", uuid);
+					obj.append("value", JSON.parse(json));
+					dbl.add(obj);
+				} catch (Exception e) {
+				}
+			}
+			// Append BasicDBList
+			bdbObject.append("attributes", dbl);
+		}
 		
 		return bdbObject;
 	}

@@ -102,7 +102,7 @@ angular.module('business.directives').directive('appSearchBusiness', function(bu
 		replace: false,
 		scope: {},
 		templateUrl : 'templates/business/search-business.html',
-		controller: function($scope, $window, $element){
+		controller: function($scope, $state, $window, $element){
 	       	// insert here scope-properties
 			// ...
 			$scope.results = [];
@@ -130,7 +130,7 @@ angular.module('business.directives').directive('appSearchBusiness', function(bu
 			$scope.follow = function(uuid) {
 				business.followBusiness(uuid).then(
 				    function successCallback(response) {
-				    	alert('OK!');
+				    	$state.go('app.subscriptions');
 		            },
 		            function errorCallback(response) {
 		            	alert('KO');

@@ -1,0 +1,16 @@
+<h3>Nuova sottoscrizione</h3>
+<div class="ha-item">
+	<input type="text" id="search" class="ha-input form-control" placeholder="Search business" style="max-width: 100%;" />
+</div>
+
+<div class="bs-search-business-results">
+
+    <div ng-repeat="result in results" class="bs-search-business-result" href="#" data-uuid="{{result.uuid}}" ng-click="follow('{{result.uuid}}')">
+      <img src="img/cover.png">
+      <div>
+      	<h2>{{result.city}}</h2>
+      	<p>{{result.address}}</p>
+      </div>
+    </div>
+
+</div>

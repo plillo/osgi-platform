@@ -42,7 +42,7 @@ public class Resources {
 	
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createAndLogin(@QueryParam("identificator") String identificator, @QueryParam("password") String password) {
+	public Response createAndLogin(@QueryParam("identificator") String identificator, @QueryParam("password") String password, @QueryParam("appcode") String appcode) {
 		Map<String, Object> response = new TreeMap<String, Object>();
 		User user = new User();
 		
@@ -66,7 +66,7 @@ public class Resources {
 			response = _userService.createUser(user);
 			boolean created = (boolean)response.get("created");
 			if(created)
-				return login(identificator, password);
+				return login(identificator, password, appcode);
 		}
 		
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
@@ -96,7 +96,7 @@ public class Resources {
 	@GET
 	@Path("login")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response login(@QueryParam("identificator") String identificator, @QueryParam("password") String password) {
+	public Response login(@QueryParam("identificator") String identificator, @QueryParam("password") String password, @QueryParam("appcode") String appcode) {
 		Map<String, Object> response = new TreeMap<String, Object>();
 
 		// Check for password: ERROR if missing password
@@ -110,7 +110,7 @@ public class Resources {
 		}
 
 		// LOGIN
-		Map<String, Object> loginResponse = _userService.validateIdentificatorAndLogin(identificator, password);
+		Map<String, Object> loginResponse = _userService.validateIdentificatorAndLogin(identificator, password, appcode);
 
 		if ((int) loginResponse.get("status") == it.hash.osgi.user.service.Status.LOGGED.getCode()) {
 			// LOGGED

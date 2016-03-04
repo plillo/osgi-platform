@@ -32,7 +32,7 @@ public class Commands {
 			return;
 		}
 		else 
-			println(_userService.validateIdentificatorAndLogin(identificator, password));
+			println(_userService.validateIdentificatorAndLogin(identificator, password, null));
 	}
 	
 	public void create(String identificator, String firstname, String lastname, String password) {

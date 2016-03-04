@@ -15,14 +15,17 @@
             <a ui-sref="app.friends" class="tab-item">
                 <i class="icon ion-card"></i> Affiliazioni
             </a>
+            <a ui-sref="app.map" class="tab-item">
+                <i class="icon ion-map"></i> Mappa
+            </a>
         </div>
         
         <ha-profile-component>
-            <h4 class="content padding double-padding-x">Personal data</h4>
+            <h2 class="content padding double-padding-x center">Personal data</h2>
 	        <form name="profileForm" id="profile-form" novalidate>
 	        
-	        <div class="list" style="margin:0 16px;">
-	            
+	        <!--
+	        <div class="list center animate-fade-slide-in-right" style="margin:0 16px;">
 	            <div class="ha-item">
 		            <input type="text" name="username" ng-model="currentUser.username" class="ha-input form-control" placeholder="Username">
 	            </div>     
@@ -43,7 +46,71 @@
 		            <input type="text" name="mobile" ng-model="currentUser.mobile" class="ha-input form-control" placeholder="Mobile" >
 	            </div>
 	        </div>
-	        <div class="padding" style="text-align: center">
+	        -->
+
+			<div class="list profile">
+				<label class="item item-input item-floating-label">
+					<span class="input-label">Username</span>
+					<input type="text" name="username" ng-model="updatingUser.username" placeholder="Username">
+				</label> 
+				<label class="item item-input item-floating-label"> 
+					<span class="input-label">First Name</span> 
+					<input type="text" name="firstName" ng-model="updatingUser.firstName" placeholder="First name">
+				</label> 
+				<label class="item item-input item-floating-label">
+					<span class="input-label">Last Name</span>
+					<input type="text" name="lastName" ng-model="updatingUser.lastName" placeholder="Last name">
+				</label> 
+				<label class="item item-input item-floating-label">
+					<span class="input-label">Email</span>
+					<input type="text" name="email" ng-model="updatingUser.email" placeholder="EMail">
+				</label> 
+				<label class="item item-input item-floating-label">
+					<span class="input-label">Mobile</span>
+					<input type="text" name="mobile" ng-model="updatingUser.mobile" placeholder="Mobile">
+				</label>
+		
+				<!-- - EXTRA ATTRIBUTES -->
+				<div ng-repeat="attribute in currentUser.attributeTypes">
+					<!-- TEXT -->
+					<label ng-if="attribute.type=='text'" class="item item-input item-floating-label">
+						<span class="input-label">{{attribute.label}}</span>
+						<input type="text" name="{{'extra.'+attribute.name}}" placeholder="{{attribute.label}}" value="" class="extra">
+					</label>
+					
+					<label ng-if="attribute.type=='textarea'" class="item item-input item-floating-label">
+						<span class="input-label">{{attribute.label}}</span>
+						<textarea name="{{'extra.'+attribute.name}}" placeholder="{{attribute.label}}" class="extra"></textarea>
+					</label>
+				
+					<!-- RADIO BUTTONS -->
+					<!--
+					<ion-list ng-if="attribute.type=='radio'" class="item item-floating-label">
+					    <span class="input-label has-input">{{attribute.label}}</span>
+						<ion-radio name="{{'extra-'+attribute.name}}" ng-repeat="value in attribute.values" ng-model="{{attribute.name}}" ng-value="'{{value}}'" class="extra">{{value}}</ion-radio>
+					</ion-list>
+					-->
+					
+				    <label ng-if="attribute.type=='radio'" ng-repeat="value in attribute.values" class="item item-radio">
+				        <input type="radio" name="{{'extra.'+attribute.name}}" value="{{value}}">
+					      	<div class="item-content">
+					        	{{value}}
+					      	</div>
+				      	<i class="radio-icon ion-checkmark"></i>
+				    </label>
+		
+					<!-- SELECT -->
+					<label ng-if="attribute.type=='select'" class="item item-input item-select">
+						<div class="input-label">{{attribute.label}}</div>
+						<select name="{{'extra.'+attribute.name}}" class="extra">
+							<option class="label" value="">Selezionare</option>
+							<option ng-repeat="value in attribute.values" value="{{value}}">{{value}}</option>
+						</select>
+					</label>
+				</div>
+			</div>
+
+			<div class="padding" style="text-align: center">
 	            <button id="button-update" class="button button-small button-assertive ink">Update</button>
 	        </div>
 	        

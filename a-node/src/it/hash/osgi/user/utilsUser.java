@@ -61,10 +61,9 @@ public class utilsUser {
 				user.setMobile((String) mapUser.get(attribute));
 				break;
 			case "attributes":
-				user.setAttributes((List<Attribute>) mapUser.get(attribute));
+				user.setAttributes((List<AttributeValue>) mapUser.get(attribute));
 				break;
 			
-				
 			case "extra":
 				Map<String, Object> map = new HashMap<String, Object>();
 				if (mapUser.get(elem) instanceof Map) {

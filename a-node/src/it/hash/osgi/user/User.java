@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import it.hash.osgi.user.attribute.Attribute;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.ObjectId;
 
@@ -24,7 +23,7 @@ public class User implements Comparable<User> {
 	private String password_mdate;
 	private String email;
 	private String mobile;
-	private List<Attribute> attributes;
+	private List<AttributeValue> attributes;
 
 	private Map<String, Object> extra;
 	private String published;
@@ -248,16 +247,16 @@ public class User implements Comparable<User> {
 		this.extra.remove(key);
 	}
 
-	public List<Attribute> getAttributes() {
+	public List<AttributeValue> getAttributes() {
 		return attributes;
 	}
 
-	public void setAttributes(List<Attribute> attributes) {
+	public void setAttributes(List<AttributeValue> attributes) {
 		if (this.attributes==null)
 			this.attributes = attributes;
 		else 
 		{
-			for (Attribute elem:attributes){
+			for (AttributeValue elem:attributes){
 				if (this.attributes.contains(elem))
 					this.attributes.remove(elem);
 				this.attributes.add(elem);
@@ -265,16 +264,16 @@ public class User implements Comparable<User> {
 		}
 	}
 
-	public boolean addAttribute(Attribute attribute) {
+	public boolean addAttribute(AttributeValue attribute) {
 		if (this.getAttributes() == null)
-			attributes = new ArrayList<Attribute>();
+			attributes = new ArrayList<AttributeValue>();
 		if (this.attributes.contains(attribute))
 			this.attributes.remove(attribute);
 		
 		return this.attributes.add(attribute);
 	}
 
-	public boolean removeAttribute(Attribute attribute) {
+	public boolean removeAttribute(AttributeValue attribute) {
 		if (this.attributes.contains(attribute))
 			return this.attributes.remove(attribute);
 		else
@@ -359,7 +358,7 @@ public class User implements Comparable<User> {
 				user.setMobile((String) mapUser.get(elem));
 				break;
 			case "attributes":
-				user.setAttributes((List<Attribute>) mapUser.get(elem));
+				user.setAttributes((List<AttributeValue>) mapUser.get(elem));
 				break;
 			case "published":
 				user.setPublished((String) mapUser.get(elem));

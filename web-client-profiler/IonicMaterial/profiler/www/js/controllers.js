@@ -1,7 +1,7 @@
 /* global angular, document, window */
 'use strict';
 
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ionic', 'uiGmapgoogle-maps'])
 
 .controller('AppCtrl', function($scope, $state, $ionicModal, $ionicPopover, $timeout, user, logger) {
     // Form data for the login modal
@@ -116,8 +116,10 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('LandingPageCtrl', function($scope, $timeout, $stateParams, broker, ionicMaterialInk, ionicMaterialMotion) {
-    $scope.$parent.clearFabs();
+.controller('LandingPageCtrl', function($scope, $timeout, $stateParams, $ionicSideMenuDelegate, broker, ionicMaterialInk, ionicMaterialMotion) {
+	$ionicSideMenuDelegate.canDragContent(true);
+	
+	$scope.$parent.clearFabs();
     $timeout(function() {
         $scope.$parent.hideHeader();
     }, 0);
@@ -129,7 +131,9 @@ angular.module('starter.controllers', [])
 	};
 })
 
-.controller('ServiceCtrl', function($scope, backend, $timeout, $stateParams, ionicMaterialInk, ionicMaterialMotion) {
+.controller('ServiceCtrl', function($scope, backend, $timeout, $stateParams, $ionicSideMenuDelegate, ionicMaterialInk, ionicMaterialMotion) {
+	$ionicSideMenuDelegate.canDragContent(true);
+	
 	// Set Header
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
@@ -155,15 +159,19 @@ angular.module('starter.controllers', [])
 	};
 })
 
-.controller('LoginCtrl', function($scope, $timeout, $stateParams, ionicMaterialInk) {
-    $scope.$parent.clearFabs();
+.controller('LoginCtrl', function($scope, $timeout, $stateParams, $ionicSideMenuDelegate, ionicMaterialInk) {
+	$ionicSideMenuDelegate.canDragContent(true);
+	
+	$scope.$parent.clearFabs();
     $timeout(function() {
         $scope.$parent.hideHeader();
     }, 0);
     ionicMaterialInk.displayEffect();
 })
 
-.controller('BusinessCtrl', function($scope, $timeout, $stateParams, ionicMaterialInk, ionicMaterialMotion) {
+.controller('BusinessCtrl', function($scope, $timeout, $stateParams, $ionicSideMenuDelegate, ionicMaterialInk, ionicMaterialMotion) {
+	$ionicSideMenuDelegate.canDragContent(true);
+	
 	// Set Header
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
@@ -195,8 +203,10 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('BusinessManagerCtrl', function($scope, $timeout, $stateParams, ionicMaterialInk, ionicMaterialMotion) {
-    // Set Header
+.controller('BusinessManagerCtrl', function($scope, $timeout, $stateParams, $ionicSideMenuDelegate, ionicMaterialInk, ionicMaterialMotion) {
+	$ionicSideMenuDelegate.canDragContent(true);
+	
+	// Set Header
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
     $scope.$parent.setHeaderFab('left');
@@ -214,8 +224,10 @@ angular.module('starter.controllers', [])
     ionicMaterialInk.displayEffect();
 })
 
-.controller('FriendsCtrl', function($scope, $stateParams, $timeout, ionicMaterialInk, ionicMaterialMotion) {
-    // Set Header
+.controller('FriendsCtrl', function($scope, $stateParams, $ionicSideMenuDelegate, $timeout, ionicMaterialInk, ionicMaterialMotion) {
+	$ionicSideMenuDelegate.canDragContent(true);
+	
+	// Set Header
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
     $scope.$parent.setHeaderFab('left');
@@ -233,15 +245,17 @@ angular.module('starter.controllers', [])
     ionicMaterialInk.displayEffect();
 })
 
-.controller('ProfileCtrl', function($scope, $stateParams, $timeout, $localStorage, ionicMaterialMotion, ionicMaterialInk) {
-    // Set Header
+.controller('ProfileCtrl', function($scope, $stateParams, $ionicSideMenuDelegate, $timeout, $localStorage, ionicMaterialMotion, ionicMaterialInk) {
+	// Enable dragging
+	$ionicSideMenuDelegate.canDragContent(true);
+	
+	// Set Header
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
     $scope.isExpanded = false;
-    $scope.$parent.setExpanded(false);
-    $scope.$parent.setHeaderFab(false);
+    $scope.$parent.setExpanded(true);
+    $scope.$parent.setHeaderFab('left');
 
-    
     $scope.user = $localStorage.currentUser;
     
     // Set Motion
@@ -261,7 +275,9 @@ angular.module('starter.controllers', [])
     ionicMaterialInk.displayEffect();
 })
 
-.controller('QRCodeCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk) {
+.controller('QRCodeCtrl', function($scope, $stateParams, $ionicSideMenuDelegate, $timeout, ionicMaterialMotion, ionicMaterialInk) {
+	$ionicSideMenuDelegate.canDragContent(true);
+	
 	// Set Header
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
@@ -280,7 +296,9 @@ angular.module('starter.controllers', [])
     ionicMaterialInk.displayEffect();
 })
 
-.controller('ActivityCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk) {
+.controller('SubscriptionsCtrl', function($scope, $stateParams, $ionicSideMenuDelegate, $timeout, ionicMaterialMotion, ionicMaterialInk) {
+	$ionicSideMenuDelegate.canDragContent(true);
+	
 	// Set Header
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
@@ -296,7 +314,9 @@ angular.module('starter.controllers', [])
     ionicMaterialInk.displayEffect(); 
 })
 
-.controller('ChannelsCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk) {
+.controller('NewSubscriptionCtrl', function($scope, $stateParams, $ionicSideMenuDelegate, $timeout, ionicMaterialMotion, ionicMaterialInk) {
+	$ionicSideMenuDelegate.canDragContent(true);
+	
 	// Set Header
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
@@ -312,8 +332,28 @@ angular.module('starter.controllers', [])
     ionicMaterialInk.displayEffect(); 
 })
 
-.controller('GalleryCtrl', function($scope, $stateParams, $timeout, ionicMaterialInk, ionicMaterialMotion) {
+.controller('ChannelsCtrl', function($scope, $stateParams, $ionicSideMenuDelegate, $timeout, ionicMaterialMotion, ionicMaterialInk) {
+	$ionicSideMenuDelegate.canDragContent(true);
+	
+	// Set Header
     $scope.$parent.showHeader();
+    $scope.$parent.clearFabs();
+    $scope.$parent.setHeaderFab('left');
+
+    // Delay expansion
+    $timeout(function() {
+        $scope.isExpanded = true;
+        $scope.$parent.setExpanded(true);
+    }, 300);
+
+    // Set Ink
+    ionicMaterialInk.displayEffect(); 
+})
+
+.controller('GalleryCtrl', function($scope, $stateParams, $ionicSideMenuDelegate, $timeout, ionicMaterialInk, ionicMaterialMotion) {
+	$ionicSideMenuDelegate.canDragContent(true);
+	
+	$scope.$parent.showHeader();
     $scope.$parent.clearFabs();
     $scope.isExpanded = true;
     $scope.$parent.setExpanded(true);
@@ -331,7 +371,55 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('HelpCtrl', function($scope, $timeout, $stateParams, ionicMaterialInk, ionicMaterialMotion) {
+.controller('HelpCtrl', function($scope, $timeout, $stateParams, $ionicSideMenuDelegate, ionicMaterialInk, ionicMaterialMotion) {
+	$ionicSideMenuDelegate.canDragContent(true);
+	
+	// Set Header
+    $scope.$parent.showHeader();
+    $scope.$parent.clearFabs();
+    $scope.$parent.setHeaderFab('left');
+
+    // Delay expansion
+    $timeout(function() {
+        $scope.isExpanded = true;
+        $scope.$parent.setExpanded(true);
+    }, 300);
+
+    // Set Ink
+    ionicMaterialInk.displayEffect();
+})
+
+.controller('MapCtrl', function($scope, $log, $timeout, $stateParams, $ionicSideMenuDelegate, uiGmapIsReady, ionicMaterialInk, ionicMaterialMotion) {
+	$ionicSideMenuDelegate.canDragContent(false);
+	
+	$scope.map = { 
+    	center: { latitude: 40.35, longitude: 18.08 },
+    	zoom: 10,
+    	control : {}
+    };
+    
+    uiGmapIsReady.promise().then(function (maps) {
+        var map = $scope.map.control.getGMap();
+
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(40.35,18.08),
+            title:"ah belloh!!!",
+            draggable: true
+        });
+        
+        google.maps.event.addListener(marker, 'dragstop', function(evt) {
+        	$log.log('dragstop');
+        });
+        
+        marker.setMap(map);
+    });
+    
+    
+})
+
+.controller('InfoCtrl', function($scope, $timeout, $stateParams, $ionicSideMenuDelegate, ionicMaterialInk, ionicMaterialMotion) {
+	$ionicSideMenuDelegate.canDragContent(true);
+	
 	// Set Header
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
@@ -351,7 +439,9 @@ angular.module('starter.controllers', [])
     ionicMaterialInk.displayEffect();
 })
 
-.controller('InfoCtrl', function($scope, $timeout, $stateParams, ionicMaterialInk, ionicMaterialMotion) {
+.controller('LookingForCtrl', function($scope, $timeout, $stateParams, $ionicSideMenuDelegate, ionicMaterialInk, ionicMaterialMotion) {
+	$ionicSideMenuDelegate.canDragContent(true);
+	
 	// Set Header
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
@@ -363,12 +453,7 @@ angular.module('starter.controllers', [])
         $scope.$parent.setExpanded(true);
     }, 300);
 
-    /*
-    // Set Motion
-    ionicMaterialMotion.fadeSlideInRight();
-    */
     // Set Ink
     ionicMaterialInk.displayEffect();
 })
-
 ;
