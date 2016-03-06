@@ -12,7 +12,7 @@ import com.mongodb.BasicDBObject;
 
 import it.hash.osgi.business.Business;
 import it.hash.osgi.user.attribute.Attribute;
-import it.hash.osgi.user.attribute.utilsAttribute;
+import it.hash.osgi.user.attribute.persistence.mongo.AttributeServicePersistenceImpl;
 
 public class utilsUser {
 
@@ -78,7 +78,7 @@ public class utilsUser {
 								for (String valueList : keyList) {
 									BasicDBObject dbo = (BasicDBObject) list.get(valueList);
 									System.out.println(dbo.toString());
-									listAtt.add(utilsAttribute.toMap(dbo.toMap()));
+									listAtt.add(AttributeServicePersistenceImpl.mapToAttribute(dbo.toMap()));
 									System.out.println();
 
 								}

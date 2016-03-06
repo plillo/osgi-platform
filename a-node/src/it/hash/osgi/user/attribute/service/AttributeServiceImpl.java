@@ -28,7 +28,7 @@ public class AttributeServiceImpl implements AttributeService{
 		
 		if (!StringUtils.isNullOrEmpty(uuid)) {
 			attribute.setUuid(uuid);
-			response= _persistence.addAttribute(attribute);
+			response= _persistence.createAttribute(attribute);
 			if((Boolean)response.get("created")==false)
 				_uuid.removeUUID(uuid);
 		} else {
@@ -39,9 +39,22 @@ public class AttributeServiceImpl implements AttributeService{
 	}
 
 	@Override
-	public List<Attribute> getAttribute() {
-		
-		return _persistence.getAttribute();
+	public Map<String, Object> updateAttribute(String uuid, Attribute attribute) {
+		return _persistence.updateAttribute(uuid, attribute);
 	}
 
+	@Override
+	public Map<String, Object> deleteAttribute(String uuid) {
+		return _persistence.deleteAttribute(uuid);
+	}
+
+	@Override
+	public List<Attribute> getAttributes() {
+		return _persistence.getAttributes();
+	}
+
+	@Override
+	public Attribute getAttribute(String uuid) {
+		return _persistence.getAttribute(uuid);
+	}
 }

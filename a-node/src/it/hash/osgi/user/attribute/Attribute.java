@@ -1,13 +1,8 @@
 package it.hash.osgi.user.attribute;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import com.mongodb.BasicDBList;
 
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.ObjectId;
@@ -18,8 +13,10 @@ public class Attribute  implements Comparable<Attribute>{
 	private String uuid;
 	private String name;
 	private String label;
+	private String type;
+	private String UItype;
 	private List<String> values;
-	private List<String> context;
+	private List<Map <String,Object>> applications;
 	private String validator;
 	private boolean mandatory;
 	private String cauthor;
@@ -57,54 +54,54 @@ public class Attribute  implements Comparable<Attribute>{
 	public List<String> getValues() {
 		return values;
 	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getUItype() {
+		return UItype;
+	}
+	public void setUItype(String uItype) {
+		UItype = uItype;
+	}
 	public void setValues(List<String> values) {
-		if (this.values==null)
-			   this.values = values;
-			else {
-				for(String elem:values)
-					if (!this.values.contains(elem))
-						this.values.add(elem);
-						
-			}
-		
-	}
-	public boolean addContext(String value) {
-		if (this.context==null)
-			this.context= new ArrayList<String>();
-		if (!this.context.contains(value))
-			return this.context.add(value);
-		return false;
-	}
-	public boolean removeContext(String value){
-		
-		return this.context.remove(value);
+		this.values = values;
 	}
 	public boolean addValues(String value) {
 		if (this.values==null)
 			this.values= new ArrayList<String>();
 		if (!this.values.contains(value))
 			return this.values.add(value);
+		
 		return false;
 	}
-		public boolean removeValues(String value){
-			
+	public boolean removeValues(String value){
+		if (value!=null && this.values!=null)
 			return this.values.remove(value);
-		}
 		
-	
-	
-	public List<String> getContext() {
-		return context;
+		return false;
 	}
-	public void setContext(List<String> context) {
-		if (this.context==null)
-		   this.context = context;
-		else {
-			for(String elem:context)
-				if (!this.context.contains(elem))
-					this.context.add(elem);
-					
-		}
+	public List<Map<String,Object>> getApplications() {
+		return applications;
+	}
+	public void setApplications(List<Map <String,Object>> applications) {
+		this.applications = applications;
+	}
+	public boolean addApplications(Map<String,Object> application) {
+		if (this.applications==null)
+			this.applications= new ArrayList<Map<String,Object>>();
+		if (!this.applications.contains(application))
+			return this.applications.add(application);
+		
+		return false;
+	}
+	public boolean removeApplications(Map<String,Object> application){
+		if (application!=null && this.applications!=null)
+			return this.values.remove(application);
+		
+		return false;
 	}
 	public String getValidator() {
 		return validator;
@@ -118,6 +115,27 @@ public class Attribute  implements Comparable<Attribute>{
 	public void setMandatory(boolean mandatory) {
 		this.mandatory = mandatory;
 	}
+	
+	// EXTRA ATTRIBUTES
+	// ================
+	public Map<String, Object> getOthers() {
+		return others;
+	}
+	public void setOthers(Map<String, Object> others) {
+		this.others = others;
+	}
+	public Object setOthers(String attribute, Object o){
+		return this.others.put(attribute, o);
+	}
+	public Object getOthers(String attribute){
+		return this.others.get(attribute);
+	}
+	public Object removeOthers(String attribute){
+		return this.others.remove(attribute);
+	}
+	
+	// STANDARD ATTRIBUTES
+	// ===================
 	public String getCauthor() {
 		return cauthor;
 	}
@@ -162,6 +180,7 @@ public class Attribute  implements Comparable<Attribute>{
 		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -178,30 +197,9 @@ public class Attribute  implements Comparable<Attribute>{
 			return false;
 		return true;
 	}
+	
 	@Override
 	public int compareTo(Attribute obj) {
 		 return this.uuid.compareTo(obj.getUuid());
 	}
-	
-	
-	// EXTRA ATTRIBUTES
-	// ================
-	public Map<String, Object> getOthers() {
-		return others;
-	}
-	public void setOthers(Map<String, Object> others) {
-		this.others = others;
-	}
-	public Object setOthers(String attribute, Object o){
-		return this.others.put(attribute, o);
-	}
-	public Object getOthers(String attribute){
-		return this.others.get(attribute);
-	}
-	public Object removeOthers(String attribute){
-		return this.others.remove(attribute);
-	}
-	
-	
-		
 }

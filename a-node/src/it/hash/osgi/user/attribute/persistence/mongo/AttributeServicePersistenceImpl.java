@@ -5,24 +5,24 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.Vector;
 
 import org.amdatu.mongo.MongoDBService;
+import org.bson.types.ObjectId;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
-import it.hash.osgi.business.Business;
+import it.hash.osgi.user.User;
 import it.hash.osgi.user.attribute.Attribute;
-import it.hash.osgi.user.attribute.utilsAttribute;
 import it.hash.osgi.user.attribute.persistence.api.AttributeServicePersistence;
 import it.hash.osgi.utils.StringUtils;
+import net.vz.mongodb.jackson.JacksonDBCollection;
 
 public class AttributeServicePersistenceImpl implements AttributeServicePersistence {
 	private volatile MongoDBService m_mongoDBService;
@@ -34,12 +34,24 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 		attributesCollection = m_mongoDBService.getDB().getCollection(COLLECTION);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Attribute> getAttribute() {
+	public Attribute getAttribute(String uuid) {
+		DBObject found = attributesCollection.findOne(new BasicDBObject("uuid", uuid));
+
+		if (found != null) {
+			return mapToAttribute(found.toMap());
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public List<Attribute> getAttributes() {
 		DBCursor cursor = attributesCollection.find();
 		List<Attribute> list = new ArrayList<>();
 		while (cursor.hasNext()) {
-			list.add(utilsAttribute.toMap(cursor.next().toMap()));
+			list.add(mapToAttribute(cursor.next().toMap()));
 		}
 		return list;
 
@@ -65,14 +77,14 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 		List<DBObject> list = cursor.toArray();
 		Attribute b;
 		for (DBObject elem : list) {
-			b = utilsAttribute.toMap(elem.toMap());
+			b = mapToAttribute(elem.toMap());
 			listAtt.add(b);
 		}
 		return listAtt;
 	}
 
 	@Override
-	public Map<String, Object> addAttribute(Attribute attribute) {
+	public Map<String, Object> createAttribute(Attribute attribute) {
 		Map<String, Object> response = new TreeMap<String, Object>();
 
 		// Match attribute
@@ -80,12 +92,11 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 
 		// If new attribute
 		if ((int) result.get("matched") == 0) {
-
-			attributesCollection.save(dbObjectAttribute(attribute));
-			DBObject created = attributesCollection.findOne(dbObjectAttribute(attribute));
+			attributesCollection.save(attributeToDBObject(attribute));
+			DBObject created = attributesCollection.findOne(attributeToDBObject(attribute));
 
 			if (created != null) {
-				Attribute created_attribute =utilsAttribute.toMap(created.toMap());
+				Attribute created_attribute = mapToAttribute(created.toMap());
 				response.put("attribute", created_attribute);
 				response.put("created", true);
 				response.put("returnCode", 200);
@@ -113,8 +124,64 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 
 		return response;
 	}
+	
+	@Override
+	public Map<String, Object> updateAttribute(String uuid, Attribute attribute) {
+		Map<String, Object> response = new TreeMap<String, Object>();
+		if(StringUtils.isEmptyOrNull(uuid) || attribute==null) {
+			response.put("updated", false);
+			response.put("returnCode", 401);
+			
+			return response;
+		}
+		
+		attribute.set_id(null);
+		BasicDBObject updateDocument = new BasicDBObject().append("$set", attributeToDBObject(attribute));
+		BasicDBObject searchQuery = new BasicDBObject().append("uuid", uuid);
+       
+		@SuppressWarnings("unused")
+		WriteResult wr = attributesCollection.update(searchQuery, updateDocument);
+		//TODO verificare l'esito
+		
+		DBObject updated = attributesCollection.findOne(new BasicDBObject("uuid", uuid));
+		
+		response.put("attribute", updated.toMap());
+		response.put("updated", true);
+		response.put("returnCode", 201);
+		
+		return response;
+	}
 
-	private DBObject dbObjectAttribute(Attribute attribute) {
+	@Override
+	public Map<String, Object> deleteAttribute(String uuid) {
+		Map<String, Object> response = new TreeMap<String, Object>();
+		if(StringUtils.isEmptyOrNull(uuid)) {
+			response.put("deleted", false);
+			response.put("returnCode", 401);
+			
+			return response;
+		}
+		
+		Attribute attribute = getAttribute(uuid);
+
+		if (attribute!=null) {
+			BasicDBObject searchQuery = new BasicDBObject().append("uuid", uuid);
+			@SuppressWarnings("unused")
+			WriteResult wr = attributesCollection.remove(searchQuery);
+			//TODO verificare l'esito
+			
+			response.put("attribute", attribute);
+			response.put("deleted", true);
+			response.put("returnCode", 201);
+		} else {
+			response.put("deleted", false);
+			response.put("returnCode", 401);
+		}
+
+		return response;
+	}
+
+	private DBObject attributeToDBObject(Attribute attribute) {
 		Map<String, Object> map = attributeToMap(attribute);
 		DBObject db = new BasicDBObject(map);
 
@@ -129,15 +196,18 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 
 		if (!StringUtils.isEmptyOrNull(attribute.getUuid()))
 			pars.put("uuid", attribute.getUuid());
-
 		if (!StringUtils.isEmptyOrNull(attribute.getName()))
 			pars.put("name", attribute.getName());
 		if (!StringUtils.isEmptyOrNull(attribute.getLabel()))
 			pars.put("label", attribute.getLabel());
+		if (!StringUtils.isEmptyOrNull(attribute.getType()))
+			pars.put("type", attribute.getType());
+		if (!StringUtils.isEmptyOrNull(attribute.getUItype()))
+			pars.put("UItype", attribute.getUItype());
 		if (attribute.getValues() != null)
-			pars.put("valuea", attribute.getValues());
-		if (attribute.getContext() != null)
-			pars.put("context", attribute.getContext());
+			pars.put("values", attribute.getValues());
+		if (attribute.getApplications() != null)
+			pars.put("applications", attribute.getApplications());
 		if (!StringUtils.isEmptyOrNull(attribute.getValidator()))
 			pars.put("validator", attribute.getValidator());
 
@@ -153,9 +223,8 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 			pars.put("mdate", attribute.getMdate());
 		if (!StringUtils.isEmptyOrNull(attribute.getLauthor()))
 			pars.put("lauthor", attribute.getLauthor());
-
 		if (!StringUtils.isEmptyOrNull(attribute.getLdate()))
-			pars.put("Ldate", attribute.getLdate());
+			pars.put("ldate", attribute.getLdate());
 		if (attribute.getOthers() != null)
 			pars.put("others", attribute.getOthers());
 
@@ -173,7 +242,6 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 			map.put("name", attribute.getName());
 
 		return getAttribute(map);
-
 	}
 
 	private Map<String, Object> getAttribute(Map<String, Object> map) {
@@ -186,7 +254,7 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 			found = attributesCollection.findOne(new BasicDBObject("uuid", map.get("uuid")));
 
 			if (found != null) {
-				found_attribute = utilsAttribute.toMap(found.toMap());
+				found_attribute = mapToAttribute(found.toMap());
 
 				TreeSet<String> list = matchs.get(found_attribute);
 				if (list == null)
@@ -200,7 +268,7 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 			found = attributesCollection.findOne(new BasicDBObject("_id", map.get("_id")));
 
 			if (found != null) {
-				found_attribute = utilsAttribute.toMap(found.toMap());
+				found_attribute = mapToAttribute(found.toMap());
 				TreeSet<String> list = matchs.get(found_attribute);
 				if (list == null)
 					list = new TreeSet<String>();
@@ -215,7 +283,7 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 			found = attributesCollection.findOne(new BasicDBObject("name", map.get("name")));
 
 			if (found != null) {
-				found_attribute =  utilsAttribute.toMap(found.toMap());
+				found_attribute =  AttributeServicePersistenceImpl.mapToAttribute(found.toMap());
 
 				TreeSet<String> list = matchs.get(found_attribute);
 				if (list == null)
@@ -246,5 +314,84 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 		}
 
 		return response;
+	}
+	
+	public static Attribute mapToAttribute(Map<String, Object> map){
+		Attribute attribute = new Attribute();
+
+		for (Map.Entry<String, Object> entry : map.entrySet()) {
+			switch (entry.getKey()) {
+			case "_id":
+				attribute.set_id(entry.getValue().toString());
+				break;
+			case "uuid":
+				attribute.setUuid((String) entry.getValue());
+				break;
+			case "name":
+				attribute.setName((String) entry.getValue());
+				break;
+			case "label":
+				attribute.setLabel((String) entry.getValue());
+				break;
+			case "type":
+				attribute.setType((String) entry.getValue());
+				break;
+			case "UItype":
+				attribute.setUItype((String) entry.getValue());
+				break;
+			case "values":
+				if(entry.getValue() instanceof BasicDBList){
+					 BasicDBList bd = (BasicDBList)entry.getValue();
+					 Map mapValues = bd.toMap();
+					 for(Iterator<String> itr = mapValues.keySet().iterator();itr.hasNext();) {
+						 attribute.addValues((String)mapValues.get(itr.next()));
+					 }
+				}
+				else {
+					if (entry.getValue() instanceof List)
+						attribute.setValues((List<String>) entry.getValue());
+					else
+				    	if (entry.getValue() instanceof String)
+						   attribute.addValues((String)entry.getValue());
+				}
+				break;
+			case "mandatory":
+				attribute.setMandatory((boolean) entry.getValue());
+				break;
+			case "validator":
+				attribute.setValidator((String) entry.getValue());
+				break;
+			case "applications":
+				if(entry.getValue() instanceof BasicDBList){
+					BasicDBList bd = (BasicDBList)entry.getValue();
+					Map mapApplications = bd.toMap();
+					for(Iterator<String> itr = mapApplications.keySet().iterator(); itr.hasNext();) {
+						 BasicDBObject bdbo = (BasicDBObject)mapApplications.get(itr.next());
+						 attribute.addApplications(bdbo.toMap());
+					}
+				}
+				break;
+			case "cauthor":
+				attribute.setCauthor((String) entry.getValue());
+				break;
+			case "cdate":
+				attribute.setCdate((String) entry.getValue());
+				break;
+			case "mauthor":
+				attribute.setMauthor((String) entry.getValue());
+				break;
+			case "mdate":
+				attribute.setMdate((String) entry.getValue());
+				break;
+			case "lauthor":
+				attribute.setLauthor((String) entry.getValue());
+				break;
+			case "ldate":
+				attribute.setLdate((String) entry.getValue());
+				break;
+			}
+		}
+
+		return attribute;
 	}
 }

@@ -3,6 +3,7 @@ package it.hash.osgi.user.attribute.shell;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -15,14 +16,11 @@ public class Commands {
 	private volatile AttributeService _attributeService;
 	
 	public void createAttribute(String name, String label, String context){
-		Attribute a = new Attribute();
-		a.setName(name);
-		a.setLabel(label);
-		List c = new ArrayList<String>();
-		c.add(context);
-		a.setContext(c);
-		_attributeService.createAttribute(a);
-		   
+		Attribute attribute = new Attribute();
+		attribute.setName(name);
+		attribute.setLabel(label);
+		attribute.setApplications(new ArrayList<Map<String,Object>>());
+		_attributeService.createAttribute(attribute);
 	}
 	
 	public void getAttributesByCategories(String categories){

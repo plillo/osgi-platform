@@ -128,12 +128,14 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public Map<String, Object> createAttribute(String ctgUuid, Attribute attribute) {
-		if (attribute.getContext() == null)
-			attribute.setContext(new ArrayList<String>());
+		if (attribute.getApplications() == null)
+			attribute.setApplications(new ArrayList<Map<String,Object>>());
 
-		List<String> context = attribute.getContext();
-		if (!context.contains("busctg:" + ctgUuid))
-			context.add("busctg:" + ctgUuid);
+		/*
+		List<Map<String,Object>> applications = attribute.getApplications();
+		if(applications!= null && !applications.contains("busctg:" + ctgUuid))
+			attribute.add("busctg:" + ctgUuid);
+		*/
 
 		return _attributeSrv.createAttribute(attribute);
 	}
