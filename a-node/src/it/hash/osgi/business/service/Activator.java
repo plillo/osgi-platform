@@ -1,17 +1,13 @@
 package it.hash.osgi.business.service;
  
-import java.awt.List;
 import java.util.Properties;
 
 import org.apache.felix.dm.DependencyActivatorBase;
 import org.apache.felix.dm.DependencyManager;
-
 import org.osgi.framework.BundleContext;
-import org.osgi.service.cm.ManagedService;
 import org.osgi.service.event.EventAdmin;
 
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
-
 import it.hash.osgi.business.service.api.BusinessService;
 import it.hash.osgi.resource.uuid.api.UUIDService;
 import it.hash.osgi.user.service.UserService;

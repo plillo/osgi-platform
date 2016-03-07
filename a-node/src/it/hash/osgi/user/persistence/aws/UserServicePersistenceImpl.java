@@ -436,12 +436,6 @@ public class UserServicePersistenceImpl implements UserServicePersistence{
 	}
 
 	@Override
-	public Map<String, Object>getAttribute(String userUuid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public User getUserByUuid(String uuid) {
 		// TODO Auto-generated method stub
 		return null;

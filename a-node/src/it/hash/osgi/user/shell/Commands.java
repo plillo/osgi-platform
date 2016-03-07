@@ -76,7 +76,7 @@ public class Commands {
 		if(users!=null){
 			for(Iterator<User> it = users.iterator();it.hasNext();){
 				User user = it.next();
-				System.out.println(String.format("%-20s%-20s%-20s", user.getLastName(), user.getFirstName(), user.getEmail()));
+				System.out.println(String.format("%-20s%-20s%-20s%-20s", user.getUuid(), user.getLastName(), user.getFirstName(), user.getEmail()));
 			}
 		}
 	}

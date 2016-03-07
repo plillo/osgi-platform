@@ -20,6 +20,16 @@ public class AttributeServiceImpl implements AttributeService{
 		// list conterra gli uuid delle categorie
 		return _persistence.getAttributesByCategories(categories);
 	}
+	
+	@Override
+	public List<Attribute> getCoreAttributes() {
+		return _persistence.getCoreAttributes();
+	}
+
+	@Override
+	public List<Attribute> getApplicationAttributes(String appid) {
+		return _persistence.getApplicationAttributes(appid);
+	}
    
 	@Override
 	public Map<String, Object> createAttribute(Attribute attribute) {

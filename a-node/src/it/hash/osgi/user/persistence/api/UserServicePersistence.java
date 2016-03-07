@@ -3,8 +3,8 @@ package it.hash.osgi.user.persistence.api;
 import java.util.List;
 import java.util.Map;
 
+import it.hash.osgi.user.AttributeValue;
 import it.hash.osgi.user.User;
-import it.hash.osgi.user.attribute.Attribute;
 
 public interface UserServicePersistence {
 	// CREATE
@@ -24,7 +24,6 @@ public interface UserServicePersistence {
 	User getUserByUuid(String uuid);
 	List<User> getUsers();
 	List<User> getUserDetails(User user);
-	Map<String, Object> getAttribute(String userUuid);
 
 	// UPDATE
 	Map<String, Object> updateUser(User user);

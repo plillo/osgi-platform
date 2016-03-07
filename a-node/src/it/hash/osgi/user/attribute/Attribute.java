@@ -15,10 +15,11 @@ public class Attribute  implements Comparable<Attribute>{
 	private String label;
 	private String type;
 	private String UItype;
-	private List<String> values;
+	private List<Map <String,Object>> values;
 	private List<Map <String,Object>> applications;
 	private String validator;
 	private boolean mandatory;
+	private boolean multiValued;
 	private String cauthor;
 	private String cdate;
 	private String mauthor;
@@ -51,9 +52,6 @@ public class Attribute  implements Comparable<Attribute>{
 	public void setLabel(String label) {
 		this.label = label;
 	}
-	public List<String> getValues() {
-		return values;
-	}
 	public String getType() {
 		return type;
 	}
@@ -66,12 +64,15 @@ public class Attribute  implements Comparable<Attribute>{
 	public void setUItype(String uItype) {
 		UItype = uItype;
 	}
-	public void setValues(List<String> values) {
+	public List<Map <String,Object>> getValues() {
+		return values;
+	}
+	public void setValues(List<Map <String,Object>> values) {
 		this.values = values;
 	}
-	public boolean addValues(String value) {
+	public boolean addValues(Map<String,Object> value) {
 		if (this.values==null)
-			this.values= new ArrayList<String>();
+			this.values= new ArrayList<Map<String,Object>>();
 		if (!this.values.contains(value))
 			return this.values.add(value);
 		
@@ -116,6 +117,12 @@ public class Attribute  implements Comparable<Attribute>{
 		this.mandatory = mandatory;
 	}
 	
+	public boolean isMultiValued() {
+		return multiValued;
+	}
+	public void setMultiValued(boolean multiValued) {
+		this.multiValued = multiValued;
+	}
 	// EXTRA ATTRIBUTES
 	// ================
 	public Map<String, Object> getOthers() {

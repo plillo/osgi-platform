@@ -160,7 +160,7 @@ public static Map<String, Object> createPars(Business business) {
 			pars.put("categories", business.getCategories());
 		if (business.getFollowers()!=null)
 			pars.put("followers", business.getFollowers());
-		if(business.getPosition()!=null){
+		if (business.getPosition()!=null){
 			Map <String,Object >pos = new HashMap<String,Object>();
 			pos.put("type","Point");
 			pos.put("coordinates", business.getPosition().toString());

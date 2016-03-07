@@ -423,27 +423,30 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	}
 
 	@Override
-	public List<Business> retrieveFollowedBusinesses(String uuid) {
-		return new ArrayList<Business>();
-	}
-
-	@Override
-	public List<Business> retrieveOwnedBusinesses(String uuid) {
+	public List<Business> retrieveFollowedByUser(String uuid) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Map<String, Object> unFollow(String businessUuid, String actual_user_uuid) {
+	public List<Business> retrieveOwnedByUser(String uuid) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Map<String, Object> notFollow(String actual_user_uuid) {
+	public List<Business> retrieveNotFollowedByUser(String userUuid, String search) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
+	@Override
+	public Map<String, Object> unFollow(String businessUuid, String userUuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
+
+
+
+

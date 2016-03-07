@@ -1,5 +1,7 @@
 package it.hash.osgi.user.service;
 
+import static it.hash.osgi.utils.MapTools.merge;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,13 +19,14 @@ import org.osgi.service.event.EventAdmin;
 import com.amazonaws.util.json.JSONArray;
 import com.amazonaws.util.json.JSONObject;
 
+import it.hash.osgi.application.service.ApplicationManager;
 import it.hash.osgi.jwt.service.JWTService;
 import it.hash.osgi.resource.uuid.api.UUIDService;
 import it.hash.osgi.user.User;
-
+import it.hash.osgi.user.attribute.Attribute;
+import it.hash.osgi.user.attribute.service.AttributeService;
 import it.hash.osgi.user.password.Password;
 import it.hash.osgi.user.persistence.api.UserServicePersistence;
-import static it.hash.osgi.utils.MapTools.*;
 import it.hash.osgi.utils.StringUtils;
 
 public class UserServiceImpl implements UserService, ManagedService {
@@ -34,6 +37,8 @@ public class UserServiceImpl implements UserService, ManagedService {
 	private volatile EventAdmin _eventAdminService;
 	private volatile JWTService _jwtService;
 	private volatile UUIDService _UUIDService;
+	private volatile AttributeService _attributeService;
+	private volatile ApplicationManager _applicationManagerService;
 
 	private Validator validator = new Validator();
 
@@ -107,52 +112,44 @@ public class UserServiceImpl implements UserService, ManagedService {
 				map.put("body", "this is an access token");
 				
 				// Setting user's ATTRIBUTE TYPES
-				// ---
+				// --- START
 				List<JSONObject> attribute_types = new ArrayList<JSONObject>();
 				
-				/*
-				 * recupero degli attributi-utente:
-				 * - attributi CORE: presenti nella tabella 'attributes' con context "CORE"
-				 * - se presente APPCODE, attributi applicazione:
-				 *   delegare APPROPRIATO SERVICE dell'applicazione (?usare pattern whiteboard con chiave APPCODE?) per
-				 *   il recupero degli attributi utente applicativi
-				 * costruire un array di attributi valorizzati con i valori ATTUALI dell'utente
-				 * e inserirlo nel JWT con claim 'attributeTypes' (modificare in 'attributes')
-				 */
+				// Retrieving of CORE user attributes
+				List<Attribute> attributes = _attributeService.getCoreAttributes();
 				
-				Map<String, Object> mapobj = new TreeMap<String, Object>();
-				mapobj.put("type", "radio");
-				mapobj.put("name", "sex");
-				mapobj.put("label", "Gender");
-				JSONArray jsa = new JSONArray();
-				jsa.put("M");
-				jsa.put("F");
-				mapobj.put("values", jsa);
-				attribute_types.add(new JSONObject(mapobj));
+				// Retrieving of application user attributes
+				List<Attribute> application_attributes = _attributeService.getApplicationAttributes(appcode);
 				
-				mapobj.put("type", "text");
-				mapobj.put("name", "title");
-				mapobj.put("label", "Title");
-				attribute_types.add(new JSONObject(mapobj));
+				// Filtering of application user attributes
+				_applicationManagerService.filterAttributes(appcode, application_attributes);
+
+				// merge user attributes
+				attributes.addAll(application_attributes);
 				
-				mapobj.put("type", "textarea");
-				mapobj.put("name", "comment");
-				mapobj.put("label", "Comment");
-				attribute_types.add(new JSONObject(mapobj));
-				
-				mapobj.put("type", "select");
-				mapobj.put("name", "sport");
-				mapobj.put("label", "Sport");
-				jsa = new JSONArray();
-				jsa.put("tennis");
-				jsa.put("rugby");
-				jsa.put("calcio");
-				mapobj.put("values", jsa);
-				attribute_types.add(new JSONObject(mapobj));
-				
+				for(Attribute attribute: attributes){
+					Map<String, Object> mapobj = new TreeMap<String, Object>();
+					mapobj.put("type", attribute.getUItype());
+					mapobj.put("name", attribute.getName());
+					mapobj.put("label", attribute.getLabel());
+					if(attribute.getValues()!=null) {
+						JSONArray jsa = new JSONArray();
+						for(Map<String, Object> value_map: attribute.getValues()) {
+							JSONObject jso = new JSONObject();
+							
+							Object value = value_map.get("value")!=null?value_map.get("value"):"#missing value#";
+							jso.put("value", value);
+							jso.put("label", value_map.get("label")!=null?value_map.get("label"):value);
+					
+							jsa.put(jso);
+						}
+						mapobj.put("values", jsa);
+					}
+					attribute_types.add(new JSONObject(mapobj));
+				}
+
 				map.put("attributeTypes", attribute_types.toArray(new JSONObject[]{}));
-				// ---
-				
+				// --- END
 				
 				// CREATE JWT
 				String token = _jwtService.getToken(map);
@@ -462,13 +459,4 @@ public class UserServiceImpl implements UserService, ManagedService {
 		
 		return response;
 	}
-
-	@Override
-	public Map<String, Object> getAttributes() {
-		
-				return _userPersistenceService.getAttribute(getUUID());
-	}
-	
-	
-	
 }

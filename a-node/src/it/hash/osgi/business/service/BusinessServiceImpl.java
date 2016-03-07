@@ -106,7 +106,6 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	public Map<String, Object> updateBusiness(Map<String, Object> pars) {
-
 		return _businessPersistenceService.updateBusiness(pars);
 	}
 
@@ -117,47 +116,43 @@ public class BusinessServiceImpl implements BusinessService {
 			list.add(_businessPersistenceService.getBusinessByUuid(search));
 			return list;
 		}
-			else
-				return _businessPersistenceService.retrieveBusinesses(criterion, search);
+		else
+			return _businessPersistenceService.retrieveBusinesses(criterion, search);
 	}
 
 	@Override
 	public List<Business> getBusinesses() {
-
 		return _businessPersistenceService.getBusinesses();
 	}
 
 	@Override
 	public Map<String, Object> updateFollowersToBusiness(Map<String, Object> pars) {
-	return _businessPersistenceService.updateBusiness(pars);
-		
+		return _businessPersistenceService.updateBusiness(pars);
 	}
 
 	@Override
-	public Map<String, Object> followBusiness(String businessUuid, String actual_user_uuid) {
-		return _businessPersistenceService.follow(businessUuid, actual_user_uuid);
+	public Map<String, Object> follow(String businessUuid, String userUuid) {
+		return _businessPersistenceService.follow(businessUuid, userUuid);
 	}
 
 	@Override
-	public Map<String, Object> unFollowBusiness(String businessUuid, String actual_user_uuid) {
-		return _businessPersistenceService.unFollow(businessUuid, actual_user_uuid);
+	public Map<String, Object> unfollow(String businessUuid, String userUuid) {
+		return _businessPersistenceService.unFollow(businessUuid, userUuid);
 	}
 
 	@Override
-	public List<Business> retrieveFollowedBusinesses(String uuid) {
-		return _businessPersistenceService.retrieveFollowedBusinesses(uuid);
+	public List<Business> retrieveFollowedByUser(String uuid) {
+		return _businessPersistenceService.retrieveFollowedByUser(uuid);
 	}
 
 	@Override
-	public List<Business> retrieveOwnedBusinesses(String uuid) {
-		return _businessPersistenceService.retrieveOwnedBusinesses(uuid);
-		
+	public List<Business> retrieveOwnedByUser(String uuid) {
+		return _businessPersistenceService.retrieveOwnedByUser(uuid);
 	}
 
 	@Override
-	public Map<String, Object> notFollowBusiness(String actual_user_uuid) {
-		return _businessPersistenceService.notFollow(actual_user_uuid);
-	
+	public List<Business> retrieveNotFollowedByUser(String uuid, String search) {
+		return _businessPersistenceService.retrieveNotFollowedByUser(uuid, search);
 	}
 
 }

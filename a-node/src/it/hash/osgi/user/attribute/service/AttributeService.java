@@ -12,6 +12,8 @@ public interface AttributeService {
 	Map<String, Object> deleteAttribute(String uuid);
 
 	List<Attribute> getAttributesByCategories(List<String> categories);
+	List<Attribute> getCoreAttributes();
+	List<Attribute> getApplicationAttributes(String appid);
 	   
 	List<Attribute> getAttributes();
 	Attribute getAttribute(String uuid);

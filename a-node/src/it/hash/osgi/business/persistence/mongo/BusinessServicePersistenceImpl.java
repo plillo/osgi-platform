@@ -125,9 +125,6 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		obj.add(new BasicDBObject("_description", new BasicDBObject("$regex", search).append("$options", "$i")));
 		regexQuery.put("$or", obj);
 
-		// regexQuery.put("name", new BasicDBObject("$regex",
-		// search).append("$options", "$i"));
-		// db.categories.find({name:{$regex:"computer",$options:"$i"}})
 		System.out.println(regexQuery.toString());
 		DBCursor cursor = businessCollection.find(regexQuery);
 		list = cursor.toArray();
@@ -135,7 +132,6 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		for (DBObject elem : list) {
 			b = utilsBusiness.toBusiness(elem.toMap());
 			listB.add(b);
-
 		}
 
 		return listB;
@@ -363,7 +359,6 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	}
 
 	private synchronized Map<String, Object> deleteBusiness(Business business) {
-
 		Map<String, Object> response = new TreeMap<String, Object>();
 		Map<String, Object> responseDelete = new TreeMap<String, Object>();
 		response = getBusiness(business);
@@ -395,71 +390,25 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public String getImplementation() {
-
 		return "Mongo";
-
 	}
 
 	@Override
-	public Map<String, Object> follow(String businessUuid, String actual_user_uuid) {
+	public Map<String, Object> follow(String businessUuid, String userUuid) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		BasicDBObject updatedDocument = new BasicDBObject().append("$addToSet",
-				new BasicDBObject().append("followers", actual_user_uuid));
+				new BasicDBObject().append("followers", userUuid));
 		BasicDBObject searchQuery = new BasicDBObject().append("uuid", businessUuid);
 
-		@SuppressWarnings("unused")
 		WriteResult wr = businessCollection.update(searchQuery, updatedDocument);
-		// TODO verificare l'esito dell'update da 'wr' ed effettuare azioni se
-		// esito negativo
 
 		if (wr.getN() == 0)
 			response.put("update", false);
 		else
 			response.put("update", true);
+
 		return response;
-	}
-
-	@Override
-	public List<Business> retrieveFollowedBusinesses(String uuid) {
-		// JacksonDBCollection<Business, Object> businessJacksonCollection =
-		// JacksonDBCollection.wrap(businessCollection, Business.class);
-		if (uuid != null) {
-			// net.vz.mongodb.jackson.DBCursor<Business> cursor =
-			// businessJacksonCollection.find(new BasicDBObject("followers",
-			// uuid));
-
-			DBCursor cursor = businessCollection.find(new BasicDBObject("followers", uuid));
-
-			List<Business> list = new ArrayList<Business>();
-			while (cursor.hasNext()) {
-				list.add(utilsBusiness.toBusiness(cursor.next().toMap()));
-			}
-
-			return list;
-
-			// return cursor.toArray();
-		}
-
-		return new ArrayList<Business>();
-	}
-
-	@Override
-	public List<Business> retrieveOwnedBusinesses(String uuid) {
-		if (uuid != null) {
-			DBCursor cursor = businessCollection.find(new BasicDBObject("owner", uuid));
-
-			List<Business> list = new ArrayList<Business>();
-
-			while (cursor.hasNext()) {
-				list.add(utilsBusiness.toBusiness(cursor.next().toMap()));
-			}
-
-			return list;
-
-		}
-
-		return new ArrayList<Business>();
 	}
 
 	@Override
@@ -476,25 +425,64 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 		return response;
 	}
+	
+	@Override
+	public List<Business> retrieveOwnedByUser(String uuid) {
+		if (uuid != null) {
+			DBCursor cursor = businessCollection.find(new BasicDBObject("owner", uuid));
+
+			List<Business> list = new ArrayList<Business>();
+
+			while (cursor.hasNext()) {
+				list.add(utilsBusiness.toBusiness(cursor.next().toMap()));
+			}
+			return list;
+		}
+		return new ArrayList<Business>();
+	}
+	
+	@Override
+	public List<Business> retrieveFollowedByUser(String uuid) {
+		if (uuid != null) {
+			DBCursor cursor = businessCollection.find(new BasicDBObject("followers", uuid));
+
+			List<Business> list = new ArrayList<Business>();
+			while (cursor.hasNext()) {
+				list.add(utilsBusiness.toBusiness(cursor.next().toMap()));
+			}
+			return list;
+		}
+
+		return new ArrayList<Business>();
+	}
 
 	@Override
-	public Map<String, Object> notFollow(String actual_user_uuid) {
-
+	public List<Business> retrieveNotFollowedByUser(String userUuid, String search) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		String[] userUuid = new String[1];
-		userUuid[0] = actual_user_uuid;
 
-		DBCursor dbc = businessCollection.find(new BasicDBObject("followers", new BasicDBObject("$nin", userUuid)));
+		List<BasicDBObject> array = new ArrayList<BasicDBObject>();
+		array.add(new BasicDBObject("name", new BasicDBObject("$regex", search).append("$options", "$i")));
+		array.add(new BasicDBObject("_description", new BasicDBObject("$regex", search).append("$options", "$i")));
+		array.add(new BasicDBObject("_longDescription", new BasicDBObject("$regex", search).append("$options", "$i")));
+		BasicDBObject substring_query = new BasicDBObject().append("$or", array);
+		BasicDBObject not_followed_query = new BasicDBObject("followers", new BasicDBObject("$nin", new String[]{userUuid}));
+		
+		array = new ArrayList<BasicDBObject>();
+		array.add(substring_query);
+		array.add(not_followed_query);
+		BasicDBObject query = new BasicDBObject().append("$and", array);
+
+		DBCursor dbc = businessCollection.find(query);
 
 		List<Business> list = new ArrayList<Business>();
 		if (dbc!=null){
 			while (dbc.hasNext()) {
 				list.add(utilsBusiness.toBusiness(dbc.next().toMap()));
 			}
-			response.put("notFollowBusiness", list);
+			response.put("notFollowedBusinesses", list);
 		}
 		
-		return response;
+		return list;
 	}
 
 }

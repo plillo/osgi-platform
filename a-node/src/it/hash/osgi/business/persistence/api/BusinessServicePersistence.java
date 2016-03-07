@@ -35,14 +35,15 @@ public interface BusinessServicePersistence {
 	List<Business> getBusinessDetails(Business business);
 	List<Business> retrieveBusinesses(String criterion, String search);
 	
-	Map<String, Object> follow(String businessUuid, String actual_user_uuid);
-	List<Business> retrieveFollowedBusinesses(String uuid);
-	List<Business> retrieveOwnedBusinesses(String uuid);
-	Map<String, Object> notFollow(String actual_user_uuid);
+	List<Business> retrieveFollowedByUser(String uuid);
+	List<Business> retrieveOwnedByUser(String uuid);
+	List<Business> retrieveNotFollowedByUser(String userUuid, String search);
+	
 	// UPDATE
 	Map<String, Object> updateBusiness(Business business);
 	Map<String, Object> updateBusiness(Map<String, Object> business);
-	Map<String, Object> unFollow(String businessUuid, String actual_user_uuid);
+	Map<String, Object> follow(String businessUuid, String userUuid);
+	Map<String, Object> unFollow(String businessUuid, String userUuid);
 
 	// DELETE
 	Map<String, Object> deleteBusiness(Map<String, Object> business);

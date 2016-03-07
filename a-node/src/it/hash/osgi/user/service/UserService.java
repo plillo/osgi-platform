@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import it.hash.osgi.user.AttributeValue;
 import it.hash.osgi.user.User;
 
 public interface UserService {
@@ -48,8 +49,6 @@ public interface UserService {
 	// List
 	// TODO filter list by conditions
 	List<User> getUsers();
-
-	Map<String, Object> getAttributes();
 
 	// Create by CSV
 	void createUsersByCSV(BufferedReader reader, boolean simulation, boolean activation) throws IOException;

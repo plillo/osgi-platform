@@ -651,13 +651,15 @@ public class UserServicePersistenceImpl implements UserServicePersistence {
 		return "MONGO";
 	}
 
+	/*
 	@Override
-	public Map<String, Object> getAttribute(String userUuid) {
+	public Map<String, Object> getUserAttributeValues(String userUuid) {
 		Map<String, Object> response = new HashMap<String,Object>();
 		User found_user = getUserByUuid(userUuid);
 		response.put("attributes", found_user.getAttributes());
 		return response;
 	}
+	*/
 
 	BasicDBObject toBasicDBObject(User user) {
 		BasicDBObject bdbObject = new BasicDBObject();

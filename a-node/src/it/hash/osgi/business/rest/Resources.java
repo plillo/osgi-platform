@@ -63,28 +63,7 @@ public class Resources {
 		String actual_user_uuid = _userService.getUUID();
 		
 		// Retrieve
-		List<Business> businesses = _businessService.retrieveOwnedBusinesses(actual_user_uuid);
-
-		if (businesses == null)
-			return Response.serverError().build();
-
-		response.put("businesses", businesses);
-
-		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
-	}
-
-	
-	@GET
-	@Path("/business/followed")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getFollowedBusinesses() {
-		Map<String, Object> response = new TreeMap<String, Object>();
-		
-		// SET Business's follower
-		String actual_user_uuid = _userService.getUUID();
-		
-		// Retrieve
-		List<Business> businesses = _businessService.retrieveFollowedBusinesses(actual_user_uuid);
+		List<Business> businesses = _businessService.retrieveOwnedByUser(actual_user_uuid);
 
 		if (businesses == null)
 			return Response.serverError().build();
@@ -114,9 +93,9 @@ public class Resources {
 			List<String> list = businesses.get(0).getCategories();
 
 			attributes = _attributeService.getAttributesByCategories(list);
-            attributesUser=  (List<Attribute>) _userService.getAttributes().get("attributes");
-			attributes= mergeList(attributes,attributesUser);
-            response.put("businsses", businesses.get(0));
+            //attributesUser = (List<Attribute>) _userService.getUserAttributes().get("attributes");
+			attributes = mergeList(attributes, attributesUser);
+            response.put("businesses", businesses.get(0));
 			response.put("Attributes", attributes);
 		} else
 			response.put("Error", 400);
@@ -279,39 +258,47 @@ public class Resources {
 		return response;
 	}
 	
-@POST
-@Consumes ({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-@Path("/business/{uuid}/unFollow")
-public Response unFollow(@PathParam("uuid") String businessUuid) {
-	// SET Business's owner
-	String actual_user_uuid = "ceaaa4bc-0ac0-4938-b501-e4cb3c7460a2";//_userService.getUUID();
-	
-	Map<String, Object> response = _businessService.unFollowBusiness(businessUuid, actual_user_uuid);
-	
-	return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
-}
+	@POST
+	@Consumes ({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Path("/business/{uuid}/selfUnfollow")
+	public Response unFollow(@PathParam("uuid") String businessUuid) {
+		Map<String, Object> response = _businessService.unfollow(businessUuid, _userService.getUUID());
+		
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
+	}
 
 	// addBusiness
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Path("/business/{uuid}/follow")
+	@Path("/business/{uuid}/selfFollow")
 	public Response follow(@PathParam("uuid") String businessUuid) {
-		// SET Business's owner
-		String actual_user_uuid = _userService.getUUID();
-		
-		Map<String, Object> response = _businessService.followBusiness(businessUuid, actual_user_uuid);
+		Map<String, Object> response = _businessService.follow(businessUuid, _userService.getUUID());
 		
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	}
 	
+	@GET
+	@Path("/business/selfFollowed")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getFollowedBusinesses() {
+		Map<String, Object> response = new TreeMap<String, Object>();
+		
+		// Retrieve
+		List<Business> businesses = _businessService.retrieveFollowedByUser(_userService.getUUID());
+
+		if (businesses == null)
+			return Response.serverError().build();
+
+		response.put("businesses", businesses);
+
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
+	}
+
 	@GET 
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Path("/business/notFollow")
-	public Response getNotfollowBusiness() {
-		// SET Business's owner
-		String actual_user_uuid = "35b34044-71d1-4454-b0b8-7b9a542d7893";//_userService.getUUID();
-		
-		Map<String, Object> response = _businessService.notFollowBusiness(actual_user_uuid);
+	@Path("/business/notSelfFollowed/{search}")
+	public Response getNotFollowedBusiness(@PathParam("search") String search) {
+		List<Business> response = _businessService.retrieveNotFollowedByUser(_userService.getUUID(), search);
 		
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	}

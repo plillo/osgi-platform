@@ -101,7 +101,6 @@ public void addBusiness(String name, String fiscalCode, String partitaIva) {
 	}
 
 	public void listBusiness() {
-
 		List<Business> businesses = _businessService.getBusinesses();
 		if (businesses != null) {
 			for (Iterator<Business> it = businesses.iterator(); it.hasNext();) {
@@ -118,4 +117,13 @@ public void addBusiness(String name, String fiscalCode, String partitaIva) {
 		}
 
 	}
+
+	public void notFollowed(String uuid, String search) {
+		for(Business business:_businessService.retrieveNotFollowedByUser(uuid, search)){
+			System.out.println(String.format("%-20s%-20s", business.getName(), business.getUuid()));
+		}
+	}
 }
+	
+	
+	

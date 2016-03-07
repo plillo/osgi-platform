@@ -59,7 +59,6 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 
 	@Override
 	public List<Attribute> getAttributesByCategories(List<String> categories) {
-
 		DBObject regexQuery = new BasicDBObject();
 
 		List<Attribute> listAtt = new ArrayList<Attribute>();
@@ -81,6 +80,26 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 			listAtt.add(b);
 		}
 		return listAtt;
+	}
+
+	@Override
+	public List<Attribute> getCoreAttributes() {
+		List<Attribute> list = new ArrayList<Attribute>();
+		DBCursor cursor = attributesCollection.find(new BasicDBObject("applications", new BasicDBObject("$exists", false)));
+		for (DBObject elem : cursor.toArray()) {
+			list.add(mapToAttribute(elem.toMap()));
+		}
+		return list;
+	}
+
+	@Override
+	public List<Attribute> getApplicationAttributes(String appid) {
+		List<Attribute> list = new ArrayList<Attribute>();
+		DBCursor cursor = attributesCollection.find(new BasicDBObject("applications", new BasicDBObject("$elemMatch", new BasicDBObject("appcode", appid))));
+		for (DBObject elem : cursor.toArray()) {
+			list.add(mapToAttribute(elem.toMap()));
+		}
+		return list;
 	}
 
 	@Override
@@ -212,6 +231,7 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 			pars.put("validator", attribute.getValidator());
 
 		pars.put("mandatory", attribute.isMandatory());
+		pars.put("multiValued", attribute.isMandatory());
 
 		if (!StringUtils.isEmptyOrNull(attribute.getCauthor()))
 			pars.put("cauthor", attribute.getCauthor());
@@ -341,22 +361,23 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 				break;
 			case "values":
 				if(entry.getValue() instanceof BasicDBList){
-					 BasicDBList bd = (BasicDBList)entry.getValue();
-					 Map mapValues = bd.toMap();
-					 for(Iterator<String> itr = mapValues.keySet().iterator();itr.hasNext();) {
-						 attribute.addValues((String)mapValues.get(itr.next()));
-					 }
-				}
-				else {
-					if (entry.getValue() instanceof List)
-						attribute.setValues((List<String>) entry.getValue());
-					else
-				    	if (entry.getValue() instanceof String)
-						   attribute.addValues((String)entry.getValue());
+					BasicDBList bd = (BasicDBList)entry.getValue();
+					Map mapValues = bd.toMap();
+					for(Iterator<String> itr = mapValues.keySet().iterator(); itr.hasNext();) {
+						 try {
+							 BasicDBObject bdbo = (BasicDBObject)mapValues.get(itr.next());
+							 attribute.addValues(bdbo.toMap()); 
+						 }
+						 catch(Exception e){
+						 }
+					}
 				}
 				break;
 			case "mandatory":
 				attribute.setMandatory((boolean) entry.getValue());
+				break;
+			case "multiValued":
+				attribute.setMultiValued((boolean) entry.getValue());
 				break;
 			case "validator":
 				attribute.setValidator((String) entry.getValue());
@@ -366,8 +387,12 @@ public class AttributeServicePersistenceImpl implements AttributeServicePersiste
 					BasicDBList bd = (BasicDBList)entry.getValue();
 					Map mapApplications = bd.toMap();
 					for(Iterator<String> itr = mapApplications.keySet().iterator(); itr.hasNext();) {
-						 BasicDBObject bdbo = (BasicDBObject)mapApplications.get(itr.next());
-						 attribute.addApplications(bdbo.toMap());
+						try {
+							BasicDBObject bdbo = (BasicDBObject)mapApplications.get(itr.next());
+							attribute.addApplications(bdbo.toMap());
+						}
+						catch(Exception e){
+						}
 					}
 				}
 				break;

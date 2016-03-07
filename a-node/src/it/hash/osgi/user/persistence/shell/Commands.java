@@ -44,6 +44,7 @@ public class Commands {
 			cat.add(elem.getUuid());
 		}
 		
+		/*
 		List<Attribute> a =  attributeService.getAttributesByCategories(cat);
 		int i=3;
 		
@@ -55,7 +56,9 @@ public class Commands {
 			att.setValues(v);
 			
 		}
-	   user.setExtra("Attributes", a);
+	    user.setExtra("Attributes", a);
+	    */
+
 		userService.createUser(user);
 	}
 	
