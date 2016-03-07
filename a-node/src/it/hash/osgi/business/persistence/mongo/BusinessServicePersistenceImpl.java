@@ -475,4 +475,24 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		return response;
 	}
 
+	@Override
+	public Map<String, Object> notFollow(String actual_user_uuid) {
+
+		Map<String, Object> response = new HashMap<String, Object>();
+		String[] userUuid = new String[1];
+		userUuid[0] = actual_user_uuid;
+
+		DBCursor dbc = businessCollection.find(new BasicDBObject("followers", new BasicDBObject("$nin", userUuid)));
+
+		List<Business> list = new ArrayList<Business>();
+		if (dbc!=null){
+			while (dbc.hasNext()) {
+				list.add(utilsBusiness.toBusiness(dbc.next().toMap()));
+			}
+			response.put("notFollowBusiness", list);
+		}
+		
+		return response;
+	}
+
 }

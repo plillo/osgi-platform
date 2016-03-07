@@ -19,6 +19,7 @@ public interface BusinessService {
 	List<Business> retrieveFollowedBusinesses(String uuid);
 	List<Business> retrieveOwnedBusinesses(String actual_user_uuid);
 	Map<String, Object> unFollowBusiness(String businessUuid, String actual_user_uuid);
+	Map<String, Object> notFollowBusiness(String actual_user_uuid);
 	
 
 }
