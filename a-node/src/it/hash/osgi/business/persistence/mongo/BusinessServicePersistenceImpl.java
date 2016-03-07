@@ -57,7 +57,9 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	private DBObject dbObjectBusiness(Business business) {
 		Map<String, Object> map = utilsBusiness.createPars(business);
+		
 		DBObject db = new BasicDBObject(map);
+		System.out.println(db.toString());
 
 		return db;
 	}

@@ -1,24 +1,22 @@
 package it.hash.osgi.business;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
-import it.hash.osgi.user.User;
 import it.hash.osgi.utils.StringUtils;
 
 public class utilsBusiness {
 
 
-	public static Business toBusiness(Map mapBusiness) {
+	@SuppressWarnings("unchecked")
+	public static Business toBusiness(Map<?, ?> mapBusiness) {
 		
 		Business business = new Business();
 		String attribute = null;
-		Map<String, Object> others = new TreeMap<String, Object>();
-		Set entry = mapBusiness.keySet();
+	//	Map<String, Object> others = new TreeMap<String, Object>();
+		Set<?> entry = mapBusiness.keySet();
 		for (Object elem : entry) {
 			attribute = (String) elem;
 			if (attribute.equals("_id")) {
@@ -69,7 +67,10 @@ public class utilsBusiness {
 				case "followers":
 					business.setFollower((List<String>) mapBusiness.get(elem));
 					break;
-				
+				case "latitude":
+					double longitude =(Double) mapBusiness.get("longitude");
+					business.setPosition(longitude,(Double) mapBusiness.get(elem));
+				    break;
 				case "email":
 					business.setEmail((String) mapBusiness.get(elem));
 					break;
@@ -159,6 +160,12 @@ public static Map<String, Object> createPars(Business business) {
 			pars.put("categories", business.getCategories());
 		if (business.getFollowers()!=null)
 			pars.put("followers", business.getFollowers());
+		if(business.getPosition()!=null){
+			Map <String,Object >pos = new HashMap<String,Object>();
+			pos.put("type","Point");
+			pos.put("coordinates", business.getPosition().toString());
+		   
+			pars.put("position", pos);}
 		if (!StringUtils.isEmptyOrNull(business.getEmail()))
 			pars.put("email", business.getEmail());
 		if (!StringUtils.isEmptyOrNull(business.getMobile()))

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import it.hash.osgi.geojson.Coordinate;
+import it.hash.osgi.geojson.Point;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.ObjectId;
 
@@ -41,6 +43,9 @@ public class Business implements Comparable<Business> {
 	private List<String> categories;
 
 	private List<String> followers;
+	private Point position;
+	
+
 	private String email;
 	private String mobile;
 	private String published;
@@ -210,7 +215,14 @@ public class Business implements Comparable<Business> {
 		else
 			return false;
 	}
+	public Coordinate getPosition() {
+		return position.getCoordinates();
+	}
 
+	public void setPosition(Double longitude,Double latitude) {
+		this.position = new Point(longitude,latitude);
+	
+	}
 	public String getFiscalCode() {
 		return fiscalCode;
 	}

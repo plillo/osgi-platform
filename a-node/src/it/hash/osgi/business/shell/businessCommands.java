@@ -14,6 +14,7 @@ import it.hash.osgi.business.service.api.BusinessService;
 
 
 
+
 public class businessCommands {
 	private volatile BusinessService _businessService;
 	private volatile BusinessServicePersistence _bsi;
@@ -25,14 +26,19 @@ public void getByCodiceFiscale(String fiscalCode){
 	// email,
 	// mobile
 	// Category
-	public void addBusiness(String name, String fiscalCode, String partitaIva, String Category) {
+public void addBusiness(String name, String fiscalCode, String partitaIva) {
+
+//public void addBusiness(String name, String fiscalCode, String partitaIva, String Category) {
 		Business business = new Business();
 		business.setName(name);
 		business.setFiscalCode(fiscalCode);;
 		business.setPIva(partitaIva);
-		List<String> categories = new ArrayList<String>();
-		categories.add(Category);
-		business.setCategories(categories);
+	//	List<String> categories = new ArrayList<String>();
+	//	categories.add(Category);
+	//	business.setCategories(categories);
+// longitudine e latitudine
+		business.setPosition(48.32222, 32.222222);
+
 		
 		Map<String, Object> ret = _businessService.create(business);
 		business = null;
@@ -87,7 +93,11 @@ public void getByCodiceFiscale(String fiscalCode){
 			for (String id : cat) {
 				System.out.println(" Category: " + id);
 			}
-		}}
+		}
+		
+	
+		}
+		
 	}
 
 	public void listBusiness() {
