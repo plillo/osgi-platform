@@ -74,14 +74,16 @@ angular.module('hashServices').provider('application', function() {
 	this.description = undefined;
 	
 	//$get function returning the service
-	this.$get = function(){
+	this.$get = function($rootScope){
 		var appcode = this.appcode;
 		var description = this.description;
 		
-		return {
+		$rootScope._application = {
 			appcode: appcode,
 			description: description
-		}
+		};
+		
+		return $rootScope._application;
 	};
 
 	this.setAppcode = function(appcode){
@@ -132,6 +134,34 @@ angular.module('hashServices').provider('backend', function() {
 
 	this.setUrl = function(url){
 		this.url = url;
+	};
+});
+
+//***********************************
+//ADD and INITIALISE 'user' service
+//===================================
+angular.module('hashServices').service('administration', function($http) {
+	this.currentUser = undefined;
+
+	// <<getAttributes>> function
+	// --------------------------
+    this.getAttributes = function(identificator, password){
+       var self = this;
+	   var pars = {
+	      method: 'GET',
+	      url: $rootScope.urlBackend+'/users/1.0/attributes',
+	      params: {
+	    	 identificator: identificator,
+	    	 password: password
+	      }
+	   };
+	   $http(pars).then(
+	      function successCallback(response) {
+	    	  alert('OK');
+          },
+          function errorCallback(response) {
+	    	  alert('KO');
+          });
 	};
 });
 
@@ -295,7 +325,7 @@ angular.module('hashServices').provider('logger', function() {
 this.path = undefined;
 
 // $get function returning the service
-this.$get = function($http, $rootScope, $window, application, user, jwtHelper){
+this.$get = function($http, $rootScope, $window, user, jwtHelper){
 	var path = this.path;
 	
 	return {
@@ -315,7 +345,7 @@ this.$get = function($http, $rootScope, $window, application, user, jwtHelper){
 		      params:{
 		    	 identificator:identificator,
 		    	 password:password,
-		    	 appcode:application.appcode
+		    	 appcode:$rootScope._application.appcode
 		      }
 		   };
 		   $http(pars).then(

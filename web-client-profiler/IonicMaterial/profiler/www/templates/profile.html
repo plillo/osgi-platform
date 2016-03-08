@@ -104,7 +104,7 @@
 						<div class="input-label">{{attribute.label}}</div>
 						<select name="{{'extra.'+attribute.name}}" class="extra">
 							<option class="label" value="">Selezionare</option>
-							<option ng-repeat="value in attribute.values" value="{{value}}">{{value}}</option>
+							<option ng-repeat="value in attribute.values" value="{{value.value}}">{{value.label}}</option>
 						</select>
 					</label>
 				</div>
