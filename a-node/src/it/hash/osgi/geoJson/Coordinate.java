@@ -1,4 +1,4 @@
-package it.hash.osgi.geojson;
+package it.hash.osgi.geoJson;
 
 
 public class Coordinate implements Comparable<Coordinate>{

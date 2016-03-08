@@ -162,9 +162,8 @@ public static Map<String, Object> createPars(Business business) {
 			pars.put("followers", business.getFollowers());
 		if (business.getPosition()!=null){
 			Map <String,Object >pos = new HashMap<String,Object>();
-			pos.put("type","Point");
+			pos.put("type",business.getPosition().getType());
 			pos.put("coordinates", business.getPosition().toString());
-		   
 			pars.put("position", pos);}
 		if (!StringUtils.isEmptyOrNull(business.getEmail()))
 			pars.put("email", business.getEmail());

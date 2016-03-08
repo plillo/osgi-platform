@@ -116,7 +116,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	public List<Business> retrieveBusinesses(String criterion, String search) {
 
 		List<DBObject> list = new ArrayList<DBObject>();
-		List<Business> listB = new ArrayList<Business>();
+		List<Business> listB = null ;
 		BasicDBObject regexQuery = null;
 
 		regexQuery = new BasicDBObject();
@@ -128,12 +128,14 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		System.out.println(regexQuery.toString());
 		DBCursor cursor = businessCollection.find(regexQuery);
 		list = cursor.toArray();
+		if (!list.isEmpty()){
+			listB= new ArrayList<Business>();
 		Business b;
 		for (DBObject elem : list) {
 			b = utilsBusiness.toBusiness(elem.toMap());
 			listB.add(b);
 		}
-
+		}
 		return listB;
 
 	}
