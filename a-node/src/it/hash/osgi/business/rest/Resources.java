@@ -22,6 +22,10 @@ import javax.ws.rs.core.Response;
 
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.service.api.BusinessService;
+import it.hash.osgi.geoJson.Circle;
+import it.hash.osgi.geoJson.Geometry;
+import it.hash.osgi.geoJson.LineString;
+import it.hash.osgi.geoJson.Point;
 import it.hash.osgi.user.attribute.Attribute;
 import it.hash.osgi.user.attribute.service.AttributeService;
 import it.hash.osgi.user.service.UserService;
@@ -62,6 +66,8 @@ public class Resources {
 
 		response.put("businesses", businesses);
 
+	
+		
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(response).build();
 	}
 	
