@@ -6,18 +6,21 @@ import java.util.Map;
 import it.hash.osgi.business.Business;
 
 public interface BusinessService {
-
 	Map<String, Object> getBusiness(Map<String, Object> pars);
-	Map<String, Object> create(Business business);
-	Map<String, Object> create(Map<String, Object> pars);
-	Map<String, Object> deleteBusiness(Map<String, Object> pars);
-	Map<String, Object> updateBusiness(Map<String, Object> pars);
+	
+	Map<String, Object> createBusiness(Business business);
+	Map<String, Object> createBusiness(Map<String, Object> pars);
+	Map<String, Object> updateBusiness(String uuid, Business business);
+	Map<String, Object> updateBusiness(String uuid, Map<String, Object> pars);
+	Map<String, Object> deleteBusiness(String uuid);
+	
 	Map<String, Object> updateFollowersToBusiness(Map<String, Object> pars);
 	List<Business> retrieveBusinesses(String criterion, String search);
 	List<Business> getBusinesses();
+	Business getBusiness(String uuid);
 	Map<String, Object> follow(String businessUuid, String userUuid);
 	Map<String, Object> unfollow(String businessUuid, String userUuid);
 	List<Business> retrieveFollowedByUser(String uuid);
-	List<Business> retrieveOwnedByUser(String actual_user_uuid);
+	List<Business> retrieveOwnedByUser(String uuid);
 	List<Business> retrieveNotFollowedByUser(String user, String search);
 }

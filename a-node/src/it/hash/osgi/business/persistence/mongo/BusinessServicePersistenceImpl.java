@@ -18,11 +18,9 @@ import com.mongodb.WriteResult;
 
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.utilsBusiness;
-import it.hash.osgi.business.category.Category;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
-import it.hash.osgi.user.User;
+import it.hash.osgi.user.attribute.Attribute;
 import it.hash.osgi.utils.StringUtils;
-import net.vz.mongodb.jackson.JacksonDBCollection;
 
 /**
  * Implements interface BusinessServicePersistence with MongoDB:
@@ -111,7 +109,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 		return getBusiness(map);
 	}
-
+	
 	@Override
 	public List<Business> retrieveBusinesses(String criterion, String search) {
 
@@ -135,7 +133,6 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		}
 
 		return listB;
-
 	}
 
 	@Override
@@ -302,25 +299,23 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	}
 
 	@Override
-	public synchronized Map<String, Object> updateBusiness(Business business) {
-
-		// JacksonDBCollection<Business, Object> businessMap =
-		// JacksonDBCollection.wrap(businessCollection,
-		// Business.class);
-
+	public synchronized Map<String, Object> updateBusiness(String uuid, Business business) {
 		Map<String, Object> response = new TreeMap<String, Object>();
 		Map<String, Object> responseUpdate = new TreeMap<String, Object>();
 		response = getBusiness(business);
 		if ((int) response.get("matched") == 1) {
-			Business found = (Business) response.get("business");
-
-			BasicDBObject oldObject = new BasicDBObject("uuid", found.getUuid());
-			Map<String, Object> map = utilsBusiness.createPars(business);
-
-			BasicDBObject newObject = new BasicDBObject(map);
-
-			DBObject update = businessCollection.findAndModify(oldObject, newObject);
-			Business updateBusiness = utilsBusiness.toBusiness(update.toMap());
+			
+			// UNSET _ID
+			business.set_id(null);
+			BasicDBObject updateDocument = new BasicDBObject().append("$set", businessToDBObject(business));
+			BasicDBObject searchQuery = new BasicDBObject().append("uuid", uuid);
+	       
+			@SuppressWarnings("unused")
+			WriteResult wr = businessCollection.update(searchQuery, updateDocument);
+			
+			DBObject updated = businessCollection.findOne(new BasicDBObject("uuid", uuid));
+			
+			Business updateBusiness = utilsBusiness.toBusiness(updated.toMap());
 			if (updateBusiness != null) {
 				responseUpdate.put("business", updateBusiness);
 				responseUpdate.put("update", "OK");
@@ -339,16 +334,14 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	}
 
 	@Override
-	public Map<String, Object> updateBusiness(Map<String, Object> pars) {
+	public Map<String, Object> updateBusiness(String uuid, Map<String, Object> pars) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		String uuid = ((Business) pars.get("business")).getUuid();
 		Business business = getBusinessByUuid(uuid);
 
 		if (business != null) {
-
 			if (pars.containsKey("userUuid")) {
 				business.addFollower((String) pars.get("userUuid"));
-				response = updateBusiness(business);
+				response = updateBusiness(uuid, business);
 			}
 		} else {
 			response.put("update", "ERROR");
@@ -383,9 +376,11 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	}
 
 	@Override
-	public Map<String, Object> deleteBusiness(Map<String, Object> pars) {
-
-		return deleteBusiness(utilsBusiness.toBusiness(pars));
+	public Map<String, Object> deleteBusiness(String uuid) {
+		Business business = new Business();
+		business.setUuid(uuid);
+		
+		return deleteBusiness(business);
 	}
 
 	@Override
@@ -483,6 +478,76 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 		}
 		
 		return list;
+	}
+	
+	private DBObject businessToDBObject(Business business) {
+		Map<String, Object> map = businessToMap(business);
+		DBObject db = new BasicDBObject(map);
+
+		return db;
+	}
+	
+	public static Map<String, Object> businessToMap(Business business) {
+		Map<String, Object> pars = new HashMap<String, Object>();
+
+		if (!StringUtils.isEmptyOrNull(business.get_id()))
+			pars.put("_id", business.get_id());
+		if (!StringUtils.isEmptyOrNull(business.getUuid()))
+			pars.put("uuid", business.getUuid());
+		if (!StringUtils.isEmptyOrNull(business.getName()))
+			pars.put("name", business.getName());
+		if (!StringUtils.isEmptyOrNull(business.getPIva()))
+			pars.put("pIva", business.getPIva());
+		if (!StringUtils.isEmptyOrNull(business.getFiscalCode()))
+			pars.put("fiscalCode", business.getFiscalCode());
+		if (!StringUtils.isEmptyOrNull(business.getAddress()))
+			pars.put("address", business.getAddress());
+		if (!StringUtils.isEmptyOrNull(business.getCity()))
+			pars.put("city", business.getCity());
+		if (!StringUtils.isEmptyOrNull(business.getCap()))
+			pars.put("cap", business.getCap());
+		if (!StringUtils.isEmptyOrNull(business.getNation()))
+			pars.put("nation", business.getNation());
+		if (!StringUtils.isEmptyOrNull(business.get__Description()))
+			pars.put("_description", business.get__Description());
+		if (!StringUtils.isEmptyOrNull(business.get__longDescription()))
+			pars.put("_longDescription", business.get__longDescription());
+		if (!StringUtils.isEmptyOrNull(business.getOwner()))
+			pars.put("owner", business.getOwner());
+		if (business.getCategories() != null)
+			pars.put("categories", business.getCategories());
+		if (business.getFollowers()!=null)
+			pars.put("followers", business.getFollowers());
+		if (business.getPosition()!=null){
+			Map <String,Object >pos = new HashMap<String,Object>();
+			pos.put("type","Point");
+			pos.put("coordinates", business.getPosition().toString());
+		   
+			pars.put("position", pos);}
+		if (!StringUtils.isEmptyOrNull(business.getEmail()))
+			pars.put("email", business.getEmail());
+		if (!StringUtils.isEmptyOrNull(business.getMobile()))
+			pars.put("mobile", business.getMobile());
+		if (!StringUtils.isEmptyOrNull(business.getPublished()))
+			pars.put("published", business.getPublished());
+		if (!StringUtils.isEmptyOrNull(business.getTrusted_email()))
+			pars.put("trusted_email", business.getTrusted_email());
+		if (!StringUtils.isEmptyOrNull(business.getTrusted_mobile()))
+			pars.put("trusted_mobile", business.getTrusted_mobile());
+		if (!StringUtils.isEmptyOrNull(business.getCauthor()))
+			pars.put("cauthor", business.getCauthor());
+		if (!StringUtils.isEmptyOrNull(business.getCdate()))
+			pars.put("cdate", business.getCdate());
+		if (!StringUtils.isEmptyOrNull(business.getMauthor()))
+			pars.put("mauthor", business.getMauthor());
+		if (!StringUtils.isEmptyOrNull(business.getMdate()))
+			pars.put("mdate", business.getMdate());
+		if (!StringUtils.isEmptyOrNull(business.getLdate()))
+			pars.put("ldate", business.getLdate());
+		if (business.getOthers() != null)
+			pars.put("others", business.getOthers());
+
+		return pars;
 	}
 
 }
