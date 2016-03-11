@@ -1,6 +1,5 @@
 package it.hash.osgi.business.persistence.mock;
 
-
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -20,7 +19,6 @@ import it.hash.osgi.utils.StringUtils;
 
      
 public class BusinessServicePersistenceImpl implements BusinessServicePersistence, ManagedService {
-
 	List<Business> businesses = new ArrayList<Business>();
 	@SuppressWarnings("rawtypes")
 	Dictionary properties;
@@ -324,7 +322,7 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 
 	@Override
-	public Map<String, Object> updateBusiness(Business business) {
+	public Map<String, Object> updateBusiness(String uuid, Business business) {
 
 		Map<String, Object> result = new TreeMap<String, Object>();
 		if (businesses.contains(business)) {
@@ -339,36 +337,14 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	}
 
 	@Override
-	public Map<String, Object> updateBusiness(Map<String, Object> par) {
+	public Map<String, Object> updateBusiness(String uuid, Map<String, Object> par) {
 
 		System.out.println("Update Business for cfg: ");
 		
 		Business business = createBusiness(par);
 
-		return updateBusiness(business);
-
+		return updateBusiness(uuid, business);
 	}
-
-	@Override
-	public Map<String, Object> deleteBusiness(Map<String, Object> pars) {
-
-		Business foundBusiness = createBusiness(pars);
-		Map<String, Object> result = new TreeMap<String, Object>();
-		result.put("returnCode", 620);
-		for (Business business : businesses) {
-			if (foundBusiness.compareTo(business) == 0)  {
-				businesses.remove(business);
-				result.remove("returnCode");
-				result.put("returnCode", 200);
-				result.put("delete", foundBusiness);
-				return result;
-			}
-		}
-
-		return result;
-	}
-
-
 
 	@Override
 	public String getImplementation() {
@@ -442,6 +418,12 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 
 	@Override
 	public Map<String, Object> unFollow(String businessUuid, String userUuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> deleteBusiness(String uuid) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -15,9 +15,7 @@ import it.hash.osgi.business.Business;
  * @author Montinari Antonella
  */
 public interface BusinessServicePersistence {
-	
 	// CREATE
-	 
 	Map<String, Object> addBusiness(Map<String, Object> business);
 	Map<String, Object> addBusiness(Business business);
 	             
@@ -40,13 +38,13 @@ public interface BusinessServicePersistence {
 	List<Business> retrieveNotFollowedByUser(String userUuid, String search);
 	
 	// UPDATE
-	Map<String, Object> updateBusiness(Business business);
-	Map<String, Object> updateBusiness(Map<String, Object> business);
+	Map<String, Object> updateBusiness(String uuid, Business business);
+	Map<String, Object> updateBusiness(String uuid, Map<String, Object> business);
 	Map<String, Object> follow(String businessUuid, String userUuid);
 	Map<String, Object> unFollow(String businessUuid, String userUuid);
 
 	// DELETE
-	Map<String, Object> deleteBusiness(Map<String, Object> business);
+	Map<String, Object> deleteBusiness(String uuid);
 	
 	// IMPLEMENTATION
 	String getImplementation();

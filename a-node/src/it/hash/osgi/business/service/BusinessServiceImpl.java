@@ -17,12 +17,10 @@ import it.hash.osgi.resource.uuid.api.UUIDService;
 import it.hash.osgi.user.service.UserService;
 
 public class BusinessServiceImpl implements BusinessService {
-	
-	@SuppressWarnings({ "unused", "rawtypes" })
-
 	private Dictionary properties;
 	private volatile BusinessServicePersistence _businessPersistenceService;
 	private volatile UUIDService _uuid;
+
 	@SuppressWarnings("unused")
 	private volatile UserService _userSrv;
    
@@ -36,7 +34,7 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 
 	@Override
-	public Map<String, Object> create(Business business) {
+	public Map<String, Object> createBusiness(Business business) {
 		// TODO IMPLEMENTARE MEGLIO L 'INTEGRITà REFERENZIALE TRA LE DUE
 		// TABELLE!!!!
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -62,7 +60,7 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 
 	@Override
-	public Map<String, Object> create(Map<String, Object> pars) {
+	public Map<String, Object> createBusiness(Map<String, Object> pars) {
 		String u = _uuid.createUUID("app/business");
 		Map<String, Object> response = new HashMap<String, Object>();
 
@@ -86,27 +84,29 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 
 	@Override
-	public Map<String, Object> deleteBusiness(Map<String, Object> pars) {
+	public Map<String, Object> deleteBusiness(String uuid) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
-		String u = (String) pars.get("uuid");
-		if (!StringUtils.isNullOrEmpty(u)) {
+		if (!StringUtils.isNullOrEmpty(uuid)) {
+			response = _uuid.removeUUID(uuid);
 
-			response = _uuid.removeUUID(u);
-
-			return _businessPersistenceService.deleteBusiness(pars);
+			return _businessPersistenceService.deleteBusiness(uuid);
 		} else {
 			response.put("created", false);
 			response.put("errorUUIDService", true);
 			response.put("returnCode", 630);
 			return response;
 		}
-
 	}
 
 	@Override
-	public Map<String, Object> updateBusiness(Map<String, Object> pars) {
-		return _businessPersistenceService.updateBusiness(pars);
+	public Map<String, Object> updateBusiness(String uuid, Business business) {
+		return _businessPersistenceService.updateBusiness(uuid, business);
+	}
+	
+	@Override
+	public Map<String, Object> updateBusiness(String uuid, Map<String, Object> pars) {
+		return _businessPersistenceService.updateBusiness(uuid, pars);
 	}
 
 	@Override
@@ -124,10 +124,15 @@ public class BusinessServiceImpl implements BusinessService {
 	public List<Business> getBusinesses() {
 		return _businessPersistenceService.getBusinesses();
 	}
+	
+	@Override
+	public Business getBusiness(String uuid){
+		return _businessPersistenceService.getBusinessByUuid(uuid);
+	}
 
 	@Override
 	public Map<String, Object> updateFollowersToBusiness(Map<String, Object> pars) {
-		return _businessPersistenceService.updateBusiness(pars);
+		return _businessPersistenceService.updateBusiness("", pars);
 	}
 
 	@Override
@@ -154,5 +159,4 @@ public class BusinessServiceImpl implements BusinessService {
 	public List<Business> retrieveNotFollowedByUser(String uuid, String search) {
 		return _businessPersistenceService.retrieveNotFollowedByUser(uuid, search);
 	}
-
 }

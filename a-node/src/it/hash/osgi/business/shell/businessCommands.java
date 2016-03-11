@@ -6,19 +6,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
 import it.hash.osgi.business.service.api.BusinessService;
 
-
-
-
-
 public class businessCommands {
 	private volatile BusinessService _businessService;
 	private volatile BusinessServicePersistence _bsi;
-public void getByCodiceFiscale(String fiscalCode){
+	public void getByCodiceFiscale(String fiscalCode){
 	Business business=_bsi.getBusinessByFiscalCode(fiscalCode);
 	System.out.println( "TROVATO : "+business.getFiscalCode());
 }  
@@ -27,7 +22,6 @@ public void getByCodiceFiscale(String fiscalCode){
 	// mobile
 	// Category
 public void addBusiness(String name, String fiscalCode, String partitaIva) {
-
 //public void addBusiness(String name, String fiscalCode, String partitaIva, String Category) {
 		Business business = new Business();
 		business.setName(name);
@@ -36,11 +30,10 @@ public void addBusiness(String name, String fiscalCode, String partitaIva) {
 	//	List<String> categories = new ArrayList<String>();
 	//	categories.add(Category);
 	//	business.setCategories(categories);
-// longitudine e latitudine
+    //  longitudine e latitudine
 		business.setPosition(48.32222, 32.222222);
 
-		
-		Map<String, Object> ret = _businessService.create(business);
+		Map<String, Object> ret = _businessService.createBusiness(business);
 		business = null;
 		business = (Business) ret.get("business");
 		if (business != null) {
@@ -52,8 +45,7 @@ public void addBusiness(String name, String fiscalCode, String partitaIva) {
 		System.out.println("called shell command 'createBusiness' - created: " + (Boolean) ret.get("created"));
 	}
 
-	public void updateBusiness(String uuid,String name, String email, String mobile, String category) {
-
+	public void updateBusiness(String uuid, String name, String email, String mobile, String category) {
 		Map<String, Object> pars = new HashMap<String, Object>();
 		Map<String, Object> response = new HashMap<String, Object>();
 		Business business = new Business();
@@ -66,17 +58,12 @@ public void addBusiness(String name, String fiscalCode, String partitaIva) {
 		business.setCategories(categories);
 		pars.put("business", business);
 		pars.put("uuid", uuid);
-		response = _businessService.updateBusiness(pars);
+		response = _businessService.updateBusiness(uuid, pars);
 		System.out.println("ReturnCode " + response.get("returnCode"));
-
 	}
 
 	public void deleteBusiness(String uuid) {
-
-		Map<String, Object> pars = new HashMap<String, Object>();
-		pars.put("uuid", uuid);
-
-		Map<String, Object> ret = _businessService.deleteBusiness(pars);
+		Map<String, Object> ret = _businessService.deleteBusiness(uuid);
 		System.out.println("returnCode " + ret.get("returnCode"));
 	}
 
@@ -86,16 +73,14 @@ public void addBusiness(String name, String fiscalCode, String partitaIva) {
 		Map<String, Object> ret = _businessService.getBusiness(pars);
 		Business business = (Business) ret.get("business");
 		if (business!=null){
-		System.out.println(String.format("%-20s%-20s%-20s%-20s", business.getName(), business.getEmail(),
-				business.getMobile(), business.getUuid()));
-		List<String> cat = business.getCategories();
-		if (cat != null) {
-			for (String id : cat) {
-				System.out.println(" Category: " + id);
+			System.out.println(String.format("%-20s%-20s%-20s%-20s", business.getName(), business.getEmail(),
+					business.getMobile(), business.getUuid()));
+			List<String> cat = business.getCategories();
+			if (cat != null) {
+				for (String id : cat) {
+					System.out.println(" Category: " + id);
+				}
 			}
-		}
-		
-	
 		}
 		
 	}

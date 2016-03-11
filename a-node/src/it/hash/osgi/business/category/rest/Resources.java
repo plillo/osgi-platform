@@ -2,8 +2,6 @@ package it.hash.osgi.business.category.rest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -15,7 +13,6 @@ import javax.ws.rs.core.Response;
 
 import it.hash.osgi.business.category.Category;
 import it.hash.osgi.business.category.service.CategoryService;
-import it.hash.osgi.resource.uuid.api.UUIDService;
 
 @Path("businesses/1.0/categories")
 public class Resources {
@@ -24,13 +21,11 @@ public class Resources {
  
 	// cerca in tutta la collezione la stringa search
 	@GET
-	@Path("{search}")
+	@Path("by_searchKeyword/{keyword}")  
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getCategory(@PathParam("search") PathSegment s) {
+	public Response getCategory(@PathParam("keyword") PathSegment s) {
 		System.out.println(" ");
 		
-		Map<String, Object> pars = new TreeMap<String, Object>();
-		Map<String, Object> response = new TreeMap<String, Object>();
 		List<Category> categories = new ArrayList<Category>();
 		
 		String search = s.getPath();

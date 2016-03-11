@@ -13,7 +13,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import it.hash.osgi.user.User;
 import it.hash.osgi.user.attribute.Attribute;
 import it.hash.osgi.user.attribute.service.AttributeService;
 
@@ -53,7 +52,6 @@ public class Resources {
 				.entity(_attributeService.getAttribute(uuid))
 				.build();
 	}
-	
 	
 	// POST attributes/1.0/{Uuid}
 	@Path("/{Uuid}")
