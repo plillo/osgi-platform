@@ -5,16 +5,16 @@ import java.util.List;
 
 public  class LineString extends Geometry {
 	
-	protected List<Coordinate> coordinates;
+	protected List<Coordinates> coordinates;
 	
 	public LineString(){
 		super();
 		
 	}
-	public List<Coordinate> addCoordinates(Double longitude,Double latitude) {
+	public List<Coordinates> addCoordinates(Double longitude,Double latitude) {
 		if (this.coordinates ==null )
-			  this.coordinates=new ArrayList<Coordinate>();
-		Coordinate c = new Coordinate();
+			  this.coordinates=new ArrayList<Coordinates>();
+		Coordinates c = new Coordinates();
 		c.setLongitude(longitude);
 		c.setLatitude(latitude);
 		if (this.coordinates.size()<2 && (!this.coordinates.contains(c)))
@@ -24,9 +24,9 @@ public  class LineString extends Geometry {
 	
 	}
 
-public List<Coordinate> removeCoordinates(Double longitude,Double latitude)
+public List<Coordinates> removeCoordinates(Double longitude,Double latitude)
 {
-	Coordinate c = new Coordinate();
+	Coordinates c = new Coordinates();
 	c.setLongitude(longitude);
 	c.setLatitude(latitude);
 	
@@ -36,7 +36,7 @@ public List<Coordinate> removeCoordinates(Double longitude,Double latitude)
 	return this.coordinates;
 }
 	
-public List<Coordinate> getCoordinates() {
+public List<Coordinates> getCoordinates() {
 	return this.coordinates;
 }
 public  String toGeoJson(){

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import it.hash.osgi.geoJson.Point;
 import it.hash.osgi.utils.StringUtils;
 
 public class utilsBusiness {
@@ -67,10 +68,13 @@ public class utilsBusiness {
 				case "followers":
 					business.setFollower((List<String>) mapBusiness.get(elem));
 					break;
-				case "latitude":
-					double longitude =(Double) mapBusiness.get("longitude");
-					business.setPosition(longitude,(Double) mapBusiness.get(elem));
+					
+				case "position":
+					Map<String, Object> position = (Map<String, Object>)mapBusiness.get("position");
+					List<Double> coordinates = (List<Double>)position.get("coordinates");
+					business.setPosition(new Point(coordinates.get(0).doubleValue(), coordinates.get(1).doubleValue()));
 				    break;
+				    
 				case "email":
 					business.setEmail((String) mapBusiness.get(elem));
 					break;

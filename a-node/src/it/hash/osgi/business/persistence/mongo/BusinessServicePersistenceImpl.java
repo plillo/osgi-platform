@@ -1,5 +1,8 @@
 package it.hash.osgi.business.persistence.mongo;
 
+import static it.hash.osgi.utils.StringUtils.isEmptyOrNull;
+import static it.hash.osgi.utils.StringUtils.isNotEmptyOrNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +22,6 @@ import com.mongodb.WriteResult;
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.utilsBusiness;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
-import it.hash.osgi.user.attribute.Attribute;
-import it.hash.osgi.utils.StringUtils;
 
 /**
  * Implements interface BusinessServicePersistence with MongoDB:
@@ -96,15 +97,15 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	public Map<String, Object> getBusiness(Business business) {
 		Map<String, Object> map = new TreeMap<String, Object>();
 
-		if (!StringUtils.isEmptyOrNull(business.get_id()))
+		if (!isEmptyOrNull(business.get_id()))
 			map.put("_id", business.get_id());
-		if (!StringUtils.isEmptyOrNull(business.getUuid()))
+		if (!isEmptyOrNull(business.getUuid()))
 			map.put("uuid", business.getUuid());
-		if (!StringUtils.isEmptyOrNull(business.getName()))
+		if (!isEmptyOrNull(business.getName()))
 			map.put("name", business.getName());
-		if (!StringUtils.isEmptyOrNull(business.getPIva()))
+		if (!isEmptyOrNull(business.getPIva()))
 			map.put("pIva", business.getPIva());
-		if (!StringUtils.isEmptyOrNull(business.getFiscalCode()))
+		if (!isEmptyOrNull(business.getFiscalCode()))
 			map.put("fiscalCode", business.getFiscalCode());
 
 		return getBusiness(map);
@@ -304,9 +305,8 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	public synchronized Map<String, Object> updateBusiness(String uuid, Business business) {
 		Map<String, Object> response = new TreeMap<String, Object>();
 		Map<String, Object> responseUpdate = new TreeMap<String, Object>();
-		response = getBusiness(business);
+		response = isNotEmptyOrNull(uuid) ? getBusiness(getBusinessByUuid(uuid)):getBusiness(business);
 		if ((int) response.get("matched") == 1) {
-			
 			// UNSET _ID
 			business.set_id(null);
 			BasicDBObject updateDocument = new BasicDBObject().append("$set", businessToDBObject(business));
@@ -492,59 +492,59 @@ public class BusinessServicePersistenceImpl implements BusinessServicePersistenc
 	public static Map<String, Object> businessToMap(Business business) {
 		Map<String, Object> pars = new HashMap<String, Object>();
 
-		if (!StringUtils.isEmptyOrNull(business.get_id()))
+		if (!isEmptyOrNull(business.get_id()))
 			pars.put("_id", business.get_id());
-		if (!StringUtils.isEmptyOrNull(business.getUuid()))
+		if (!isEmptyOrNull(business.getUuid()))
 			pars.put("uuid", business.getUuid());
-		if (!StringUtils.isEmptyOrNull(business.getName()))
+		if (!isEmptyOrNull(business.getName()))
 			pars.put("name", business.getName());
-		if (!StringUtils.isEmptyOrNull(business.getPIva()))
+		if (!isEmptyOrNull(business.getPIva()))
 			pars.put("pIva", business.getPIva());
-		if (!StringUtils.isEmptyOrNull(business.getFiscalCode()))
+		if (!isEmptyOrNull(business.getFiscalCode()))
 			pars.put("fiscalCode", business.getFiscalCode());
-		if (!StringUtils.isEmptyOrNull(business.getAddress()))
+		if (!isEmptyOrNull(business.getAddress()))
 			pars.put("address", business.getAddress());
-		if (!StringUtils.isEmptyOrNull(business.getCity()))
+		if (!isEmptyOrNull(business.getCity()))
 			pars.put("city", business.getCity());
-		if (!StringUtils.isEmptyOrNull(business.getCap()))
+		if (!isEmptyOrNull(business.getCap()))
 			pars.put("cap", business.getCap());
-		if (!StringUtils.isEmptyOrNull(business.getNation()))
+		if (!isEmptyOrNull(business.getNation()))
 			pars.put("nation", business.getNation());
-		if (!StringUtils.isEmptyOrNull(business.get__Description()))
+		if (!isEmptyOrNull(business.get__Description()))
 			pars.put("_description", business.get__Description());
-		if (!StringUtils.isEmptyOrNull(business.get__longDescription()))
+		if (!isEmptyOrNull(business.get__longDescription()))
 			pars.put("_longDescription", business.get__longDescription());
-		if (!StringUtils.isEmptyOrNull(business.getOwner()))
+		if (!isEmptyOrNull(business.getOwner()))
 			pars.put("owner", business.getOwner());
 		if (business.getCategories() != null)
 			pars.put("categories", business.getCategories());
 		if (business.getFollowers()!=null)
 			pars.put("followers", business.getFollowers());
 		if (business.getPosition()!=null){
-			Map <String,Object >pos = new HashMap<String,Object>();
+			Map <String, Object> pos = new HashMap<String, Object>();
 			pos.put("type","Point");
-			pos.put("coordinates", business.getPosition().toString());
+			pos.put("coordinates", business.getPosition().getCoordinates().toArray());
 		   
 			pars.put("position", pos);}
-		if (!StringUtils.isEmptyOrNull(business.getEmail()))
+		if (!isEmptyOrNull(business.getEmail()))
 			pars.put("email", business.getEmail());
-		if (!StringUtils.isEmptyOrNull(business.getMobile()))
+		if (!isEmptyOrNull(business.getMobile()))
 			pars.put("mobile", business.getMobile());
-		if (!StringUtils.isEmptyOrNull(business.getPublished()))
+		if (!isEmptyOrNull(business.getPublished()))
 			pars.put("published", business.getPublished());
-		if (!StringUtils.isEmptyOrNull(business.getTrusted_email()))
+		if (!isEmptyOrNull(business.getTrusted_email()))
 			pars.put("trusted_email", business.getTrusted_email());
-		if (!StringUtils.isEmptyOrNull(business.getTrusted_mobile()))
+		if (!isEmptyOrNull(business.getTrusted_mobile()))
 			pars.put("trusted_mobile", business.getTrusted_mobile());
-		if (!StringUtils.isEmptyOrNull(business.getCauthor()))
+		if (!isEmptyOrNull(business.getCauthor()))
 			pars.put("cauthor", business.getCauthor());
-		if (!StringUtils.isEmptyOrNull(business.getCdate()))
+		if (!isEmptyOrNull(business.getCdate()))
 			pars.put("cdate", business.getCdate());
-		if (!StringUtils.isEmptyOrNull(business.getMauthor()))
+		if (!isEmptyOrNull(business.getMauthor()))
 			pars.put("mauthor", business.getMauthor());
-		if (!StringUtils.isEmptyOrNull(business.getMdate()))
+		if (!isEmptyOrNull(business.getMdate()))
 			pars.put("mdate", business.getMdate());
-		if (!StringUtils.isEmptyOrNull(business.getLdate()))
+		if (!isEmptyOrNull(business.getLdate()))
 			pars.put("ldate", business.getLdate());
 		if (business.getOthers() != null)
 			pars.put("others", business.getOthers());
