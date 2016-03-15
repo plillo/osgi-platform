@@ -59,7 +59,7 @@ public class Resources {
 	@Path("/by_selfOwned/positions")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getPositions() {
+	public Response getOwnedPositions() {
 		// Retrieve
 		List<Business> businesses = _businessService.retrieveOwnedByUser(_userService.getUUID());
 
@@ -81,6 +81,31 @@ public class Resources {
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(positions_list).build();
 	}
 	
+	// GET businesses/1.0/businesses/by_selfFollowed/positions
+	@Path("/by_selfFollowed/positions")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getFollowedPositions() {
+		// Retrieve
+		List<Business> businesses = _businessService.retrieveFollowedByUser(_userService.getUUID());
+
+		if (businesses == null)
+			return Response.serverError().build();
+
+		// Build list of coordinates
+		List<Map<String, Object>> positions_list = new ArrayList<Map<String, Object>>();
+		for(Business business: businesses) {
+			if(business.getPosition()!=null) {
+				Map<String, Object> position = new TreeMap<String, Object>();
+				position.put("uuid",business.getUuid());
+				position.put("description",business.get__Description());
+				position.put("coordinates",business.getPosition().getCoordinates());
+				positions_list.add(position);
+			}
+		}
+		
+		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(positions_list).build();
+	}
 	
 	// GET businesses/1.0/businesses/by_searchKeyword/{keyword};criterion=xyz
 	@GET

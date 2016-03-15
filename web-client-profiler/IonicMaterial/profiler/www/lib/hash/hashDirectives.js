@@ -429,3 +429,102 @@ angular.module('hashDirectives').directive('btMulti', function() {
       }
 	};
 });
+
+
+// USER'S ATTRIBUTES MANAGEMENT DIRECTIVES
+
+//ADD 'haUserAttributes' directive
+//................................
+angular.module('hashDirectives').directive('haUserAttributes', function() {
+	return {
+		replace: false,
+		scope: {},
+		templateUrl : 'lib/hash/templates/user-attributes.html',
+		controller: function($scope, $state, $http, backend){
+	       	// Scope-properties
+			$scope.attributes = [];
+			
+	       	// Scope-functions
+			$scope.edit = function(uuid, tostate) {
+				$state.go(tostate, {uuid:uuid});
+			};
+			
+			$scope.load = function() {
+			    var pars = {
+			        method: 'GET',
+			        url: backend.getBackend()+'/attributes/1.0',
+			        params: {
+			        }
+			    };
+			    $http(pars).then(
+			    	function successCallback(response) {
+			    		$scope.attributes = response.data;
+			    	},
+			    	function errorCallback(response) {
+			    		alert('KO');
+			    	});
+			};
+			$scope.load();
+	    },
+		link: function(scope, element, attributes){
+			// EVENTS BINDING
+			// ...
+		}
+	};
+});
+
+//ADD 'haAttributeForm' directive
+//...............................
+angular.module('hashDirectives').directive('haAttributeForm', function() {
+	return {
+		replace: false,
+		scope: {
+			uuid: '@uuid'
+		},
+		templateUrl : 'lib/hash/templates/user-attribute-form.html',
+		controller: function($scope, $rootScope, $http, $window, $element, administration){
+	       	// scope-properties
+			$scope.updatingAttribute = undefined;
+
+	       	// scope-functions
+			$scope.send = function() {
+				//cloning object in order to parse and send
+				var pars = (JSON.parse(JSON.stringify($scope.updatingAttribute)));
+				if(pars.values)
+					pars.values = JSON.parse(pars.values);
+				if(pars.applications)
+					pars.applications = JSON.parse(pars.applications);
+				$http.post($rootScope.urlBackend+'/attributes/1.0/'+$scope.uuid, pars)
+					.then(
+				    	function successCallback(response) {
+				    	},
+				    	function errorCallback(response) {
+				    		alert('KO');
+				    	});
+			};
+			
+			$scope.load = function() {
+			    var pars = {
+			        method: 'GET',
+			        url: $rootScope.urlBackend+'/attributes/1.0/'+$scope.uuid,
+			        params: {
+			        }
+			    };
+			    $http(pars).then(
+			    	function successCallback(response) {
+			    		$scope.updatingAttribute = response.data;
+			    		$scope.updatingAttribute.applications = JSON.stringify($scope.updatingAttribute.applications);
+			    		$scope.updatingAttribute.values = JSON.stringify($scope.updatingAttribute.values);
+			    	},
+			    	function errorCallback(response) {
+			    		alert('KO');
+			    	});
+			};
+			$scope.load();
+	    },
+		link: function(scope, element, attributes){
+			// EVENTS BINDING
+			element.find('#send').bind('click', scope.send);
+		}
+	};
+});

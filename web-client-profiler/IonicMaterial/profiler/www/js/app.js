@@ -15,6 +15,7 @@ angular.module('starter', ['ionic', 'uiGmapgoogle-maps', 'hashServices', 'hashDi
 	applicationProvider.setAppcode('bsnss-v1.0');
 	applicationProvider.setDescription('Profiler 1.0');
 })
+.run(function(application){})
 
 .config(function(loggerProvider){
 	loggerProvider.setPath('users/1.0/');
@@ -50,7 +51,8 @@ angular.module('starter', ['ionic', 'uiGmapgoogle-maps', 'hashServices', 'hashDi
     $ionicConfigProvider.backButton.previousTitleText(false);
     */
 
-    $stateProvider.state('app', {
+    $stateProvider
+    .state('app', {
         url: '/app',
         abstract: true,
         templateUrl: 'templates/menu.html',
@@ -70,50 +72,6 @@ angular.module('starter', ['ionic', 'uiGmapgoogle-maps', 'hashServices', 'hashDi
                     $timeout(function () {
                         document.getElementById('fab-qrcode').classList.toggle('on');
                     }, 200);
-                }
-            }
-        }
-    })
-
-    .state('app.subscriptions', {
-        url: '/subscriptions',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/subscriptions.html',
-                controller: 'SubscriptionsCtrl'
-            },
-            'fabContent': {
-                template: '<button id="fab-activity" class="button button-fab button-fab-top-right expanded button-energized-900 flap" ng-click="click()"><i class="icon ion-plus"></i></button>',
-                controller: function ($scope, $state, $timeout) {
-                    $timeout(function () {
-                        document.getElementById('fab-activity').classList.toggle('on');
-                    }, 200);
-                    
-                    $scope.click = function() {
-                    	$state.go('app.newsubscription');
-                    };
-                }
-            }
-        }
-    })
-    
-    .state('app.newsubscription', {
-        url: '/new-subscription',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/new-subscription.html',
-                controller: 'NewSubscriptionCtrl'
-            },
-            'fabContent': {
-                template: '<button id="fab-subscriptions" class="button button-fab button-fab-top-right expanded button-energized-900 flap" ng-click="click()"><i class="icon ion-card"></i></button>',
-                controller: function ($scope, $state, $timeout) {
-                    $timeout(function () {
-                        document.getElementById('fab-subscriptions').classList.toggle('on');
-                    }, 200);
-                    
-                    $scope.click = function() {
-                    	$state.go('app.subscriptions');
-                    };
                 }
             }
         }
@@ -185,43 +143,7 @@ angular.module('starter', ['ionic', 'uiGmapgoogle-maps', 'hashServices', 'hashDi
             }
         }
     })
-    
-    .state('app.business', {
-        url: '/business',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/business.html',
-                controller: 'BusinessCtrl'
-            },
-            'fabContent': {
-                template: '<button id="fab-business" class="button button-fab button-fab-top-left expanded button-energized-900 spin"><i class="icon ion-chatbubbles"></i></button>',
-                controller: function ($timeout) {
-                    $timeout(function () {
-                        document.getElementById('fab-business').classList.toggle('on');
-                    }, 900);
-                }
-            }
-        }
-    })
-    
-    .state('app.business-manager', {
-        url: '/business-manager',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/business-manager.html',
-                controller: 'BusinessManagerCtrl'
-            },
-            'fabContent': {
-                template: '<button id="fab-business-manager" class="button button-fab button-fab-top-left expanded button-energized-900 spin"><i class="icon ion-chatbubbles"></i></button>',
-                controller: function ($timeout) {
-                    $timeout(function () {
-                        document.getElementById('fab-business-manager').classList.toggle('on');
-                    }, 900);
-                }
-            }
-        }
-    })
-    
+        
     .state('app.landingpage', {
         url: '/landingpage',
         views: {
@@ -274,19 +196,6 @@ angular.module('starter', ['ionic', 'uiGmapgoogle-maps', 'hashServices', 'hashDi
         }
     })
     
-    .state('app.map', {
-        url: '/map',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/map.html',
-                controller: 'MapCtrl'
-            },
-            'fabContent': {
-                template: ''
-            }
-        }
-    })
-    
     .state('app.info', {
         url: '/info',
         views: {
@@ -312,6 +221,221 @@ angular.module('starter', ['ionic', 'uiGmapgoogle-maps', 'hashServices', 'hashDi
             }
         }
     })
+    
+    // MANAGE OWNER BUSINESSES
+    //...............................................................
+    .state('app.businessmanager', {
+        url: '/business-manager',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/business/business-manager.html',
+                controller: 'BusinessManagerCtrl'
+            },
+            'fabContent': {
+                template: '<button id="fab-business-manager" class="button button-fab button-fab-top-left expanded button-energized-900 flap" ng-click="click()"><i class="icon ion-plus"></i></button>',
+                controller: function ($scope, $state, $timeout) {
+                    $timeout(function () {
+                        document.getElementById('fab-business-manager').classList.toggle('on');
+                    }, 900);
+                    
+                    $scope.click = function() {
+                    	$state.go('app.business-manager.createbusiness');
+                    };
+                }
+            }
+        }
+    })
+    
+    .state('app.businessmanager.createbusiness', {
+        url: '/createbusiness',
+        views: {
+            'inner': {
+                templateUrl: 'templates/business/create-business.html',
+                controller: 'CreateBusinessCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function () {
+                }
+            }
+        }
+    })
+    
+    .state('app.businessmanager.mapbusinesses', {
+        url: '/mapbusinesses',
+        views: {
+            'inner': {
+                templateUrl: 'templates/business/map-businesses.html',
+                controller: 'MapBusinessesCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function () {
+                }
+            }
+        }
+    })
+
+    // EDIT OWNER BUSINESS
+    //...............................................................
+    .state('app.editbusiness', {
+        url: '/editbusiness/:uuid',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/business/edit-business.html',
+                controller: 'EditBusinessCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function () {
+                }
+            }
+        }
+    })
+    
+    .state('app.editbusiness.configurebusiness', {
+        url: '/configurebusiness/:uuid',
+        views: {
+            'inner': {
+                templateUrl: 'templates/business/configure-business.html',
+                controller: 'ConfigureBusinessCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function () {
+                }
+            }
+        }
+    })
+    
+    .state('app.editbusiness.mapbusiness', {
+        url: '/mapbusiness/:uuid',
+        views: {
+            'inner': {
+                templateUrl: 'templates/business/map-business.html',
+                controller: 'MapBusinessCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function () {
+                }
+            }
+        }
+    })
+    
+    // SUBSCRIPTIONS
+    //...............................................................
+    .state('app.subscriptions', {
+        url: '/subscriptions',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/business/subscriptions.html',
+                controller: 'SubscriptionsCtrl'
+            },
+            'fabContent': {
+                template: '<button id="fab-activity" class="button button-fab button-fab-top-left expanded button-energized-900 flap" ng-click="click()"><i class="icon ion-plus"></i></button>',
+                controller: function ($scope, $state, $timeout) {
+                    $timeout(function () {
+                        document.getElementById('fab-activity').classList.toggle('on');
+                    }, 200);
+                    
+                    $scope.click = function() {
+                    	$state.go('app.newsubscription');
+                    };
+                }
+            }
+        }
+    })
+    
+    .state('app.subscriptions.newsubscription', {
+        url: '/new-subscription',
+        views: {
+            'inner': {
+                templateUrl: 'templates/business/new-subscription.html',
+                controller: 'NewSubscriptionCtrl'
+            },
+            'fabContent': {
+                template: '<button id="fab-subscriptions" class="button button-fab button-fab-top-left expanded button-energized-900 flap" ng-click="click()"><i class="icon ion-card"></i></button>',
+                controller: function ($scope, $state, $timeout) {
+                    $timeout(function () {
+                        document.getElementById('fab-subscriptions').classList.toggle('on');
+                    }, 200);
+                    
+                    $scope.click = function() {
+                    	$state.go('app.subscriptions');
+                    };
+                }
+            }
+        }
+    })
+    
+    .state('app.subscriptions.map', {
+        url: '/map',
+        views: {
+            'inner': {
+                templateUrl: 'templates/business/map-subscriptions.html',
+                controller: 'MapSubscriptionsCtrl'
+            },
+            'fabContent': {
+                template: ''
+            }
+        }
+    })
+
+    // ATTRIBUTES
+    //...............................................................    
+    .state('app.userattributes', {
+        url: '/userattributes',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/user-attributes.html',
+                controller: 'UserAttributesCtrl'
+            },
+            'fabContent': {
+                template: '<button id="fab-userattributes" class="button button-fab button-fab-top-right expanded button-energized-900 flap" ng-click="click()"><i class="icon ion-plus"></i></button>',
+                controller: function ($scope, $state, $timeout) {
+                    $timeout(function () {
+                        document.getElementById('fab-userattributes').classList.toggle('on');
+                    }, 200);
+                    
+                    $scope.click = function() {
+                    	$state.go('app.newattribute');
+                    };
+                }
+            }
+        }
+    })
+    
+    .state('app.newattribute', {
+        url: '/newattribute',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/new-attribute.html',
+                controller: 'NewAttributeCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function () {
+                }
+            }
+        }
+    })
+    
+    .state('app.editattribute', {
+        url: '/editattribute/:uuid',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/edit-attribute.html',
+                controller: 'EditAttributeCtrl'
+            },
+            'fabContent': {
+                template: '',
+                controller: function () {
+                }
+            }
+        }
+    })
+        
     ;
 
     // if none of the above states are matched, use this as the fallback
