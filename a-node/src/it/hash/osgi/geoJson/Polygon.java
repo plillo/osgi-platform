@@ -10,10 +10,10 @@ public class Polygon extends LineString {
 		
 	}
 	@Override
-	public List<Coordinate> addCoordinates(Double longitude,Double latitude) {
+	public List<Coordinates> addCoordinates(Double longitude,Double latitude) {
 		if (this.coordinates ==null )
-			  this.coordinates=new ArrayList<Coordinate>();
-		Coordinate c = new Coordinate();
+			  this.coordinates=new ArrayList<Coordinates>();
+		Coordinates c = new Coordinates();
 		c.setLongitude(longitude);
 		c.setLatitude(latitude);
 		if (!this.coordinates.contains(c))

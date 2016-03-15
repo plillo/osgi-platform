@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import it.hash.osgi.business.Business;
+import it.hash.osgi.geoJson.Coordinates;
 
 public interface BusinessService {
 	Map<String, Object> getBusiness(Map<String, Object> pars);
@@ -18,6 +19,7 @@ public interface BusinessService {
 	List<Business> retrieveBusinesses(String criterion, String search);
 	List<Business> getBusinesses();
 	Business getBusiness(String uuid);
+	Coordinates getPosition(String businessUuid);
 	Map<String, Object> follow(String businessUuid, String userUuid);
 	Map<String, Object> unfollow(String businessUuid, String userUuid);
 	List<Business> retrieveFollowedByUser(String uuid);

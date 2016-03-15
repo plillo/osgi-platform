@@ -1,7 +1,6 @@
 package it.hash.osgi.business.service;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,11 +12,11 @@ import com.amazonaws.util.StringUtils;
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
 import it.hash.osgi.business.service.api.BusinessService;
+import it.hash.osgi.geoJson.Coordinates;
 import it.hash.osgi.resource.uuid.api.UUIDService;
 import it.hash.osgi.user.service.UserService;
 
 public class BusinessServiceImpl implements BusinessService {
-	private Dictionary properties;
 	private volatile BusinessServicePersistence _businessPersistenceService;
 	private volatile UUIDService _uuid;
 
@@ -158,5 +157,12 @@ public class BusinessServiceImpl implements BusinessService {
 	@Override
 	public List<Business> retrieveNotFollowedByUser(String uuid, String search) {
 		return _businessPersistenceService.retrieveNotFollowedByUser(uuid, search);
+	}
+
+	@Override
+	public Coordinates getPosition(String businessUuid) {
+		Business business = _businessPersistenceService.getBusinessByUuid(businessUuid);
+		
+		return business.getPosition().getCoordinates();
 	}
 }
