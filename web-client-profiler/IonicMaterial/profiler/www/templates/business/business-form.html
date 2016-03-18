@@ -1,40 +1,81 @@
-<div class="list" style="margin:0 16px;">
+<div style="padding:10px 10px 30px;">
+
 	<form name="businessForm" id="business-form" novalidate>
-		<h3>Business anagraphics</h3>	
-         
-		<div class="ha-item">
-			<input type="text" name="name" ng-model="name" ng-model-options="{debounce:500}" class="ha-input form-control" placeholder="Business name" required>
-			<span ng-show="businessForm.name.$error.required">The value is required!</span>
+		<div class="list profile">
+			<label class="item item-input item-floating-label">
+				<span class="input-label">Name</span>
+				<input type="text" name="name" ng-model="name" placeholder="Name" required>
+				<span ng-show="businessForm.name.$error.required">The value is required!</span>
+			</label> 
+			
+			<label class="item item-input item-floating-label">
+				<span class="input-label">Address</span>
+				<input type="text" name="address" ng-model="address" placeholder="Address">
+			</label> 
+	       
+			<label class="item item-input item-floating-label">
+				<span class="input-label">City</span>
+				<input type="text" name="city" ng-model="city" placeholder="City">
+			</label> 
+			
+			<label class="item item-input item-floating-label">
+				<span class="input-label">CAP</span>
+				<input type="text" name="cap" ng-model="cap" placeholder="CAP">
+			</label> 		      
+	       
+			<label class="item item-input item-floating-label">
+				<span class="input-label">Partita IVA</span>
+				<input type="text" name="pIva" ng-model="pIva" placeholder="Partita IVA">
+			</label>
+			
+			<label class="item item-input item-floating-label">
+				<span class="input-label">Fiscal code</span>
+				<input type="text" name="fiscalCode" ng-model="fiscalCode" placeholder="Fiscal code">
+			</label> 		      
+	       
+			<label class="item item-input item-floating-label">
+				<span class="input-label">Description</span>
+				<textarea name="description" ng-model="description" placeholder="Description"></textarea>
+			</label> 
+			
+	        <!--
+			<div class="ha-item">
+				<input type="text" name="name" ng-model="name" ng-model-options="{debounce:500}" class="ha-input form-control" placeholder="Business name" required>
+				<span ng-show="businessForm.name.$error.required">The value is required!</span>
+			</div>
+	        
+	   		<div class="ha-item">
+				<input type="text" name="address" ng-model="address" class="ha-input form-control" placeholder="Address">
+			</div>
+	
+	       	<div class="ha-item">
+				<input type="text" name="city" ng-model="city" class="ha-input form-control" placeholder="City">
+			</div>
+	
+	       	<div class="ha-item">
+	         	<input type="text" name="cap" ng-model="cap" class="ha-input form-control" placeholder="CAP">
+			</div>
+					
+			<div class="ha-item">
+	         	<input type="text" name="pIva" ng-model="pIva" class="ha-input form-control" placeholder="Partita IVA">
+			</div>
+	
+	       	<div class="ha-item">
+	         	<input type="text" name="fiscalCode" ng-model="fiscalCode" class="ha-input form-control" placeholder="Fiscal code">
+			</div>
+	
+	       	<div class="ha-item">
+	         	<textarea name="description" ng-model="description" class="ha-text-area ha-input form-control" placeholder="Description"></textarea>
+			</div>
+	
+			-->
+			<app-search-categories categories-selected-attr="categoriesSelected"></app-search-categories>
+	
+			<div class="padding" style="text-align: center">
+		    	<button id="mybutton-send" class="button button-small button-assertive ink">Create</button>
+			</div>
 		</div>
-        
-   		<div class="ha-item">
-			<input type="text" name="address" ng-model="address" class="ha-input form-control" placeholder="Address">
-		</div>
-
-       	<div class="ha-item">
-			<input type="text" name="city" ng-model="city" class="ha-input form-control" placeholder="City">
-		</div>
-
-       	<div class="ha-item">
-         	<input type="text" name="cap" ng-model="cap" class="ha-input form-control" placeholder="CAP">
-		</div>
-				
-		<div class="ha-item">
-         	<input type="text" name="pIva" ng-model="pIva" class="ha-input form-control" placeholder="Partita IVA">
-		</div>
-
-       	<div class="ha-item">
-         	<input type="text" name="fiscalCode" ng-model="fiscalCode" class="ha-input form-control" placeholder="Fiscal code">
-		</div>
-
-       	<div class="ha-item">
-         	<textarea name="description" ng-model="description" class="ha-text-area ha-input form-control" placeholder="Description"></textarea>
-		</div>
-
-		<app-search-categories categories-selected-attr="categoriesSelected"></app-search-categories>
 	</form>
 
-	<div class="padding" style="text-align: center">
-    	<button id="mybutton-send" class="button button-small button-assertive ink">Create</button>
-	</div>
 </div>
+

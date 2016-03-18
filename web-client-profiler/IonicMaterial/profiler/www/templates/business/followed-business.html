@@ -1,12 +1,14 @@
 <div class="bs-followed-business-results">
 
-    <div ng-repeat="result in results" class="bs-followed-business-result" href="#" data-uuid="{{result.uuid}}" ng-click="follow('{{result.uuid}}')">
+    <div ng-repeat="result in results" class="bs-followed-business-result" href="#" data-uuid="{{result.uuid}}">
+      <button class="button button-fab button-fab-top-right expanded button-energized-900" ng-click="unfollow('{{result.uuid}}')"><i class="icon ion-minus"></i></button>
+      <button class="button button-fab button-fab-top-right expanded button-energized-900" ng-click="configure('{{result.uuid}}', 'app.configurebusiness')"><i class="icon ion-gear-b"></i></button>
       <img src="img/cover.png">
       <div>
       	<h2>{{result.name}}</h2>
-      	<p>{{result.city}}</p>
-      	<p>{{result.address}}</p>
-      	<p>{{result.uuid}}</p>
+      	<div>{{result.city}}</div>
+      	<div>{{result.address}}</div>
+      	<div>{{result.uuid}}</div>
       </div>
     </div>
 
