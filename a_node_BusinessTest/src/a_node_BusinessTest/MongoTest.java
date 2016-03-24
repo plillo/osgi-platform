@@ -117,8 +117,8 @@ public  class MongoTest extends TestCase {
 	
 		business = new Business();
 		business.setUuid(uuid);
-		business.setBusinessName("Montina");
-		business.setCodiceFiscale("MNT");
+		business.setName("Montina");
+		business.setFiscalCode("MNT");
 		business.setEmail("montina");
 		business.setMobile("3458834978");
 		business.setCategories(categories);
@@ -138,12 +138,7 @@ public  class MongoTest extends TestCase {
 		if (!list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
 				Business b = list.get(i);
-				pars.put("businessName", b.getBusinessName());
-				pars.put("codiceFiscale", b.getCodiceFiscale());
-				pars.put("email", b.getEmail());
-				pars.put("mobile", b.getMobile());
-
-				instance.deleteBusiness(pars);
+				instance.deleteBusiness(b.getUuid());;
 			}
 		}
 
@@ -168,15 +163,15 @@ public  class MongoTest extends TestCase {
 		System.out.println(" TESTFINDBUSINESS -");
 
 		Map<String, Object> response = instance.addBusiness(business);
-		String businessCodiceFiscale = business.getCodiceFiscale();
+		String businessCodiceFiscale = business.getFiscalCode();
 		Map<String,Object> find = instance.getBusiness(business);
 		System.out.println(" BusinessName notNull - " + find.get("business"));
 
 		assertNotNull("è stato trovato", find.get("business"));
 
 		System.out.println(
-				" TESTFINDBUSINESS - CodiceFiscale" + ((Business) response.get("business")).getCodiceFiscale());
-		Business findBusiness = instance.getBusinessByCodiceFiscale(businessCodiceFiscale);
+				" TESTFINDBUSINESS - CodiceFiscale" + ((Business) response.get("business")).getFiscalCode());
+		Business findBusiness = instance.getBusinessByFiscalCode(businessCodiceFiscale);
 		System.out.println("codiceFiscale notNull - " + findBusiness);
 		assertNotNull("è stato trovato", findBusiness);
 
@@ -217,10 +212,8 @@ public  class MongoTest extends TestCase {
 		Map<String, Object> findBusiness = instance.getBusiness(pars);
 		Business findB = (Business) findBusiness.get("business");
 
-		Map<String, Object> pars1 = new HashMap<String, Object>();
-		pars1.put("uuid", findB.getUuid());
-
-		deleteBusiness = instance.deleteBusiness(pars1);
+		
+		deleteBusiness = instance.deleteBusiness(findB.getUuid());
 		assertEquals(true, deleteBusiness.get("delete"));
 		System.out.println(" DeletedBusiness - notNull - " + deleteBusiness.get("business"));
 
@@ -239,8 +232,8 @@ public  class MongoTest extends TestCase {
         Business b1= (Business) response.get("business");
 		Business b2 = new Business();
 		b2.set_id(b1.get_id());
-		b2.setBusinessName(b1.getBusinessName());
-		b2.setCodiceFiscale(b1.getCodiceFiscale());
+		b2.setName(b1.getName());
+		b2.setFiscalCode(b1.getFiscalCode());
 		b2.setPIva(b1.getPIva());
 		b2.setUuid(b1.getUuid());
 		System.out.println(" uguali - True - " + b1.equals(b2));

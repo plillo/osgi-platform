@@ -23,6 +23,7 @@ public class Activator extends DependencyActivatorBase {
 				.add(createServiceDependency()
 						.setService(AttributeService.class)
 						.setRequired(true))
+				
 				);
 	}
   

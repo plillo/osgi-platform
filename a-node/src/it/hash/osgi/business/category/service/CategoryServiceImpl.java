@@ -1,6 +1,7 @@
 package it.hash.osgi.business.category.service;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,6 +17,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 import it.hash.osgi.business.category.Category;
 import it.hash.osgi.business.category.persistence.api.CategoryPersistence;
@@ -173,7 +181,7 @@ public class CategoryServiceImpl implements CategoryService {
 			String[] doc;
 
 			line = readerFile.readLine();
-int i=1;
+
 			while (line != null) {
 
 				doc = line.split(";");
@@ -186,9 +194,7 @@ int i=1;
 				if (createC.get("created").equals(false))
 					response = false;
 				line = readerFile.readLine();
-i++;
-if (i==1987)
-	System.out.println(" trovato");
+
 			}
 			readerFile.close();
 		} catch (MalformedURLException e1) {
@@ -220,6 +226,53 @@ if (i==1987)
 		}
 
 		return is;
+	}
+
+
+	@Override
+	public boolean createCollectionByXml(String url, String fileName) {
+		URL path = null;
+		fileName=url+"\\"+fileName;
+		boolean response = true;
+		try {
+			path = new URL(fileName);
+			URLConnection urlConn = path.openConnection();
+			File fXmlFile = new File("/Users/mkyong/staff.xml");
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(fXmlFile);
+			doc.getDocumentElement().normalize();
+
+			System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+					
+			NodeList nList = doc.getElementsByTagName("segment code");
+					
+			System.out.println("----------------------------");
+
+			for (int temp = 0; temp < nList.getLength(); temp++) {
+
+				Node nNode = nList.item(temp);
+						
+				System.out.println("\nCurrent Element :" + nNode.getNodeName());
+						
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+
+					Element eElement = (Element) nNode;
+
+					System.out.println("Staff id : " + eElement.getAttribute("id"));
+					System.out.println("First Name : " + eElement.getElementsByTagName("firstname").item(0).getTextContent());
+					System.out.println("Last Name : " + eElement.getElementsByTagName("lastname").item(0).getTextContent());
+					System.out.println("Nick Name : " + eElement.getElementsByTagName("nickname").item(0).getTextContent());
+					System.out.println("Salary : " + eElement.getElementsByTagName("salary").item(0).getTextContent());
+
+				}
+			}
+		    } catch (Exception e) {
+			e.printStackTrace();
+		    }
+		  
+   
+		return false;
 	}
 
 }

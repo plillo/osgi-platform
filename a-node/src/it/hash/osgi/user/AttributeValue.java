@@ -18,5 +18,5 @@ public class AttributeValue {
 	public void setValue(Map<String, Object> value) {
 		this.value = value;
 	}
-
+	
 }

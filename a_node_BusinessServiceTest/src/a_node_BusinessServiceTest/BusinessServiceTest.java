@@ -30,6 +30,9 @@ import org.osgi.util.tracker.ServiceTracker;
 import it.hash.osgi.business.Business;
 import it.hash.osgi.business.persistence.api.BusinessServicePersistence;
 import it.hash.osgi.business.service.api.BusinessService;
+import it.hash.osgi.geoJson.Coordinates;
+import it.hash.osgi.geoJson.Point;
+import it.hash.osgi.geoJson.Geometry;
 import it.hash.osgi.resource.uuid.api.UUIDService;
 
 public class BusinessServiceTest extends TestCase {
@@ -284,13 +287,12 @@ public class BusinessServiceTest extends TestCase {
 	public void testExample() throws Exception {
         // TODO: method provided by template
     	Business business=new Business();
-    	business.setBusinessName("Montina");
-		business.setCodiceFiscale("MNT");
+    	business.setName("Montina");
+		business.setFiscalCode("MNT");
 		business.setEmail("montina");
 		business.setMobile("3458834978");
 
-    	Map <String,Object> response =instance.create(business);
-    	System.out.println(" Creato - " +response.get("business"));
+    	Map <String,Object> response =instance.createBusiness(business) ;   	System.out.println(" Creato - " +response.get("business"));
     
     }
 }

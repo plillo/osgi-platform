@@ -5,12 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 
-import it.hash.osgi.business.Business;
 import it.hash.osgi.user.attribute.Attribute;
 import it.hash.osgi.user.attribute.persistence.mongo.AttributeServicePersistenceImpl;
 
@@ -19,7 +17,7 @@ public class utilsUser {
 	public static User toMap(Map mapUser) {
 		User user = new User();
 		String attribute = null;
-		Map<String, Object> others = new TreeMap<String, Object>();
+
 		Set entry = mapUser.keySet();
 		for (Object elem : entry) {
 			attribute = (String) elem;
