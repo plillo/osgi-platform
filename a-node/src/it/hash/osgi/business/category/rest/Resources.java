@@ -38,5 +38,6 @@ public class Resources {
 		return Response.ok().header("Access-Control-Allow-Origin", "*").entity(categories).build();
 	}
 
+	
 
 }

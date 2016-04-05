@@ -23,9 +23,12 @@ public class ParserManagerImpl implements ParserManager{
 	}
 
 	@Override
-	public void parser(String appCode, String type, String nomefile) {
+	public boolean createCollectionBy(String appCode, String url, String nomefile) {
 		ParserService service = applications.get(appCode);
 		if(service!=null)
-			service.createCollectionBy(type,nomefile);
+		return 	service.createCollectionBy(url,nomefile);
+		
+		return false;
+		
 	}
 }
